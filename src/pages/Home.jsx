@@ -5,8 +5,8 @@ import NavbarMobile from "../assets/components/navigations/navbar/Navbar-mobile"
 import Footer from "../assets/components/navigations/Footer";
 import { useMediaQuery } from "react-responsive";
 import BtnScrollTop from "../assets/components/BtnScrollUp";
-import SearchMobile from "./home search/SearchMobile";
-import SearchDesktop from "./home search/SearchDesktop";
+import SearchMobile from "../assets/components/home search/SearchMobile";
+import SearchDesktop from "../assets/components/home search/SearchDesktop";
 
 export default function Home() {
   const isMobile = useMediaQuery({ maxWidth: 767 });

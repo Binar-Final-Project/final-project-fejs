@@ -5,15 +5,15 @@ import { Toaster, toast } from "react-hot-toast";
 import { RxCrossCircled } from "react-icons/rx";
 import { BiSolidCheckCircle, BiErrorCircle } from "react-icons/bi";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { login } from "./redux/actions/loginActions";
+import { login } from "../redux/actions/loginActions";
 import {
   setEmail,
   setPassword,
   setShowPassword,
   setPasswordTouched,
   clearError,
-} from "./redux/reducers/loginReducers";
-import backgroundImage from "./loginregister.png";
+} from "../redux/reducers/loginReducers";
+import backgroundImage from "../assets/images/loginregister.png";
 
 export default function LoginUser() {
   const dispatch = useDispatch();

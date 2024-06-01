@@ -116,7 +116,7 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* <Link to="">
+          <Link to="/login">
             <button
               type="button"
               className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
@@ -127,7 +127,7 @@ export default function Navbar() {
               </div>
             </button>
           </Link>
-          <Link to="">
+          <Link to="/register">
             <button
               type="button"
               className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
@@ -136,7 +136,7 @@ export default function Navbar() {
                 <span className="text-md">Daftar</span>
               </div>
             </button>
-          </Link> */}
+          </Link>
         </div>
       </div>
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import background from "../../assets/images/bg-hero.jpg";
 import {
   MdFlightTakeoff,
   MdFlightLand,
@@ -12,22 +11,22 @@ import {
   FaBaby,
   FaChildDress,
 } from "react-icons/fa6";
+import { useDispatch } from "react-redux";
+import { getFlight } from "../../../redux/actions/flightActions";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
-import { useDispatch } from "react-redux";
-import { getFlight } from "../../redux/actions/flightActions";
 import toast, { Toaster } from "react-hot-toast";
-import airports from "../../assets/airports/airports.json";
+import airports from "../../airports/airports.json";
 
-export default function SearchDesktop() {
+export default function SearchMobile() {
   const dispatch = useDispatch();
 
-  const [isChecked, setIsChecked] = useState(false);
   const [seatModalOpen, setSeatModalOpen] = useState(false);
   const [passengerModalOpen, setPassengerModalOpen] = useState(false);
   const [dateModalOpen, setDateModalOpen] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const [departure_code, setDeparture_code] = useState("");
   const [arrival_code, setArrival_code] = useState("");
   const [seat_class, setSeat_class] = useState("Economy");
@@ -96,7 +95,7 @@ export default function SearchDesktop() {
     };
 
     setTotal_passenger(getTotalPenumpang());
-  }, [penumpang, isChecked]);
+  }, [penumpang]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -144,211 +143,191 @@ export default function SearchDesktop() {
   };
 
   return (
-    <div className="bg-[#FFF0DC]">
-      <Toaster
-        toastOptions={{
-          className: "w-full",
-          duration: 3000,
-          style: {
-            background: "#FF0000",
-            color: "#fff",
-          },
-        }}
-      />
-      <div className="w-full h-[850px] md:h-[300px]">
-        <div
-          style={{
-            backgroundImage: `linear-gradient(rgba(33,33,33,0.522), rgba(33,33,33,0.522)), url(${background})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+    <div>
+      <div className="bg-[#2A629A] rounded-b-2xl w-full h-[300px] py-3 px-4">
+        <Toaster
+          toastOptions={{
+            className: "w-full",
+            duration: 3000,
+            style: {
+              background: "#FF0000",
+              color: "#fff",
+            },
           }}
-          className="w-full h-full"
-        >
-          <div className="flex flex-col items-center">
-            <div className="mt-12 md:mt-24 z-10 w-3/4 md:w-11/12 lg:w-3/4">
-              <h1 className="text-3xl md:text-4xl font-semibold text-white text-center mb-4 md:mb-7">
-                Ke mana pun Anda pergi, kami akan mengantar Anda!
-              </h1>
-              <div>
-                <form onSubmit={handleSubmit}>
-                  <div className="bg-white rounded-t-xl shadow-xl p-4 ">
-                    <h2 className="text-xl font-bold mb-4">
-                      Pilih jadwal penerbangan Anda di{" "}
-                      <span className="text-[#2A629A]">BiFlight</span>!
-                    </h2>
-                    <div className="flex flex-col">
-                      {/* BAGIAN ATAS */}
-                      <div className="flex flex-col md:flex-row gap-5 justify-center items-center">
-                        <div className="flex items-center text-gray-500">
-                          <MdFlightTakeoff className="text-xl" />
-                          <p className="text-sm ml-1">Dari</p>
-                          <div className="relative z-0 ml-2">
-                            <select
-                              value={departure_code}
-                              onChange={(e) =>
-                                setDeparture_code(e.target.value)
-                              }
-                              className="block py-2.5 px-0 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
-                            >
-                              <option selected>Pilih Bandara Awal</option>
-                              {airports.map((airport) => (
-                                <option
-                                  key={airport.iata_code}
-                                  value={airport.iata_code}
-                                >
-                                  {airport.city} - {airport.iata_code}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          className="bg-[#003285] text-white p-3 rounded-lg  mt-3 md:mt-0"
-                          onClick={handleRotateClick}
+        />
+        <h4 className="text-2xl text-white font-medium my-3">
+          Ke mana pun Anda pergi, kami akan mengantar Anda!
+        </h4>
+        <div>
+          <form onSubmit={handleSubmit}>
+            <div className="bg-white rounded-lg">
+              <div className="flex flex-col p-3">
+                <div className="flex items-center">
+                  <div className="flex-1">
+                    <h5 className="text-gray-500 text-sm font-medium mr-1">
+                      Dari
+                    </h5>
+                    <div className="flex flex-row items-center">
+                      <MdFlightTakeoff className="text-xl text-gray-500 absolute" />
+                      <select
+                        value={departure_code}
+                        onChange={(e) => setDeparture_code(e.target.value)}
+                        className="block py-2.5 px-8 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
+                      >
+                        <option selected>Pilih Bandara Awal</option>
+                        {airports.map((airport) => (
+                          <option
+                            key={airport.iata_code}
+                            value={airport.iata_code}
+                          >
+                            {airport.city} - {airport.iata_code}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  {/* BUTTON TUKER POSISI */}
+                  <div className="mt-10">
+                    <button
+                      type="button"
+                      className="bg-[#003285] text-white p-3 rounded-full "
+                      onClick={handleRotateClick}
+                    >
+                      <FaArrowsRotate />
+                    </button>
+                  </div>
+                </div>
+                <div className="my-5">
+                  <h5 className="text-gray-500 text-sm font-medium mr-3.5">
+                    Ke
+                  </h5>
+                  <div className="flex flex-row items-center">
+                    <MdFlightLand className="text-xl text-gray-500 absolute" />
+                    <select
+                      value={arrival_code}
+                      onChange={(e) => setArrival_code(e.target.value)}
+                      className="block py-2.5 px-8 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
+                    >
+                      <option selected>Pilih Bandara Tujuan</option>
+                      {airports.map((airport) => (
+                        <option
+                          key={airport.iata_code}
+                          value={airport.iata_code}
                         >
-                          <FaArrowsRotate />
-                        </button>
-                        <div>
-                          <div className="flex items-center text-gray-500">
-                            <MdFlightLand className="text-xl" />
-                            <p className="text-sm ml-1">Ke</p>
-                            <div className="relative z-0 ml-2">
-                              <select
-                                value={arrival_code}
-                                onChange={(e) =>
-                                  setArrival_code(e.target.value)
-                                }
-                                className="block py-2.5 px-0 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
-                              >
-                                <option selected>Pilih Bandara Tujuan</option>
-                                {airports.map((airport) => (
-                                  <option
-                                    key={airport.iata_code}
-                                    value={airport.iata_code}
-                                  >
-                                    {airport.city} - {airport.iata_code}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center text-gray-500 my-0">
-                          <PiSeatFill className="text-xl" />
-                          <p className="text-sm ml-1">Kelas</p>
-                          <div className="relative flex gap-2 z-0 ml-2">
-                            <div
-                              className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
-                              onClick={handleSeatModal}
-                            >
-                              {seat_class}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {/* BAGIAN BAWAH */}
-                      <div className="flex flex-col md:flex-row gap-5 justify-center items-center mt-6">
-                        <div className="flex justify-center items-center text-gray-500">
-                          <MdOutlineDateRange className="text-xl" />
-                          <p className="text-sm ml-1">Tanggal</p>
-                          <div className="flex flex-col md:flex-row ml-2 md:ml-0">
-                            <div>
-                              <p className="text-xs font-medium text-gray-500 ml-2 mr-12 mb-3">
-                                Tanggal Pergi
-                              </p>
-                              <div className="relative flex gap-2 z-0 ml-2">
-                                <span
-                                  className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
-                                  onClick={handleDateModal}
-                                >
-                                  {`${format(
-                                    date[0].startDate,
-                                    "MM/dd/yyyy"
-                                  )} `}
-                                </span>
-                              </div>
-                            </div>
-                            {isChecked ? (
-                              <div className="mt-7 md:mt-0">
-                                <p className="text-xs font-medium text-gray-500 ml-2 mr-12 mb-3">
-                                  Tanggal Pulang
-                                </p>
-                                <div className="relative flex gap-2 z-0 ml-2">
-                                  <span
-                                    className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
-                                    onClick={handleDateModal}
-                                  >
-                                    {date[0].endDate
-                                      ? `${format(
-                                          date[0].endDate,
-                                          "MM/dd/yyyy"
-                                        )}  `
-                                      : "Pilih Tanggal"}
-                                  </span>
-                                </div>
-                              </div>
-                            ) : (
-                              <div className="flex items-center ml-2 mt-5 md:mt-0 text-[#2A629A]">
-                                <p>Pulang-Pergi?</p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* TOGGLE TANGGAL PULANG */}
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input
-                            type="checkbox"
-                            value=""
-                            className="sr-only peer"
-                            onChange={handleToggleChange}
-                          />
+                          {airport.city} - {airport.iata_code}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center mb-5">
+                  <h5 className="text-[#2A629A] text-sm font-medium mr-3.5">
+                    Pulang-Pergi?
+                  </h5>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value=""
+                      className="sr-only peer"
+                      onChange={handleToggleChange}
+                    />
+                    <div
+                      className={`group peer ring-0 ${
+                        isChecked ? "bg-[#003285]" : "bg-[#86B6F6]"
+                      } rounded-full outline-none duration-300 after:duration-300 w-12 h-7 shadow-md peer-focus:outline-none after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-5 after:w-5 after:top-1 after:left-0 after:translate-x-1 peer-checked:after:translate-x-6 peer-hover:after:scale-95 ${
+                        isChecked
+                          ? "peer-checked:translate-x-0"
+                          : "peer-checked:translate-x-0"
+                      }`}
+                    ></div>
+                  </label>
+                </div>
+                <div>
+                  <h5 className="text-gray-500 text-sm font-medium mr-3.5">
+                    Tanggal Pergi
+                  </h5>
+                  <div className="flex flex-row items-center">
+                    <MdOutlineDateRange className="text-xl text-gray-500 absolute" />
+                    <span
+                      className="block py-2.5 px-8 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
+                      onClick={handleDateModal}
+                    >
+                      {date[0].startDate
+                        ? `${format(date[0].startDate, "MM/dd/yyyy")}  `
+                        : "Pilih Tanggal"}
+                    </span>
+                  </div>
+                </div>
+                {isChecked ? (
+                  <div className="mt-5">
+                    <h5 className="text-gray-500 text-sm font-medium mr-3.5">
+                      Tanggal Pulang
+                    </h5>
+                    <div className="flex flex-row items-center">
+                      <MdOutlineDateRange className="text-xl text-gray-500 absolute" />
+                      <span
+                        className="block py-2.5 px-8 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
+                        onClick={handleDateModal}
+                      >
+                        {date[0].endDate
+                          ? `${format(date[0].endDate, "MM/dd/yyyy")}  `
+                          : "Pilih Tanggal"}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+                <div className="my-5 flex justify-around">
+                  <div>
+                    <h5 className="text-gray-500 text-sm font-medium mr-3.5">
+                      Penumpang
+                    </h5>
+                    <div className="flex flex-col">
+                      <div className="flex items-center">
+                        <FaPerson className="text-xl absolute" />
+                        <div className="relative flex gap-2 z-0">
                           <div
-                            className={`group peer ring-0 ${
-                              isChecked ? "bg-[#003285]" : "bg-[#86B6F6]"
-                            } rounded-full outline-none duration-300 after:duration-300 w-12 h-7 shadow-md peer-focus:outline-none after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-5 after:w-5 after:top-1 after:left-0 after:translate-x-1 peer-checked:after:translate-x-6 peer-hover:after:scale-95 ${
-                              isChecked
-                                ? "peer-checked:translate-x-0"
-                                : "peer-checked:translate-x-0"
-                            }`}
-                          ></div>
-                        </label>
-                        <div className="flex justify-center items-center text-gray-500">
-                          <FaPerson className="text-xl" />
-                          <p className="text-sm ml-1">Penumpang</p>
-                          <div className="flex flex-col ml-2 md:ml-0">
-                            <div>
-                              <div className="relative flex gap-2 z-0 ml-2">
-                                <div
-                                  className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
-                                  onClick={handlePassengerModal}
-                                >
-                                  {total_passenger} Penumpang
-                                </div>
-                              </div>
-                            </div>
+                            className="block py-2.5 px-6 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
+                            onClick={handlePassengerModal}
+                          >
+                            {total_passenger} Penumpang
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="bg-[#2A629A] rounded-b-xl shadow-xl text-white font-medium text-center">
-                    <button
-                      type="submit"
-                      className="w-full p-4"
-                      onClick={handleSubmit}
-                    >
-                      Cari Penerbangan
-                    </button>
+                  <div>
+                    <h5 className="text-gray-500 text-sm font-medium mr-3.5">
+                      Kelas Penerbangan
+                    </h5>
+                    <div className="flex flex-col">
+                      <div className="flex items-center">
+                        <PiSeatFill className="text-xl absolute" />
+                        <div className="relative flex gap-2 z-0">
+                          <div
+                            className="block py-2.5 px-6 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
+                            onClick={handleSeatModal}
+                          >
+                            {seat_class}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </form>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full p-4 bg-[#2A629A] text-white rounded-lg"
+                  onClick={handleSubmit}
+                >
+                  Cari Penerbangan
+                </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
-
       {/* MODAL PILIH KELAS KURSI PENERBANGAN */}
       <div
         className={`${
@@ -620,7 +599,7 @@ export default function SearchDesktop() {
       >
         <div className="relative p-4 w-full max-w-md max-h-full">
           <div className="relative bg-white rounded-lg shadow">
-            <div className="flex items-center justify-center p-4 md:p-5 border-b rounded-t ">
+            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
               <h3 className="text-lg font-semibold text-gray-900 ">
                 Pilih tanggal penerbangan
               </h3>
@@ -647,7 +626,7 @@ export default function SearchDesktop() {
               </button>
             </div>
 
-            <div className="p-5 flex flex-col items-center">
+            <div className="p-4 md:p-5">
               <DateRange
                 editableDateInputs={true}
                 onChange={(item) => {
