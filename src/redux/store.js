@@ -5,11 +5,13 @@ import storage from "redux-persist/lib/storage";
 import loginReducers from "./reducers/loginReducers";
 import registerReducers from "./reducers/registerReducers";
 import otpReducers from "./reducers/otpReducers";
+import flightReducers from "./reducers/flightReducers";
 
 const rootReducer = combineReducers({
   login: loginReducers,
   register: registerReducers,
   otp: otpReducers,
+  flight: flightReducers,
 });
 
 const persistConfig = {
