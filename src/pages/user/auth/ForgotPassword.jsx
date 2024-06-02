@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { BiErrorCircle } from "react-icons/bi";
+import { BiErrorCircle, BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getUpdatePass } from "../../../redux/auth/getPassActions";
@@ -99,8 +99,13 @@ const ForgotPassword = () => {
         }}
       >
     <div className="flex justify-center items-center min-h-screen w-full">
-          <div className="max-w-[400px] w-full rounded-lg p-5 m-4 sm:m-8 bg-[#FFF8ED] text-center shadow-lg">
           <Toaster />
+          <div className="max-w-[400px] w-full rounded-lg p-5 m-4 sm:m-8 bg-[#FFF8ED] text-center shadow-lg relative">
+            <BiArrowBack
+              className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
+              size={20}
+              onClick={() => navigate("/forgot-password")}
+            />
           <div className="max-w-[550px] mx-auto flex flex-col items-center">
           <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-6">Reset Password</h1>
           <form onSubmit={handleSubmit} className="w-full">
@@ -191,17 +196,6 @@ const ForgotPassword = () => {
               )}
             </div>
             <div className="flex space-x-4">
-              <button
-                type="button"
-                className="flex-grow bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition-colors"
-                onClick={() => {
-                  setPassword("");
-                  setConfirmPassword("");
-                  navigate("/forgot-password");
-                }}
-              >
-                Cancel
-              </button>
               <button
                 type="submit"
                 className="flex-grow bg-[#2A629A] text-white py-2 rounded-lg hover:bg-[#003285] transition-colors"
