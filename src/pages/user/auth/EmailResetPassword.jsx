@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getForgetPassAction } from "../../../redux/auth/getPassActions";
 import { RxCrossCircled } from "react-icons/rx";
-import { BiSolidCheckCircle } from "react-icons/bi";
+import { BiSolidCheckCircle, BiArrowBack } from "react-icons/bi";
 import backgroundImage from "../../../assets/loginregister.png";
 
 const EmailResetPassword = () => {
@@ -81,8 +81,13 @@ const EmailResetPassword = () => {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <div className="max-w-[400px] w-full rounded-lg p-5 m-4 sm:m-8 bg-[#FFF8ED] text-center shadow-lg">
-            <Toaster />
+          <Toaster />
+          <div className="max-w-[400px] w-full rounded-lg p-5 m-4 sm:m-8 bg-[#FFF8ED] text-center shadow-lg relative">
+            <BiArrowBack
+              className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
+              size={20}
+              onClick={() => navigate("/login")}
+            />
             <div className="max-w-[550px] mx-auto flex flex-col items-center">
               <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-6">
                 Forgot Password
@@ -112,7 +117,7 @@ const EmailResetPassword = () => {
                       type="email"
                       value={email}
                       onChange={handleEmailChange}
-                      placeholder="Enter your email"
+                      placeholder="contoh@gmail.com"
                       className="w-full p-2 border-none bg-transparent outline-none text-sm text-[#2A629A]"
                       required
                     />
@@ -131,21 +136,11 @@ const EmailResetPassword = () => {
                 </div>
                 <div className="flex space-x-4">
                   <button
-                    type="button"
-                    className="flex-grow bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition-colors"
-                    onClick={() => {
-                      setEmail("");
-                      setIsEmailValid(true);
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
                     type="submit"
                     className="flex-grow bg-[#2A629A] text-white py-2 rounded-lg hover:bg-[#003285] transition-colors"
                     onClick={handleSubmit}
                   >
-                    Send Reset Link
+                    Kirim
                   </button>
                 </div>
               </form>
