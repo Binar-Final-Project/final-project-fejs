@@ -5,15 +5,15 @@ import { Toaster, toast } from "react-hot-toast";
 import { BiArrowBack, BiSolidCheckCircle, BiErrorCircle } from "react-icons/bi";
 import { RxCrossCircled } from "react-icons/rx";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { login } from "./redux/actions/loginActions";
+import { login } from "../../../redux/actions/auth/loginActions";
 import {
   setEmail,
   setPassword,
   setShowPassword,
   setPasswordTouched,
   clearError,
-} from "./redux/reducers/loginReducers";
-import backgroundImage from "./loginregister.png";
+} from "../../../redux/reducers/auth/loginReducers";
+import backgroundImage from "../../../assets/images/loginregister.png";
 
 export default function LoginUser() {
   const dispatch = useDispatch();
@@ -284,7 +284,7 @@ export default function LoginUser() {
               <p className="text-[#2A629A] mt-7 mb-3 text-sm">
                 Baru di{" "}
                 <a
-                  href="/home"
+                  href="/"
                   className="text-[#2A629A] mt-7 mb-3 text-sm font-semibold"
                 >
                   BiFlight
