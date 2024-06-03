@@ -6,8 +6,10 @@ const initialState = {
   password: "",
   showPassword: false,
   isPasswordTouched: false,
+  token: null,
   user: null,
   error: null,
+  isLoggedIn: false,
 };
 
 const loginSlice = createSlice({
@@ -27,6 +29,9 @@ const loginSlice = createSlice({
     setPasswordTouched: (state, action) => {
       state.isPasswordTouched = action.payload;
     },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
     setUser: (state, action) => {
       state.user = action.payload;
     },
@@ -36,6 +41,9 @@ const loginSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    setIsLoggedIn: (state, action) => {
+      state.isLoggedIn = action.payload;
+    },
   },
 });
 
@@ -44,9 +52,11 @@ export const {
   setPassword,
   setShowPassword,
   setPasswordTouched,
+  setToken,
   setUser,
   setError,
   clearError,
+  setIsLoggedIn,
 } = loginSlice.actions;
 
 export default loginSlice.reducer;

@@ -13,7 +13,7 @@ import backgroundImage from "../../../assets/images/otp.png";
 export default function VerifyOTP() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { otpInput, error } = useSelector((state) => state.otp);
+  const { otpInput } = useSelector((state) => state.otp); // Mengambil otpInput dari state otp
   const registerEmail = useSelector((state) => state.register.email); // Mengambil email dari state register
 
   useEffect(() => {
@@ -22,41 +22,39 @@ export default function VerifyOTP() {
     if (registerEmail) {
       dispatch(setEmail(registerEmail));
     }
-    dispatch(setEmail(registerEmail)); // Mengatur email saat komponen dimuat
+    dispatch(setEmail(registerEmail));
   }, [dispatch, registerEmail]);
 
-  useEffect(() => {
-    if (otpInput.length === 6 && !error) {
-      dispatch(verifyOtp(navigate));
-    }
-  }, [otpInput, error, dispatch, navigate]);
-
+  // Fungsi untuk menangani perubahan input OTP
   const handleChange = (element, index) => {
     if (isNaN(element.value)) return;
 
-    const newOtpInput = [...otpInput];
-    newOtpInput[index] = element.value;
-    dispatch(setOtpInput(newOtpInput.join("")));
+    const newOtpInput = [...otpInput]; // Membuat salinan otpInput
+    newOtpInput[index] = element.value; // Mengatur nilai otpInput pada index yang diberikan
+    dispatch(setOtpInput(newOtpInput.join(""))); // Menggabungkan array menjadi string dan mengatur otpInput
 
-    // Focus next input
+    // Memindahkan fokus ke input berikutnya jika ada nilai
     if (element.nextSibling && element.value) {
       element.nextSibling.focus();
     }
   };
 
+  // Fungsi untuk menangani aksi saat tombol ditekan di input OTP
   const handleKeyDown = (e, index) => {
     if (e.keyCode === 8 && !otpInput[index] && e.target.previousSibling) {
-      e.target.previousSibling.focus();
+      e.target.previousSibling.focus(); // Memindahkan fokus ke input sebelumnya jika backspace ditekan dan input kosong
     }
   };
 
+  // Fungsi untuk menangani verifikasi OTP
   const handleVerify = async (event) => {
     event.preventDefault();
     if (otpInput.length < 6) {
-      toast.error("Harap isi kode OTP terlebih dahulu.", {
+      toast.error("Mohon isi kode OTP terlebih dahulu!", {
         // Menampilkan toast error
+        icon: null,
         style: {
-          background: "#E60039", // Background merah
+          background: "#FF0000", // Background merah
           color: "#FFFFFF", // Teks putih
           borderRadius: "12px", // Rounded-xl
           fontSize: "14px", // Ukuran font
@@ -69,6 +67,7 @@ export default function VerifyOTP() {
       return;
     }
 
+    // Memanggil action verifyOtp dengan navigate
     dispatch(verifyOtp(navigate));
   };
 
@@ -101,7 +100,7 @@ export default function VerifyOTP() {
               size={20}
               onClick={() => navigate("/register")}
             />
-            <div className="max-w-[550px] mx-auto flex flex-col items-center mt-5">
+            <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
               <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-6">
                 Verifikasi Email
               </h1>
