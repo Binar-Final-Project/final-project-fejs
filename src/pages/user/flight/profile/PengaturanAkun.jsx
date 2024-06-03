@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../assets/components/navigations/navbar/Navbar";
-import Footer from "../../assets/components/navigations/Footer";
-import NavbarMobile from "../../assets/components/navigations/navbar/Navbar-mobile";
+import Navbar from "../../../../assets/components/navigations/navbar/Navbar";
+import NavbarMobile from "../../../../assets/components/navigations/navbar/Navbar-mobile";
+import Footer from "../../../../assets/components/navigations/Footer";
 import { IoIosArrowBack, IoMdLogOut } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { TbUserEdit } from "react-icons/tb";
 import { SlSettings } from "react-icons/sl";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 import { useMediaQuery } from "react-responsive";
-export default function Profile() {
+import toast, { Toaster } from "react-hot-toast";
+
+export default function PengaturanAkun() {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [saveModalOpen, setSaveModalOpen] = useState(false);
@@ -21,18 +28,50 @@ export default function Profile() {
     setSaveModalOpen(!saveModalOpen);
   };
 
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      toast(
+        "Password harus berisi minimal 8 karakter, termasuk huruf besar dan angka",
+        {
+          // Menampilkan toast error
+          style: {
+            background: "#FF0000",
+            color: "#fff",
+          },
+          duration: 4000, // Durasi toast
+        }
+      );
+      setSaveModalOpen(!saveModalOpen);
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast("Kata sandi tidak cocok!", {
+        style: {
+          background: "#FF0000",
+          color: "#fff",
+        },
+        duration: 4000,
+      });
+      setSaveModalOpen(!saveModalOpen);
+      return;
+    }
+  };
+
   return (
     <div className="bg-[#FFF0DC] py-5 md:py-0">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <div className="m-5 md:m-10">
-        <div className="lg:w-1/12">
-          <Link to={-1}>
-            <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
-              <IoIosArrowBack className="text-3xl" />
-              <h6 className="text-lg">Kembali</h6>
-            </div>
-          </Link>
-        </div>
+        <Link to={-1}>
+          <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3] lg:w-1/12">
+            <IoIosArrowBack className="text-3xl" />
+            <h6 className="text-lg">Kembali</h6>
+          </div>
+        </Link>
+        <Toaster />
         <div className="text-center mb-10">
           <h1 className="text-4xl font-medium">Akun Saya</h1>
         </div>
@@ -46,14 +85,14 @@ export default function Profile() {
             <div className="w-full max-w-sm bg-white shadow my-2">
               <div className="divide-y divide-gray-300">
                 <Link to="/profil">
-                  <div className="flex items-center px-4 py-3 bg-[#2A629A] text-white">
-                    <TbUserEdit className="mr-2 text-2xl" /> Ubah Profil
+                  <div className="flex items-center px-4 py-3 hover:bg-[#EEF5FF]">
+                    <TbUserEdit className="mr-2 text-2xl text-[#003285]" /> Ubah
+                    Profil
                   </div>
                 </Link>
                 <Link to="/pengaturan-akun">
-                  <div className="flex items-center px-4 py-3 hover:bg-[#EEF5FF]">
-                    <SlSettings className="mr-2 text-2xl text-[#003285]" />{" "}
-                    Pengaturan Akun
+                  <div className="flex items-center px-4 py-3 bg-[#2A629A] text-white">
+                    <SlSettings className="mr-2 text-2xl" /> Pengaturan Akun
                   </div>
                 </Link>
               </div>
@@ -69,57 +108,53 @@ export default function Profile() {
           </div>
           <div className="w-full max-w-sm mt-5 md:mt-0">
             <div className="bg-[#2A629A] text-white rounded-t-md shadow p-3">
-              <h3 className="font-semibold text-xl">Ubah Data Diri</h3>
+              <h3 className="font-semibold text-xl">Ubah Kata Sandi</h3>
             </div>
             <div className=" bg-white rounded-b-md shadow p-3">
-              <form>
+              <form onSubmit={handleChangePassword}>
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-[#003285] "
-                  >
-                    Nama Lengkap
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                focus:ring-[#003285] focus:border-[#003285] block w-full p-2.5 "
-                    placeholder="John Doe"
-                    required
-                  />
+                  <div className="relative mb-4">
+                    <label
+                      htmlFor="newPassword"
+                      className="block mb-2 text-sm font-medium text-[#003285]"
+                    >
+                      Password Baru
+                    </label>
+                    <input
+                      type={showPassword1 ? "text" : "password"}
+                      id="newPassword"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#003285] focus:border-[#003285] block w-full p-2.5"
+                      placeholder="Masukkan password baru"
+                    />
+                    <span
+                      className="absolute inset-y-3 right-4 flex items-center cursor-pointer h-full text-xl"
+                      onClick={() => setShowPassword1(!showPassword1)}
+                    >
+                      {showPassword1 ? <LuEyeOff /> : <LuEye />}
+                    </span>
+                  </div>
                 </div>
                 <div className="my-3">
-                  <label
-                    htmlFor="phone"
-                    className="block mb-2 text-sm font-medium text-[#003285] "
-                  >
-                    Nomor Telepon
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                focus:ring-[#003285] focus:border-[#003285] block w-full p-2.5 "
-                    placeholder="+6281234567890"
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-[#003285] "
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                focus:ring-[#003285] focus:border-[#003285] block w-full p-2.5 "
-                    placeholder="johndoe@gmail.com"
-                    required
-                  />
+                  <div className="relative mb-4">
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block mb-2 text-sm font-medium text-[#003285]"
+                    >
+                      Password Baru
+                    </label>
+                    <input
+                      type={showPassword2 ? "text" : "password"}
+                      id="confirmPassword"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#003285] focus:border-[#003285] block w-full p-2.5"
+                      placeholder="Konfirmasi password baru"
+                    />
+                    <span
+                      className="absolute inset-y-3 right-4 flex items-center cursor-pointer h-full text-xl"
+                      onClick={() => setShowPassword2(!showPassword2)}
+                    >
+                      {showPassword2 ? <LuEyeOff /> : <LuEye />}
+                    </span>
+                  </div>
                 </div>
                 <div className="flex justify-end">
                   <button
@@ -135,7 +170,7 @@ export default function Profile() {
                       <div className="relative bg-white rounded-lg shadow">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                           <h3 className="text-xl font-semibold text-gray-900">
-                            Simpan Perubahan
+                            Simpan Perubahan Kata Sandi
                           </h3>
                           <button
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -162,7 +197,8 @@ export default function Profile() {
 
                         <div className="p-4 md:p-5 space-y-4">
                           <p className="text-base leading-relaxed text-gray-500">
-                            Apakah Anda yakin ingin menyimpan perubahan?
+                            Apakah Anda yakin ingin menyimpan perubahan kata
+                            sandi?
                           </p>
                         </div>
 
@@ -173,7 +209,10 @@ export default function Profile() {
                           >
                             Batal
                           </button>
-                          <button className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                          <button
+                            className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                            type="submit"
+                          >
                             Simpan
                           </button>
                         </div>
@@ -186,6 +225,7 @@ export default function Profile() {
           </div>
         </div>
       </div>
+
       {/* MODAL LOGOUT */}
       <div
         className={`${confirmModalOpen ? "" : "hidden"} 
@@ -236,6 +276,7 @@ export default function Profile() {
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

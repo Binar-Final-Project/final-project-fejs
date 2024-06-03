@@ -12,7 +12,7 @@ import {
   FaChildDress,
 } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
-import { getFlight } from "../../../redux/actions/flightActions";
+import { getFlight } from "../../../redux/actions/flight/flightActions";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
@@ -101,17 +101,17 @@ export default function SearchMobile() {
     e.preventDefault();
 
     if (departure_code === "" || arrival_code === "") {
-      toast.error("Harap pilih destinasi Anda!");
+      toast("Harap pilih destinasi Anda!");
       return;
     }
 
     if (departure_code === arrival_code) {
-      toast.error("Harap pilih destinasi yang berbeda!");
+      toast("Harap pilih destinasi yang berbeda!");
       return;
     }
 
     if (isChecked === true && date[0].endDate === null) {
-      toast.error("Harap isi tanggal kepulangan!");
+      toast("Harap isi tanggal kepulangan!");
       return;
     }
 

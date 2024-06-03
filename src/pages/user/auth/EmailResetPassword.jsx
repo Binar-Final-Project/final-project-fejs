@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getForgetPassAction } from "../../../redux/auth/getPassActions";
+import { getForgetPassAction } from "../../../redux/actions/auth/getPassActions";
 import { RxCrossCircled } from "react-icons/rx";
 import { BiSolidCheckCircle, BiArrowBack } from "react-icons/bi";
-import backgroundImage from "../../../assets/loginregister.png";
+import backgroundImage from "../../../assets/images/loginregister.png";
 
 const EmailResetPassword = () => {
   const [email, setEmail] = useState("");
