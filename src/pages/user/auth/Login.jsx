@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Toaster, toast } from "react-hot-toast";
+import { BiArrowBack, BiSolidCheckCircle, BiErrorCircle } from "react-icons/bi";
 import { RxCrossCircled } from "react-icons/rx";
-import { BiSolidCheckCircle, BiErrorCircle } from "react-icons/bi";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { login } from "../../../redux/actions/auth/loginActions";
 import {
@@ -25,25 +25,25 @@ export default function LoginUser() {
     showPassword,
     isPasswordTouched,
     error,
-  } = useSelector((state) => state.login);
+  } = useSelector((state) => state.login); // Menggunakan useSelector untuk mengambil state login dari reducers
 
   // Mengatur ulang state ketika komponen di-unmount
   useEffect(() => {
     return () => {
-      dispatch(setEmail(""));
-      dispatch(setPassword(""));
-      dispatch(setPasswordTouched(false));
-      dispatch(clearError());
+      dispatch(setEmail("")); // Mengatur email ke nilai kosong di Reducers
+      dispatch(setPassword("")); // Mengatur password ke nilai kosong di Reducers
+      dispatch(setPasswordTouched(false)); // Mengatur password false ketika diklik di Reducers
+      dispatch(clearError()); // Menghapus error di Reducers
     };
   }, [dispatch]);
 
-  // Handler untuk perubahan input email
+  // Fungsi untuk menangani perubahan input email
   const handleEmailChange = (event) => {
     dispatch(clearError());
     dispatch(setEmail(event.target.value));
   };
 
-  // Handler untuk perubahan input password
+  // Fungsi untuk menangani perubahan input password
   const handlePasswordChange = (event) => {
     dispatch(clearError());
     dispatch(setPassword(event.target.value));
@@ -52,20 +52,20 @@ export default function LoginUser() {
     }
   };
 
-  // Handler untuk toggle visibilitas password
+  // Fungsi untuk menangani toggle visibilitas password
   const togglePasswordVisibility = () => {
     dispatch(clearError());
     dispatch(setShowPassword(!showPassword));
   };
 
-  // Handler untuk fokus input password
+  // Fungsi untuk menangani fokus input password
   const handlePasswordFocus = () => {
     if (!isPasswordTouched) {
       dispatch(setPasswordTouched(true));
     }
   };
 
-  // Handler untuk blur input password
+  // Fungsi untuk menangani blur input password
   const handlePasswordBlur = () => {
     if (password === "") {
       dispatch(setPasswordTouched(false));
@@ -75,8 +75,10 @@ export default function LoginUser() {
   useEffect(() => {
     if (error) {
       toast.error(error, {
+        // Menampilkan toast error
+        icon: null,
         style: {
-          background: "#E60039", // Background merah
+          background: "#FF0000", // Background merah
           color: "#FFFFFF", // Teks putih
           borderRadius: "12px", // Rounded-xl
           fontSize: "14px", // Ukuran font
@@ -89,14 +91,15 @@ export default function LoginUser() {
     }
   }, [error]);
 
-  // Handler untuk proses masuk akun
+  // Fungsi untuk menangani proses masuk akun
   const handleSubmit = (event) => {
     event.preventDefault();
     if (!email || !password) {
       toast.error("Mohon input semua field terlebih dahulu!", {
         // Menampilkan toast error
+        icon: null,
         style: {
-          background: "#E60039", // Background merah
+          background: "#FF0000", // Background merah
           color: "#FFFFFF", // Teks putih
           borderRadius: "12px", // Rounded-xl
           fontSize: "14px", // Ukuran font
@@ -112,8 +115,9 @@ export default function LoginUser() {
     if (!isEmailValid) {
       toast.error("Mohon input Email dengan benar!", {
         // Menampilkan toast error
+        icon: null,
         style: {
-          background: "#E60039", // Background merah
+          background: "#FF0000", // Background merah
           color: "#FFFFFF", // Teks putih
           borderRadius: "12px", // Rounded-xl
           fontSize: "14px", // Ukuran font
@@ -139,10 +143,10 @@ export default function LoginUser() {
     <div>
       <style>
         {`
-          body, html {
-            overflow: hidden;
-          }
-          `}
+            body, html {
+              overflow: hidden;
+            }
+            `}
       </style>
       <div
         style={{
@@ -164,9 +168,9 @@ export default function LoginUser() {
               onClick={() => navigate("/")}
             />
             <Toaster />
-            <div className="max-w-[550px] mx-auto flex flex-col items-center">
-              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-6">
-                Masuk
+            <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
+              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-10">
+                Masuk Akun
               </h1>
 
               <form onSubmit={handleSubmit} className="w-full">
@@ -177,18 +181,18 @@ export default function LoginUser() {
                     </label>
                     <div
                       className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg
-                            ${
-                              email
-                                ? isEmailValid
-                                  ? "focus-within:border-[#2A629A]"
-                                  : "focus-within:border-red-500"
-                                : "focus-within:border-[#2A629A]"
-                            } 
-                            ${
-                              !isEmailValid && email
-                                ? "border-red-500"
-                                : "border-[#D0D0D0]"
-                            }`}
+                              ${
+                                email
+                                  ? isEmailValid
+                                    ? "focus-within:border-[#2A629A]"
+                                    : "focus-within:border-[#FF0000]"
+                                  : "focus-within:border-[#2A629A]"
+                              } 
+                              ${
+                                !isEmailValid && email
+                                  ? "border-[#FF0000]"
+                                  : "border-[#D0D0D0]"
+                              }`}
                     >
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
@@ -198,14 +202,14 @@ export default function LoginUser() {
                         onChange={handleEmailChange}
                       />
                       {isEmailValid && (
-                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#188E55]" />
+                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745]" />
                       )}
                       {!isEmailValid && email && (
-                        <RxCrossCircled className="text-red-500 w-[20px] h-[20px] ml-2" />
+                        <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2" />
                       )}
                     </div>
                     {!isEmailValid && email && (
-                      <p className="text-red-500 text-xs mt-1 text-left">
+                      <p className="text-[#FF0000] text-xs mt-1 text-left">
                         Format Email salah
                       </p>
                     )}
@@ -217,25 +221,25 @@ export default function LoginUser() {
                       </label>
                       <a
                         href="forgot-password"
-                        className="text-[#2A629A] text-sm"
+                        className="text-[#40A2E3] text-sm underline"
                       >
                         Lupa Password
                       </a>
                     </div>
                     <div
                       className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg
-                            ${
-                              password
-                                ? isPasswordValid
-                                  ? "focus-within:border-[#2A629A]"
-                                  : "focus-within:border-red-500"
-                                : "focus-within:border-[#2A629A]"
-                            } 
-                            ${
-                              isPasswordTouched && !isPasswordValid
-                                ? "border-red-500"
-                                : "border-[#D0D0D0]"
-                            }`}
+                              ${
+                                password
+                                  ? isPasswordValid
+                                    ? "focus-within:border-[#2A629A]"
+                                    : "focus-within:border-[#FF0000]"
+                                  : "focus-within:border-[#2A629A]"
+                              } 
+                              ${
+                                isPasswordTouched && !isPasswordValid
+                                  ? "border-[#FF0000]"
+                                  : "border-[#D0D0D0]"
+                              }`}
                     >
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
@@ -259,7 +263,7 @@ export default function LoginUser() {
                       )}
                     </div>
                     {isPasswordTouched && !isPasswordValid && (
-                      <div className="flex items-center text-red-500 text-xs mt-1 text-left">
+                      <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                         <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
                         <p>
                           Password berisi minimal 8 karakter, termasuk huruf
