@@ -335,8 +335,14 @@ export default function Register() {
       >
         <div className="flex justify-center items-center min-h-screen w-full">
           <Toaster />
-          <div className="max-w-[400px] w-full rounded-lg p-5 m-4 sm:m-8 bg-[#FFF8ED] text-center shadow-lg">
-            <div className="max-w-[550px] mx-auto flex flex-col items-center">
+
+          <div className="max-w-[400px] w-full rounded-lg p-5 m-4 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
+            <BiArrowBack
+              className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
+              size={20}
+              onClick={() => navigate("/")}
+            />
+            <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
               <h1 className="text-[#003285] text-2xl mb-1 font-bold text-center w-full">
                 Daftar Sekarang
               </h1>

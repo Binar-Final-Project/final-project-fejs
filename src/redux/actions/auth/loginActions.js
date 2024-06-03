@@ -34,7 +34,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
         duration: 4000, // Durasi toast
       });
       setTimeout(() => {
-        navigate("/home");
+        navigate("/");
       }, 4000);
     }
     console.log("Response Login: ", responseLogin);
