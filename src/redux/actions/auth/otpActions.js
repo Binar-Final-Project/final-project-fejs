@@ -1,6 +1,6 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { setError, clearError } from "../reducers/otpReducers";
+import { setError, clearError } from "../../reducers/auth/otpReducers";
 
 // Action untuk verifikasi OTP
 export const verifyOtp = (navigate) => async (dispatch, getState) => {

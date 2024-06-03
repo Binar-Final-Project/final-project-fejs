@@ -4,7 +4,7 @@ import {
   setError,
   clearError,
   setPasswordStrength,
-} from "../reducers/registerReducers";
+} from "../../reducers/auth/registerReducers";
 
 export const register =
   (email, name, password, phone_number, navigate) => async (dispatch) => {

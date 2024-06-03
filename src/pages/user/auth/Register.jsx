@@ -5,7 +5,7 @@ import { BiSolidCheckCircle, BiErrorCircle } from "react-icons/bi";
 import { RxCrossCircled } from "react-icons/rx";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Toaster, toast } from "react-hot-toast";
-import { register } from "../redux/actions/registerActions";
+import { register } from "../../../redux/actions/auth/registerActions";
 import {
   setName,
   setNameTouched,
@@ -17,8 +17,8 @@ import {
   setShowConfirmPassword,
   setPhoneNumber,
   clearError,
-} from "../redux/reducers/registerReducers";
-import backgroundImage from "../assets/images/loginregister.png";
+} from "../../../redux/reducers/auth/registerReducers";
+import backgroundImage from "../../../assets/images/loginregister.png";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -557,7 +557,7 @@ export default function Register() {
               <p className="text-[#2A629A] mt-7 mb-3 text-sm">
                 Sudah punya akun{" "}
                 <a
-                  href="/home"
+                  href="/"
                   className="text-[#2A629A] mt-7 mb-3 text-sm font-semibold"
                 >
                   BiFlight

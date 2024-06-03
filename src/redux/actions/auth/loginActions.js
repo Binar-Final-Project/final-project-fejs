@@ -1,6 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import { setUser, clearError } from "../reducers/loginReducers";
+import { setUser, clearError } from "../../reducers/auth/loginReducers";
 
 export const login = (email, password, navigate) => async (dispatch) => {
   try {

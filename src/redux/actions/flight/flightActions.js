@@ -1,6 +1,5 @@
 import axios from "axios";
-import { setFlights } from "../reducers/flightReducers";
-// import Airport from "../../assets/airports/airports.json";
+import { setFlights } from "../../reducers/flight/flightReducers";
 
 // Home Page Search Ticket
 export const getFlight =
