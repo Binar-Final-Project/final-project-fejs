@@ -5,7 +5,7 @@ import {
   setToken,
   clearError,
   setIsLoggedIn,
-} from "../reducers/loginReducers";
+} from "../../reducers/auth/loginReducers";
 
 export const login = (email, password, navigate) => async (dispatch) => {
   try {

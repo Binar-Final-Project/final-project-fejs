@@ -2,14 +2,18 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import { thunk } from "redux-thunk";
 import storage from "redux-persist/lib/storage";
-import loginReducers from "./reducers/loginReducers";
-import registerReducers from "./reducers/registerReducers";
-import otpReducers from "./reducers/otpReducers";
+import loginReducers from "../reducers/auth/loginReducers";
+import registerReducers from "../reducers/auth/registerReducers";
+import otpReducers from "../reducers/auth/otpReducers";
+import passwordSlice from "../reducers/auth/passwordSlice";
+import flightReducers from "../reducers/flight/flightReducers";
 
 const rootReducer = combineReducers({
   login: loginReducers,
   register: registerReducers,
   otp: otpReducers,
+  authPass: passwordSlice,
+  flight: flightReducers,
 });
 
 const persistConfig = {

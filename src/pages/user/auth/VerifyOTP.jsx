@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Toaster, toast } from "react-hot-toast";
 import { BiArrowBack } from "react-icons/bi";
-import { setOtpInput, setEmail } from "./redux/reducers/otpReducers";
-import { verifyOtp } from "./redux/actions/otpActions";
-import backgroundImage from "./otp.png";
+import {
+  setOtpInput,
+  setEmail,
+} from "../../../redux/reducers/auth/otpReducers"; // Import setEmail
+import { verifyOtp } from "../../../redux/actions/auth/otpActions";
+import backgroundImage from "../../../assets/images/otp.png";
 
 export default function VerifyOTP() {
   const dispatch = useDispatch();

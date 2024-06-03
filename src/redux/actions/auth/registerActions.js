@@ -4,7 +4,7 @@ import {
   setError,
   clearError,
   setPasswordStrength,
-} from "../reducers/registerReducers";
+} from "../../reducers/auth/registerReducers";
 
 // Action untuk registrasi akun
 export const register =
