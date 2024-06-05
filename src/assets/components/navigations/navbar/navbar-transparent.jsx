@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   IoListOutline,
   IoNotificationsOutline,
@@ -9,13 +9,33 @@ import { FiLogIn } from "react-icons/fi";
 import Logo from "../../../images/logo.png";
 import { IoMdNotifications, IoMdLogOut } from "react-icons/io";
 import { PiEyes } from "react-icons/pi";
+import { logout } from "../../../../redux/actions/auth/loginActions";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../../../../redux/actions/user/userActions";
 
 export default function NavbarTransparent() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [showDropdownProfile, setShowDropdownProfile] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isScrolled, setIsScrolled] = useState(false); // BUAT VALIDASI WARNA NAVBAR
+  const [showDropdownProfile, setShowDropdownProfile] = useState(false); // BUAT NAMPILIN DROPDOWN MENU PROFIL
   const [showDropdownNotification, setShowDropdownNotification] =
-    useState(false);
-  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+    useState(false); // BUAT NAMPILIN DROPDOWN NOTIFICATION IN APP
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false); // BUAT MODAL LOGOUT
+  const { isLoggedIn } = useSelector((state) => state.login); // VALIDASI TAMPILAN NAVBAR
+  console.log("isLoggedIn", isLoggedIn);
+  const { profile } = useSelector((state) => state.user); // MENAMPILKAN DATA USER
+
+  // MENDAPATKAN DATA USER BUAT DROPDOWN PROFIL
+  useEffect(() => {
+    const account = async () => {
+      if (isLoggedIn) {
+        dispatch(getUser(navigate));
+      }
+    };
+    account();
+  }, []);
+
+  // NAMPILIN MODAL LOGOUT
   const handleConfirmModalToggle = () => {
     setConfirmModalOpen(!confirmModalOpen);
   };
@@ -48,127 +68,137 @@ export default function NavbarTransparent() {
           <img src={Logo} className="w-20" alt="BiFlight Logo" />
         </a>
         <div className="flex flex-row items-center gap-5">
-          <Link to="">
-            <IoListOutline
-              className={`text-2xl ${
-                isScrolled
-                  ? "text-black hover:text-[#2A629A]"
-                  : "text-white hover:text-[#86B6F6]"
-              }`}
-            />
-          </Link>
-          <div
-            onClick={() =>
-              setShowDropdownNotification(!showDropdownNotification)
-            }
-            className="relative inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400"
-          >
-            <Link to="">
-              <IoNotificationsOutline
-                className={`text-2xl ${
-                  isScrolled
-                    ? "text-black hover:text-[#2A629A]"
-                    : "text-white hover:text-[#86B6F6]"
-                }`}
-              />
-            </Link>
-          </div>
-          {showDropdownNotification && (
-            <div className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow absolute lg:right-12 md:right-12 top-16">
-              <div className="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 ">
-                Notifikasi
-              </div>
-              <div className="divide-y divide-gray-100 ">
-                <a href="#" className="flex px-4 py-3 hover:bg-[#EEF5FF] ">
-                  <div className="flex">
-                    <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-2xl p-1" />
-                  </div>
-                  <div className="w-full ps-3">
-                    <div className="text-gray-500 text-xs mb-1.5 flex justify-between">
-                      Status Pembayaran (Unpaid)
-                      <div className="text-xs text-[#40A2E3]">
-                        27 Mei, 15:52
-                      </div>
-                    </div>
-                    <div className="text-sm mb-1.5">
-                      Selesaikan pembayaran Anda sebelum tanggal 10 Maret 2023!
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <a
-                href="#"
-                className="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-[#EEF5FF] hover:text-[#003285]"
+          {/* KALAU LOGIN */}
+          {isLoggedIn ? (
+            <>
+              <Link to="">
+                <IoListOutline
+                  className={`text-2xl ${
+                    isScrolled
+                      ? "text-black hover:text-[#2A629A]"
+                      : "text-white hover:text-[#86B6F6]"
+                  }`}
+                />
+              </Link>
+              <div
+                onClick={() =>
+                  setShowDropdownNotification(!showDropdownNotification)
+                }
+                className="relative inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400"
               >
-                <div className="inline-flex items-center ">
-                  <PiEyes className="text-xl" />
-                  Lihat Semua
-                </div>
-              </a>
-            </div>
-          )}
-          <div
-            onClick={() => setShowDropdownProfile(!showDropdownProfile)}
-            className="flex text-sm "
-          >
-            <IoPersonOutline
-              className={`text-2xl ${
-                isScrolled
-                  ? "text-black hover:text-[#2A629A]"
-                  : "text-white hover:text-[#86B6F6]"
-              }`}
-            />
-          </div>
-          {showDropdownProfile && (
-            <div className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute top-16 right-4">
-              <div className="px-4 py-3 text-sm text-gray-900">
-                <div>John Doe</div>
-                <div className="font-medium truncate">john@gmail.com</div>
+                <Link to="">
+                  <IoNotificationsOutline
+                    className={`text-2xl ${
+                      isScrolled
+                        ? "text-black hover:text-[#2A629A]"
+                        : "text-white hover:text-[#86B6F6]"
+                    }`}
+                  />
+                </Link>
               </div>
-              <ul className="py-2 text-sm text-gray-700">
-                <li>
+              {showDropdownNotification && (
+                <div className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow absolute lg:right-12 md:right-12 top-16">
+                  <div className="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 ">
+                    Notifikasi
+                  </div>
+                  <div className="divide-y divide-gray-100 ">
+                    <a href="#" className="flex px-4 py-3 hover:bg-[#EEF5FF] ">
+                      <div className="flex">
+                        <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-2xl p-1" />
+                      </div>
+                      <div className="w-full ps-3">
+                        <div className="text-gray-500 text-xs mb-1.5 flex justify-between">
+                          Status Pembayaran (Unpaid)
+                          <div className="text-xs text-[#40A2E3]">
+                            27 Mei, 15:52
+                          </div>
+                        </div>
+                        <div className="text-sm mb-1.5">
+                          Selesaikan pembayaran Anda sebelum tanggal 10 Maret
+                          2023!
+                        </div>
+                      </div>
+                    </a>
+                  </div>
                   <a
-                    href="/profil"
-                    className="block px-4 py-2 hover:bg-[#EEF5FF]"
+                    href="#"
+                    className="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-[#EEF5FF] hover:text-[#003285]"
                   >
-                    Profil
+                    <div className="inline-flex items-center ">
+                      <PiEyes className="text-xl" />
+                      Lihat Semua
+                    </div>
                   </a>
-                </li>
-              </ul>
-              <div className="py-2">
+                </div>
+              )}
+              <div
+                onClick={() => setShowDropdownProfile(!showDropdownProfile)}
+                className="flex text-sm "
+              >
+                <IoPersonOutline
+                  className={`text-2xl ${
+                    isScrolled
+                      ? "text-black hover:text-[#2A629A]"
+                      : "text-white hover:text-[#86B6F6]"
+                  }`}
+                />
+              </div>
+              {showDropdownProfile && (
+                <div className="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 absolute top-16 right-4">
+                  <div className="px-4 py-3 text-sm text-gray-900">
+                    <div className="truncate">{profile?.name}</div>
+                    <div className="font-medium truncate">{profile?.email}</div>
+                  </div>
+                  <ul className="py-2 text-sm text-gray-700">
+                    <li>
+                      <a
+                        href="/profil"
+                        className="block px-4 py-2 hover:bg-[#EEF5FF]"
+                      >
+                        Profil
+                      </a>
+                    </li>
+                  </ul>
+                  <div className="py-2">
+                    <button
+                      className="w-full py-2 px-4 text-sm text-gray-700 hover:bg-[#EEF5FF] flex items-center"
+                      onClick={() => {
+                        setShowDropdownProfile(!showDropdownProfile),
+                          handleConfirmModalToggle();
+                      }}
+                    >
+                      <IoMdLogOut className="text-xl" /> Keluar
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            // KALAU TIDAK LOGIN
+            <>
+              <Link to="/login">
                 <button
-                  className="w-full py-2 px-4 text-sm text-gray-700 hover:bg-[#EEF5FF] flex items-center"
-                  onClick={() => {
-                    setShowDropdownProfile(!showDropdownProfile),
-                      handleConfirmModalToggle();
-                  }}
+                  type="button"
+                  className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
                 >
-                  <IoMdLogOut className="text-xl" /> Keluar
+                  <div className="flex items-center font-medium">
+                    <FiLogIn className="mr-1 font-bold text-xl" />
+                    <span className="text-md">Masuk</span>
+                  </div>
                 </button>
-              </div>
-            </div>
+              </Link>
+              <Link to="/register">
+                <button
+                  type="button"
+                  className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
+                >
+                  <div className="flex items-center font-medium">
+                    <span className="text-md">Daftar</span>
+                  </div>
+                </button>
+              </Link>
+            </>
           )}
-          <Link to="/login">
-            <button
-              type="button"
-              className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
-            >
-              <div className="flex items-center font-medium">
-                <FiLogIn className="mr-1 font-bold text-xl" />
-                <span className="text-md">Masuk</span>
-              </div>
-            </button>
-          </Link>
-          <Link to="/register">
-            <button
-              type="button"
-              className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
-            >
-              <div className="flex items-center font-medium">
-                <span className="text-md">Daftar</span>
-              </div>
-            </button>
-          </Link>
         </div>
       </div>
 
@@ -182,7 +212,7 @@ export default function NavbarTransparent() {
             <button
               type="button"
               className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-              onClick={handleConfirmModalToggle}
+              onClick={handleConfirmModalToggle} // MENUTUP MODAL
             >
               <svg
                 className="w-3 h-3"
@@ -206,14 +236,18 @@ export default function NavbarTransparent() {
                 Apakah Anda yakin ingin keluar?
               </h3>
               <button
-                onClick={handleConfirmModalToggle}
+                onClick={handleConfirmModalToggle} // MENUTUP MODAL
                 type="button"
                 className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-[#003285] focus:z-10 focus:ring-4 focus:ring-gray-100 "
               >
                 Batal
               </button>
               <button
-                type="button"
+                type="submit"
+                onClick={() => {
+                  dispatch(logout(navigate)); // MENGHAPUS TOKEN DAN DIRECT KE HOME PAGE
+                  handleConfirmModalToggle(); // MENUTUP MODAL
+                }}
                 className="text-white ms-3 bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
               >
                 Ya

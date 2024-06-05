@@ -23,10 +23,10 @@ import airports from "../../airports/airports.json";
 export default function SearchMobile() {
   const dispatch = useDispatch();
 
-  const [seatModalOpen, setSeatModalOpen] = useState(false);
-  const [passengerModalOpen, setPassengerModalOpen] = useState(false);
-  const [dateModalOpen, setDateModalOpen] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [seatModalOpen, setSeatModalOpen] = useState(false); // MODAL KELAS PENERBANGAN
+  const [passengerModalOpen, setPassengerModalOpen] = useState(false); // MODAL JUMLAH PENUMPANG
+  const [dateModalOpen, setDateModalOpen] = useState(false); // MODAL TANGGAL PENERBANGAN
+  const [isChecked, setIsChecked] = useState(false); // TOGGLE TANGGAL KEPULANGAN
   const [departure_code, setDeparture_code] = useState("");
   const [arrival_code, setArrival_code] = useState("");
   const [seat_class, setSeat_class] = useState("Economy");
@@ -50,6 +50,7 @@ export default function SearchMobile() {
     setArrival_code(departure_code);
   };
 
+  // BUAT INPUT KELAS PENERBANGAN
   const handleSeat = (e) => {
     setSeat_class(e.target.value);
   };
@@ -97,6 +98,7 @@ export default function SearchMobile() {
     setTotal_passenger(getTotalPenumpang());
   }, [penumpang]);
 
+  // BUAT SUBMIT SEARCH
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -144,7 +146,7 @@ export default function SearchMobile() {
 
   return (
     <div>
-      <div className="bg-[#2A629A] rounded-b-2xl w-full h-[300px] py-3 px-4">
+      <div className="bg-[#2A629A] rounded-b-3xl w-full h-[300px] py-3 px-4">
         <Toaster
           toastOptions={{
             className: "w-full",
@@ -174,7 +176,7 @@ export default function SearchMobile() {
                         onChange={(e) => setDeparture_code(e.target.value)}
                         className="block py-2.5 px-8 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
                       >
-                        <option selected>Pilih Bandara Awal</option>
+                        <option>Pilih Bandara Awal</option>
                         {airports.map((airport) => (
                           <option
                             key={airport.iata_code}
@@ -208,7 +210,7 @@ export default function SearchMobile() {
                       onChange={(e) => setArrival_code(e.target.value)}
                       className="block py-2.5 px-8 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
                     >
-                      <option selected>Pilih Bandara Tujuan</option>
+                      <option>Pilih Bandara Tujuan</option>
                       {airports.map((airport) => (
                         <option
                           key={airport.iata_code}
@@ -328,6 +330,7 @@ export default function SearchMobile() {
           </form>
         </div>
       </div>
+
       {/* MODAL PILIH KELAS KURSI PENERBANGAN */}
       <div
         className={`${
@@ -456,6 +459,7 @@ export default function SearchMobile() {
           </div>
         </div>
       </div>
+
       {/* MODAL PILIH JUMLAH PENUMPANG */}
       <div
         className={`${
@@ -591,6 +595,7 @@ export default function SearchMobile() {
           </div>
         </div>
       </div>
+
       {/* MODAL PILIH TANGGAL PENERBANGAN */}
       <div
         className={`${

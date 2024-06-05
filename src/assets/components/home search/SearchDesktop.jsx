@@ -24,10 +24,10 @@ import airports from "../../airports/airports.json";
 export default function SearchDesktop() {
   const dispatch = useDispatch();
 
-  const [isChecked, setIsChecked] = useState(false);
-  const [seatModalOpen, setSeatModalOpen] = useState(false);
-  const [passengerModalOpen, setPassengerModalOpen] = useState(false);
-  const [dateModalOpen, setDateModalOpen] = useState(false);
+  const [isChecked, setIsChecked] = useState(false); // TOGGLE TANGGAL KEPULANGAN
+  const [seatModalOpen, setSeatModalOpen] = useState(false); // MODAL KELAS PENERBANGAN
+  const [passengerModalOpen, setPassengerModalOpen] = useState(false); // MODAL JUMLAH PENUMPANG
+  const [dateModalOpen, setDateModalOpen] = useState(false); // MODAL TANGGAL PENERBANGAN
   const [departure_code, setDeparture_code] = useState("");
   const [arrival_code, setArrival_code] = useState("");
   const [seat_class, setSeat_class] = useState("Economy");
@@ -51,6 +51,7 @@ export default function SearchDesktop() {
     setArrival_code(departure_code);
   };
 
+  // BUAT INPUT KELAS PENERBANGAN
   const handleSeat = (e) => {
     setSeat_class(e.target.value);
   };
@@ -98,6 +99,7 @@ export default function SearchDesktop() {
     setTotal_passenger(getTotalPenumpang());
   }, [penumpang, isChecked]);
 
+  // BUAT SUBMIT SEARCH
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -190,7 +192,7 @@ export default function SearchDesktop() {
                               }
                               className="block py-2.5 px-0 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
                             >
-                              <option selected>Pilih Bandara Awal</option>
+                              <option>Pilih Bandara Awal</option>
                               {airports.map((airport) => (
                                 <option
                                   key={airport.iata_code}
@@ -221,7 +223,7 @@ export default function SearchDesktop() {
                                 }
                                 className="block py-2.5 px-0 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
                               >
-                                <option selected>Pilih Bandara Tujuan</option>
+                                <option>Pilih Bandara Tujuan</option>
                                 {airports.map((airport) => (
                                   <option
                                     key={airport.iata_code}
@@ -612,6 +614,7 @@ export default function SearchDesktop() {
           </div>
         </div>
       </div>
+
       {/* MODAL PILIH TANGGAL PENERBANGAN */}
       <div
         className={`${
