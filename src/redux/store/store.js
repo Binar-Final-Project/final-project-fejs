@@ -7,6 +7,7 @@ import registerReducers from "../reducers/auth/registerReducers";
 import otpReducers from "../reducers/auth/otpReducers";
 import passwordSlice from "../reducers/auth/passwordSlice";
 import flightReducers from "../reducers/flight/flightReducers";
+import ticketReducers from "../reducers/ticket/ticketReducers"
 
 const rootReducer = combineReducers({
   login: loginReducers,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   otp: otpReducers,
   authPass: passwordSlice,
   flight: flightReducers,
+  ticket: ticketReducers,
 });
 
 const persistConfig = {
