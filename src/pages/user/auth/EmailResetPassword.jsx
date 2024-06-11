@@ -26,6 +26,7 @@ const EmailResetPassword = () => {
     e.preventDefault();
     if (!email) {
       toast.error("Harap masukkan email Anda terlebih dahulu", {
+        icon: null,
         style: {
           background: "#FF0000",
           color: "#FFFFFF",
@@ -41,7 +42,9 @@ const EmailResetPassword = () => {
     }
     if (!isEmailValid) {
       toast.error("Mohon input Email dengan benar!", {
+        icon: null,
         style: {
+          background: "#FF0000",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",
@@ -136,6 +139,7 @@ const EmailResetPassword = () => {
                 <div className="flex space-x-4">
                   <button
                     type="submit"
+                    className="bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
                     onClick={handleSubmit}
                   >
                     Kirim
