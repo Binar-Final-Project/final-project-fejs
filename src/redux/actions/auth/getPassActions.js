@@ -19,7 +19,6 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     if (response.data.status === true) {
       toast.success("Email berhasil dikirim!", {
         style: {
-          background: "#4BB543",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",
@@ -87,7 +86,6 @@ export const getUpdatePass =
       if (response.data.status === true) {
         toast.success("Kata sandi berhasil direset!", {
           style: {
-            background: "#4BB543",
             color: "#FFFFFF",
             borderRadius: "12px",
             fontSize: "14px",

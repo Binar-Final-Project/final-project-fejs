@@ -24,7 +24,6 @@ const ForgotPassword = () => {
     if (password !== confirmPassword) {
       toast.error("Kata sandi tidak cocok!", {
         style: {
-          background: "#E60039",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",
@@ -40,7 +39,6 @@ const ForgotPassword = () => {
     if (!isPasswordValid) {
       toast.error("Password tidak valid!", {
         style: {
-          background: "#E60039",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",
@@ -117,7 +115,6 @@ const ForgotPassword = () => {
                       Masukkan Password Baru
                     </label>
                     <div
-                      className={`flex items-center p-2 rounded-lg border focus-within:shadow-lg ${
                         password
                           ? isPasswordValid
                             ? "border-[#2A629A]"
@@ -161,7 +158,6 @@ const ForgotPassword = () => {
                       Ulangi Password Baru
                     </label>
                     <div
-                      className={`flex items-center p-2 rounded-lg border ${
                         confirmPassword
                           ? confirmPassword === password
                             ? "border-[#2A629A]"
@@ -200,7 +196,6 @@ const ForgotPassword = () => {
                   <div className="flex space-x-4">
                     <button
                       type="submit"
-                      className="flex-grow bg-[#2A629A] text-white py-2 rounded-lg hover:bg-[#003285] transition-colors"
                     >
                       Reset Password
                     </button>

@@ -42,7 +42,6 @@ const EmailResetPassword = () => {
     if (!isEmailValid) {
       toast.error("Mohon input Email dengan benar!", {
         style: {
-          background: "#E60039",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",
@@ -137,7 +136,6 @@ const EmailResetPassword = () => {
                 <div className="flex space-x-4">
                   <button
                     type="submit"
-                    className="flex-grow bg-[#2A629A] text-white py-2 rounded-lg hover:bg-[#003285] transition-colors"
                     onClick={handleSubmit}
                   >
                     Kirim
