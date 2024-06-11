@@ -119,7 +119,7 @@ const ForgotPassword = () => {
                       Masukkan Password Baru
                     </label>
                     <div
-                      className={`flex items-center p-2 rounded-lg border focus-within:shadow-lg ${
+                      className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg ${
                         password
                           ? isPasswordValid
                             ? "border-[#2A629A]"
@@ -163,7 +163,7 @@ const ForgotPassword = () => {
                       Ulangi Password Baru
                     </label>
                     <div
-                      className={`flex items-center p-2 rounded-lg border ${
+                      className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg ${
                         confirmPassword
                           ? confirmPassword === password
                             ? "border-[#2A629A]"

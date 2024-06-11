@@ -19,17 +19,20 @@ import { format } from "date-fns";
 import { useDispatch } from "react-redux";
 import { getFlight } from "../../../redux/actions/flight/flightActions";
 import toast, { Toaster } from "react-hot-toast";
-import airports from "../../airports/airports.json";
+import { useNavigate } from "react-router-dom";
+import AirportInput from "../AirportInput";
 
 export default function SearchDesktop() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [isChecked, setIsChecked] = useState(false);
-  const [seatModalOpen, setSeatModalOpen] = useState(false);
-  const [passengerModalOpen, setPassengerModalOpen] = useState(false);
-  const [dateModalOpen, setDateModalOpen] = useState(false);
-  const [departure_code, setDeparture_code] = useState("");
-  const [arrival_code, setArrival_code] = useState("");
+  const [isChecked, setIsChecked] = useState(false); // TOGGLE TANGGAL KEPULANGAN
+  const [seatModalOpen, setSeatModalOpen] = useState(false); // MODAL KELAS PENERBANGAN
+  const [passengerModalOpen, setPassengerModalOpen] = useState(false); // MODAL JUMLAH PENUMPANG
+  const [dateModalOpen, setDateModalOpen] = useState(false); // MODAL TANGGAL PENERBANGAN
+  const [filter, setFilter] = useState("price.asc");
+  const [departure_code, setDeparture_code] = useState("CGK");
+  const [arrival_code, setArrival_code] = useState("DPS");
   const [seat_class, setSeat_class] = useState("Economy");
   const [total_passenger, setTotal_passenger] = useState(1);
   const [date, setDate] = useState([
@@ -51,6 +54,7 @@ export default function SearchDesktop() {
     setArrival_code(departure_code);
   };
 
+  // BUAT INPUT KELAS PENERBANGAN
   const handleSeat = (e) => {
     setSeat_class(e.target.value);
   };
@@ -98,6 +102,7 @@ export default function SearchDesktop() {
     setTotal_passenger(getTotalPenumpang());
   }, [penumpang, isChecked]);
 
+  // BUAT SUBMIT SEARCH
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -115,18 +120,47 @@ export default function SearchDesktop() {
       toast("Harap isi tanggal kepulangan!");
       return;
     }
+    const departureDate = date[0].startDate.toISOString().split("T")[0];
+    const returnDate = date[0].endDate.toISOString().split("T")[0];
+
+    if (date[0].startDate === date[0].endDate) {
+      toast("Harap pilih tanggal yang berbeda!", {
+        style: {
+          background: "#FF0000",
+          color: "#fff",
+        },
+      });
+      return;
+    }
 
     dispatch(
       getFlight(
         departure_code,
         arrival_code,
-        date[0].startDate.toISOString(),
-        // date[0].endDate.toISOString(),
+        departureDate,
         seat_class,
-        total_passenger
+        total_passenger,
+        filter
       )
     );
+
+    // Navigasi ke halaman pencarian
+    if (isChecked && returnDate) {
+      navigate(
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departureDate}&returnDate=${returnDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        { replace: true }
+      );
+    } else {
+      navigate(
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departureDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        { replace: true }
+      );
+    }
   };
+
+  useEffect(() => {
+    handleSubmit;
+  }, []);
 
   // MODAL MILIH KELAS PENERBANGAN
   const handleSeatModal = () => {
@@ -183,23 +217,16 @@ export default function SearchDesktop() {
                           <MdFlightTakeoff className="text-xl" />
                           <p className="text-sm ml-1">Dari</p>
                           <div className="relative z-0 ml-2">
-                            <select
-                              value={departure_code}
-                              onChange={(e) =>
-                                setDeparture_code(e.target.value)
-                              }
-                              className="block py-2.5 px-0 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
-                            >
-                              <option selected>Pilih Bandara Awal</option>
-                              {airports.map((airport) => (
-                                <option
-                                  key={airport.iata_code}
-                                  value={airport.iata_code}
-                                >
-                                  {airport.city} - {airport.iata_code}
-                                </option>
-                              ))}
-                            </select>
+                            <div className="w-full">
+                              <AirportInput
+                                value={departure_code}
+                                onChange={(airportCode) =>
+                                  setDeparture_code(airportCode)
+                                }
+                                placeholder="Pilih bandara Awal"
+                                className="block py-2.5 lg:pr-10 md:pr-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
+                              />
+                            </div>
                           </div>
                         </div>
                         <button
@@ -214,23 +241,16 @@ export default function SearchDesktop() {
                             <MdFlightLand className="text-xl" />
                             <p className="text-sm ml-1">Ke</p>
                             <div className="relative z-0 ml-2">
-                              <select
-                                value={arrival_code}
-                                onChange={(e) =>
-                                  setArrival_code(e.target.value)
-                                }
-                                className="block py-2.5 px-0 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
-                              >
-                                <option selected>Pilih Bandara Tujuan</option>
-                                {airports.map((airport) => (
-                                  <option
-                                    key={airport.iata_code}
-                                    value={airport.iata_code}
-                                  >
-                                    {airport.city} - {airport.iata_code}
-                                  </option>
-                                ))}
-                              </select>
+                              <div className="w-full">
+                                <AirportInput
+                                  value={arrival_code}
+                                  onChange={(airportCode) =>
+                                    setArrival_code(airportCode)
+                                  }
+                                  placeholder="Pilih bandara tujuan"
+                                  className="block py-2.5 lg:pr-10 md:pr-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -253,20 +273,20 @@ export default function SearchDesktop() {
                           <MdOutlineDateRange className="text-xl" />
                           <p className="text-sm ml-1">Tanggal</p>
                           <div className="flex flex-col md:flex-row ml-2 md:ml-0">
-                            <div>
+                            <div className="">
                               <p className="text-xs font-medium text-gray-500 ml-2 mr-12 mb-3">
                                 Tanggal Pergi
                               </p>
-                              <div className="relative flex gap-2 z-0 ml-2">
-                                <span
-                                  className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
+                              <div className="ml-2 z-10">
+                                <div
+                                  className="block py-2.5 px-0 w-full -z-10 text-sm text-gray-900 border-0 border-b-2 border-gray-300 "
                                   onClick={handleDateModal}
                                 >
                                   {`${format(
                                     date[0].startDate,
                                     "MM/dd/yyyy"
                                   )} `}
-                                </span>
+                                </div>
                               </div>
                             </div>
                             {isChecked ? (
@@ -274,7 +294,7 @@ export default function SearchDesktop() {
                                 <p className="text-xs font-medium text-gray-500 ml-2 mr-12 mb-3">
                                   Tanggal Pulang
                                 </p>
-                                <div className="relative flex gap-2 z-0 ml-2">
+                                <div className="ml-2">
                                   <span
                                     className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
                                     onClick={handleDateModal}
@@ -307,11 +327,7 @@ export default function SearchDesktop() {
                           <div
                             className={`group peer ring-0 ${
                               isChecked ? "bg-[#003285]" : "bg-[#86B6F6]"
-                            } rounded-full outline-none duration-300 after:duration-300 w-12 h-7 shadow-md peer-focus:outline-none after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-5 after:w-5 after:top-1 after:left-0 after:translate-x-1 peer-checked:after:translate-x-6 peer-hover:after:scale-95 ${
-                              isChecked
-                                ? "peer-checked:translate-x-0"
-                                : "peer-checked:translate-x-0"
-                            }`}
+                            } rounded-full outline-none duration-300 after:duration-300 w-12 h-7 shadow-md peer-focus:outline-none after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-5 after:w-5 after:top-1 after:left-0 after:translate-x-1 peer-checked:after:translate-x-6 peer-hover:after:scale-95 peer-checked:translate-x-0`}
                           ></div>
                         </label>
                         <div className="flex justify-center items-center text-gray-500">
@@ -319,7 +335,7 @@ export default function SearchDesktop() {
                           <p className="text-sm ml-1">Penumpang</p>
                           <div className="flex flex-col ml-2 md:ml-0">
                             <div>
-                              <div className="relative flex gap-2 z-0 ml-2">
+                              <div className="ml-2">
                                 <div
                                   className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
                                   onClick={handlePassengerModal}
@@ -612,6 +628,7 @@ export default function SearchDesktop() {
           </div>
         </div>
       </div>
+
       {/* MODAL PILIH TANGGAL PENERBANGAN */}
       <div
         className={`${

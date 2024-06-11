@@ -1,5 +1,10 @@
 import axios from "axios";
-import { setFlights } from "../../reducers/flight/flightReducers";
+import {
+  setChoosenFlight,
+  setFlights,
+  setIsLoading,
+  setPages,
+} from "../../reducers/flight/flightReducers";
 
 // Home Page Search Ticket
 export const getFlight =
@@ -7,21 +12,27 @@ export const getFlight =
     departure_code,
     arrival_code,
     departure_date,
-    // return_date,
     seat_class,
-    total_passenger
+    total_passenger,
+    filter,
+    currentPage
   ) =>
   async (dispatch) => {
+    // dispatch(setFlights([]));
+    dispatch(setIsLoading(true));
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_SERVER}/flights`,
+        `${
+          import.meta.env.VITE_REACT_APP_SERVER
+        }/flights?sort=${filter}&page=${currentPage}`,
         {
           departure_code,
           arrival_code,
           departure_date,
-          // return_date,
           seat_class,
           total_passenger,
+          filter,
+          currentPage,
         },
         {
           headers: {
@@ -30,9 +41,17 @@ export const getFlight =
           },
         }
       );
-      console.log("response flight", response.data);
-      dispatch(setFlights(response?.data?.data));
+      // console.log("response.data", response.data.data.flights);
+      dispatch(setPages(response?.data?.data?.total_page));
+      dispatch(setFlights(response?.data?.data?.flights));
+      dispatch(setIsLoading(false));
     } catch (error) {
       console.log("Error Search Ticket Home Page", error);
+      if (error?.response?.status === 400) {
+        dispatch(setFlights([]));
+        dispatch(setIsLoading(false));
+        dispatch(setChoosenFlight([]));
+        return false;
+      }
     }
   };
