@@ -23,7 +23,9 @@ const ForgotPassword = () => {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast.error("Kata sandi tidak cocok!", {
+        icon: null,
         style: {
+          background: "#FF0000",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",
@@ -38,7 +40,9 @@ const ForgotPassword = () => {
 
     if (!isPasswordValid) {
       toast.error("Password tidak valid!", {
+        icon: null,
         style: {
+          background: "#FF0000",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",
@@ -115,6 +119,7 @@ const ForgotPassword = () => {
                       Masukkan Password Baru
                     </label>
                     <div
+                      className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg ${
                         password
                           ? isPasswordValid
                             ? "border-[#2A629A]"
@@ -158,6 +163,7 @@ const ForgotPassword = () => {
                       Ulangi Password Baru
                     </label>
                     <div
+                      className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg ${
                         confirmPassword
                           ? confirmPassword === password
                             ? "border-[#2A629A]"
@@ -196,6 +202,7 @@ const ForgotPassword = () => {
                   <div className="flex space-x-4">
                     <button
                       type="submit"
+                      className="bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
                     >
                       Reset Password
                     </button>
