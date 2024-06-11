@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 export default function NotFound() {
   return (
     <div className="bg-[#FFF0DC] h-screen flex justify-center items-center">
@@ -9,6 +9,9 @@ export default function NotFound() {
           className="h-full w-full mb-3"
         ></iframe>
         Page Not Found
+        <div className="text-xl my-3 hover:text-[#003285]">
+          <Link to="/">Kembali ke beranda</Link>
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import {
   clearError,
   setIsLoggedIn,
 } from "../../reducers/auth/loginReducers";
+import { setProfile } from "../../reducers/user/userReducers";
 
 export const login = (email, password, navigate) => async (dispatch) => {
   try {
@@ -95,5 +96,26 @@ export const login = (email, password, navigate) => async (dispatch) => {
         duration: 4000, // Durasi toast
       });
     }
+  }
+};
+
+export const logout = (navigate) => async (dispatch) => {
+  try {
+    dispatch(setToken(null)); // MENGHAPUS TOKEN
+    dispatch(setIsLoggedIn(false)); // MENGEMBALIKAN JADI FALSE
+    dispatch(setProfile([]));
+    if (navigate) {
+      setTimeout(() => {
+        navigate("/"); // KE HOME PAGE DALAM WAKTU 0.5 DETIK
+      }, 500);
+      toast("Berhasil keluar!", {
+        style: {
+          background: "#28A745", // Background hijau
+          color: "#FFFFFF", // TEKS PUTIH
+        },
+      });
+    }
+  } catch (error) {
+    console.log("error logout", error);
   }
 };
