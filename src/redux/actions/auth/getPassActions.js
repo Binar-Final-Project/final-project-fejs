@@ -19,6 +19,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     if (response.data.status === true) {
       toast.success("Email berhasil dikirim!", {
         style: {
+          background: "#28A745",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",
@@ -37,6 +38,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     console.log("error", error);
     if (error.response.data.message === "User not found or not verified") {
       toast.error("User tidak ditemukan", {
+        icon: null,
         style: {
           background: "#FF0000",
           color: "#FFFFFF",
@@ -50,6 +52,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
       });
     } else if (error.response.data.message === "Email is invalid") {
       toast.error("Email tidak valid", {
+        icon: null,
         style: {
           background: "#FF0000",
           color: "#FFFFFF",
@@ -85,7 +88,9 @@ export const getUpdatePass =
       console.log(response);
       if (response.data.status === true) {
         toast.success("Kata sandi berhasil direset!", {
+          icon: null,
           style: {
+            background: "#28A745",
             color: "#FFFFFF",
             borderRadius: "12px",
             fontSize: "14px",
@@ -103,6 +108,7 @@ export const getUpdatePass =
       console.log("error ", error);
       if (error.response.data.message === "Password or token not sent") {
         toast.error("Password tidak terkirim", {
+          icon: null,
           style: {
             background: "#FF0000",
             color: "#FFFFFF",
@@ -116,6 +122,7 @@ export const getUpdatePass =
         });
       } else if (error.response.data.message === "Password do not match") {
         toast.error("Password tidak sama", {
+          icon: null,
           style: {
             background: "#FF0000",
             color: "#FFFFFF",
