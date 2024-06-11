@@ -41,7 +41,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky-top w-full z-20 top-0 start-0 transition-colors duration-500 bg-white shadow">
+    <nav className="fixed w-full z-20 top-0 start-0 bg-white shadow">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4">
         <a href="/" className="flex items-center space-x-3 text-white">
           <img src={Logo} className="w-20" alt="BiFlight Logo" />
@@ -60,7 +60,17 @@ export default function Navbar() {
                 }
                 className="relative inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400"
               >
-                <IoNotificationsOutline className="text-2xl text-black hover:text-[#2A629A]" />
+                <IoNotificationsOutline
+                  className={`text-2xl ${
+                    location.pathname === "/notifikasi"
+                      ? `text-[#2A629A]`
+                      : `
+                  text-black hover:text-[#2A629A]  `
+                  }`}
+                />
+                <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-2 -end-2">
+                  20
+                </div>
               </div>
               {showDropdownNotification && (
                 <div className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow absolute right-12 top-16">
@@ -86,15 +96,14 @@ export default function Navbar() {
                       </div>
                     </a>
                   </div>
-                  <a
-                    href="#"
-                    className="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-[#EEF5FF] hover:text-[#003285]"
-                  >
-                    <div className="inline-flex items-center ">
-                      <PiEyes className="text-xl" />
-                      Lihat Semua
+                  <Link to="/notifikasi">
+                    <div className="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-[#EEF5FF] hover:text-[#003285]">
+                      <div className="inline-flex items-center ">
+                        <PiEyes className="text-xl" />
+                        Lihat Semua
+                      </div>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               )}
               <div

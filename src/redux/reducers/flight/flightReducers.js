@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   flights: [],
-  airports: [],
+  pages: null,
   isLoading: true,
+  choosenFlight: [],
 };
 
 const flightSlicer = createSlice({
@@ -13,12 +14,19 @@ const flightSlicer = createSlice({
     setFlights: (state, action) => {
       state.flights = action.payload;
     },
+    setChoosenFlight: (state, action) => {
+      state.choosenFlight = action.payload;
+    },
+    setPages: (state, action) => {
+      state.pages = action.payload;
+    },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
   },
 });
 
-export const { setFlights, setIsLoading } = flightSlicer.actions;
+export const { setFlights, setPages, setIsLoading, setChoosenFlight } =
+  flightSlicer.actions;
 
 export default flightSlicer.reducer;

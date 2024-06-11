@@ -18,17 +18,21 @@ import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 import toast, { Toaster } from "react-hot-toast";
-import airports from "../../airports/airports.json";
+import AirportInput from "../AirportInput";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchMobile() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [seatModalOpen, setSeatModalOpen] = useState(false); // MODAL KELAS PENERBANGAN
   const [passengerModalOpen, setPassengerModalOpen] = useState(false); // MODAL JUMLAH PENUMPANG
   const [dateModalOpen, setDateModalOpen] = useState(false); // MODAL TANGGAL PENERBANGAN
   const [isChecked, setIsChecked] = useState(false); // TOGGLE TANGGAL KEPULANGAN
-  const [departure_code, setDeparture_code] = useState("");
-  const [arrival_code, setArrival_code] = useState("");
+  const [filter, setFilter] = useState("");
+  const [page, setPage] = useState(1);
+  const [departure_code, setDeparture_code] = useState("CGK");
+  const [arrival_code, setArrival_code] = useState("DPS");
   const [seat_class, setSeat_class] = useState("Economy");
   const [total_passenger, setTotal_passenger] = useState(1);
   const [date, setDate] = useState([
@@ -117,16 +121,43 @@ export default function SearchMobile() {
       return;
     }
 
+    const departureDate = date[0].startDate.toISOString().split("T")[0];
+    const returnDate = date[0].endDate.toISOString().split("T")[0];
+
+    if (isChecked && departureDate === returnDate) {
+      toast("Harap pilih tanggal yang berbeda!", {
+        style: {
+          background: "#FF0000",
+          color: "#fff",
+        },
+      });
+      return;
+    }
+
     dispatch(
       getFlight(
         departure_code,
         arrival_code,
-        date[0].startDate.toISOString(),
-        // date[0].endDate.toISOString(),
+        departureDate,
         seat_class,
-        total_passenger
+        total_passenger,
+        filter,
+        page
       )
     );
+
+    // Navigasi ke halaman pencarian
+    if (isChecked && returnDate) {
+      navigate(
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departureDate}&returnDate=${returnDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        { replace: true }
+      );
+    } else {
+      navigate(
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departureDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        { replace: true }
+      );
+    }
   };
 
   // MODAL MILIH KELAS PENERBANGAN
@@ -171,21 +202,16 @@ export default function SearchMobile() {
                     </h5>
                     <div className="flex flex-row items-center">
                       <MdFlightTakeoff className="text-xl text-gray-500 absolute" />
-                      <select
-                        value={departure_code}
-                        onChange={(e) => setDeparture_code(e.target.value)}
-                        className="block py-2.5 px-8 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
-                      >
-                        <option>Pilih Bandara Awal</option>
-                        {airports.map((airport) => (
-                          <option
-                            key={airport.iata_code}
-                            value={airport.iata_code}
-                          >
-                            {airport.city} - {airport.iata_code}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="w-full">
+                        <AirportInput
+                          value={departure_code}
+                          onChange={(airportCode) =>
+                            setDeparture_code(airportCode)
+                          }
+                          placeholder="Pilih bandara awal"
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
+                        />
+                      </div>
                     </div>
                   </div>
                   {/* BUTTON TUKER POSISI */}
@@ -205,21 +231,14 @@ export default function SearchMobile() {
                   </h5>
                   <div className="flex flex-row items-center">
                     <MdFlightLand className="text-xl text-gray-500 absolute" />
-                    <select
-                      value={arrival_code}
-                      onChange={(e) => setArrival_code(e.target.value)}
-                      className="block py-2.5 px-8 text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer w-full"
-                    >
-                      <option>Pilih Bandara Tujuan</option>
-                      {airports.map((airport) => (
-                        <option
-                          key={airport.iata_code}
-                          value={airport.iata_code}
-                        >
-                          {airport.city} - {airport.iata_code}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="w-full">
+                      <AirportInput
+                        value={arrival_code}
+                        onChange={(airportCode) => setArrival_code(airportCode)}
+                        placeholder="Pilih bandara tujuan"
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-5">

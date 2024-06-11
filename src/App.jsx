@@ -12,6 +12,7 @@ import NotFound from "./pages/user/flight/NotFound.jsx";
 import Protected from "./assets/components/Protected.jsx";
 import UbahAkun from "./pages/user/flight/profile/UbahAkun.jsx";
 import SearchResult from "./pages/user/flight/SearchResult.jsx";
+import Notification from "./pages/user/flight/Notification.jsx";
 
 export default function App() {
   return (
@@ -54,6 +55,15 @@ export default function App() {
           }
         />
         <Route path="/hasil-pencarian" element={<SearchResult />} />
+        <Route
+          path="/notifikasi"
+          element={
+            <div>
+              <Protected />
+              <Notification />
+            </div>
+          }
+        />
       </Routes>
     </Router>
   );

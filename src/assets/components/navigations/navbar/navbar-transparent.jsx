@@ -22,7 +22,6 @@ export default function NavbarTransparent() {
     useState(false); // BUAT NAMPILIN DROPDOWN NOTIFICATION IN APP
   const [confirmModalOpen, setConfirmModalOpen] = useState(false); // BUAT MODAL LOGOUT
   const { isLoggedIn } = useSelector((state) => state.login); // VALIDASI TAMPILAN NAVBAR
-  console.log("isLoggedIn", isLoggedIn);
   const { profile } = useSelector((state) => state.user); // MENAMPILKAN DATA USER
 
   // MENDAPATKAN DATA USER BUAT DROPDOWN PROFIL
@@ -86,18 +85,19 @@ export default function NavbarTransparent() {
                 }
                 className="relative inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400"
               >
-                <Link to="">
-                  <IoNotificationsOutline
-                    className={`text-2xl ${
-                      isScrolled
-                        ? "text-black hover:text-[#2A629A]"
-                        : "text-white hover:text-[#86B6F6]"
-                    }`}
-                  />
-                </Link>
+                <IoNotificationsOutline
+                  className={`text-2xl ${
+                    isScrolled
+                      ? "text-black hover:text-[#2A629A]"
+                      : "text-white hover:text-[#86B6F6]"
+                  }`}
+                />
+                <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-2 -end-2">
+                  20
+                </div>
               </div>
               {showDropdownNotification && (
-                <div className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow absolute lg:right-12 md:right-12 top-16">
+                <div className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow absolute lg:right-10 md:right-12 top-16">
                   <div className="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 ">
                     Notifikasi
                   </div>
@@ -120,15 +120,14 @@ export default function NavbarTransparent() {
                       </div>
                     </a>
                   </div>
-                  <a
-                    href="#"
-                    className="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-[#EEF5FF] hover:text-[#003285]"
-                  >
-                    <div className="inline-flex items-center ">
-                      <PiEyes className="text-xl" />
-                      Lihat Semua
+                  <Link to="/notifikasi">
+                    <div className="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-[#EEF5FF] hover:text-[#003285]">
+                      <div className="inline-flex items-center ">
+                        <PiEyes className="text-xl" />
+                        Lihat Semua
+                      </div>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               )}
               <div

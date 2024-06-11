@@ -17,6 +17,7 @@ export const getUser = (navigate) => async (dispatch, getState) => {
         },
       }
     );
+    // console.log("response", response);
     if (response?.data?.status === true) {
       dispatch(setProfile(response?.data?.data));
       dispatch(setIsLoading(false));
@@ -24,13 +25,6 @@ export const getUser = (navigate) => async (dispatch, getState) => {
   } catch (error) {
     console.log("error", error);
     if (error?.response?.status === 401) {
-      toast("Token Anda telah habis, silahkan login terlebih dahulu", {
-        style: {
-          background: "#FF0000",
-          color: "#fff",
-        },
-      });
-      navigate("/login");
       dispatch(setToken(null));
       dispatch(setIsLoggedIn(false));
     } else {
