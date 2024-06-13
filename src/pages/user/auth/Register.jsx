@@ -5,9 +5,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { BiArrowBack, BiSolidCheckCircle, BiErrorCircle } from "react-icons/bi";
 import { RxCrossCircled } from "react-icons/rx";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { register } from "./redux/actions/registerActions";
 import { register } from "../../../redux/actions/auth/registerActions";
-
 import {
   setName,
   setNameTouched,
@@ -352,7 +350,7 @@ export default function Register() {
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
             />
             <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
               <h1 className="text-[#003285] text-2xl mb-1 font-bold text-center w-full">
@@ -365,7 +363,7 @@ export default function Register() {
               <form onSubmit={handleRegister} className="w-full">
                 <div className="flex flex-col space-y-3">
                   <div className="flex flex-col space-y-1">
-                    <label className="text-left text-[#2A629A] text-sm">
+                    <label className="text-left text-[#2A629A] text-sm font-medium">
                       Nama
                     </label>
                     <div
@@ -401,7 +399,7 @@ export default function Register() {
                     )}
                   </div>
                   <div className="flex flex-col space-y-1">
-                    <label className="text-left text-[#2A629A] text-sm">
+                    <label className="text-left text-[#2A629A] text-sm font-medium">
                       Email
                     </label>
                     <div
@@ -440,7 +438,7 @@ export default function Register() {
                     )}
                   </div>
                   <div className="flex flex-col space-y-1">
-                    <label className="text-left text-[#2A629A] text-sm">
+                    <label className="text-left text-[#2A629A] text-sm font-medium">
                       Nomor Ponsel
                     </label>
                     <div
@@ -486,7 +484,7 @@ export default function Register() {
                       )}
                   </div>
                   <div className="flex flex-col space-y-1">
-                    <label className="text-left text-[#2A629A] text-sm">
+                    <label className="text-left text-[#2A629A] text-sm font-medium">
                       Password
                     </label>
                     <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
@@ -533,7 +531,7 @@ export default function Register() {
                     )}
                   </div>
                   <div className="flex flex-col space-y-1">
-                    <label className="text-left text-[#2A629A] text-sm">
+                    <label className="text-left text-[#2A629A] text-sm font-medium">
                       Konfirmasi Password
                     </label>
                     <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
@@ -565,14 +563,14 @@ export default function Register() {
                   </div>
                   <button
                     type="submit"
-                    className="bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                    className="bg-[#2A629A] text-white text-sm font-medium p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
                   >
                     Daftar
                   </button>
                 </div>
               </form>
 
-              <p className="text-[#2A629A] mt-7 mb-3 text-sm">
+              {/* <p className="text-[#2A629A] mt-7 mb-3 text-sm">
                 Sudah punya akun{" "}
                 <a
                   href="/"
@@ -587,16 +585,17 @@ export default function Register() {
                 >
                   Masuk di sini
                 </a>
-              </p>
-              {/* <p className="text-[#2A629A] mt-7 mb-3 text-sm flex flex-col">
+              </p> */}
+              <p className="text-[#2A629A] mt-7 text-sm flex flex-col">
                 Dengan mendaftar, saya menyetujui{" "}
-                <span className="text-[#2A629A] text-sm font-semibold">
-                  Syarat dan Ketentuan{" "}
-                </span>
-                <span className="text-[#2A629A] text-sm">serta </span>
-                <span className="text-[#2A629A] mb-3 text-sm font-semibold">
-                  Kebijakan Privasi{" "}
-                </span> */}
+              </p>
+              <span className="text-[#2A629A] text-sm font-semibold">
+                Syarat dan Ketentuan{" "}
+              </span>
+              <span className="text-[#2A629A] text-sm">serta </span>
+              <span className="text-[#2A629A] mb-3 text-sm font-semibold">
+                Kebijakan Privasi{" "}
+              </span>
             </div>
           </div>
         </div>

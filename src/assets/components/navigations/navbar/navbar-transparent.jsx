@@ -6,7 +6,7 @@ import {
   IoPersonOutline,
 } from "react-icons/io5";
 import { FiLogIn } from "react-icons/fi";
-import Logo from "../../../images/logo.png";
+import Logobiflight from "../../../images/logobiflight.png";
 import { IoMdNotifications, IoMdLogOut } from "react-icons/io";
 import { PiEyes } from "react-icons/pi";
 
@@ -45,7 +45,11 @@ export default function NavbarTransparent() {
     >
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4">
         <a href="/" className="flex items-center space-x-3 text-white">
-          <img src={Logo} className="w-20" alt="BiFlight Logo" />
+          <img
+            src={Logobiflight}
+            className="w-24 p-1.5 ml-12"
+            alt="BiFlight Logo"
+          />
         </a>
         <div className="flex flex-row items-center gap-5">
           <Link to="">
@@ -154,7 +158,7 @@ export default function NavbarTransparent() {
               className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
             >
               <div className="flex items-center font-medium">
-                <FiLogIn className="mr-1 font-bold text-xl" />
+                <FiLogIn className="mr-2 font-bold text-xl" />
                 <span className="text-md">Masuk</span>
               </div>
             </button>
@@ -162,7 +166,7 @@ export default function NavbarTransparent() {
           <Link to="/register">
             <button
               type="button"
-              className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
+              className="py-2 px-7 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
             >
               <div className="flex items-center font-medium">
                 <span className="text-md">Daftar</span>

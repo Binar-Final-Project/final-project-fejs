@@ -9,6 +9,7 @@ import Home from "./pages/user/flight/Home.jsx";
 import Profile from "./pages/user/flight/profile/Profile.jsx";
 import PengaturanAkun from "./pages/user/flight/profile/PengaturanAkun.jsx";
 import NotFound from "./pages/user/flight/NotFound.jsx";
+import Payment from "./pages/user/flight/Payment.jsx";
 
 export default function App() {
   return (
@@ -25,6 +26,8 @@ export default function App() {
         <Route path="/profil" element={<Profile />} />
         <Route path="/pengaturan-akun" element={<PengaturanAkun />} />
         <Route path="*" element={<NotFound />} />
+        {/* FLIGHT */}
+        <Route path="/payment" element={<Payment />} />
       </Routes>
     </Router>
   );
