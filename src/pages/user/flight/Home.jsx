@@ -9,7 +9,7 @@ import SearchMobile from "../../../assets/components/home search/SearchMobile";
 import SearchDesktop from "../../../assets/components/home search/SearchDesktop";
 
 export default function Home() {
-  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isMobile = useMediaQuery({ maxWidth: 767 }); // BUAT TAMPILAN MOBILE
 
   return (
     <div className="bg-[#FFF0DC]">

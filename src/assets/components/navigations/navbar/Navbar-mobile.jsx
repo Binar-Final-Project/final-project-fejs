@@ -40,12 +40,12 @@ export default function NavbarMobile() {
           <div
             className="flex flex-col items-center justify-center gap-2"
             onClick={() => {
-              navigate("/notification");
+              navigate("/notifikasi");
             }}
           >
             <div
               className={
-                location.pathname === "/notification"
+                location.pathname === "/notifikasi"
                   ? `text-[#2A629A]`
                   : `text-slate-500`
               }
@@ -55,7 +55,7 @@ export default function NavbarMobile() {
             <span
               className={`text-sm
                 ${
-                  location.pathname === "/notification"
+                  location.pathname === "/notifikasi"
                     ? `font-semibold text-[#2A629A]`
                     : `text-slate-500`
                 }`}
