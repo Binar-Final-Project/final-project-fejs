@@ -44,7 +44,8 @@ const EmailResetPassword = () => {
       toast.error("Mohon input Email dengan benar!", {
         icon: null,
         style: {
-          background: "#FF0000",
+          icon:null,
+          background: "#FF0000 ",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",

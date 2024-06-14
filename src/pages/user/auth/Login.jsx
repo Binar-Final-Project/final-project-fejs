@@ -170,13 +170,13 @@ export default function LoginUser() {
             <Toaster />
             <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
               <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-10">
-                Masuk Akun
+                Masuk ke BiFlight
               </h1>
 
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col space-y-3">
                   <div className="flex flex-col space-y-1">
-                    <label className="text-left text-[#2A629A] text-sm">
+                    <label className="text-left text-[#2A629A] text-sm font-medium">
                       Email
                     </label>
                     <div
@@ -216,12 +216,12 @@ export default function LoginUser() {
                   </div>
                   <div className="flex flex-col space-y-1">
                     <div className="flex justify-between items-center">
-                      <label className="text-left text-[#2A629A] text-sm">
+                      <label className="text-left text-[#2A629A] text-sm font-medium">
                         Password
                       </label>
                       <a
                         href="forgot-password"
-                        className="text-[#40A2E3] text-sm underline"
+                        className="text-[#40A2E3] text-sm underline font-medium"
                       >
                         Lupa Password
                       </a>
@@ -274,7 +274,7 @@ export default function LoginUser() {
                   </div>
                   <button
                     type="submit"
-                    className="bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                    className="bg-[#2A629A] text-white text-sm font-medium p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
                   >
                     Masuk
                   </button>
@@ -294,7 +294,7 @@ export default function LoginUser() {
                   href="/register"
                   className="text-[#40A2E3] font-semibold text-sm"
                 >
-                  Daftar
+                  Daftar di sini
                 </a>
               </p>
             </div>
