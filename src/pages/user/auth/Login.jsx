@@ -170,7 +170,7 @@ export default function LoginUser() {
             <Toaster />
             <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
               <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-10">
-                Masuk Akun
+                Masuk ke BiFlight
               </h1>
 
               <form onSubmit={handleSubmit} className="w-full">

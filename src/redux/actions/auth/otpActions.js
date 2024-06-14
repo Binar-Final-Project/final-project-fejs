@@ -26,7 +26,7 @@ export const verifyOtp = (navigate) => async (dispatch, getState) => {
     if (response.data.status === true) {
       dispatch(clearError());
       toast.success(
-        "Verifikasi email berhasil! Silakan masuk untuk melanjutkan",
+        "Verifikasi email berhasil! Silakan login untuk melanjutkan.",
         {
           // Menampilkan toast sukses
           icon: null,
@@ -46,14 +46,14 @@ export const verifyOtp = (navigate) => async (dispatch, getState) => {
         navigate("/login");
       }, 4000);
     } else {
-      throw new Error("Verifikasi OTP gagal");
+      throw new Error("Verifikasi OTP gagal.");
     }
   } catch (error) {
     console.error(
       "Error verifying OTP:",
       error.response?.data || error.message
     );
-    dispatch(setError("Kode OTP salah! Silakan coba lagi"));
+    dispatch(setError("Kode OTP salah! Silakan coba lagi."));
     toast.error("Kode OTP salah! Silakan coba lagi", {
       // Menampilkan toast error
       icon: null,

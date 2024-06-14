@@ -4,6 +4,7 @@ const initialState = {
   otpInput: "",
   email: "",
   error: null,
+  timer: 60,
 };
 
 const otpSlice = createSlice({
@@ -22,9 +23,22 @@ const otpSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    decrementTimer: (state) => {
+      state.timer -= 1;
+    },
+    resetTimer: (state) => {
+      state.timer = 60;
+    },
   },
 });
 
-export const { setOtpInput, setEmail, setError, clearError } = otpSlice.actions;
+export const {
+  setOtpInput,
+  setEmail,
+  setError,
+  clearError,
+  decrementTimer,
+  resetTimer,
+} = otpSlice.actions;
 
 export default otpSlice.reducer;

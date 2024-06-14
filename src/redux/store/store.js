@@ -19,10 +19,8 @@ const rootReducer = combineReducers({
   otp: otpReducers,
   authPass: passwordSlice,
   flight: flightReducers,
-
   payment: paymentReducers,
   booking: bookingReducers,
-
   user: userReducers,
 });
 

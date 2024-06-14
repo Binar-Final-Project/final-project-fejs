@@ -160,7 +160,7 @@ export default function Payment() {
   // };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-start lg:items-center min-h-screen bg-[#FFF8ED] p-2">
+    <div className="flex flex-col lg:flex-row justify-center items-start lg:items-center min-h-screen bg-[#FFF0DC] p-2">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-full lg:w-1/2 max-w-[500px] rounded-lg p-6 mt-5 mb-5 bg-white text-center shadow-lg">
         <h1 className="text-[#003285] text-2xl font-bold p-2 mb-7">

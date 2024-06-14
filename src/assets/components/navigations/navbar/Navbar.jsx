@@ -181,28 +181,6 @@ export default function Navbar() {
               </Link>
             </>
           )}
-
-          <Link to="/login">
-            <button
-              type="button"
-              className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
-            >
-              <div className="flex items-center font-medium">
-                <FiLogIn className="mr-2 font-bold text-xl" />
-                <span className="text-md">Masuk</span>
-              </div>
-            </button>
-          </Link>
-          <Link to="/register">
-            <button
-              type="button"
-              className="py-2 px-7 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
-            >
-              <div className="flex items-center font-medium">
-                <span className="text-md">Daftar</span>
-              </div>
-            </button>
-          </Link>
         </div>
       </div>
 

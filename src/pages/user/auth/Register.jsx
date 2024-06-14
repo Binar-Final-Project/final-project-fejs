@@ -571,7 +571,7 @@ export default function Register() {
                 </div>
               </form>
 
-              {/* <p className="text-[#2A629A] mt-7 mb-3 text-sm">
+              <p className="text-[#2A629A] mt-7 mb-3 text-sm">
                 Sudah punya akun{" "}
                 <a
                   href="/"
@@ -586,8 +586,8 @@ export default function Register() {
                 >
                   Masuk di sini
                 </a>
-              </p> */}
-              <p className="text-[#2A629A] mt-7 text-sm flex flex-col">
+              </p>
+              {/* <p className="text-[#2A629A] mt-7 text-sm flex flex-col">
                 Dengan mendaftar, saya menyetujui{" "}
               </p>
               <span className="text-[#2A629A] text-sm font-semibold">
@@ -596,7 +596,7 @@ export default function Register() {
               <span className="text-[#2A629A] text-sm">serta </span>
               <span className="text-[#2A629A] mb-3 text-sm font-semibold">
                 Kebijakan Privasi{" "}
-              </span>
+              </span> */}
             </div>
           </div>
         </div>
