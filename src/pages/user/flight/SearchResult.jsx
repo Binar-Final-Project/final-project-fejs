@@ -42,7 +42,7 @@ export default function SearchResult() {
   const from = query.get("from");
   const to = query.get("to");
   const departureDate = query.get("departureDate");
-  const returnDate = query.get("returnDate"); 
+  const returnDate = query.get("returnDate");
   const seatClass = query.get("class");
   const passenger = parseInt(query.get("passenger"));
   const adult = parseInt(query.get("adult"));
@@ -351,14 +351,18 @@ export default function SearchResult() {
     if (returnDate) {
       if (choosenFlight?.length == 2) {
         setTimeout(() => {
-          navigate(`/checkout?&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`);
+          navigate(
+            `/checkout?&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`
+          );
         }, 1000);
       }
     } else {
       // JIKA SEKALI JALAN
       if (choosenFlight?.length == 1) {
         setTimeout(() => {
-          navigate(`/checkout?&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`);
+          navigate(
+            `/checkout?&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`
+          );
         }, 1000);
       }
     }
@@ -499,68 +503,76 @@ export default function SearchResult() {
                     <BiSolidPlaneAlt className="text-3xl text-[#003285]" />
                     <h5 className="text-xl font-semibold">Penerbangan Anda</h5>
                   </div>
-                  <div className="flex flex-col gap-3">
-                    {choosenFlight.map((flight, i) => {
-                      const index = i + 1;
-                      return (
-                        <div key={flight?.flight_id}>
-                          <div className="flex items-center gap-2">
-                            <div className="bg-[#2A629A] text-white py-1 px-3 rounded-lg">
-                              {index}
-                            </div>
-                            <div className="text-sm">
-                              <div>
-                                {new Date(flight?.flight_date).toLocaleString(
-                                  "id-ID",
-                                  {
-                                    day: "2-digit",
-                                    month: "long",
-                                    year: "numeric",
-                                  }
-                                )}
-                                , {flight?.departure_time}
+                  {choosenFlight.length === 0 ? (
+                    <div>
+                      <p className="text-center">
+                        Silahkan Pilih Tiket Penerbangan Anda
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-3">
+                      {choosenFlight.map((flight, i) => {
+                        const index = i + 1;
+                        return (
+                          <div key={flight?.flight_id}>
+                            <div className="flex items-center gap-2">
+                              <div className="bg-[#2A629A] text-white py-1 px-3 rounded-lg">
+                                {index}
                               </div>
-                              <div className="font-medium">
-                                {flight?.departure_city} →{" "}
-                                {flight?.arrival_city}
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center ms-9 my-4 text-sm">
-                            <img
-                              src={flight?.airline_icon_url}
-                              className="h-5"
-                              alt="Airline Logo"
-                            />
-                            <h5 className="mx-2">{flight?.airline_name}</h5>
-                          </div>
-
-                          <div className="flex items-center ms-9 my-4 text-sm">
-                            <div className="flex flex-col">
-                              <div className="flex gap-3">
+                              <div className="text-sm">
                                 <div>
-                                  <h5>{flight?.departure_time}</h5>
+                                  {new Date(flight?.flight_date).toLocaleString(
+                                    "id-ID",
+                                    {
+                                      day: "2-digit",
+                                      month: "long",
+                                      year: "numeric",
+                                    }
+                                  )}
+                                  , {flight?.departure_time}
                                 </div>
-                                <hr className="my-2 w-[5vh] bg-[#003285] p-0.5 rounded" />
-                                <div>
-                                  <h5>{flight?.arrival_time}</h5>
+                                <div className="font-medium">
+                                  {flight?.departure_city} →{" "}
+                                  {flight?.arrival_city}
                                 </div>
                               </div>
-                              <div className="flex justify-between">
-                                <div className="bg-[#EEF5FF] px-2 py-0.5 rounded-full">
-                                  {flight?.departure_code}
+                            </div>
+
+                            <div className="flex items-center ms-9 my-4 text-sm">
+                              <img
+                                src={flight?.airline_icon_url}
+                                className="h-5"
+                                alt="Airline Logo"
+                              />
+                              <h5 className="mx-2">{flight?.airline_name}</h5>
+                            </div>
+
+                            <div className="flex items-center ms-9 my-4 text-sm">
+                              <div className="flex flex-col">
+                                <div className="flex gap-3">
+                                  <div>
+                                    <h5>{flight?.departure_time}</h5>
+                                  </div>
+                                  <hr className="my-2 w-[5vh] bg-[#003285] p-0.5 rounded" />
+                                  <div>
+                                    <h5>{flight?.arrival_time}</h5>
+                                  </div>
                                 </div>
-                                <div className="bg-[#EEF5FF] px-2 py-0.5 rounded-full">
-                                  {flight?.arrival_code}
+                                <div className="flex justify-between">
+                                  <div className="bg-[#EEF5FF] px-2 py-0.5 rounded-full">
+                                    {flight?.departure_code}
+                                  </div>
+                                  <div className="bg-[#EEF5FF] px-2 py-0.5 rounded-full">
+                                    {flight?.arrival_code}
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               ) : (
                 ""

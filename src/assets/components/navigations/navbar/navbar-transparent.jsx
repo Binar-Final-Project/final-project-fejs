@@ -12,6 +12,7 @@ import { PiEyes } from "react-icons/pi";
 import { logout } from "../../../../redux/actions/auth/loginActions";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../../../redux/actions/user/userActions";
+import { getNotification } from "../../../../redux/actions/flight/notificationActions";
 
 export default function NavbarTransparent() {
   const dispatch = useDispatch();
@@ -34,6 +35,10 @@ export default function NavbarTransparent() {
     };
     account();
   }, []);
+
+  useEffect(() => {
+    dispatch(getNotification());
+  }, [dispatch]);
 
   // NAMPILIN MODAL LOGOUT
   const handleConfirmModalToggle = () => {
@@ -116,29 +121,43 @@ export default function NavbarTransparent() {
                   <div className="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 ">
                     Notifikasi
                   </div>
-                  {notifikasi?.slice(0, 3).map((notif) => (
-                    <div
-                      className="divide-y divide-gray-100"
-                      key={notif?.notification_id}
-                    >
-                      <div className="flex px-4 py-3 hover:bg-[#EEF5FF] ">
-                        <div className="flex">
-                          <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-2xl p-1" />
-                        </div>
-                        <div className="w-full ps-3">
-                          <div className="text-gray-500 text-xs mb-1.5 flex justify-between">
-                            {notif?.title}
-                            <div className="text-xs text-[#40A2E3]">
-                              {notif?.created_at}
+                  {notifikasi?.filter((notif) => notif.status === "unread")
+                    .length === 0 ? (
+                    <div className="p-2">
+                      <p className="text-center text-[#003285]">
+                        Anda belum memiliki notifikasi terbaru
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      {notifikasi
+                        ?.filter((notif) => notif.status === "unread")
+                        .slice(0, 3)
+                        .map((notif) => (
+                          <div
+                            className="divide-y divide-gray-100 "
+                            key={notif?.notification_id}
+                          >
+                            <div className="flex px-4 py-3 hover:bg-[#EEF5FF] ">
+                              <div className="flex">
+                                <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-2xl p-1" />
+                              </div>
+                              <div className="w-full ps-3">
+                                <div className="text-gray-500 text-xs mb-1.5 flex justify-between">
+                                  {notif?.title}
+                                  <div className="text-xs text-[#40A2E3]">
+                                    {notif?.created_at}
+                                  </div>
+                                </div>
+                                <div className="text-sm mb-1.5">
+                                  {notif?.description}
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <div className="text-sm mb-1.5">
-                            {notif?.description}
-                          </div>
-                        </div>
-                      </div>
+                        ))}
                     </div>
-                  ))}
+                  )}
                   <Link to="/notifikasi">
                     <div className="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-[#EEF5FF] hover:text-[#003285]">
                       <div className="inline-flex items-center ">
