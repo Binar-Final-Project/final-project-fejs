@@ -8,6 +8,11 @@ import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
 import { Listbox, Transition } from "@headlessui/react";
+import BtnScrollTop from "../../../assets/components/BtnScrollUp";
+import {
+  UpdateNotifications,
+  getNotification,
+} from "../../../redux/actions/flight/notificationActions";
 
 //ICON
 import { IoFilter } from "react-icons/io5";
@@ -28,7 +33,27 @@ export default function Notification() {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [selected, setSelected] = useState(filter[0]);
 
+  const { notifikasi, isLoading } = useSelector((state) => state.notification);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getNotification());
+  }, [dispatch]);
+
+  const handleUpdateStatus = (id) => {
+    dispatch(UpdateNotifications(id));
+  };
+
+  const filteredNotifications = notifikasi.filter((notification) => {
+    if (selected?.status === "Semua") return true;
+    if (selected?.status === "Read" && notification?.status === "read")
+      return true;
+    if (selected?.status === "Unread" && notification?.status === "unread")
+      return true;
+    return false;
+  });
 
   return (
     <div className="bg-[#FFF0DC] py-5 md:py-0">
@@ -47,6 +72,7 @@ export default function Notification() {
           <div className="text-center flex-1">
             <h5 className="text-3xl font-medium text-[#003285]">Notifikasi</h5>
           </div>
+          {/* DROPDOWN SELECT FILTER */}
           <div className="flex items-center">
             <Listbox value={selected} onChange={setSelected}>
               {({ open }) => (
@@ -127,64 +153,63 @@ export default function Notification() {
 
         <div className="flex flex-col items-center my-10">
           {/* JIKA BELUM ADA NOTIFIKASI */}
-          {/* <div>
-            <iframe
-              src="https://lottie.host/embed/397bb08f-ee92-4a3f-af20-150e6772e5a8/t586J4UID0.json"
-              className="md:ml-10 ml-7"
-            ></iframe>
-            <h5 className="text-[#003285] text-xl font-medium text-center">
-            Halaman notifikasi Anda masih kosong
-            </h5>
-          </div> */}
+          {filteredNotifications?.length === 0 && (
+            <div>
+              <iframe
+                src="https://lottie.host/embed/397bb08f-ee92-4a3f-af20-150e6772e5a8/t586J4UID0.json"
+                className="md:ml-10 ml-7"
+              ></iframe>
+              <h5 className="text-[#003285] text-xl font-medium text-center">
+                Halaman notifikasi Anda masih kosong
+              </h5>
+            </div>
+          )}
 
           {/* JIKA SUDAH ADA NOTIFIKASI */}
-          <div className="w-full flex flex-col gap-3">
-            <div className="border-[#003285] border-b-2 px-6 py-2 w-full">
-              <div className="flex justify-between">
-                <div className="flex items-center">
-                  <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-3xl p-1" />
-                  <p className="ml-2 font-medium">Judul Notif</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <time>27 Mei, 15:52</time>
-                  <div className="text-3xl text-green-500 font-extrabold">
-                    •
+          <div className="w-full flex flex-col">
+            {/* NOTIFIKASI */}
+            {filteredNotifications?.map((notif) => (
+              <div key={notif?.notification_id}>
+                <div
+                  className="border-[#003285] border-b-2 px-6 py-5 w-full"
+                  onClick={() => handleUpdateStatus(notif?.notification_id)}
+                >
+                  <div
+                    className={`flex justify-between ${
+                      isMobile ? "flex-col" : ""
+                    }`}
+                  >
+                    <div className="flex items-center">
+                      <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-3xl p-1" />
+                      <p className="ml-2 font-medium">{notif?.title}</p>
+                    </div>
+                    <div
+                      className={`flex items-center gap-2 ${
+                        isMobile ? "ms-10" : ""
+                      }`}
+                    >
+                      <time>{notif?.created_at}</time>
+                      <div
+                        className={`text-3xl font-extrabold ${
+                          notif?.status === "unread"
+                            ? "text-red-500"
+                            : "text-green-500"
+                        }`}
+                      >
+                        •
+                      </div>
+                    </div>
+                  </div>
+                  <div className="ps-10">
+                    <p>{notif?.description}</p>
                   </div>
                 </div>
               </div>
-              <div className="ps-10">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
-                  eligendi obcaecati voluptatem? Labore laboriosam nostrum
-                  inventore unde dolore quos earum sunt, officia itaque
-                  architecto eveniet tempora amet quidem fuga soluta?
-                </p>
-              </div>
-            </div>
-            <div className="border-[#003285] border-b-2 px-6 py-2 w-full">
-              <div className="flex justify-between">
-                <div className="flex items-center">
-                  <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-3xl p-1" />
-                  <p className="ml-2 font-medium">Judul Notif</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <time>27 Mei, 15:52</time>
-                  <div className="text-3xl text-red-500 font-extrabold">•</div>
-                </div>
-              </div>
-              <div className="ps-10">
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
-                  eligendi obcaecati voluptatem? Labore laboriosam nostrum
-                  inventore unde dolore quos earum sunt, officia itaque
-                  architecto eveniet tempora amet quidem fuga soluta?
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
-
+      <BtnScrollTop />
       <Footer />
     </div>
   );
