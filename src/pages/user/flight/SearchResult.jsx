@@ -578,77 +578,127 @@ export default function SearchResult() {
                   >
                     <div className="flex flex-col md:flex-row justify-between md:items-start gap-8">
                       <div className="flex items-center">
-                        <img
-                          src={flight?.airline_icon_url}
-                          className="h-8"
-                          alt="Airline Logo"
-                        />
-                        <h5 className="font-medium text-lg mx-2">
-                          {flight?.airline_name}
-                        </h5>
-                        {flight?.baggage ? (
-                          <LuLuggage className="text-2xl" />
+                        {isLoading ? (
+                          <div className="max-w-sm animate-pulse">
+                            <div className="p-4 border shadow md:p-6 w-10 h-10 bg-gray-300 rounded-full"></div>
+                          </div>
                         ) : (
-                          ""
+                          <img
+                            src={flight?.airline_icon_url}
+                            className="h-8"
+                            alt="Airline Logo"
+                          />
+                        )}
+                        {isLoading ? (
+                          <div className="max-w-sm animate-pulse ms-2">
+                            <div className="h-2.5 bg-gray-300 rounded-full w-48"></div>
+                          </div>
+                        ) : (
+                          <div className="flex items-center">
+                            <h5 className="font-medium text-lg mx-2">
+                              {flight?.airline_name}
+                            </h5>
+                            {flight?.baggage ? (
+                              <LuLuggage className="text-2xl" />
+                            ) : (
+                              ""
+                            )}
+                          </div>
                         )}
                       </div>
                       <div className="flex flex-col">
                         <div className="flex gap-3">
-                          <div>
-                            <h5 className="text-xl font-semibold">
-                              {flight?.departure_time}
-                            </h5>
-                          </div>
-                          <div className="border-b-2 border-[#003285] lg:w-[30vh] md:w-[10vh] w-[25vh] text-center text-sm">
-                            <time>{formatDuration(flight?.duration)}</time>
-                          </div>
-                          <div>
-                            <h5 className="text-xl font-semibold">
-                              {flight?.arrival_time}
-                            </h5>
-                          </div>
+                          {isLoading ? (
+                            <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10 mb-2"></div>
+                          ) : (
+                            <div>
+                              <h5 className="text-xl font-semibold">
+                                {flight?.departure_time}
+                              </h5>
+                            </div>
+                          )}
+                          {isLoading ? (
+                            <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-56"></div>
+                          ) : (
+                            <div className="border-b-2 border-[#003285] lg:w-[30vh] md:w-[10vh] w-[25vh] text-center text-sm">
+                              <time>{formatDuration(flight?.duration)}</time>
+                            </div>
+                          )}
+                          {isLoading ? (
+                            <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10 mb-2"></div>
+                          ) : (
+                            <div>
+                              <h5 className="text-xl font-semibold">
+                                {flight?.arrival_time}
+                              </h5>
+                            </div>
+                          )}
                         </div>
                         <div className="flex justify-between">
-                          <div>{flight?.departure_code}</div>
-                          <div>{flight?.arrival_code}</div>
+                          {isLoading ? (
+                            <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10"></div>
+                          ) : (
+                            <div>{flight?.departure_code}</div>
+                          )}
+                          {isLoading ? (
+                            <div className="max-w-sm animate-pulse h-2.5 ms-2 bg-gray-300 rounded-full w-10"></div>
+                          ) : (
+                            <div>{flight?.arrival_code}</div>
+                          )}
                         </div>
                       </div>
                       <div className="flex flex-col items-end gap-3">
-                        {detailOpen === flight?.flight_id ? (
-                          <button
-                            onClick={() => handleDetail(flight?.flight_id)}
-                          >
-                            <TfiArrowCircleUp className="text-3xl text-[#003285]" />
-                          </button>
+                        {isLoading ? (
+                          <div className="max-w-sm animate-pulse">
+                            <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
+                          </div>
+                        ) : (
+                          <>
+                            {detailOpen === flight?.flight_id ? (
+                              <button
+                                onClick={() => handleDetail(flight?.flight_id)}
+                              >
+                                <TfiArrowCircleUp className="text-3xl text-[#003285]" />
+                              </button>
+                            ) : (
+                              <button
+                                onClick={() => handleDetail(flight?.flight_id)}
+                              >
+                                <TfiArrowCircleDown className="text-3xl text-[#003285]" />
+                              </button>
+                            )}
+                          </>
+                        )}
+                        {isLoading ? (
+                          <div className="max-w-sm animate-pulse h-3 bg-gray-300 rounded-full w-56"></div>
+                        ) : (
+                          <h5 className="text-xl font-semibold text-[#003285]">
+                            {new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(flight.price)}
+                            /orang
+                          </h5>
+                        )}
+                        {isLoading ? (
+                          <div className="max-w-sm animate-pulse h-5 bg-gray-300 rounded-full w-32"></div>
                         ) : (
                           <button
-                            onClick={() => handleDetail(flight?.flight_id)}
+                            type="button"
+                            className="py-2 px-10 rounded-2xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
+                            onClick={() => {
+                              const newFlight = [...choosenFlight, flight];
+                              dispatch(setChoosenFlight(newFlight));
+                              if (return_date && isChecked) {
+                                handleSubmit(newFlight?.length);
+                              }
+                            }}
                           >
-                            <TfiArrowCircleDown className="text-3xl text-[#003285]" />
+                            <div className="flex items-center font-medium">
+                              <span className="text-md">Pilih</span>
+                            </div>
                           </button>
                         )}
-                        <h5 className="text-xl font-semibold text-[#003285]">
-                          {new Intl.NumberFormat("id-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                          }).format(flight.price)}
-                          /orang
-                        </h5>
-                        <button
-                          type="button"
-                          className="py-2 px-10 rounded-2xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
-                          onClick={() => {
-                            const newFlight = [...choosenFlight, flight];
-                            dispatch(setChoosenFlight(newFlight));
-                            if (return_date && isChecked) {
-                              handleSubmit(newFlight?.length);
-                            }
-                          }}
-                        >
-                          <div className="flex items-center font-medium">
-                            <span className="text-md">Pilih</span>
-                          </div>
-                        </button>
                       </div>
                     </div>
                     {/* DETAIL TIKET */}
@@ -806,7 +856,7 @@ export default function SearchResult() {
                 Ubah Pencarian
               </h3>
               <button
-                className=" bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
+                className=" bg-transparent hover:bg-gray-300 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
                 onClick={handleSearchModal}
               >
                 <svg
@@ -985,7 +1035,7 @@ export default function SearchResult() {
                 Urutkan berdasarkan
               </h3>
               <button
-                className=" bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
+                className=" bg-transparent hover:bg-gray-300 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
                 onClick={handleFilterModal}
               >
                 <svg
@@ -1160,7 +1210,7 @@ export default function SearchResult() {
                 Pilih kelas penerbangan
               </h3>
               <button
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
+                className="text-gray-400 bg-transparent hover:bg-gray-300 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
                 onClick={handleSeatModal}
               >
                 <svg
@@ -1289,7 +1339,7 @@ export default function SearchResult() {
               </h3>
               <button
                 onClick={handlePassengerModal}
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center "
+                className="text-gray-400 bg-transparent hover:bg-gray-300 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center "
               >
                 <svg
                   className="w-3 h-3"

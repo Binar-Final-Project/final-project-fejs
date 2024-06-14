@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { TbUser } from "react-icons/tb";
 import { SlSettings } from "react-icons/sl";
 import { IoMdLogOut } from "react-icons/io";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../redux/actions/auth/loginActions";
 
 export default function sideMenu() {
-  const { profile } = useSelector((state) => state.user);
+  const { profile, isLoading } = useSelector((state) => state.user);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // NAMPILIN MODAL LOGOUT
   const handleConfirmModalToggle = () => {
@@ -18,9 +22,15 @@ export default function sideMenu() {
     <div>
       <div className="">
         <div className="bg-white rounded-t-lg shadow p-4">
-          <div className="text-center text-[#003285]">
-            <h2 className="font-medium text-2xl">{profile?.name}</h2>
-          </div>
+          {isLoading ? (
+            <div className="max-w-sm animate-pulse ms-2">
+              <div className="h-2.5 bg-gray-300 rounded-full w-72"></div>
+            </div>
+          ) : (
+            <div className="text-center text-[#003285]">
+              <h2 className="font-medium text-2xl">{profile?.name}</h2>
+            </div>
+          )}
         </div>
         <div className=" bg-white shadow my-1.5">
           <div className="divide-y divide-gray-300">

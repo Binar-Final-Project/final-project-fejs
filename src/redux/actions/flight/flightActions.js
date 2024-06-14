@@ -18,7 +18,6 @@ export const getFlight =
     currentPage
   ) =>
   async (dispatch) => {
-    // dispatch(setFlights([]));
     dispatch(setIsLoading(true));
     try {
       const response = await axios.post(

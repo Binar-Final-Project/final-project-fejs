@@ -12,6 +12,7 @@ import paymentReducers from "../reducers/flight/paymentReducers";
 import bookingReducers from "../reducers/flight/bookingReducers";
 
 import userReducers from "../reducers/user/userReducers";
+import notificationReducers from "../reducers/flight/notificationReducers";
 
 const rootReducer = combineReducers({
   login: loginReducers,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   payment: paymentReducers,
   booking: bookingReducers,
   user: userReducers,
+  notification: notificationReducers,
 });
 
 const persistConfig = {

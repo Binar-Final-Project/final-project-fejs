@@ -25,6 +25,7 @@ export default function Navbar() {
 
   const { isLoggedIn } = useSelector((state) => state.login); // VALIDASI NAVBAR
   const { profile } = useSelector((state) => state.user); // MENAMPILKAN DATA USER
+  const { notifikasi } = useSelector((state) => state.notification); // UNTUK JUMLAH NOTIFIKASI
 
   // MENDAPATKAN DATA USER BUAT DROPDOWN PROFIL
   useEffect(() => {
@@ -73,34 +74,45 @@ export default function Navbar() {
                   text-black hover:text-[#2A629A]  `
                   }`}
                 />
-                <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-2 -end-2">
-                  20
-                </div>
+                {notifikasi?.filter(
+                  (notification) => notification.status === "unread"
+                ).length === 0 ? (
+                  ""
+                ) : (
+                  <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-2 -end-2">
+                    {
+                      notifikasi?.filter(
+                        (notification) => notification.status === "unread"
+                      ).length
+                    }
+                  </div>
+                )}
               </div>
               {showDropdownNotification && (
-                <div className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow absolute right-12 top-16">
+                <div className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow absolute lg:right-10 md:right-12 top-16">
                   <div className="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 ">
                     Notifikasi
                   </div>
-                  <div className="divide-y divide-gray-100 ">
-                    <a href="#" className="flex px-4 py-3 hover:bg-[#EEF5FF] ">
-                      <div className="flex">
-                        <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-2xl p-1" />
-                      </div>
-                      <div className="w-full ps-3">
-                        <div className="text-gray-500 text-xs mb-1.5 flex justify-between">
-                          Status Pembayaran (Unpaid)
-                          <div className="text-xs text-[#40A2E3]">
-                            27 Mei, 15:52
+                  {notifikasi?.slice(0, 3).map((notif) => (
+                    <div className="divide-y divide-gray-100 ">
+                      <div className="flex px-4 py-3 hover:bg-[#EEF5FF] ">
+                        <div className="flex">
+                          <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-2xl p-1" />
+                        </div>
+                        <div className="w-full ps-3">
+                          <div className="text-gray-500 text-xs mb-1.5 flex justify-between">
+                            {notif?.title}
+                            <div className="text-xs text-[#40A2E3]">
+                              {notif?.created_at}
+                            </div>
+                          </div>
+                          <div className="text-sm mb-1.5">
+                            {notif?.description}
                           </div>
                         </div>
-                        <div className="text-sm mb-1.5">
-                          Selesaikan pembayaran Anda sebelum tanggal 10 Maret
-                          2023!
-                        </div>
                       </div>
-                    </a>
-                  </div>
+                    </div>
+                  ))}
                   <Link to="/notifikasi">
                     <div className="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-[#EEF5FF] hover:text-[#003285]">
                       <div className="inline-flex items-center ">
