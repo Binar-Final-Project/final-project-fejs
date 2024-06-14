@@ -30,9 +30,25 @@ export default function App() {
         <Route path="*" element={<NotFound />} />
 
         {/* FLIGHT */}
-        <Route path="/payment" element={<Payment />} />
+        <Route
+          path="/payment"
+          element={
+            <div>
+              <Protected />
+              <Payment />
+            </div>
+          }
+        />
 
-        <Route path="/checkout" element={<Checkout />} />
+        <Route
+          path="/checkout"
+          element={
+            <div>
+              <Protected />
+              <Checkout />
+            </div>
+          }
+        />
 
         <Route path="/" element={<Home />} />
         <Route

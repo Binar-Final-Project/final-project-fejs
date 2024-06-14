@@ -168,7 +168,7 @@ export default function Payment() {
     <div className="flex flex-col lg:flex-row justify-center items-start lg:items-center min-h-screen bg-[#FFF0DC] p-2 relative">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-full lg:w-1/2 max-w-[500px] rounded-lg p-6 mt-5 mb-5 bg-white text-center shadow-lg z-10">
+      <div className="w-full lg:w-1/2 max-w-[500px] rounded-lg p-6 my-20 bg-white text-center shadow-lg z-10">
         <h1 className="text-[#003285] text-2xl font-bold p-2 mb-7">
           Isi Data Pembayaran
         </h1>

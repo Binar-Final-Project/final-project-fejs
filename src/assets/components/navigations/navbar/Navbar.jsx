@@ -48,7 +48,7 @@ export default function Navbar() {
         <a href="/" className="flex items-center space-x-3 text-white">
           <img
             src={Logobiflight}
-            className="w-24 p-1.5 ml-12"
+            className="w-20 p-1.5 ml-12"
             alt="BiFlight Logo"
           />
         </a>
