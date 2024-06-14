@@ -9,8 +9,7 @@ import OrderSummary from "./OrderSummary";
 import { IoIosArrowBack } from "react-icons/io";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Modal from "react-modal";
-import '../../../../index.css';
-
+import "../../../../index.css";
 
 export default function TicketCheckout() {
   const dispatch = useDispatch();
@@ -20,13 +19,12 @@ export default function TicketCheckout() {
   const adult = parseInt(query.get("adult"));
   const child = parseInt(query.get("child"));
   const infant = parseInt(query.get("infant"));
-  
 
   const { token } = useSelector((state) => state.login);
-  const {choosenFlight} = useSelector((state) => state.flight);
+  const { choosenFlight } = useSelector((state) => state.flight);
   console.log(choosenFlight);
 
-  //State untuk tanggal 
+  //State untuk tanggal
   const [date, setDate] = useState(null);
 
   //state untuk modal
@@ -47,19 +45,20 @@ export default function TicketCheckout() {
   });
   console.log("nama: ", orderer);
 
-  const [passengers, setPassengers] = useState([{
-    title:"",
-    name: "",
-    email: "",
-    passenger_type: "adult",
-    phone_number: "",
-    date_of_birth: "",
-    nationality: "",
-    identity_number: "",
-    issuing_country: "",
-    valid_until: "",
-  }]);
-
+  const [passengers, setPassengers] = useState([
+    {
+      title: "",
+      name: "",
+      email: "",
+      passenger_type: "adult",
+      phone_number: "",
+      date_of_birth: "",
+      nationality: "",
+      identity_number: "",
+      issuing_country: "",
+      valid_until: "",
+    },
+  ]);
 
   // State untuk melacak apakah data sudah disimpan
   const [isDataSaved, setIsDataSaved] = useState(false);
@@ -82,10 +81,6 @@ export default function TicketCheckout() {
     setPassengers(newPassengers);
   };
 
-  
-
-  
-
   //Handler untuk tanggal lahir dan berlaku sampai
   const handleDateChange = (index, name, date) => {
     const newPassengers = [...passengers];
@@ -100,7 +95,14 @@ export default function TicketCheckout() {
     }
 
     for (let passenger of passengers) {
-      if (!passenger.name  || !passenger.date_of_birth || !passenger.nationality || !passenger.identity_number || !passenger.issuing_country || !passenger.valid_until) {
+      if (
+        !passenger.name ||
+        !passenger.date_of_birth ||
+        !passenger.nationality ||
+        !passenger.identity_number ||
+        !passenger.issuing_country ||
+        !passenger.valid_until
+      ) {
         return false;
       }
     }
@@ -108,16 +110,25 @@ export default function TicketCheckout() {
     return true;
   };
 
- 
-
   //Handler untuk submit form
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-      const flightIds = choosenFlight.map(flight => flight.flight_id);
-      dispatch(getTicket([flightIds], penumpang.dewasa, penumpang.anak, penumpang.bayi, orderer, passengers));
-      toast.success("Data anda berhasil disimpan, Silahkan lanjutkan pembayaran");
+      const flightIds = choosenFlight.map((flight) => flight.flight_id);
+      dispatch(
+        getTicket(
+          [flightIds],
+          penumpang.dewasa,
+          penumpang.anak,
+          penumpang.bayi,
+          orderer,
+          passengers
+        )
+      );
+      toast.success(
+        "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran"
+      );
       setIsDataSaved(true);
       // Setelah menyimpan, mengarah ke tombol "Lanjut Pembayaran"
       if (orderSummaryRef.current) {
@@ -127,7 +138,6 @@ export default function TicketCheckout() {
       toast.error("Harap lengkapi semua data");
     }
   };
-
 
   return (
     <div className="bg-[#FFF0DC] p-3">
@@ -139,7 +149,10 @@ export default function TicketCheckout() {
 
       {/* Menampilkan modal untuk kembali */}
       <div className="lg:w-1/12 mt-5">
-        <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3] cursor-pointer" onClick={() => setOpenModal(true)}>
+        <div
+          className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3] cursor-pointer"
+          onClick={() => setOpenModal(true)}
+        >
           <IoIosArrowBack className="text-3xl" />
           <h6 className="text-lg">Kembali</h6>
         </div>
@@ -161,7 +174,7 @@ export default function TicketCheckout() {
               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
               onClick={() => {
                 setOpenModal(false);
-                window.location.href = '/';
+                window.location.href = "/";
               }}
             >
               Ya, saya yakin
@@ -175,8 +188,6 @@ export default function TicketCheckout() {
           </div>
         </div>
       </Modal>
-
-      
 
       <form onSubmit={handleSubmit}>
         <div className="container mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -195,15 +206,17 @@ export default function TicketCheckout() {
                   required
                 />
               </div>
-                <div className="mb-4 flex items-center">
-                  <label className="text-gray-700 mr-2">Punya Nama Keluarga?</label>
-                  <input
-                    type="checkbox"
-                    name="family_name"
-                    checked={orderer.family_name}
-                    onChange={handleOrdererChange}
-                    className="toggle toggle-accent"
-                  />
+              <div className="mb-4 flex items-center">
+                <label className="text-gray-700 mr-2">
+                  Punya Nama Keluarga?
+                </label>
+                <input
+                  type="checkbox"
+                  name="family_name"
+                  checked={orderer.family_name}
+                  onChange={handleOrdererChange}
+                  className="toggle toggle-accent"
+                />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 mb-2">Email</label>
@@ -243,18 +256,28 @@ export default function TicketCheckout() {
                       onChange={(e) => handlePassengerChange(index, e)}
                       className="appearance-none w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 bg-white text-gray-700 py-2 pl-3 pr-10"
                     >
-                      <option >Tuan</option>
-                      <option >Nyonya</option>
+                      <option>Tuan</option>
+                      <option>Nyonya</option>
                       <option>Nona</option>
                     </select>
                     <span className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="h-6 w-6 text-gray-400">
-                        <path d="M10 12.586L4.707 7.293a1 1 0 011.414-1.414L10 10.758l4.879-4.879a1 1 0 111.414 1.414L10 12.586z" clipRule="evenodd" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="h-6 w-6 text-gray-400"
+                      >
+                        <path
+                          d="M10 12.586L4.707 7.293a1 1 0 011.414-1.414L10 10.758l4.879-4.879a1 1 0 111.414 1.414L10 12.586z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </span>
                   </div>
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Nama Lengkap</label>
+                    <label className="block text-gray-700 mb-2">
+                      Nama Lengkap
+                    </label>
                     <input
                       type="text"
                       name="name"
@@ -287,19 +310,25 @@ export default function TicketCheckout() {
                       required
                     />
                   </div>
-                  
+
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Tanggal Lahir</label>
+                    <label className="block text-gray-700 mb-2">
+                      Tanggal Lahir
+                    </label>
                     <Flatpickr
                       value={passenger.date_of_birth}
-                      onChange={(date) => handleDateChange(index, 'date_of_birth', date)}
+                      onChange={(date) =>
+                        handleDateChange(index, "date_of_birth", date)
+                      }
                       className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                       placeholder="dd-mm-yyyy"
                       required
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Kewarganegaraan</label>
+                    <label className="block text-gray-700 mb-2">
+                      Kewarganegaraan
+                    </label>
                     <input
                       type="text"
                       name="nationality"
@@ -310,7 +339,9 @@ export default function TicketCheckout() {
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">KTP/Paspor</label>
+                    <label className="block text-gray-700 mb-2">
+                      KTP/Paspor
+                    </label>
                     <input
                       type="number"
                       name="identity_number"
@@ -321,7 +352,9 @@ export default function TicketCheckout() {
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Negara Penerbit</label>
+                    <label className="block text-gray-700 mb-2">
+                      Negara Penerbit
+                    </label>
                     <input
                       type="text"
                       name="issuing_country"
@@ -332,10 +365,14 @@ export default function TicketCheckout() {
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-gray-700 mb-2">Berlaku Sampai</label>
+                    <label className="block text-gray-700 mb-2">
+                      Berlaku Sampai
+                    </label>
                     <Flatpickr
                       value={passenger.valid_until}
-                      onChange={(date) => handleDateChange(index, 'valid_until', date)}
+                      onChange={(date) =>
+                        handleDateChange(index, "valid_until", date)
+                      }
                       className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                       placeholder="dd-mm-yyyy"
                       required
@@ -350,16 +387,19 @@ export default function TicketCheckout() {
           <div className="col-span-1" ref={orderSummaryRef}>
             <OrderSummary />
             {isDataSaved && (
-            <button className="mt-4 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                    Lanjut Pembayaran
-                </button>
+              <button className="mt-4 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                Lanjut Pembayaran
+              </button>
             )}
           </div>
         </div>
         <div className="mb-4 ms-5">
-        <button type="submit" className="w-64 bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]">
-          Simpan
-        </button>
+          <button
+            type="submit"
+            className="w-64 bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+          >
+            Simpan
+          </button>
         </div>
       </form>
     </div>

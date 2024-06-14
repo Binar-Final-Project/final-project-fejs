@@ -3,9 +3,13 @@ import { useSelector } from "react-redux";
 import { RiFileList2Fill } from "react-icons/ri";
 
 export default function BookingSummary() {
-  const { bookingCode, selectedFlight, passengerDetails } = useSelector(
+  const choosenFlight = useSelector((state) => state.flight.choosenFlight);
+  const { booking_code, passengerDetails } = useSelector(
     (state) => state.booking
   );
+
+  const selectedFlight =
+    choosenFlight && choosenFlight.length > 0 ? choosenFlight[0] : null;
 
   return (
     <div className="w-full max-w-md mx-auto bg-white mt-5 rounded-lg shadow-lg mb-5 relative">
@@ -16,19 +20,19 @@ export default function BookingSummary() {
       <div className="px-4 py-3">
         <div className="mb-4">
           <p className="font-semibold text-lg">Kode Pemesanan:</p>
-          <p className="font-semibold text-lg text-[#2A629A]">{bookingCode}</p>
+          <p className="font-semibold text-lg text-[#2A629A]">{booking_code}</p>
         </div>
         {selectedFlight && (
           <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center">
             <div className="mb-3 sm:mb-0">
               <p className="text-sm font-medium">
-                {selectedFlight.departureTime}
+                {selectedFlight.departure_time}
               </p>
               <p className="text-xs">Keberangkatan</p>
             </div>
             <div>
               <p className="text-sm font-medium">
-                {selectedFlight.arrivalTime}
+                {selectedFlight.arrival_time}
               </p>
               <p className="text-xs">Kedatangan</p>
             </div>
@@ -38,7 +42,7 @@ export default function BookingSummary() {
           <div className="mb-4">
             <p className="text-sm font-medium">Tanggal Keberangkatan:</p>
             <p className="text-lg font-semibold">
-              {selectedFlight.departureDate}
+              {selectedFlight.flight_date}
             </p>
           </div>
         )}
@@ -46,7 +50,7 @@ export default function BookingSummary() {
           <div className="mb-4">
             <p className="text-sm font-medium">Rute:</p>
             <p className="text-lg font-semibold">
-              {selectedFlight.origin} - {selectedFlight.destination}
+              {selectedFlight.departure_city} - {selectedFlight.arrival_city}
             </p>
           </div>
         )}
@@ -55,17 +59,19 @@ export default function BookingSummary() {
             <hr className="my-4" />
             <div className="mb-4">
               <p className="text-lg font-semibold">
-                {selectedFlight.airline} - {selectedFlight.class}
+                {selectedFlight.airline_name} - {selectedFlight.class}
               </p>
               <p className="text-sm font-medium">
-                {selectedFlight.flightNumber}
+                {selectedFlight.flight_number}
               </p>
             </div>
             <div className="mb-4">
               <p className="text-lg font-semibold">Informasi:</p>
               <p className="text-sm">{selectedFlight.baggage}</p>
-              <p className="text-sm">{selectedFlight.cabinBaggage}</p>
-              <p className="text-sm">{selectedFlight.inFlightEntertainment}</p>
+              <p className="text-sm">{selectedFlight.cabin_baggage}</p>
+              <p className="text-sm">
+                {selectedFlight.in_flight_entertainment}
+              </p>
             </div>
           </>
         )}

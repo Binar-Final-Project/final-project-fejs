@@ -63,7 +63,7 @@ export default function App() {
           }
         />
         <Route path="/hasil-pencarian" element={<SearchResult />} />
-        <Routes
+        <Route
           path="/notifikasi"
           element={
             <div>

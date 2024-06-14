@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  bookingCode: "",
+  booking_code: "",
   selectedFlight: null,
   passengerDetails: [],
   error: null,
@@ -13,7 +13,7 @@ const bookingSlice = createSlice({
   initialState,
   reducers: {
     setBookingCode: (state, action) => {
-      state.bookingCode = action.payload;
+      state.booking_code = action.payload;
     },
     setSelectedFlight: (state, action) => {
       state.selectedFlight = action.payload;

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { RxCrossCircled } from "react-icons/rx";
 import toast, { Toaster } from "react-hot-toast";
@@ -34,6 +35,7 @@ import PayPalLogo from "../../../assets/images/paypal-logo.png";
 export default function Payment() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   const {
     booking_code,
     card_number,
@@ -163,10 +165,10 @@ export default function Payment() {
   // };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center items-start lg:items-center min-h-screen bg-[#FFF0DC] p-2">
+    <div className="flex flex-col lg:flex-row justify-center items-start lg:items-center min-h-screen bg-[#FFF0DC] p-2 relative">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-full lg:w-1/2 max-w-[500px] rounded-lg p-6 mt-5 mb-5 bg-white text-center shadow-lg">
+      <div className="w-full lg:w-1/2 max-w-[500px] rounded-lg p-6 mt-5 mb-5 bg-white text-center shadow-lg z-10">
         <h1 className="text-[#003285] text-2xl font-bold p-2 mb-7">
           Isi Data Pembayaran
         </h1>
@@ -437,7 +439,7 @@ export default function Payment() {
       <div className="w-full lg:w-1/2 max-w-[500px] mt-5 mb-5">
         <BookingSummary />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
