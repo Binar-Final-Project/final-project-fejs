@@ -6,7 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Listbox, Transition } from "@headlessui/react";
 import BtnScrollTop from "../../../assets/components/BtnScrollUp";
 import {
@@ -43,7 +43,16 @@ export default function Notification() {
   }, [dispatch]);
 
   const handleUpdateStatus = (id) => {
-    dispatch(UpdateNotifications(id));
+    dispatch(UpdateNotifications(id)).then(() => {
+      // Setelah pembaruan, ambil notifikasi terbaru
+      dispatch(getNotification());
+      toast("Notifikasi telah dibaca!", {
+        style: {
+          background: "#28A745", // Background hijau
+          color: "#FFFFFF",
+        },
+      });
+    });
   };
 
   const filteredNotifications = notifikasi.filter((notification) => {
@@ -68,7 +77,7 @@ export default function Notification() {
               </div>
             </Link>
           </div>
-
+          <Toaster />
           <div className="text-center flex-1">
             <h5 className="text-3xl font-medium text-[#003285]">Notifikasi</h5>
           </div>
