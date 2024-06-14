@@ -5,6 +5,7 @@ import { setIsLoggedIn, setToken } from "../../reducers/auth/loginReducers";
 
 export const getUser = (navigate) => async (dispatch, getState) => {
   const { token } = getState().login;
+  // console.log("token", token);
   dispatch(setProfile([]));
   dispatch(setIsLoading(true));
   try {
