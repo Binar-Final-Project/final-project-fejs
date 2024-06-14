@@ -25,7 +25,7 @@ const ForgotPassword = () => {
       toast.error("Kata sandi tidak cocok!", {
         icon: null,
         style: {
-          background: "#FF0000",
+          background: "#FF0000 ",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",
@@ -42,7 +42,7 @@ const ForgotPassword = () => {
       toast.error("Password tidak valid!", {
         icon: null,
         style: {
-          background: "#FF0000",
+          background: "#FF0000 ",
           color: "#FFFFFF",
           borderRadius: "12px",
           fontSize: "14px",

@@ -18,6 +18,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     console.log(response);
     if (response.data.status === true) {
       toast.success("Email berhasil dikirim!", {
+        icon: null,
         style: {
           background: "#28A745",
           color: "#FFFFFF",
