@@ -363,5 +363,6 @@ export default function TicketCheckout() {
         </div>
       </form>
     </div>
+    
   );
 }
