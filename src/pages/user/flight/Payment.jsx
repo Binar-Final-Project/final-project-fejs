@@ -37,7 +37,7 @@ export default function Payment() {
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const {
-    booking_code,
+    // booking_code,
     card_number,
     card_holder_name,
     cvv,
@@ -68,16 +68,16 @@ export default function Payment() {
       dispatch(setExpiryDate(""));
       dispatch(setSelectedMonth(""));
       dispatch(setSelectedYear(""));
-      dispatch(setBookingCode(generateBookingCode()));
+      // dispatch(setBookingCode(generateBookingCode()));
     }
   };
 
   // Fungsi untuk membuat kode booking
-  const generateBookingCode = () => {
-    const date = new Date();
-    const code = `G${date.getTime().toString(36).toUpperCase()}`;
-    return code;
-  };
+  // const generateBookingCode = () => {
+  //   const date = new Date();
+  //   const code = `G${date.getTime().toString(36).toUpperCase()}`;
+  //   return code;
+  // };
 
   // Fungsi untuk menghasilkan opsi tahun
   const generateYearOptions = () => {
@@ -115,7 +115,7 @@ export default function Payment() {
     }
     const expiry_date = `${selectedMonth}/${selectedYear.toString().slice(2)}`; // Format tanggal kedaluwarsa
     const paymentData = {
-      booking_code,
+      // booking_code,
       payment_method: selectedMethod,
       card_number,
       card_holder_name,
