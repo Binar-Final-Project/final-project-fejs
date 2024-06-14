@@ -42,7 +42,7 @@ export default function SearchResult() {
   const from = query.get("from");
   const to = query.get("to");
   const departureDate = query.get("departureDate");
-  const returnDate = query.get("returnDate");
+  const returnDate = query.get("returnDate"); 
   const seatClass = query.get("class");
   const passenger = parseInt(query.get("passenger"));
   const adult = parseInt(query.get("adult"));
@@ -351,14 +351,14 @@ export default function SearchResult() {
     if (returnDate) {
       if (choosenFlight?.length == 2) {
         setTimeout(() => {
-          navigate("/checkout");
+          navigate(`/checkout?&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`);
         }, 1000);
       }
     } else {
       // JIKA SEKALI JALAN
       if (choosenFlight?.length == 1) {
         setTimeout(() => {
-          navigate("/checkout");
+          navigate(`/checkout?&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`);
         }, 1000);
       }
     }
