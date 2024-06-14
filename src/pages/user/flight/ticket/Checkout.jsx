@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { getTicket } from "../../../../redux/actions/ticket/ticketActions";
 import OrderSummary from "./OrderSummary";
@@ -19,6 +19,7 @@ import { setChoosenFlight } from "../../../../redux/reducers/flight/flightReduce
 
 export default function TicketCheckout() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -29,7 +30,6 @@ export default function TicketCheckout() {
 
   const { token } = useSelector((state) => state.login);
   const { choosenFlight } = useSelector((state) => state.flight);
-  console.log(choosenFlight);
 
   //State untuk tanggal
   const [date, setDate] = useState(null);
@@ -41,7 +41,6 @@ export default function TicketCheckout() {
     anak: child,
     bayi: infant,
   });
-  console.log(penumpang);
 
   //State untuk form
   const [orderer, setOrderer] = useState({
@@ -50,7 +49,6 @@ export default function TicketCheckout() {
     phone_number: "",
     email: "",
   });
-  console.log("nama: ", orderer);
 
   const [passengers, setPassengers] = useState([
     {
@@ -147,10 +145,10 @@ export default function TicketCheckout() {
   };
 
   return (
-    <div className="bg-[#FFF0DC]">
+    <div className="bg-[#FFF0DC] py-20">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <Toaster />
-      <div className="p-3 my-20">
+      <div className="p-3">
         {/* Countdown Bar */}
         <div className="bg-red-500 text-center py-2 text-white font-bold">
           Selesaikan dalam 00.15.00 sebelum tiket kamu hangus!
