@@ -147,7 +147,7 @@ export default function TicketCheckout() {
   };
 
   return (
-    <div className="bg-[#FFF0DC]">
+    <div className="bg-[#FFF0DC] pt-20">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <Toaster />
       <div className="p-3 my-20">
