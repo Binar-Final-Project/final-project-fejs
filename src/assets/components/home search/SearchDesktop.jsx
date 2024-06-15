@@ -21,6 +21,7 @@ import { getFlight } from "../../../redux/actions/flight/flightActions";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import AirportInput from "../AirportInput";
+import { setChoosenFlight } from "../../../redux/reducers/flight/flightReducers";
 
 export default function SearchDesktop() {
   const dispatch = useDispatch();
@@ -143,6 +144,8 @@ export default function SearchDesktop() {
         filter
       )
     );
+
+    dispatch(setChoosenFlight([]));
 
     // Navigasi ke halaman pencarian
     if (isChecked && returnDate) {
