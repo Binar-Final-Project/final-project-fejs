@@ -62,3 +62,29 @@ export const UpdateNotifications = (id) => async (dispatch, getState) => {
     console.log("error update notif", error);
   }
 };
+
+export const readAllNotifications = () => async (dispatch, getState) => {
+  const { token } = getState().login;
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_REACT_APP_SERVER}/notifications/mark-all`,
+      {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (response.status === 200) {
+      dispatch(getNotification());
+      toast("Semua notifikasi sudah dibaca!", {
+        style: {
+          background: "#28A745", // Background hijau
+          color: "#FFFFFF",
+        },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
