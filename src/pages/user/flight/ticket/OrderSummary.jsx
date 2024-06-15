@@ -66,7 +66,7 @@ export default function OrderSummary() {
   return (
     <div>
       {choosenFlight.map((flight, index) => (
-        <div key={index} className="bg-white shadow-md rounded p-6 mb-4">
+        <div key={index} className="bg-white shadow-md rounded p-6">
           <div className="flex flex-col border-b border-gray-300 pb-4">
             <div className="text-center p-3">
               <h2 className="text-xl font-bold mb-0 mr-4">
