@@ -37,3 +37,25 @@ export const getTicket = (
             console.log("Error during ticket retrieval ", error);
         }
     };
+
+export const getPassenger = (ticketId) =>
+    async (dispatch, getState) => {
+        try {
+            const { token } = getState().login;
+            const response = await axios.get(
+                `${import.meta.env.VITE_REACT_APP_SERVER}/tickets/${ticketId}/passengers`,
+                {
+                    headers: {
+                        accept: "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log("response passengers", response.data);
+            dispatch(setPassengers(response?.data?.data));
+            return response.data;
+            } catch (error) {
+            console.log("Error during passenger retrieval", error);
+        }
+    };
+    

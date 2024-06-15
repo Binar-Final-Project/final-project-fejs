@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     ticket: [],
+    passenger: [],
 };
 
 const ticketSlicer = createSlice ({
@@ -11,9 +12,13 @@ const ticketSlicer = createSlice ({
         setTicket: (state, action) => {
             state.ticket = action.payload;
         },
+        setPassengers: (state, action) => {
+            state.passenger = action.payload;
+        },
+        
     },
 });
 
-export const { setTicket } = ticketSlicer.actions;
+export const { setTicket, setPassengers } = ticketSlicer.actions;
 
 export default ticketSlicer.reducer;

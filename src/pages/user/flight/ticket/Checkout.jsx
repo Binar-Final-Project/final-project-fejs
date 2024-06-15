@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate} from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { getTicket } from "../../../../redux/actions/ticket/ticketActions";
 import OrderSummary from "./OrderSummary";
@@ -20,6 +20,9 @@ import { setChoosenFlight } from "../../../../redux/reducers/flight/flightReduce
 export default function TicketCheckout() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const query = new URLSearchParams(location.search);
@@ -116,6 +119,7 @@ export default function TicketCheckout() {
 
     return true;
   };
+  
 
   //Handler untuk submit form
   const handleSubmit = (e) => {
@@ -134,9 +138,11 @@ export default function TicketCheckout() {
         )
       );
       toast.success(
-        "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran"
-      );
+        "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran");
       setIsDataSaved(true);
+      setTimeout(() => {
+        navigate('/payment');
+      }, 2000);
       // Setelah menyimpan, mengarah ke tombol "Lanjut Pembayaran"
       if (orderSummaryRef.current) {
         orderSummaryRef.current.scrollIntoView({ behavior: "smooth" });
@@ -145,6 +151,8 @@ export default function TicketCheckout() {
       toast.error("Harap lengkapi semua data");
     }
   };
+
+
 
   return (
     <div className="bg-[#FFF0DC]">
@@ -403,7 +411,8 @@ export default function TicketCheckout() {
             <div className="col-span-1" ref={orderSummaryRef}>
               <OrderSummary />
               {isDataSaved && (
-                <button className="mt-4 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                <button
+                className="mt-4 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                   Lanjut Pembayaran
                 </button>
               )}
