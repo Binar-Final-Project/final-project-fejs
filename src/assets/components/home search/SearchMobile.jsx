@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { getFlight } from "../../../redux/actions/flight/flightActions";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { DateRange } from "react-date-range";
+import { DateRange, Calendar } from "react-date-range";
 import { format } from "date-fns";
 import toast, { Toaster } from "react-hot-toast";
 import AirportInput from "../AirportInput";
@@ -31,11 +31,11 @@ export default function SearchMobile() {
   const [dateModalOpen, setDateModalOpen] = useState(false); // MODAL TANGGAL PENERBANGAN
   const [isChecked, setIsChecked] = useState(false); // TOGGLE TANGGAL KEPULANGAN
   const [filter, setFilter] = useState("");
-  const [page, setPage] = useState(1);
   const [departure_code, setDeparture_code] = useState("CGK");
   const [arrival_code, setArrival_code] = useState("DPS");
   const [seat_class, setSeat_class] = useState("Economy");
   const [total_passenger, setTotal_passenger] = useState(1);
+  const [departure_date, setDeparture_date] = useState(new Date());
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -65,24 +65,11 @@ export default function SearchMobile() {
     setIsChecked(!isChecked);
   };
 
-  // BUAT TANGGAL KEPULANGAN TRUE ATAU FALSE
-  useEffect(() => {
-    if (isChecked) {
-      setDate([
-        {
-          ...date[0],
-          endDate: null,
-        },
-      ]);
-    } else if (!isChecked) {
-      setDate([
-        {
-          ...date[0],
-          endDate: new Date(),
-        },
-      ]);
-    }
-  }, [isChecked]);
+  // BUAT UBAH FORMAT TANGGAL PERGI
+  const handleSelectDate = (date) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    setDeparture_date(formattedDate);
+  };
 
   // BUAT COUNTER JUMLAH PENUMPANG
   const handlePenumpang = (name, operation) => {
@@ -135,17 +122,29 @@ export default function SearchMobile() {
       return;
     }
 
-    dispatch(
-      getFlight(
-        departure_code,
-        arrival_code,
-        departureDate,
-        seat_class,
-        total_passenger,
-        filter,
-        page
-      )
-    );
+    if (isChecked) {
+      dispatch(
+        getFlight(
+          departure_code,
+          arrival_code,
+          departureDate,
+          seat_class,
+          total_passenger,
+          filter
+        )
+      );
+    } else {
+      dispatch(
+        getFlight(
+          departure_code,
+          arrival_code,
+          departure_date,
+          seat_class,
+          total_passenger,
+          filter
+        )
+      );
+    }
 
     dispatch(setChoosenFlight([]));
 
@@ -157,7 +156,7 @@ export default function SearchMobile() {
       );
     } else {
       navigate(
-        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departureDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
         { replace: true }
       );
     }
@@ -173,7 +172,7 @@ export default function SearchMobile() {
     setPassengerModalOpen(!passengerModalOpen);
   };
 
-  // MODAL TANGGAL
+  // MODAL PILIH TANGGAL PENERBANGAN
   const handleDateModal = () => {
     setDateModalOpen(!dateModalOpen);
   };
@@ -258,11 +257,7 @@ export default function SearchMobile() {
                     <div
                       className={`group peer ring-0 ${
                         isChecked ? "bg-[#003285]" : "bg-[#86B6F6]"
-                      } rounded-full outline-none duration-300 after:duration-300 w-12 h-7 shadow-md peer-focus:outline-none after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-5 after:w-5 after:top-1 after:left-0 after:translate-x-1 peer-checked:after:translate-x-6 peer-hover:after:scale-95 ${
-                        isChecked
-                          ? "peer-checked:translate-x-0"
-                          : "peer-checked:translate-x-0"
-                      }`}
+                      } rounded-full outline-none duration-300 after:duration-300 w-12 h-7 shadow-md peer-focus:outline-none after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-5 after:w-5 after:top-1 after:left-0 after:translate-x-1 peer-checked:after:translate-x-6 peer-hover:after:scale-95 peer-checked:translate-x-0`}
                     ></div>
                   </label>
                 </div>
@@ -276,9 +271,13 @@ export default function SearchMobile() {
                       className="block py-2.5 px-8 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
                       onClick={handleDateModal}
                     >
-                      {date[0].startDate
-                        ? `${format(date[0].startDate, "MM/dd/yyyy")}  `
-                        : "Pilih Tanggal"}
+                      {isChecked ? (
+                        <div>
+                          {`${format(date[0].startDate, "dd/MM/yyyy")} `}
+                        </div>
+                      ) : (
+                        <div>{`${format(departure_date, "dd/MM/yyyy")} `}</div>
+                      )}
                     </span>
                   </div>
                 </div>
@@ -294,7 +293,7 @@ export default function SearchMobile() {
                         onClick={handleDateModal}
                       >
                         {date[0].endDate
-                          ? `${format(date[0].endDate, "MM/dd/yyyy")}  `
+                          ? `${format(date[0].endDate, "dd/MM/yyyy")}  `
                           : "Pilih Tanggal"}
                       </span>
                     </div>
@@ -653,26 +652,31 @@ export default function SearchMobile() {
               </button>
             </div>
 
-            <div className="p-4 md:p-5">
-              <DateRange
-                editableDateInputs={true}
-                onChange={(item) => {
-                  setDate([item.selection]);
-                  if (!isChecked) {
-                    setDate([
-                      {
-                        ...item.selection,
-                        endDate: null,
-                      },
-                    ]);
-                  } else {
+            <div
+              className={`p-4 flex flex-col items-center ${
+                isChecked ? "" : "pt-0"
+              }`}
+            >
+              {isChecked ? (
+                <DateRange
+                  editableDateInputs={true}
+                  onChange={(item) => {
                     setDate([item.selection]);
-                  }
-                }}
-                moveRangeOnFirstSelection={false}
-                ranges={date}
-                minDate={new Date()}
-              />
+                  }}
+                  moveRangeOnFirstSelection={false}
+                  ranges={date}
+                  minDate={new Date()}
+                  rangeColors={["#2A629A", "#3472b0", "#003285"]}
+                />
+              ) : (
+                <Calendar
+                  value={departure_date}
+                  onChange={handleSelectDate}
+                  // minDate={new Date()}
+                  color="#2A629A"
+                  date={departure_date}
+                />
+              )}
               <button
                 className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleDateModal}

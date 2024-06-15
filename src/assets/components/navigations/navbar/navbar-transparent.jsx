@@ -37,7 +37,9 @@ export default function NavbarTransparent() {
   }, []);
 
   useEffect(() => {
-    dispatch(getNotification());
+    if (isLoggedIn) {
+      dispatch(getNotification());
+    }
   }, [dispatch]);
 
   // NAMPILIN MODAL LOGOUT
@@ -80,7 +82,7 @@ export default function NavbarTransparent() {
           {/* KALAU LOGIN */}
           {isLoggedIn ? (
             <>
-              <Link to="">
+              <Link to="/riwayat-pemesanan">
                 <IoListOutline
                   className={`text-2xl ${
                     isScrolled
