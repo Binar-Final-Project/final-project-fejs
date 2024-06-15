@@ -48,7 +48,7 @@ export default function Home() {
               Why book with BiFlight?
             </h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl">
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out">
                 <div className="flex justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -130,7 +130,7 @@ export default function Home() {
                   dengan kebutuhan Anda.
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl">
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out">
                 <div className="flex justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -324,7 +324,7 @@ export default function Home() {
                   berbagai jadwal dan maskapai.
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl">
+              <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out">
                 <div className="flex justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

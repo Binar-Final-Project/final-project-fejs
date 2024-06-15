@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Toaster, toast } from "react-hot-toast";
@@ -6,15 +6,18 @@ import { BiArrowBack } from "react-icons/bi";
 import {
   setOtpInput,
   setEmail,
-} from "../../../redux/reducers/auth/otpReducers"; // Import setEmail
+  decrementTimer,
+  resetTimer,
+} from "../../../redux/reducers/auth/otpReducers"; // Import setEmail dan timer actions
 import { verifyOtp } from "../../../redux/actions/auth/otpActions";
 import backgroundImage from "../../../assets/images/otp.png";
 
 export default function VerifyOTP() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { otpInput } = useSelector((state) => state.otp); // Mengambil otpInput dari state otp
+  const { otpInput, timer } = useSelector((state) => state.otp); // Mengambil otpInput dan timer dari state otp
   const registerEmail = useSelector((state) => state.register.email); // Mengambil email dari state register
+  const [isToastShown, setIsToastShown] = useState(false); // State untuk memastikan toast hanya muncul sekali
 
   useEffect(() => {
     console.log("Email dari state register:", registerEmail); // Cek nilai email dari state register
@@ -22,8 +25,33 @@ export default function VerifyOTP() {
     if (registerEmail) {
       dispatch(setEmail(registerEmail));
     }
-    dispatch(setEmail(registerEmail));
+    dispatch(resetTimer()); // Mereset timer ketika komponen pertama kali dimuat
+
+    const countdown = setInterval(() => {
+      dispatch(decrementTimer()); // Mengurangi timer setiap detik
+    }, 1000);
+
+    return () => clearInterval(countdown); // Membersihkan interval ketika komponen di-unmount
   }, [dispatch, registerEmail]);
+
+  useEffect(() => {
+    if (timer <= 0 && !isToastShown) {
+      toast.error("Waktu habis! Silakan minta OTP baru.", {
+        icon: null,
+        style: {
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+        },
+        position: "bottom-center", // Posisi toast
+        duration: 4000, // Durasi toast
+      });
+      setIsToastShown(true);
+    }
+  }, [timer]);
 
   // Fungsi untuk menangani perubahan input OTP
   const handleChange = (element, index) => {
@@ -51,7 +79,6 @@ export default function VerifyOTP() {
     event.preventDefault();
     if (otpInput.length < 6) {
       toast.error("Mohon isi kode OTP terlebih dahulu!", {
-        // Menampilkan toast error
         icon: null,
         style: {
           background: "#FF0000", // Background merah
@@ -69,6 +96,12 @@ export default function VerifyOTP() {
 
     // Memanggil action verifyOtp dengan navigate
     dispatch(verifyOtp(navigate));
+  };
+
+  const formatTime = (time) => {
+    const minutes = String(Math.floor(time / 60)).padStart(2, "0");
+    const seconds = String(time % 60).padStart(2, "0");
+    return `${minutes}:${seconds}`;
   };
 
   return (
@@ -101,15 +134,17 @@ export default function VerifyOTP() {
               onClick={() => navigate("/register")}
             />
             <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
-              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-6">
+              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-8">
                 Verifikasi Email
               </h1>
-              <h2 className="text-[#2A629A] text-l mb-6 text-center text-sm">
-                Ketik 6 Digit Kode OTP yang Dikirim ke Email Anda
+              <h2 className="text-[#2A629A] text-l mb-5 text-center text-sm">
+                {registerEmail
+                  ? `Ketik 6 Digit Kode OTP yang Dikirim ke ${registerEmail}`
+                  : "Ketik 6 Digit Kode OTP yang Dikirim ke Email Anda"}
               </h2>
 
               <form onSubmit={handleVerify} className="w-full">
-                <div className="flex justify-center items-center space-x-2 sm:space-x-3 mb-5">
+                <div className="flex justify-center items-center space-x-2 sm:space-x-3 mt-5">
                   {Array.from({ length: 6 }).map((_, index) => (
                     <input
                       key={index}
@@ -125,10 +160,15 @@ export default function VerifyOTP() {
                 </div>
                 <button
                   type="submit"
-                  className="bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                  className="bg-[#2A629A] text-white text-sm p-2 mt-8 mb-5 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                  disabled={timer <= 0} // Menonaktifkan tombol jika timer habis
                 >
                   Verifikasi
                 </button>
+
+                <h1 className="text-[#2A629A] text-l mb-3 text-center text-sm">
+                  Waktu tersisa: {formatTime(Math.max(timer, 0))}
+                </h1>
               </form>
             </div>
           </div>

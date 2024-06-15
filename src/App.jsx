@@ -9,12 +9,12 @@ import Home from "./pages/user/flight/Home.jsx";
 import Profile from "./pages/user/flight/profile/Profile.jsx";
 import PengaturanAkun from "./pages/user/flight/profile/PengaturanAkun.jsx";
 import NotFound from "./pages/user/flight/NotFound.jsx";
+import Payment from "./pages/user/flight/Payment.jsx";
 import Checkout from "./pages/user/flight/ticket/Checkout.jsx";
 import Protected from "./assets/components/Protected.jsx";
 import UbahAkun from "./pages/user/flight/profile/UbahAkun.jsx";
 import SearchResult from "./pages/user/flight/SearchResult.jsx";
 import Notification from "./pages/user/flight/Notification.jsx";
-
 
 export default function App() {
   return (
@@ -29,7 +29,26 @@ export default function App() {
         {/* USER */}
         <Route path="*" element={<NotFound />} />
 
-        <Route path="/checkout" element={<Checkout />} />
+        {/* FLIGHT */}
+        <Route
+          path="/payment"
+          element={
+            <div>
+              <Protected />
+              <Payment />
+            </div>
+          }
+        />
+
+        <Route
+          path="/checkout"
+          element={
+            <div>
+              <Protected />
+              <Checkout />
+            </div>
+          }
+        />
 
         <Route path="/" element={<Home />} />
         <Route
@@ -69,7 +88,6 @@ export default function App() {
             </div>
           }
         />
-
       </Routes>
     </Router>
   );
