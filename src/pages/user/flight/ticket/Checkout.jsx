@@ -21,8 +21,6 @@ export default function TicketCheckout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const navigate = useNavigate();
-
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const query = new URLSearchParams(location.search);
