@@ -39,7 +39,9 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    dispatch(getNotification());
+    if (isLoggedIn) {
+      dispatch(getNotification());
+    }
   }, [dispatch]);
 
   // NAMPILIN MODAL LOGOUT
@@ -62,8 +64,15 @@ export default function Navbar() {
           {/* KALAU LOGIN */}
           {isLoggedIn ? (
             <>
-              <Link to="">
-                <IoListOutline className="text-2xl text-black hover:text-[#2A629A]" />
+              <Link to="/riwayat-pemesanan">
+                <IoListOutline
+                  className={`text-2xl ${
+                    location.pathname === "/riwayat-pemesanan"
+                      ? `text-[#2A629A]`
+                      : `
+                  text-black hover:text-[#2A629A]  `
+                  }`}
+                />
               </Link>
               <div
                 onClick={() =>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_green.css";
+import "flatpickr/dist/themes/material_blue.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";

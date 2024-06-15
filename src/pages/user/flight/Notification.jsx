@@ -2,7 +2,6 @@ import React, { useEffect, useState, Fragment } from "react";
 import Navbar from "../../../assets/components/navigations/navbar/Navbar";
 import Footer from "../../../assets/components/navigations/Footer";
 import NavbarMobile from "../../../assets/components/navigations/navbar/Navbar-mobile";
-import { IoIosArrowBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +15,11 @@ import {
 
 //ICON
 import { IoFilter } from "react-icons/io5";
-import { IoMdNotifications, IoMdCheckmark } from "react-icons/io";
+import {
+  IoMdNotifications,
+  IoMdCheckmark,
+  IoIosArrowBack,
+} from "react-icons/io";
 import { HiOutlineSelector } from "react-icons/hi";
 
 const filter = [
@@ -69,7 +72,7 @@ export default function Notification() {
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <div className="m-5 md:m-10 md:py-20">
         <div className="flex items-center">
-          <div className={`lg:w-1/12 ${isMobile ? "hidden" : ""}`}>
+          <div className={`${isMobile ? "hidden" : "lg:w-1/12"}`}>
             <Link to="/">
               <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
                 <IoIosArrowBack className="text-3xl" />
@@ -77,7 +80,6 @@ export default function Notification() {
               </div>
             </Link>
           </div>
-          <Toaster />
           <div className="text-center flex-1">
             <h5 className="text-3xl font-medium text-[#003285]">Notifikasi</h5>
           </div>

@@ -13,6 +13,7 @@ import userReducers from "../reducers/user/userReducers";
 import notificationReducers from "../reducers/flight/notificationReducers";
 import ticketReducers from "../reducers/ticket/ticketReducers";
 import googleReducers from "../reducers/auth/googleReducers";
+import transactionReducers from "../reducers/flight/transactionReducers";
 
 const rootReducer = combineReducers({
   login: loginReducers,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   user: userReducers,
   notification: notificationReducers,
   ticket: ticketReducers,
+  transaction: transactionReducers,
 });
 
 const persistConfig = {

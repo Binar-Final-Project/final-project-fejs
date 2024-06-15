@@ -30,14 +30,18 @@ export default function Profile() {
     <div className="bg-[#FFF0DC] py-5 md:py-0">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <div className="m-5 md:m-10 md:py-20">
-        <div className="lg:w-1/12 mb-5">
-          <Link to={-1}>
-            <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
-              <IoIosArrowBack className="text-3xl" />
-              <h6 className="text-lg">Kembali</h6>
-            </div>
-          </Link>
-        </div>
+        {isMobile ? (
+          ""
+        ) : (
+          <div className="lg:w-1/12 mb-5">
+            <Link to="/">
+              <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
+                <IoIosArrowBack className="text-3xl" />
+                <h6 className="text-lg">Kembali</h6>
+              </div>
+            </Link>
+          </div>
+        )}
 
         <Toaster />
 
