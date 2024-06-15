@@ -21,12 +21,12 @@ export const verifyOtp = (navigate) => async (dispatch, getState) => {
     );
 
     // Logging respons dari server
-    console.log("Respons dari server:", response.data);
+    console.log("Respons Verifikasi OTP:", response.data);
 
     if (response.data.status === true) {
       dispatch(clearError());
       toast.success(
-        "Verifikasi email berhasil! Silakan login untuk melanjutkan.",
+        "Verifikasi Email berhasil! Silakan masuk untuk melanjutkan.",
         {
           // Menampilkan toast sukses
           icon: null,
@@ -38,7 +38,7 @@ export const verifyOtp = (navigate) => async (dispatch, getState) => {
             textAlign: "center", // Posisi teks di tengah
             padding: "10px 20px", // Padding
           },
-          position: "bottom-center", // Posisi toast
+          position: "top-center", // Posisi toast
           duration: 4000, // Durasi toast
         }
       );
@@ -65,7 +65,69 @@ export const verifyOtp = (navigate) => async (dispatch, getState) => {
         textAlign: "center", // Posisi teks di tengah
         padding: "10px 20px", // Padding
       },
-      position: "bottom-center", // Posisi toast
+      position: "top-center", // Posisi toast
+      duration: 4000, // Durasi toast
+    });
+  }
+};
+
+// Action untuk mengirim ulang OTP
+export const resendOtp = () => async (dispatch) => {
+  const queryParams = new URLSearchParams(location.search);
+  const email = queryParams.get("email");
+  console.log("Email resend otp: ", email);
+  try {
+    if (!email) {
+      throw new Error("Email tidak valid!");
+    }
+
+    const response = await axios.post(
+      "https://express-production-3572.up.railway.app/api/v1/users/resend-otp",
+      { email: email },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Respons Resend OTP:", response.data);
+
+    if (response.data.status === true) {
+      dispatch(clearError());
+      toast.success("Kode OTP baru telah dikirim ke Email Anda.", {
+        icon: null,
+        style: {
+          background: "#28A745", // Background hijau
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+        },
+        position: "top-center", // Posisi toast
+        duration: 4000, // Durasi toast
+      });
+    } else {
+      throw new Error("Pengiriman ulang OTP gagal.");
+    }
+  } catch (error) {
+    console.error(
+      "Error resending OTP:",
+      error.response?.data || error.message
+    );
+    dispatch(setError("Gagal mengirim ulang OTP! Silakan coba lagi."));
+    toast.error("Gagal mengirim ulang OTP! Silakan coba lagi.", {
+      icon: null,
+      style: {
+        background: "#FF0000", // Background merah
+        color: "#FFFFFF", // Teks putih
+        borderRadius: "12px",
+        fontSize: "14px", // Ukuran font
+        textAlign: "center", // Posisi teks di tengah
+        padding: "10px 20px", // Padding
+      },
+      position: "top-center", // Posisi toast
       duration: 4000, // Durasi toast
     });
   }

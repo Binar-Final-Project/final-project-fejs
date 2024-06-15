@@ -37,7 +37,7 @@ export default function Payment() {
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const {
-    // booking_code,
+    booking_code,
     card_number,
     card_holder_name,
     cvv,
@@ -69,6 +69,7 @@ export default function Payment() {
       dispatch(setSelectedMonth(""));
       dispatch(setSelectedYear(""));
       // dispatch(setBookingCode(generateBookingCode()));
+      dispatch(setBookingCode(""));
     }
   };
 
@@ -115,9 +116,9 @@ export default function Payment() {
     }
     const expiry_date = `${selectedMonth}/${selectedYear.toString().slice(2)}`; // Format tanggal kedaluwarsa
     const paymentData = {
-      // booking_code,
+      booking_code,
       payment_method: selectedMethod,
-      card_number,
+      card_number: card_number.replace(/\s/g, ""),
       card_holder_name,
       cvv,
       expiry_date,

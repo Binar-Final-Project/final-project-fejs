@@ -38,7 +38,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       setTimeout(() => {
@@ -60,7 +60,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
     } else if (error.response && error.response.status === 401) {
@@ -76,7 +76,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
     } else {
@@ -92,7 +92,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
     }
@@ -109,10 +109,18 @@ export const logout = (navigate) => async (dispatch) => {
         navigate("/"); // KE HOME PAGE DALAM WAKTU 0.5 DETIK
       }, 500);
       toast("Berhasil keluar!", {
+        // Menampilkan toast sukses
+        icon: null,
         style: {
           background: "#28A745", // Background hijau
-          color: "#FFFFFF", // TEKS PUTIH
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
+        position: "top-center", // Posisi toast
+        duration: 4000, // Durasi toast
       });
     }
   } catch (error) {

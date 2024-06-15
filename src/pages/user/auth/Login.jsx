@@ -14,6 +14,7 @@ import {
   clearError,
 } from "../../../redux/reducers/auth/loginReducers";
 import backgroundImage from "../../../assets/images/loginregister.png";
+import LoginGoogle from "./LoginGoogle";
 
 export default function LoginUser() {
   const dispatch = useDispatch();
@@ -85,7 +86,7 @@ export default function LoginUser() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
     }
@@ -106,7 +107,7 @@ export default function LoginUser() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -124,7 +125,7 @@ export default function LoginUser() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -244,7 +245,7 @@ export default function LoginUser() {
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                         type={passwordInputType}
-                        placeholder="Masukkan Password"
+                        placeholder="••••••••••"
                         value={password}
                         onFocus={handlePasswordFocus}
                         onBlur={handlePasswordBlur}
@@ -280,6 +281,15 @@ export default function LoginUser() {
                   </button>
                 </div>
               </form>
+
+              <div className="relative max-w-[400px] w-full rounded-lg m-4 sm:m-8 mt-10 mb-10">
+                <hr className="absolute left-0 right-0 border-t-2 border-[#2A629A]" />
+                <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#FFF8ED] px-2 text-[#2A629A] text-sm">
+                  atau
+                </p>
+              </div>
+
+              <LoginGoogle buttonText={"Lanjutkan dengan Google"} />
 
               <p className="text-[#2A629A] mt-7 mb-3 text-sm">
                 Baru di{" "}

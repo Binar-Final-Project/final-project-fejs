@@ -24,7 +24,7 @@ export const processPayment =
       await delay(5000); // Menunggu selama 5 detik
       const response = await axios.post(
         "https://express-production-3572.up.railway.app/api/v1/transactions/pay",
-        { paymentData },
+        paymentData,
         {
           headers: {
             accept: "application/json",
@@ -50,7 +50,7 @@ export const processPayment =
         });
       }
     } catch (error) {
-      console.log("Payment error:", error);
+      console.log("Payment error response:", error.response.data);
       if (error?.response?.status === 401) {
         toast.error("Sesi Anda telah habis. Silakan login terlebih dahulu.", {
           icon: null,

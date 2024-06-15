@@ -137,7 +137,7 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -155,7 +155,7 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -173,7 +173,7 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -191,7 +191,7 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -209,7 +209,7 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -227,7 +227,7 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -245,7 +245,7 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -263,7 +263,7 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
+        position: "top-center", // Posisi toast
         duration: 4000, // Durasi toast
       });
       return;
@@ -284,7 +284,7 @@ export default function Register() {
             textAlign: "center", // Posisi teks di tengah
             padding: "10px 20px", // Padding
           },
-          position: "bottom-center", // Posisi toast
+          position: "top-center", // Posisi toast
           duration: 4000, // Durasi toast
         }
       );
@@ -303,7 +303,7 @@ export default function Register() {
           textAlign: "center",
           padding: "10px 20px",
         },
-        position: "bottom-center",
+        position: "top-center",
         duration: 4000,
       });
       return;
@@ -492,7 +492,7 @@ export default function Register() {
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                         type={passwordInputType}
-                        placeholder="Password"
+                        placeholder="••••••••••"
                         value={password}
                         onChange={handlePasswordChange}
                       />
@@ -539,7 +539,7 @@ export default function Register() {
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                         type={confirmPasswordInputType}
-                        placeholder="Konfirmasi Password"
+                        placeholder="••••••••••"
                         value={confirmPassword}
                         onChange={handleConfirmPasswordChange}
                       />

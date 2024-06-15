@@ -34,6 +34,7 @@ export default function NavbarTransparent() {
     };
     account();
   }, []);
+  console.log("Cek isLoggedIn", isLoggedIn);
 
   // NAMPILIN MODAL LOGOUT
   const handleConfirmModalToggle = () => {
