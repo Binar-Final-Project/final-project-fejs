@@ -42,6 +42,7 @@ export default function OrderHistory() {
   const [lt, setLt] = useState("");
   const [gte, setGte] = useState("");
   const [q, setQ] = useState("");
+  const [selectedTicket, setSelectedTicket] = useState([]);
 
   useEffect(() => {
     dispatch(getTransactions(lt, gte, q));
@@ -60,6 +61,13 @@ export default function OrderHistory() {
       remainingMinutes > 1 ? "" : ""
     }`;
   }
+
+  // FUNGSI UNTUK MENAMPILKAN DETAIL TIKET PENERBANGAN
+  const handleSelectTicket = (transaction) => {
+    setSelectedTicket(transaction);
+  };
+
+  console.log("selectedTicket", selectedTicket);
 
   return (
     <div className="bg-[#FFF0DC] py-5 md:py-0">
@@ -200,6 +208,7 @@ export default function OrderHistory() {
               <div
                 className="bg-white shadow-lg p-6 rounded-xl my-3"
                 key={transaction?.transaction_id}
+                onClick={() => handleSelectTicket(transaction)}
               >
                 <div>
                   {transaction?.status === "ISSUED" && (
@@ -218,7 +227,9 @@ export default function OrderHistory() {
                     <div className="flex">
                       <IoLocationSharp className="text-2xl font-extrabold text-[#003285]" />
                       <div>
-                        <h5 className="text-xl font-medium">Jekardah</h5>
+                        <h5 className="text-xl font-medium">
+                          {transaction?.departure_flight?.departure_city}
+                        </h5>
                         <div className="flex flex-col">
                           <time className="text-sm">
                             {new Date(
@@ -245,7 +256,9 @@ export default function OrderHistory() {
                     <div className="flex">
                       <IoLocationSharp className="text-2xl font-extrabold text-[#003285]" />
                       <div>
-                        <h5 className="text-xl font-medium">Jakarta</h5>
+                        <h5 className="text-xl font-medium">
+                          {transaction?.departure_flight?.arrival_city}
+                        </h5>
                         <div className="flex flex-col">
                           <time className="text-sm">
                             {new Date(
@@ -269,7 +282,9 @@ export default function OrderHistory() {
                       <div className="flex">
                         <IoLocationSharp className="text-2xl font-extrabold text-[#003285]" />
                         <div>
-                          <h5 className="text-xl font-medium">Jekardah</h5>
+                          <h5 className="text-xl font-medium">
+                            {transaction?.return_flight?.departure_city}
+                          </h5>
                           <div className="flex flex-col">
                             <time className="text-sm">
                               {new Date(
@@ -292,7 +307,9 @@ export default function OrderHistory() {
                       <div className="flex">
                         <IoLocationSharp className="text-2xl font-extrabold text-[#003285]" />
                         <div>
-                          <h5 className="text-xl font-medium">Jakarta</h5>
+                          <h5 className="text-xl font-medium">
+                            {transaction?.return_flight?.arrival_city}
+                          </h5>
                           <div className="flex flex-col">
                             <time className="text-sm">
                               {new Date(
@@ -340,109 +357,301 @@ export default function OrderHistory() {
           <div className="lg:w-2/5">
             {/* CARD DETAIL TIKET */}
             <div className="bg-white shadow-lg p-6 rounded-xl my-3">
-              <div className="flex justify-between items-center gap-3 mb-2">
-                <h4 className="text-xl text-[#003285] font-semibold">
-                  Detail Pesanan
-                </h4>
-                <span className="bg-[#73CA5C] text-white py-2 px-4 rounded-full text-sm">
-                  Issued
-                </span>
-              </div>
-              <div className="flex my-4">
-                <h5>Booking Code : </h5>
-                <p className="text-[#003285] font-semibold ml-2"> XXXXXXXX</p>
-              </div>
-              <div className="flex flex-row gap-3">
-                <div className="flex flex-col justify-between items-center">
-                  <div className="flex flex-col text-center mt-1.5">
-                    <time className="mb-1 text-lg font-semibold leading-none ">
-                      19:00
-                    </time>
-                    <div className="text-sm">27 apmei 2003</div>
-                  </div>
-                  <div className="pt-12">
-                    <span className="text-sm">45j 0m</span>
-                  </div>
-                  <div></div>
-                  <div className="flex flex-col text-center mt-1.5">
-                    <time className="mb-1 text-lg font-semibold leading-none ">
-                      23:00
-                    </time>
-                    <div className="text-sm">89 juli 2098</div>
-                  </div>
-                  <div></div>
-                </div>
+              {selectedTicket.length === 0 ? (
                 <div>
-                  <ol className="relative border-s border-gray-200">
-                    <li className="mb-5 ms-4">
-                      <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
-                      <h3 className="text-lg font-semibold">jekardah (CGK)</h3>
-                      <p className="text-sm ">Sukarno</p>
-                      <p className="mb-4 text-sm ">terminal wahid</p>
-                    </li>
-                    <li className="mb-5 ms-4 flex flex-col gap-1">
-                      <div className="flex items-center">
-                        <p>garudah</p>
-                        {/* <img
+                  <h4 className="text-[#003285] font-semibold text-center">
+                    Silahkan pilih tiket yang ingin Anda lihat detailnya
+                  </h4>
+                </div>
+              ) : (
+                <div>
+                  <div className="flex justify-between items-center gap-3 mb-2">
+                    <h4 className="text-xl text-[#003285] font-semibold">
+                      Detail Pesanan
+                    </h4>
+                    {selectedTicket?.status === "ISSUED" && (
+                      <span className="bg-[#73CA5C] text-white py-2 px-4 rounded-full text-sm">
+                        {selectedTicket?.status}
+                      </span>
+                    )}
+                    {selectedTicket?.status === "UNPAID" && (
+                      <span className="bg-[#FF0000] text-white py-2 px-4 rounded-full text-sm">
+                        {selectedTicket?.status}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex my-4">
+                    <h5>Booking Code : </h5>
+                    <p className="text-[#003285] font-semibold ml-2">
+                      {selectedTicket?.booking_code}
+                    </p>
+                  </div>
+                  {selectedTicket?.return_flight && (
+                    <div className="flex mb-4">
+                      <h5 className="font-semibold">Pergi:</h5>
+                    </div>
+                  )}
+                  <div className="flex flex-row gap-3">
+                    <div className="flex flex-col justify-between items-center">
+                      <div className="flex flex-col text-center mt-1.5">
+                        <time className="mb-1 text-lg font-semibold leading-none ">
+                          {selectedTicket?.departure_flight?.departure_time}
+                        </time>
+                        <div className="text-sm">
+                          {new Date(
+                            selectedTicket?.departure_flight?.flight_date
+                          ).toLocaleString("id-ID", {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </div>
+                      </div>
+                      <div className="pt-7">
+                        <span className="text-sm">
+                          {formatDuration(
+                            selectedTicket?.departure_flight?.duration
+                          )}
+                        </span>
+                      </div>
+                      <div></div>
+                      <div className="flex flex-col text-center mt-1.5">
+                        <time className="mb-1 text-lg font-semibold leading-none ">
+                          {selectedTicket?.departure_flight?.arrival_time}
+                        </time>
+                        <div className="text-sm">
+                          {new Date(
+                            selectedTicket?.departure_flight?.flight_date
+                          ).toLocaleString("id-ID", {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </div>
+                      </div>
+                      <div></div>
+                    </div>
+                    <div>
+                      <ol className="relative border-s border-gray-200">
+                        <li className="mb-5 ms-4">
+                          <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
+                          <h3 className="text-lg font-semibold">
+                            {
+                              selectedTicket?.departure_flight
+                                ?.departure_airport
+                            }
+                          </h3>
+                          <p className="mb-4 text-sm ">
+                            {
+                              selectedTicket?.departure_flight
+                                ?.departure_terminal
+                            }
+                          </p>
+                        </li>
+                        <li className="mb-5 ms-4 flex flex-col gap-1">
+                          <div className="flex items-center">
+                            <p>{selectedTicket?.departure_flight?.airline}</p>
+                            {/* <img
                         src={flight?.airline_icon_url}
                         className="h-8 ml-2"
                         alt="Airline Logo"
                       /> */}
-                      </div>
-                      <div>
-                        <h5 className="text-[#003285]">
-                          Penumpang 1: Mr. Fulan
-                        </h5>
-                        <p>ID: XXXXXXXX</p>
-                      </div>
-                      <div>
-                        <h5 className="text-[#003285]">
-                          Penumpang 2: Mrs. Fulana
-                        </h5>
-                        <p>ID: XXXXXXXX</p>
-                      </div>
-                    </li>
-                    <li className="ms-4">
-                      <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
-                      <h3 className="text-lg font-semibold">baleh (DPS)</h3>
-                    </li>
-                  </ol>
+                          </div>
+                          {selectedTicket?.passengers?.map((passenger, i) => {
+                            const index = i + 1;
+                            return (
+                              <div>
+                                <h5 className="text-[#003285]">
+                                  Penumpang {index}: {passenger?.title}{" "}
+                                  {passenger?.name}
+                                </h5>
+                                <p>ID: {passenger?.passenger_id}</p>
+                              </div>
+                            );
+                          })}
+                        </li>
+                        <li className="ms-4">
+                          <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
+                          <h3 className="text-lg font-semibold">
+                            {selectedTicket?.departure_flight?.arrival_airport}
+                          </h3>
+                        </li>
+                      </ol>
 
-                  <div className="ms-4">
-                    <p className="text-sm">ngurai</p>
-                    <p className="text-sm">terminal</p>
+                      <div className="ms-4">
+                        <p className="text-sm">
+                          {selectedTicket?.departure_flight?.arrival_terminal}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* JIKA PULANG-PERGI */}
+                  {selectedTicket?.return_flight && (
+                    <div>
+                      <div className="flex my-4">
+                        <h5 className="font-semibold">Pulang:</h5>
+                      </div>
+                      <div className="flex flex-row gap-3">
+                        <div className="flex flex-col justify-between items-center">
+                          <div className="flex flex-col text-center mt-1.5">
+                            <time className="mb-1 text-lg font-semibold leading-none ">
+                              {selectedTicket?.return_flight?.departure_time}
+                            </time>
+                            <div className="text-sm">
+                              {new Date(
+                                selectedTicket?.return_flight?.flight_date
+                              ).toLocaleString("id-ID", {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                              })}
+                            </div>
+                          </div>
+                          <div className="pt-7">
+                            <span className="text-sm">
+                              {formatDuration(
+                                selectedTicket?.return_flight?.duration
+                              )}
+                            </span>
+                          </div>
+                          <div></div>
+                          <div className="flex flex-col text-center mt-1.5">
+                            <time className="mb-1 text-lg font-semibold leading-none ">
+                              {selectedTicket?.return_flight?.arrival_time}
+                            </time>
+                            <div className="text-sm">
+                              {new Date(
+                                selectedTicket?.return_flight?.flight_date
+                              ).toLocaleString("id-ID", {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                              })}
+                            </div>
+                          </div>
+                          <div></div>
+                        </div>
+                        <div>
+                          <ol className="relative border-s border-gray-200">
+                            <li className="mb-5 ms-4">
+                              <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
+                              <h3 className="text-lg font-semibold">
+                                {
+                                  selectedTicket?.return_flight
+                                    ?.departure_airport
+                                }
+                              </h3>
+                              <p className="mb-4 text-sm ">
+                                {
+                                  selectedTicket?.return_flight
+                                    ?.departure_terminal
+                                }
+                              </p>
+                            </li>
+                            <li className="mb-5 ms-4 flex flex-col gap-1">
+                              <div className="flex items-center">
+                                <p>{selectedTicket?.return_flight?.airline}</p>
+                                {/* <img
+                        src={flight?.airline_icon_url}
+                        className="h-8 ml-2"
+                        alt="Airline Logo"
+                      /> */}
+                              </div>
+                              {selectedTicket?.passengers?.map(
+                                (passenger, i) => {
+                                  const index = i + 1;
+                                  return (
+                                    <div key={passenger?.passenger_id}>
+                                      <h5 className="text-[#003285]">
+                                        Penumpang {index}: {passenger?.title}{" "}
+                                        {passenger?.name}
+                                      </h5>
+                                      <p>ID: {passenger?.passenger_id}</p>
+                                    </div>
+                                  );
+                                }
+                              )}
+                            </li>
+                            <li className="ms-4">
+                              <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
+                              <h3 className="text-lg font-semibold">
+                                {selectedTicket?.return_flight?.arrival_airport}
+                              </h3>
+                            </li>
+                          </ol>
+
+                          <div className="ms-4">
+                            <p className="text-sm">
+                              {selectedTicket?.return_flight?.arrival_terminal}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="my-4 py-3 border-y-2">
+                    <h5 className="font-semibold ">Rincian Harga</h5>
+                    <div className="flex justify-between">
+                      <div>
+                        {selectedTicket?.total_adult !== 0 && (
+                          <p>{selectedTicket?.total_adult} Dewasa</p>
+                        )}
+                        {selectedTicket?.total_children !== 0 && (
+                          <p>{selectedTicket?.total_children} Anak</p>
+                        )}
+                        {selectedTicket?.total_baby !== 0 && (
+                          <p>{selectedTicket?.total_baby} Bayi</p>
+                        )}
+                        <p>Pajak</p>
+                      </div>
+                      <div>
+                        {selectedTicket?.total_adult !== 0 && (
+                          <p>
+                            {new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(selectedTicket?.departure_flight?.price)}
+                          </p>
+                        )}
+                        {selectedTicket?.total_children !== 0 && (
+                          <p>Rp XXXXXXXX</p>
+                        )}
+                        {selectedTicket?.total_baby !== 0 && <p>Rp XXXXXXXX</p>}
+                        <p>
+                          {" "}
+                          {new Intl.NumberFormat("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                          }).format(selectedTicket?.tax)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between font-semibold text-xl text-[#003285]">
+                    <h5>Total</h5>
+                    <h5>
+                      {new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(selectedTicket?.total_price)}
+                    </h5>
                   </div>
                 </div>
-              </div>
-              <div className="my-4 py-3 border-y-2">
-                <h5 className="font-semibold ">Rincian Harga</h5>
-                <div className="flex justify-between">
-                  <div>
-                    <p>10 Dewasa</p>
-                    <p>90 Anak</p>
-                    <p>390 Bayi</p>
-                    <p>Pajak</p>
-                  </div>
-                  <div>
-                    <p>Rp XXXXXXXX</p>
-                    <p>Rp XXXXXXXX</p>
-                    <p>Rp XXXXXXXX</p>
-                    <p>Rp XXXXXXXX</p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-between font-semibold text-xl text-[#003285]">
-                <h5>Total</h5>
-                <h5>Rp XXXXXXX</h5>
-              </div>
+              )}
             </div>
             <div className="w-full">
-              <button className="mt-4 w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#FF0000] font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-0">
-                Lanjut Bayar
-              </button>
-              <button className="mt-4 w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#2A629A] font-medium text-white hover:bg-[#3472b0] focus:outline-none focus:ring-0">
-                Cetak Tiket
-              </button>
+              {selectedTicket?.status === "ISSUED" && (
+                <button className="mt-4 w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#2A629A] font-medium text-white hover:bg-[#3472b0] focus:outline-none focus:ring-0">
+                  Cetak Tiket
+                </button>
+              )}
+              {selectedTicket?.status === "UNPAID" && (
+                <button className="mt-4 w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#FF0000] font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-0">
+                  Lanjut Bayar
+                </button>
+              )}
             </div>
           </div>
         </div>
