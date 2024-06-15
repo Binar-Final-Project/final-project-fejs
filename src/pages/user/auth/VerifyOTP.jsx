@@ -23,9 +23,6 @@ export default function VerifyOTP() {
   useEffect(() => {
     console.log("Email dari state register:", registerEmail); // Cek nilai email dari state register
     dispatch(setOtpInput("")); // Mengosongkan otpInput ketika komponen pertama kali dimuat
-    if (registerEmail) {
-      dispatch(setEmail(registerEmail));
-    }
     dispatch(resetTimer()); // Mereset timer ketika komponen pertama kali dimuat
 
     const countdown = setInterval(() => {
@@ -33,7 +30,10 @@ export default function VerifyOTP() {
     }, 1000);
 
     return () => clearInterval(countdown); // Membersihkan interval ketika komponen di-unmount
-  }, [dispatch, registerEmail]);
+  }, [dispatch]);
+
+  const queryParams = new URLSearchParams(location.search);
+  const email = queryParams.get("email");
 
   useEffect(() => {
     if (timer <= 0 && !isToastShown) {
@@ -151,8 +151,8 @@ export default function VerifyOTP() {
                 Verifikasi Email
               </h1>
               <h2 className="text-[#2A629A] text-l mb-5 text-center text-sm">
-                {registerEmail
-                  ? `Masukkan 6 Digit Kode OTP yang Dikirim ke ${registerEmail}`
+                {email
+                  ? `Masukkan 6 Digit Kode OTP yang Dikirim ke ${email}`
                   : "Masukkan 6 Digit Kode OTP yang Dikirim ke Email Anda"}
               </h2>
 
