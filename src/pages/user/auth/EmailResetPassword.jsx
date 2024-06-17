@@ -35,8 +35,8 @@ const EmailResetPassword = () => {
           textAlign: "center",
           padding: "10px 20px",
         },
-        position: "bottom-center",
-        duration: 4000,
+        position: "top-center",
+        duration: 3000,
       });
       return;
     }
@@ -52,8 +52,8 @@ const EmailResetPassword = () => {
           textAlign: "center",
           padding: "10px 20px",
         },
-        position: "bottom-center",
-        duration: 4000,
+        position: "top-center",
+        duration: 3000,
       });
       return;
     }
@@ -91,16 +91,16 @@ const EmailResetPassword = () => {
               size={20}
               onClick={() => navigate("/login")}
             />
-            <div className="max-w-[550px] mx-auto flex flex-col items-center">
+            <div className="max-w-[550px] mx-auto flex flex-col items-center mt-10">
               <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-6">
-                Forgot Password
+                Lupa Password
               </h1>
               <p className="text-center mb-4 text-sm text-[#2A629A]">
                 Masukkan email Anda untuk menerima tautan reset kata sandi
               </p>
               <form onSubmit={handleSubmit} className="w-full space-y-6">
                 <div className="flex flex-col space-y-1">
-                  <label className="text-left text-[#2A629A] text-sm">
+                  <label className="text-left text-[#2A629A] font-medium text-sm">
                     Email
                   </label>
                   <div
@@ -121,7 +121,7 @@ const EmailResetPassword = () => {
                       value={email}
                       onChange={handleEmailChange}
                       placeholder="contoh@gmail.com"
-                      className="w-full p-2 border-none bg-transparent outline-none text-sm text-[#2A629A]"
+                      className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                       required
                     />
                     {isEmailValid && email && (
@@ -133,14 +133,14 @@ const EmailResetPassword = () => {
                   </div>
                   {!isEmailValid && email && (
                     <p className="text-red-500 text-xs mt-1 text-left">
-                      Format Email tidak valid.
+                      Format Email salah.
                     </p>
                   )}
                 </div>
                 <div className="flex space-x-4">
                   <button
                     type="submit"
-                    className="bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                    className="bg-[#2A629A] text-white font-medium text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
                     onClick={handleSubmit}
                   >
                     Kirim
@@ -148,7 +148,7 @@ const EmailResetPassword = () => {
                 </div>
               </form>
               <p className="text-[#2A629A] mt-7 mb-3 text-sm">
-                Ingat kata sandi anda?{" "}
+                Ingat Kata Sandi anda?{" "}
                 <a
                   href="/login"
                   className="text-[#40A2E3] font-semibold text-sm"
