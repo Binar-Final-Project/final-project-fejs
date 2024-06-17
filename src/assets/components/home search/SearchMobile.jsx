@@ -20,6 +20,7 @@ import { format } from "date-fns";
 import toast, { Toaster } from "react-hot-toast";
 import AirportInput from "../AirportInput";
 import { useNavigate } from "react-router-dom";
+import { setChoosenFlight } from "../../../redux/reducers/flight/flightReducers";
 
 export default function SearchMobile() {
   const dispatch = useDispatch();
@@ -145,6 +146,8 @@ export default function SearchMobile() {
         page
       )
     );
+
+    dispatch(setChoosenFlight([]));
 
     // Navigasi ke halaman pencarian
     if (isChecked && returnDate) {

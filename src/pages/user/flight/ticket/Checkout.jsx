@@ -20,6 +20,7 @@ import { setChoosenFlight } from "../../../../redux/reducers/flight/flightReduce
 
 export default function TicketCheckout() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -38,6 +39,11 @@ export default function TicketCheckout() {
   const [seconds, setSeconds] = useState(0);
   const [timeUpModal, setTimeUpModal] = useState (false);
   const [isDataSaved, setIsDataSaved] = useState(false);
+
+  //State untuk tanggal
+  const [date, setDate] = useState(null);
+
+  //state untuk modal
   const [openModal, setOpenModal] = useState(false);
   const [penumpang, setPenumpang] = useState({
     dewasa: adult,
@@ -177,7 +183,7 @@ export default function TicketCheckout() {
 
 
   return (
-    <div className="bg-[#FFF0DC]">
+    <div className="bg-[#FFF0DC] pt-20">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <Toaster />
       <div className="p-3 my-10 pt-8">
@@ -208,6 +214,8 @@ export default function TicketCheckout() {
             </div>
           </div>
         </Modal>
+
+      <div className="p-3">
         {/* Countdown Bar */}
         <div className="bg-red-500 text-center py-2 text-white font-bold">
           Selesaikan dalam {minutes}:{seconds < 10 ? `0${seconds}` : seconds} sebelum tiket kamu hangus!
