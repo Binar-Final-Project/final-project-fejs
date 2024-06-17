@@ -25,26 +25,23 @@ export const verifyOtp = (navigate) => async (dispatch, getState) => {
 
     if (response.data.status === true) {
       dispatch(clearError());
-      toast.success(
-        "Verifikasi Email berhasil! Silakan masuk untuk melanjutkan.",
-        {
-          // Menampilkan toast sukses
-          icon: null,
-          style: {
-            background: "#28A745", // Background hijau
-            color: "#FFFFFF", // Teks putih
-            borderRadius: "12px",
-            fontSize: "14px", // Ukuran font
-            textAlign: "center", // Posisi teks di tengah
-            padding: "10px 20px", // Padding
-          },
-          position: "top-center", // Posisi toast
-          duration: 4000, // Durasi toast
-        }
-      );
+      toast.success("Verifikasi Email berhasil! Silakan masuk.", {
+        // Menampilkan toast sukses
+        icon: null,
+        style: {
+          background: "#28A745", // Background hijau
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+        },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
+      });
       setTimeout(() => {
         navigate("/login");
-      }, 4000);
+      }, 3000);
     } else {
       throw new Error("Verifikasi OTP gagal.");
     }
@@ -53,8 +50,8 @@ export const verifyOtp = (navigate) => async (dispatch, getState) => {
       "Error verifying OTP:",
       error.response?.data || error.message
     );
-    dispatch(setError("Kode OTP salah! Silakan coba lagi."));
-    toast.error("Kode OTP salah! Silakan coba lagi", {
+    // dispatch(setError("Kode OTP salah! Silakan coba lagi."));
+    toast.error("Kode OTP salah! Silakan coba lagi.", {
       // Menampilkan toast error
       icon: null,
       style: {
@@ -66,7 +63,7 @@ export const verifyOtp = (navigate) => async (dispatch, getState) => {
         padding: "10px 20px", // Padding
       },
       position: "top-center", // Posisi toast
-      duration: 4000, // Durasi toast
+      duration: 3000, // Durasi toast
     });
   }
 };
@@ -106,7 +103,7 @@ export const resendOtp = () => async (dispatch) => {
           padding: "10px 20px", // Padding
         },
         position: "top-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        duration: 3000, // Durasi toast
       });
     } else {
       throw new Error("Pengiriman ulang OTP gagal.");
@@ -116,7 +113,7 @@ export const resendOtp = () => async (dispatch) => {
       "Error resending OTP:",
       error.response?.data || error.message
     );
-    dispatch(setError("Gagal mengirim ulang OTP! Silakan coba lagi."));
+    // dispatch(setError("Gagal mengirim ulang OTP! Silakan coba lagi."));
     toast.error("Gagal mengirim ulang OTP! Silakan coba lagi.", {
       icon: null,
       style: {
@@ -128,7 +125,7 @@ export const resendOtp = () => async (dispatch) => {
         padding: "10px 20px", // Padding
       },
       position: "top-center", // Posisi toast
-      duration: 4000, // Durasi toast
+      duration: 3000, // Durasi toast
     });
   }
 };

@@ -5,7 +5,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { BiArrowBack } from "react-icons/bi";
 import {
   setOtpInput,
-  setEmail,
+  // setEmail,
   decrementTimer,
   resetTimer,
 } from "../../../redux/reducers/auth/otpReducers"; // Import setEmail dan timer actions
@@ -25,15 +25,24 @@ export default function VerifyOTP() {
     dispatch(setOtpInput("")); // Mengosongkan otpInput ketika komponen pertama kali dimuat
     dispatch(resetTimer()); // Mereset timer ketika komponen pertama kali dimuat
 
+    // Mengurangi timer setiap detik
     const countdown = setInterval(() => {
-      dispatch(decrementTimer()); // Mengurangi timer setiap detik
+      dispatch(decrementTimer());
     }, 1000);
 
     return () => clearInterval(countdown); // Membersihkan interval ketika komponen di-unmount
   }, [dispatch]);
 
+  // Untuk menampilkan Email pengguna pada halaman verifikasi
   const queryParams = new URLSearchParams(location.search);
   const email = queryParams.get("email");
+
+  // Fungsi untuk menyensor Email pengguna pada halaman verifikasi
+  const censorEmail = (email) => {
+    const [localPart, domain] = email.split("@");
+    const censoredLocalPart = localPart[0] + "*".repeat(localPart.length - 1);
+    return `${censoredLocalPart}@${domain}`;
+  };
 
   useEffect(() => {
     if (timer <= 0 && !isToastShown) {
@@ -48,7 +57,7 @@ export default function VerifyOTP() {
           padding: "10px 20px", // Padding
         },
         position: "top-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        duration: 3000, // Durasi toast
       });
       setIsToastShown(true);
       setIsResendVisible(true); // Menampilkan tombol Resend OTP ketika timer habis
@@ -80,7 +89,7 @@ export default function VerifyOTP() {
   const handleVerify = async (event) => {
     event.preventDefault();
     if (otpInput.length < 6) {
-      toast.error("Harap isi kode OTP terlebih dahulu!", {
+      toast.error("Mohon masukkan kode OTP terlebih dahulu!", {
         icon: null,
         style: {
           background: "#FF0000", // Background merah
@@ -91,7 +100,7 @@ export default function VerifyOTP() {
           padding: "10px 20px", // Padding
         },
         position: "top-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
@@ -150,10 +159,16 @@ export default function VerifyOTP() {
               <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-8">
                 Verifikasi Email
               </h1>
-              <h2 className="text-[#2A629A] text-l mb-5 text-center text-sm">
+              {/* <h2 className="text-[#2A629A] text-l mb-5 text-center text-sm font-semibold">
                 {email
-                  ? `Masukkan 6 Digit Kode OTP yang Dikirim ke ${email}`
+                  ? `Masukkan 6 Digit Kode OTP yang Dikirim ke ${censorEmail(
+                      email
+                    )}`
                   : "Masukkan 6 Digit Kode OTP yang Dikirim ke Email Anda"}
+              </h2> */}
+              <h2 className="text-[#2A629A] text-l mb-5 text-center text-sm font-medium">
+                Masukkan 6 Digit Kode OTP yang Dikirim ke{" "}
+                <span className="font-bold">{email && censorEmail(email)}</span>
               </h2>
 
               <form onSubmit={handleVerify} className="w-full">
@@ -179,7 +194,7 @@ export default function VerifyOTP() {
                   Konfirmasi Kode OTP
                 </button>
 
-                <h1 className="text-[#40A2E3] text-l mb-3 text-center text-sm">
+                <h1 className="text-[#40A2E3] text-l mb-3 text-center text-sm font-medium">
                   {timer > 0 ? (
                     `Waktu tersisa: ${formatTime(Math.max(timer, 0))}`
                   ) : (

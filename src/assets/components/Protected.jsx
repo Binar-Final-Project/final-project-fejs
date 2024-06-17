@@ -14,9 +14,14 @@ export default function Protected() {
       navigate("/login");
       setTimeout(() => {
         toast("Anda harus login terlebih dahulu!", {
+          icon: null,
           style: {
             background: "#FF0000", // Background merah
             color: "#FFFFFF",
+            borderRadius: "12px",
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
           },
         });
       }, 500);

@@ -27,6 +27,10 @@ export default function LoginUser() {
     isPasswordTouched,
     error,
   } = useSelector((state) => state.login); // Menggunakan useSelector untuk mengambil state login dari reducers
+  const passwordInputType = showPassword ? "text" : "password";
+  // Validasi password (minimal 8 karakter, termasuk huruf besar dan angka)
+  const isPasswordValid =
+    password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password);
 
   // Mengatur ulang state ketika komponen di-unmount
   useEffect(() => {
@@ -87,7 +91,7 @@ export default function LoginUser() {
           padding: "10px 20px", // Padding
         },
         position: "top-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        duration: 3000, // Durasi toast
       });
     }
   }, [error]);
@@ -95,8 +99,8 @@ export default function LoginUser() {
   // Fungsi untuk menangani proses masuk akun
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!email || !password) {
-      toast.error("Mohon input semua field terlebih dahulu!", {
+    if (!email) {
+      toast.error("Mohon masukkan alamat Email Anda!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -108,13 +112,67 @@ export default function LoginUser() {
           padding: "10px 20px", // Padding
         },
         position: "top-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        duration: 3000, // Durasi toast
+      });
+      return;
+    }
+
+    if (!password) {
+      toast.error("Mohon masukkan kata sandi Anda!", {
+        // Menampilkan toast error
+        icon: null,
+        style: {
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+        },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
+      });
+      return;
+    }
+
+    if (!email || !password) {
+      toast.error("Mohon isi semua kolom terlebih dahulu!", {
+        // Menampilkan toast error
+        icon: null,
+        style: {
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+        },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
+      });
+      return;
+    }
+
+    if (!isEmailValid && !isPasswordValid) {
+      toast.error("Mohon isi kedua kolom sesuai ketentuan!", {
+        // Menampilkan toast error
+        icon: null,
+        style: {
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+        },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (!isEmailValid) {
-      toast.error("Mohon input Email dengan benar!", {
+      toast.error("Mohon masukkan alamat Email dengan benar!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -126,19 +184,31 @@ export default function LoginUser() {
           padding: "10px 20px", // Padding
         },
         position: "top-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        duration: 3000, // Durasi toast
+      });
+      return;
+    }
+
+    if (!isPasswordValid) {
+      toast.error("Mohon masukkan kata sandi sesuai ketentuan!", {
+        // Menampilkan toast error
+        icon: null,
+        style: {
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+        },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     dispatch(login(email, password, navigate));
   };
-
-  const passwordInputType = showPassword ? "text" : "password";
-
-  // Validasi password (minimal 8 karakter, termasuk huruf besar dan angka)
-  const isPasswordValid =
-    password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password);
 
   return (
     <div>
@@ -218,13 +288,13 @@ export default function LoginUser() {
                   <div className="flex flex-col space-y-1">
                     <div className="flex justify-between items-center">
                       <label className="text-left text-[#2A629A] text-sm font-medium">
-                        Password
+                        Kata Sandi
                       </label>
                       <a
                         href="forgot-password"
                         className="text-[#40A2E3] text-sm underline font-medium"
                       >
-                        Lupa Password
+                        Lupa Kata Sandi
                       </a>
                     </div>
                     <div
@@ -267,7 +337,7 @@ export default function LoginUser() {
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                         <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
                         <p>
-                          Password berisi minimal 8 karakter, termasuk huruf
+                          Kata sandi berisi minimal 8 karakter, termasuk huruf
                           besar dan angka
                         </p>
                       </div>
@@ -282,9 +352,9 @@ export default function LoginUser() {
                 </div>
               </form>
 
-              <div className="relative max-w-[400px] w-full rounded-lg m-4 sm:m-8 mt-10 mb-10">
+              <div className="relative max-w-[400px] w-full rounded-lg m-4 sm:m-8 mt-8 mb-8">
                 <hr className="absolute left-0 right-0 border-t-2 border-[#2A629A]" />
-                <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#FFF8ED] px-2 text-[#2A629A] text-sm">
+                <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#FFF8ED] px-2 text-[#2A629A] text-sm font-medium">
                   atau
                 </p>
               </div>

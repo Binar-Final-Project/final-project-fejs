@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
-import { loginWithGoogle } from "../../../redux/actions/auth/googleActions";
+import { loginWithGoogle } from "../../../redux/actions/auth/loginActions";
 
 export default function LoginGoogle({ buttonText }) {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export default function LoginGoogle({ buttonText }) {
   // Menggunakan useGoogleLogin untuk login dengan Google
   const googleLoginHandler = useGoogleLogin({
     onSuccess: (responseGoogle) => {
-      localStorage.setItem("login", "google function"); // Menyimpan informasi login di local storage
+      // localStorage.setItem("login", "google function"); // Menyimpan informasi login di local storage
       handleLoginWithGoogle(responseGoogle); // Memanggil fungsi handleLoginWithGoogle dengan response Google
     },
   });
@@ -26,9 +26,9 @@ export default function LoginGoogle({ buttonText }) {
   return (
     <button
       onClick={googleLoginHandler}
-      className="bg-white text-[#2A629A] text-sm font-medium border border-[#2A629A] focus-within:border-gray-500 p-2 rounded-xl w-full transition-colors duration-300 hover:bg-[#D0D0D0] active:bg-[#D0D0D0] flex items-center justify-center"
+      className="bg-white text-[#2A629A] text-sm font-medium border border-[#D0D0D0] focus-within:border-[#D0D0D0] p-2 rounded-xl w-full transition-colors duration-300 hover:bg-[#D0D0D0] active:bg-[#D0D0D0] hover:text-white flex items-center justify-center"
     >
-      <FcGoogle className="w-5 h-5 mr-5" />
+      <FcGoogle className="w-5 h-5 mr-3" />
       {buttonText}
     </button>
   );

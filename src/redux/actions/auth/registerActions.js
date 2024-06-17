@@ -56,7 +56,7 @@ export const register =
               padding: "10px 20px", // Padding
             },
             position: "top-center", // Posisi toast
-            duration: 4000, // Durasi toast
+            duration: 3000, // Durasi toast
           }
         );
       }
@@ -66,14 +66,13 @@ export const register =
         "Error registering user:",
         error.response?.data || error.message
       );
-
       dispatch(
         setError(
-          "Pendaftaran gagal! Email atau nomor telepon ini mungkin sudah terdaftar. Silakan coba lagi."
+          "Pendaftaran gagal! Email atau nomor telepon ini sudah terdaftar. Silakan coba lagi."
         )
       );
       toast.error(
-        "Pendaftaran gagal! Email atau nomor telepon ini mungkin sudah terdaftar. Silakan coba lagi.",
+        "Pendaftaran gagal! Email atau nomor telepon ini sudah terdaftar. Silakan coba lagi.",
         {
           // Menampilkan toast error
           icon: null,
@@ -86,7 +85,7 @@ export const register =
             padding: "10px 20px", // Padding
           },
           position: "top-center", // Posisi toast
-          duration: 4000, // Durasi toast
+          duration: 3000, // Durasi toast
         }
       );
     }
