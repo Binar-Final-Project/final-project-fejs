@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setChoosenFlight } from "../../../../redux/reducers/flight/flightReducers";
 
 import { PiBagSimpleBold } from "react-icons/pi";
 import { FiInfo } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
 
 export default function OrderSummary() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const choosenFlight = useSelector((state) => state.flight.choosenFlight);
   const [showModal, setShowModal] = useState(false);
   const [selectedFlight, setSelectedFlight] = useState(null);
+  const [penumpang, setPenumpang] = useState({ dewasa: 0, anak: 0, bayi: 0 });
 
   // Fungsi untuk menampilkan atau menyembunyikan modal dan mengatur penerbangan yang dipilih
   const toggleModal = (flight) => {
@@ -29,6 +32,7 @@ export default function OrderSummary() {
     toggleModal(flight); // Menampilkan modal dengan penerbangan yang dipilih
   };
 
+  //Untuk timer
   function formatDuration(minutes) {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
@@ -37,72 +41,148 @@ export default function OrderSummary() {
     }`;
   }
 
-  const calculateTaxPrice = () => {
-    if (!choosenFlight || choosenFlight.length === 0) {
-      return 0;
+
+  //Untuk mengetahui penumpang
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const adult = parseInt(query.get("adult")) || 0;
+    const child = parseInt(query.get("child")) || 0;
+    const infant = parseInt(query.get("infant")) || 0;
+
+    setPenumpang({
+      dewasa: adult,
+      anak: child,
+      bayi: infant,
+    });
+  }, [location.search]);
+
+  //Untuk menjumlah total tiket yang dipilih
+  const calculateTotalPayment = (flight) => {
+    let total = 0;
+    if (flight && flight.price) {
+      if (penumpang.dewasa > 0) {
+        total += flight.price * penumpang.dewasa;
+      }
+      if (penumpang.anak > 0) {
+        total += flight.price * penumpang.anak;
+      }
+      if (penumpang.bayi > 0) {
+        total += flight.price * penumpang.bayi;
+      }
     }
-    const totalPrice = choosenFlight.reduce((total, flight) => {
-      return total + flight.price;
-    }, 0);
-    const taxPrice = totalPrice * 0.1;
-
-    return taxPrice;
+    return total;
   };
+  
+  //Untuk menghitung pajak
+  const calculateTax = (total) => {
+    return total * 0.1;
+}
 
-  const calculateTotalPrice = () => {
-    return choosenFlight.reduce((total, flight) => {
-      return total + flight.price;
-    }, 0);
-  };
-
-  const calculateTotalPriceWithTax = () => {
-    const totalPrice = calculateTotalPrice();
-    const taxPrice = calculateTaxPrice();
-    const totalPriceWithTax = totalPrice + taxPrice;
-
-    return totalPriceWithTax;
-  };
 
   return (
     <div>
       {choosenFlight.map((flight, index) => (
-        <div key={index} className="bg-white shadow-md rounded p-6">
-          <div className="flex flex-col border-b border-gray-300 pb-4">
-            <div className="text-center p-3">
-              <h2 className="text-xl font-bold mb-0 mr-4">
-                {flight.departure_city} → {flight.arrival_city}
-              </h2>
+        <div key={index} className="container bg-white shadow-md rounded p-6 w-full ms-3">
+          <div className="col-span-1">
+            <div className="flex flex-col border-b border-gray-300 pb-4">
+              <div className="bg-[#86B6F6] p-1 text-sm font-medium rounded-lg text-center inline-block w-[4rem]">
+              <h1>{index === 0 ? "Pergi" : "Pulang"}</h1>
+              </div>
+              <div className="text-center p-3">
+                <h2 className="text-xl font-semibold mb-0 mr-4 text-[#003285]">
+                  {flight.departure_city} → {flight.arrival_city}
+                </h2>
+              </div>
+              <div className="text-gray-500 justify-between flex">
+                <p>{flight.flight_date}</p>
+                <a
+                  href="#"
+                  className="text-blue-500 font-semibold hover:text-blue-700"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleModal(flight);
+                  }}
+                >
+                  Detail
+                </a>
+              </div>
+              <div className="border border-gray-300 rounded-md p-5 mt-2 mb-3 text-center">
+                <p className="font-semibold">
+                  {flight.departure_time} - {flight.arrival_time}
+                </p>
+                <p className="text-gray-500">
+                  {flight.departure_code} - {flight.arrival_code}
+                </p>
+              </div>
             </div>
-            <div className="text-gray-500 justify-between flex">
-              <p>{flight.flight_date}</p>
-              <a
-                href="#"
-                className="text-blue-500 font-semibold hover:text-blue-700"
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleModal(flight);
-                }}
-              >
-                Detail
-              </a>
+            <div>
+            <div className="bg-white p-4">
+              <h4 className="font-semibold  mb-3">Rincian Harga</h4>
+              <div className="text-sm flex justify-between">
+                <p className="mb-1">Dewasa:</p>
+                <p className="mb-1">{penumpang.dewasa > 0 ? `${penumpang.dewasa} x IDR ${flight.price.toLocaleString('id-ID')}` : '0'}</p>
+              </div>
+              <div className="text-sm flex justify-between">
+                <p className="mb-1">Anak:</p>
+                <p className="mb-1">{penumpang.anak > 0 ? `${penumpang.anak} x IDR ${flight.price.toLocaleString('id-ID')}` : '0'}</p>
+              </div>
+              <div className="text-sm flex justify-between">
+                <p className="mb-1">Bayi:</p>
+                <p className="mb-1">{penumpang.bayi > 0 ? `${penumpang.bayi} x IDR ${flight.price.toLocaleString('id-ID')}` : '0'}</p>
+              </div>
+              <div className="text-sm flex justify-between">
+                <h4 className="mb-1">Pajak (10%)</h4>
+                <p className="mb-1">IDR {calculateTax(calculateTotalPayment(flight)).toLocaleString("id-ID")}</p>
+              </div>
             </div>
-            <div className="border border-gray-300 rounded-md p-3 mt-2 text-center">
-              <p className="font-bold">
-                {flight.departure_time} - {flight.arrival_time}
-              </p>
-              <p className="text-gray-500">
-                {flight.departure_code} - {flight.arrival_code}
-              </p>
+
+              <div className="flex items-center justify-between mt-4">
+                <h4 className="text-sm text-gray-500 font-semibold">Total Pembayaran</h4>
+                <p className="font-medium">
+                  IDR {(calculateTotalPayment(flight) + calculateTax(calculateTotalPayment(flight))).toLocaleString('id-ID')}
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center justify-between mt-4">
-            <h4 className="text-sm text-gray-500 font-semibold">
-              Total Pembayaran
-            </h4>
-            <p className="font-medium">IDR {calculateTotalPriceWithTax()}</p>
           </div>
         </div>
       ))}
+
+      {choosenFlight.length === 2 && (
+        <div className="container bg-white shadow-md rounded p-6 w-full ms-3 mt-6">
+          <div className="col-span-1">
+            <div className="flex flex-col border-b border-gray-300 pb-4">
+              <div className="text-center p-3">
+                <h2 className="text-lg font-semibold mb-3 mr-4">
+                  Total Pembayaran
+                </h2>
+              </div>
+              <div className="flex justify-between text-sm">
+                <p>Total Harga untuk Pergi</p>
+                <p>IDR {calculateTotalPayment(choosenFlight[0]).toLocaleString('id-ID')}</p>
+              </div>
+              <div className="flex justify-between text-sm">
+                <p>Total Harga untuk Pulang</p>
+                <p>IDR {calculateTotalPayment(choosenFlight[1]).toLocaleString('id-ID')}</p>
+              </div>
+              <div className="flex justify-between text-sm">
+                <p>Pajak (10%)</p>
+                <p>IDR {(calculateTax(calculateTotalPayment(choosenFlight[0])) + calculateTax(calculateTotalPayment(choosenFlight[1]))).toLocaleString('id-ID')}</p>
+              </div>
+              <div className="flex justify-between font-semibold pt-4 mt-4">
+                <p className="text-sm text-gray-500">Total Pembayaran</p>
+                <p className="font-medium">
+                  IDR {(
+                    calculateTotalPayment(choosenFlight[0]) +
+                    calculateTotalPayment(choosenFlight[1]) +
+                    calculateTax(calculateTotalPayment(choosenFlight[0])) +
+                    calculateTax(calculateTotalPayment(choosenFlight[1]))
+                  ).toLocaleString('id-ID')}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Modal */}
       {showModal && selectedFlight && (

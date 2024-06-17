@@ -10,7 +10,8 @@ import backgroundImage from "../../../assets/images/loginregister.png";
 const ForgotPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false); 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,25 +33,8 @@ const ForgotPassword = () => {
           textAlign: "center",
           padding: "10px 20px",
         },
-        position: "bottom-center",
-        duration: 4000,
-      });
-      return;
-    }
-
-    if (!isPasswordValid) {
-      toast.error("Password tidak valid!", {
-        icon: null,
-        style: {
-          background: "#FF0000 ",
-          color: "#FFFFFF",
-          borderRadius: "12px",
-          fontSize: "14px",
-          textAlign: "center",
-          padding: "10px 20px",
-        },
-        position: "bottom-center",
-        duration: 4000,
+        position: "top-center",
+        duration: 3000,
       });
       return;
     }
@@ -70,11 +54,16 @@ const ForgotPassword = () => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword(!showNewPassword);
   };
 
-  const passwordInputType = showPassword ? "text" : "password";
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const newPasswordInputType = showNewPassword ? "text" : "password";
+  const confirmPasswordInputType = showConfirmPassword ? "text" : "password";
 
   const isPasswordValid =
     password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password);
@@ -108,15 +97,15 @@ const ForgotPassword = () => {
               size={20}
               onClick={() => navigate("/forgot-password")}
             />
-            <div className="max-w-[550px] mx-auto flex flex-col items-center">
-              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-6">
-                Reset Password
+            <div className="max-w-[550px] mx-auto flex flex-col items-center mt-10">
+              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-10">
+                Atur Ulang Kata Sandi
               </h1>
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col space-y-3">
                   <div className="flex flex-col space-y-1">
-                    <label className="text-left text-[#2A629A] text-sm">
-                      Masukkan Password Baru
+                    <label className="text-left text-[#2A629A] font-medium text-sm">
+                      Masukkan Kata Sandi Baru
                     </label>
                     <div
                       className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg ${
@@ -128,23 +117,23 @@ const ForgotPassword = () => {
                       }`}
                     >
                       <input
-                        type={passwordInputType}
+                        type={newPasswordInputType}
                         value={password}
                         onChange={handleInput}
                         id="newPassword"
-                        placeholder="Masukkan Password Baru"
+                        placeholder="••••••••••"
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                         required
                       />
-                      {showPassword ? (
+                      {showNewPassword ? (
                         <FiEye
                           className="text-gray-600 cursor-pointer"
-                          onClick={togglePasswordVisibility}
+                          onClick={toggleNewPasswordVisibility}
                         />
                       ) : (
                         <FiEyeOff
                           className="text-gray-600 cursor-pointer"
-                          onClick={togglePasswordVisibility}
+                          onClick={toggleNewPasswordVisibility}
                         />
                       )}
                     </div>
@@ -152,15 +141,15 @@ const ForgotPassword = () => {
                       <div className="flex items-center text-red-500 text-xs mt-1 text-left">
                         <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
                         <p>
-                          Password berisi minimal 8 karakter, termasuk huruf
+                          Kata sandi berisi minimal 8 karakter, termasuk huruf
                           besar dan angka
                         </p>
                       </div>
                     )}
                   </div>
                   <div className="flex flex-col space-y-1">
-                    <label className="text-left text-[#2A629A] text-sm">
-                      Ulangi Password Baru
+                    <label className="text-left text-[#2A629A] font-medium text-sm">
+                      Ulangi Kata Sandi Baru
                     </label>
                     <div
                       className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg ${
@@ -172,39 +161,39 @@ const ForgotPassword = () => {
                       }`}
                     >
                       <input
-                        type={passwordInputType}
+                        type={confirmPasswordInputType}
                         value={confirmPassword}
                         onChange={handleInput}
                         id="confirmPassword"
-                        placeholder="Ulangi Password Baru"
+                        placeholder="••••••••••"
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                         required
                       />
-                      {showPassword ? (
+                      {showConfirmPassword ? (
                         <FiEye
                           className="text-gray-600 cursor-pointer"
-                          onClick={togglePasswordVisibility}
+                          onClick={toggleConfirmPasswordVisibility}
                         />
                       ) : (
                         <FiEyeOff
                           className="text-gray-600 cursor-pointer"
-                          onClick={togglePasswordVisibility}
+                          onClick={toggleConfirmPasswordVisibility}
                         />
                       )}
                     </div>
                     {confirmPassword && confirmPassword !== password && (
                       <div className="flex items-center text-red-500 text-xs mt-1 text-left">
                         <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
-                        <p>Password tidak cocok.</p>
+                        <p>Kata Sandi tidak cocok.</p>
                       </div>
                     )}
                   </div>
                   <div className="flex space-x-4">
                     <button
                       type="submit"
-                      className="bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                      className="bg-[#2A629A] text-white font-medium text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
                     >
-                      Reset Password
+                      Atur Ulang
                     </button>
                   </div>
                 </div>
