@@ -17,7 +17,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     );
     console.log(response);
     if (response.data.status === true) {
-      toast.success("Email berhasil dikirim!", {
+      toast.success("Email berhasil dikirim! Silahkan buka email anda untuk mengatur ulang kata sandi", {
         icon: null,
         style: {
           background: "#28A745",
@@ -27,12 +27,11 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
           textAlign: "center",
           padding: "10px 20px",
         },
-        position: "bottom-center",
-        duration: 4000,
+        position: "top-center",
+        duration: 3000,
       });
       setTimeout(() => {
-        //   window.location.href = "https://mail.google.com";
-        navigate("/reset-password");
+        navigate("/login");
       }, 3000);
     }
   } catch (error) {
@@ -48,8 +47,8 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
           textAlign: "center",
           padding: "10px 20px",
         },
-        position: "bottom-center",
-        duration: 4000,
+        position: "top-center",
+        duration: 3000,
       });
     } else if (error.response.data.message === "Email is invalid") {
       toast.error("Email tidak valid", {
@@ -62,8 +61,8 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
           textAlign: "center",
           padding: "10px 20px",
         },
-        position: "bottom-center",
-        duration: 4000,
+        position: "top-center",
+        duration: 3000,
       });
     }
   }
@@ -98,8 +97,8 @@ export const getUpdatePass =
             textAlign: "center",
             padding: "10px 20px",
           },
-          position: "bottom-center",
-          duration: 4000,
+          position: "top-center",
+          duration: 3000,
         });
         setTimeout(() => {
           navigate("/login");
@@ -118,8 +117,8 @@ export const getUpdatePass =
             textAlign: "center",
             padding: "10px 20px",
           },
-          position: "bottom-center",
-          duration: 4000,
+          position: "top-center",
+          duration: 3000,
         });
       } else if (error.response.data.message === "Password do not match") {
         toast.error("Password tidak sama", {
@@ -132,8 +131,8 @@ export const getUpdatePass =
             textAlign: "center",
             padding: "10px 20px",
           },
-          position: "bottom-center",
-          duration: 4000,
+          position: "top-center",
+          duration: 3000,
         });
       }
     }
