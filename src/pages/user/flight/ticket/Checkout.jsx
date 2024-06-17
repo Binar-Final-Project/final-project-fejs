@@ -24,7 +24,6 @@ export default function TicketCheckout() {
   const navigate = useNavigate();
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
-
   const query = new URLSearchParams(location.search);
   const adult = parseInt(query.get("adult"));
   const child = parseInt(query.get("child"));
@@ -45,7 +44,6 @@ export default function TicketCheckout() {
     anak: child,
     bayi: infant,
   });
-  console.log(penumpang);
 
   //State untuk form
   const [orderer, setOrderer] = useState({
@@ -54,7 +52,6 @@ export default function TicketCheckout() {
     phone_number: "",
     email: "",
   });
-  console.log("nama: ", orderer);
 
   const [passengers, setPassengers] = useState([
     {
@@ -70,9 +67,6 @@ export default function TicketCheckout() {
       valid_until: "",
     },
   ]);
-  console.log("passengers", passengers);
-
-
 
   //Handler untuk mengupdate state ordered
   const handleOrdererChange = (e) => {
@@ -81,7 +75,7 @@ export default function TicketCheckout() {
       [e.target.name]: e.target.value,
     });
   };
-
+  
   //Handler untuk mengupdate state passengers
   const handlePassengerChange = (index, e) => {
     const newPassengers = [...passengers];
@@ -122,7 +116,6 @@ export default function TicketCheckout() {
   const handleToogle = () => {
     setIsChecked(!isChecked);
   };
-
 
   //Handler untuk submit form
   const handleSubmit = (e) => {
@@ -183,9 +176,6 @@ export default function TicketCheckout() {
   };
 
 
-
-
-
   return (
     <div className="bg-[#FFF0DC]">
       {isMobile ? <NavbarMobile /> : <Navbar />}
@@ -209,7 +199,8 @@ export default function TicketCheckout() {
                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
                 onClick={() => {
                   closeTimeUpModal(false);
-                  window.location.href = "/hasil-pencarian";
+                  window.location.href = "/";
+                  dispatch(setChoosenFlight([]));
                 }}
               >
                 Kembali ke Beranda
@@ -280,7 +271,7 @@ export default function TicketCheckout() {
                     name="name"
                     value={orderer.name}
                     onChange={handleOrdererChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                    className="w-full p-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus-within:border-[#2A629A] text-[#2A629A]"
                     required
                   />
                 </div>
@@ -292,8 +283,8 @@ export default function TicketCheckout() {
                     <input
                       type="checkbox"
                       name="family_name"
-                      checked={orderer.family_name}
-                      onChange={handleOrdererChange}
+                      checked={isChecked}
+                      onChange={handleToogle}
                     />
                     <span className="slider"></span>
                   </label>
@@ -305,7 +296,7 @@ export default function TicketCheckout() {
                     name="email"
                     value={orderer.email}
                     onChange={handleOrdererChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                    className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
                     placeholder="contoh@gmail.com"
                     required
                   />
@@ -319,7 +310,7 @@ export default function TicketCheckout() {
                     name="phone_number"
                     value={orderer.phone_number}
                     onChange={handleOrdererChange}
-                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                    className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                     required
                   />
                 </div>
@@ -336,7 +327,7 @@ export default function TicketCheckout() {
                         name="title"
                         value={passenger.title}
                         onChange={(e) => handlePassengerChange(index, e)}
-                        className="appearance-none w-full p-2 border border-gray-300 rounded  focus:outline-none focus:border-blue-500 bg-white text-gray-700 py-2 pl-3 pr-10"
+                        className="appearance-none w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A] py-2 pl-3 pr-10"
                       >
                         <option className="text-[#2A629A]">Tuan</option>
                         <option className="text-[#2A629A]">Nyonya</option>
@@ -347,7 +338,7 @@ export default function TicketCheckout() {
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
                           fill="currentColor"
-                          className="h-6 w-6 text-gray-400"
+                          className="h-6 w-6 text-[#2A629A]"
                         >
                           <path
                             d="M10 12.586L4.707 7.293a1 1 0 011.414-1.414L10 10.758l4.879-4.879a1 1 0 111.414 1.414L10 12.586z"
@@ -365,7 +356,7 @@ export default function TicketCheckout() {
                         name="name"
                         value={passenger.name}
                         onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                         required
                       />
                     </div>
@@ -377,7 +368,7 @@ export default function TicketCheckout() {
                         placeholder="contoh@gmail.com"
                         value={passenger.email}
                         onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                         required
                       />
                     </div>
@@ -390,7 +381,7 @@ export default function TicketCheckout() {
                         name="phone_number"
                         value={passenger.phone_number}
                         onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                         required
                       />
                     </div>
@@ -404,7 +395,7 @@ export default function TicketCheckout() {
                         onChange={(date) =>
                           handleDateChange(index, "date_of_birth", date)
                         }
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
                         placeholder="dd-mm-yyyy"
                         required
                       />
@@ -418,7 +409,7 @@ export default function TicketCheckout() {
                         name="nationality"
                         value={passenger.nationality}
                         onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
                         required
                       />
                     </div>
@@ -431,7 +422,7 @@ export default function TicketCheckout() {
                         name="identity_number"
                         value={passenger.identity_number}
                         onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                         required
                       />
                     </div>
@@ -444,7 +435,7 @@ export default function TicketCheckout() {
                         name="issuing_country"
                         value={passenger.issuing_country}
                         onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
                         required
                       />
                     </div>
@@ -457,7 +448,7 @@ export default function TicketCheckout() {
                         onChange={(date) =>
                           handleDateChange(index, "valid_until", date)
                         }
-                        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500 text-[#2A629A]"
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                         placeholder="dd-mm-yyyy"
                         required
                       />
@@ -468,7 +459,7 @@ export default function TicketCheckout() {
               <div className="mt-5">
             <button
               type="submit"
-              className="w-full bg-[#2A629A] text-white text-sm p-2 rounded-md focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+              className="w-full bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
             >
               Simpan
             </button>
@@ -481,7 +472,7 @@ export default function TicketCheckout() {
               {isDataSaved && (
                 <button
                   onClick={handleLanjutPembayaran}
-                  className="mt-4 ms-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  className="mt-4 ms-3 w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                 >
                   Lanjut Pembayaran
                 </button>

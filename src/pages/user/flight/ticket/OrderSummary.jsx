@@ -32,6 +32,7 @@ export default function OrderSummary() {
     toggleModal(flight); // Menampilkan modal dengan penerbangan yang dipilih
   };
 
+  //Untuk timer
   function formatDuration(minutes) {
     const hours = Math.floor(minutes / 60);
     const remainingMinutes = minutes % 60;
@@ -72,7 +73,10 @@ export default function OrderSummary() {
     return total;
   };
   
-  
+  //Untuk menghitung pajak
+  const calculateTax = (total) => {
+    return total * 0.1;
+}
 
 
   return (
@@ -81,8 +85,11 @@ export default function OrderSummary() {
         <div key={index} className="container bg-white shadow-md rounded p-6 w-full ms-3">
           <div className="col-span-1">
             <div className="flex flex-col border-b border-gray-300 pb-4">
+              <div className="bg-[#86B6F6] p-1 text-sm font-medium rounded-lg text-center inline-block w-[4rem]">
+              <h1>{index === 0 ? "Pergi" : "Pulang"}</h1>
+              </div>
               <div className="text-center p-3">
-                <h2 className="text-xl font-semibold mb-0 mr-4">
+                <h2 className="text-xl font-semibold mb-0 mr-4 text-[#003285]">
                   {flight.departure_city} → {flight.arrival_city}
                 </h2>
               </div>
@@ -99,7 +106,7 @@ export default function OrderSummary() {
                   Detail
                 </a>
               </div>
-              <div className="border border-gray-300 rounded-md p-3 mt-2 text-center">
+              <div className="border border-gray-300 rounded-md p-5 mt-2 mb-3 text-center">
                 <p className="font-semibold">
                   {flight.departure_time} - {flight.arrival_time}
                 </p>
@@ -110,7 +117,7 @@ export default function OrderSummary() {
             </div>
             <div>
             <div className="bg-white p-4">
-              <h4 className="font-semibold text-lg mb-3">Rincian Harga</h4>
+              <h4 className="font-semibold  mb-3">Rincian Harga</h4>
               <div className="text-sm flex justify-between">
                 <p className="mb-1">Dewasa:</p>
                 <p className="mb-1">{penumpang.dewasa > 0 ? `${penumpang.dewasa} x IDR ${flight.price.toLocaleString('id-ID')}` : '0'}</p>
@@ -123,11 +130,17 @@ export default function OrderSummary() {
                 <p className="mb-1">Bayi:</p>
                 <p className="mb-1">{penumpang.bayi > 0 ? `${penumpang.bayi} x IDR ${flight.price.toLocaleString('id-ID')}` : '0'}</p>
               </div>
+              <div className="text-sm flex justify-between">
+                <h4 className="mb-1">Pajak (10%)</h4>
+                <p className="mb-1">IDR {calculateTax(calculateTotalPayment(flight)).toLocaleString("id-ID")}</p>
+              </div>
             </div>
 
               <div className="flex items-center justify-between mt-4">
                 <h4 className="text-sm text-gray-500 font-semibold">Total Pembayaran</h4>
-                <p className="font-medium">IDR {calculateTotalPayment(flight).toLocaleString('id-ID')}</p>
+                <p className="font-medium">
+                  IDR {(calculateTotalPayment(flight) + calculateTax(calculateTotalPayment(flight))).toLocaleString('id-ID')}
+                </p>
               </div>
             </div>
           </div>
@@ -139,12 +152,9 @@ export default function OrderSummary() {
           <div className="col-span-1">
             <div className="flex flex-col border-b border-gray-300 pb-4">
               <div className="text-center p-3">
-                <h2 className="text-lg font-semibold mb-0 mr-4">
+                <h2 className="text-lg font-semibold mb-3 mr-4">
                   Total Pembayaran
                 </h2>
-              </div>
-              <div>
-                <p>Tax</p>
               </div>
               <div className="flex justify-between text-sm">
                 <p>Total Harga untuk Pergi</p>
@@ -154,12 +164,18 @@ export default function OrderSummary() {
                 <p>Total Harga untuk Pulang</p>
                 <p>IDR {calculateTotalPayment(choosenFlight[1]).toLocaleString('id-ID')}</p>
               </div>
+              <div className="flex justify-between text-sm">
+                <p>Pajak (10%)</p>
+                <p>IDR {(calculateTax(calculateTotalPayment(choosenFlight[0])) + calculateTax(calculateTotalPayment(choosenFlight[1]))).toLocaleString('id-ID')}</p>
+              </div>
               <div className="flex justify-between font-semibold pt-4 mt-4">
                 <p className="text-sm text-gray-500">Total Pembayaran</p>
                 <p className="font-medium">
                   IDR {(
                     calculateTotalPayment(choosenFlight[0]) +
-                    calculateTotalPayment(choosenFlight[1])
+                    calculateTotalPayment(choosenFlight[1]) +
+                    calculateTax(calculateTotalPayment(choosenFlight[0])) +
+                    calculateTax(calculateTotalPayment(choosenFlight[1]))
                   ).toLocaleString('id-ID')}
                 </p>
               </div>
