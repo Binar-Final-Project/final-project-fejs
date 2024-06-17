@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setTicket } from "../../reducers/ticket/ticketReducers";
+import { setPassengers, setTicket } from "../../reducers/ticket/ticketReducers";
 
 export const getTicket = (
     flights,
@@ -42,6 +42,7 @@ export const getPassenger = (ticketId) =>
     async (dispatch, getState) => {
         try {
             const { token } = getState().login;
+            console.log(response.data);
             const response = await axios.get(
                 `${import.meta.env.VITE_REACT_APP_SERVER}/tickets/${ticketId}/passengers`,
                 {
