@@ -42,3 +42,21 @@ export const getTransactions = (lt, gte, q) => async (dispatch, getState) => {
     dispatch(setIsLoading(false));
   }
 };
+
+export const printTransactions = (id) => async (dispatch, getState) => {
+  const { token } = getState().login;
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_REACT_APP_SERVER}/transactions/print/${id}`,
+      {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("response print", response);
+  } catch (error) {
+    console.log("error print", error);
+  }
+};

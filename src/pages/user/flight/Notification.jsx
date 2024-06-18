@@ -201,33 +201,40 @@ export default function Notification() {
             {filteredNotifications?.map((notif) => (
               <div key={notif?.notification_id}>
                 <div
-                  className="border-[#003285] border-b-2 px-6 py-5 w-full"
+                  className="bg-white shadow-lg p-6 rounded-xl my-3"
                   onClick={() => handleUpdateStatus(notif?.notification_id)}
                 >
                   <div
-                    className={`flex justify-between ${
-                      isMobile ? "flex-col" : ""
+                    className={`flex justify-between  ${
+                      isMobile ? "flex-col" : "items-center"
                     }`}
                   >
                     <div className="flex items-center">
                       <IoMdNotifications className="text-white bg-[#40A2E3] rounded-full text-3xl p-1" />
-                      <p className="ml-2 font-medium">{notif?.title}</p>
+                      <p className="ml-2 font-medium text-[#003285]">
+                        {notif?.title}
+                      </p>
                     </div>
                     <div
                       className={`flex items-center gap-2 ${
-                        isMobile ? "ms-10" : ""
+                        isMobile ? "ms-10 text-sm" : ""
                       }`}
                     >
                       <time>{notif?.created_at}</time>
-                      <div
-                        className={`text-3xl font-extrabold ${
+
+                      <button
+                        className={`group flex items-center justify-start w-2.5 h-2.5 ${
                           notif?.status === "unread"
-                            ? "text-red-500"
-                            : "text-green-500"
-                        }`}
+                            ? "bg-red-500"
+                            : "bg-green-500"
+                        } rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:h-11 hover:w-32 hover:rounded-lg active:translate-x-1 active:translate-y-1`}
                       >
-                        •
-                      </div>
+                        <div className="absolute pl-2 transform translate-x-full opacity-0 text-white font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                          {notif?.status === "unread"
+                            ? "Belum dibaca"
+                            : "Sudah dibaca"}
+                        </div>
+                      </button>
                     </div>
                   </div>
                   <div className="ps-10">

@@ -65,10 +65,9 @@ export default function SearchMobile() {
     setIsChecked(!isChecked);
   };
 
-  // BUAT UBAH FORMAT TANGGAL PERGI
+  // BUAT MENGAMBIL TANGGAL PERGI
   const handleSelectDate = (date) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
-    setDeparture_date(formattedDate);
+    setDeparture_date(date);
   };
 
   // BUAT COUNTER JUMLAH PENUMPANG
@@ -109,8 +108,9 @@ export default function SearchMobile() {
       return;
     }
 
-    const departureDate = date[0].startDate.toISOString().split("T")[0];
-    const returnDate = date[0].endDate.toISOString().split("T")[0];
+    const departureDate = format(new Date(date[0].startDate), "yyyy-MM-dd");
+    const returnDate = format(new Date(date[0].endDate), "yyyy-MM-dd");
+    const singleDate = format(new Date(departure_date), "yyyy-MM-dd");
 
     if (isChecked && departureDate === returnDate) {
       toast("Harap pilih tanggal yang berbeda!", {
@@ -138,7 +138,7 @@ export default function SearchMobile() {
         getFlight(
           departure_code,
           arrival_code,
-          departure_date,
+          singleDate,
           seat_class,
           total_passenger,
           filter
@@ -158,7 +158,7 @@ export default function SearchMobile() {
       );
     } else {
       navigate(
-        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${singleDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
         { replace: true }
       );
     }
@@ -343,7 +343,7 @@ export default function SearchMobile() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full p-4 bg-[#2A629A] text-white rounded-lg"
+                  className="w-full p-4 bg-[#2A629A] text-white rounded-lg transition-colors duration-300 hover:bg-[#003285]"
                   onClick={handleSubmit}
                 >
                   Cari Penerbangan
@@ -473,7 +473,7 @@ export default function SearchMobile() {
                 </li>
               </ul>
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleSeatModal}
               >
                 Simpan
@@ -610,7 +610,7 @@ export default function SearchMobile() {
             <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b ">
               <button
                 onClick={handlePassengerModal}
-                className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                className="text-white bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
               >
                 Simpan
               </button>
@@ -674,13 +674,13 @@ export default function SearchMobile() {
                 <Calendar
                   value={departure_date}
                   onChange={handleSelectDate}
-                  // minDate={new Date()}
+                  minDate={new Date()}
                   color="#2A629A"
                   date={departure_date}
                 />
               )}
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleDateModal}
               >
                 Simpan

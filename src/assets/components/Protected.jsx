@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { checkToken } from "../../redux/actions/auth/loginActions";
 
 export default function Protected() {
   const navigate = useNavigate();
-
-  const { token } = useSelector((state) => state.login); //MENGAMBIL TOKEN
+  const dispatch = useDispatch();
 
   // JIKA TOKEN TIDAK ADA, MAKA AKAN MENAMPILKAN ALERT DAN DIRECT KE LOGIN PAGE
   useEffect(() => {
@@ -26,6 +25,7 @@ export default function Protected() {
         });
       }, 3000);
     }
+    dispatch(checkToken(navigate));
   }, []);
 
   return;

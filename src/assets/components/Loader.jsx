@@ -1,13 +1,42 @@
 import React from "react";
-
+import gif from "../images/plane.gif";
 // BUAT NYIMPEN AJA SEMBARI NUNGGU API NYA AKU TARO SINI
 export default function Loader() {
   return (
-    <div className="flex justify-center items-center h-screen bg-[#86B6F6]">
-      <iframe
-        src="https://lottie.host/embed/d2c487e3-a2ad-4b0a-9406-f6c0a7020ad6/HGJUzj8p7b.json"
-        className="h-screen w-4/5 lg:w-2/5"
-      ></iframe>
+    <div className="flex flex-col justify-center items-center h-screen bg-[#86B6F6]">
+      <div className="w-80">
+        <img src={gif} className="" alt="" />
+      </div>
+      <div className="flex justify-center items-end">
+        <div className="flex gap-2 items-center">
+          <div className="text-white text-xl text-center w-5 h-5 rounded-full bg-[#2A629A] animate-bounce">
+            L
+          </div>
+          <div className="text-white text-xl text-center w-5 h-5 rounded-full bg-[#2A629A] animate-bounce [animation-delay:-.1s]">
+            o
+          </div>
+          <div className="text-white text-xl text-center w-5 h-5 rounded-full bg-[#2A629A] animate-bounce [animation-delay:-.2s]">
+            a
+          </div>
+          <div className="text-white text-xl text-center w-5 h-5 rounded-full bg-[#2A629A] animate-bounce [animation-delay:-.3s]">
+            d
+          </div>
+          <div className="text-white text-xl text-center w-5 h-5 rounded-full bg-[#2A629A] animate-bounce [animation-delay:-.4s]">
+            i
+          </div>
+          <div className="text-white text-xl text-center w-5 h-5 rounded-full bg-[#2A629A] animate-bounce [animation-delay:-.5s]">
+            n
+          </div>
+          <div className="text-white text-xl text-center w-5 h-5 rounded-full bg-[#2A629A] animate-bounce [animation-delay:-.6s]">
+            g
+          </div>
+        </div>
+        <div className="flex gap-2 ml-2">
+          <div className="w-2 h-2 rounded-full bg-[#2A629A] animate-bounce [animation-delay:-.8s]"></div>
+          <div className="w-2 h-2 rounded-full bg-[#2A629A] animate-bounce [animation-delay:-.10s]"></div>
+          <div className="w-2 h-2 rounded-full bg-[#2A629A] animate-bounce [animation-delay:-.12s]"></div>
+        </div>
+      </div>
     </div>
   );
 }

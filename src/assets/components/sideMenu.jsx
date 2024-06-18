@@ -93,6 +93,15 @@ export default function sideMenu() {
     fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
       >
         <div className="relative w-full max-w-[90%] md:max-w-[60%] lg:max-w-[40%] max-h-full animate__animated animate__zoomIn mx-4 p-4">
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          confirmModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      
+        <div
+          className={`relative p-4 w-full max-w-lg max-h-full transform transition-transform duration-300 ease-in-out ${
+            confirmModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <button
               type="button"

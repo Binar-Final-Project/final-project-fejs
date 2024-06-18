@@ -66,10 +66,9 @@ export default function SearchDesktop() {
     setIsChecked(!isChecked);
   };
 
-  // BUAT UBAH FORMAT TANGGAL PERGI
+  // BUAT MENGAMBIL TANGGAL PERGI
   const handleSelectDate = (date) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
-    setDeparture_date(formattedDate);
+    setDeparture_date(date);
   };
 
   // BUAT COUNTER JUMLAH PENUMPANG
@@ -109,10 +108,12 @@ export default function SearchDesktop() {
       toast("Harap isi tanggal kepulangan!");
       return;
     }
-    const departureDate = date[0].startDate.toISOString().split("T")[0];
-    const returnDate = date[0].endDate.toISOString().split("T")[0];
 
-    if (date[0].startDate === date[0].endDate) {
+    const departureDate = format(new Date(date[0].startDate), "yyyy-MM-dd");
+    const returnDate = format(new Date(date[0].endDate), "yyyy-MM-dd");
+    const singleDate = format(new Date(departure_date), "yyyy-MM-dd");
+
+    if (isChecked === true && departureDate === returnDate) {
       toast("Harap pilih tanggal yang berbeda!", {
         style: {
           background: "#FF0000",
@@ -138,15 +139,13 @@ export default function SearchDesktop() {
         getFlight(
           departure_code,
           arrival_code,
-          departure_date,
+          singleDate,
           seat_class,
           total_passenger,
           filter
         )
       );
     }
-
-    dispatch(setChoosenFlight([]));
 
     dispatch(setChoosenFlight([]));
 
@@ -158,7 +157,7 @@ export default function SearchDesktop() {
       );
     } else {
       navigate(
-        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${singleDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
         { replace: true }
       );
     }
@@ -237,7 +236,7 @@ export default function SearchDesktop() {
                         </div>
                         <button
                           type="button"
-                          className="bg-[#003285] text-white p-3 rounded-lg  mt-3 md:mt-0"
+                          className="bg-[#003285] text-white p-3 rounded-full  mt-3 md:mt-0"
                           onClick={handleRotateClick}
                         >
                           <FaArrowsRotate />
@@ -370,7 +369,7 @@ export default function SearchDesktop() {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-[#2A629A] rounded-b-xl shadow-xl text-white font-medium text-center">
+                  <div className="bg-[#2A629A] rounded-b-xl shadow-xl text-white font-medium text-center transition-colors duration-300 hover:bg-[#003285]">
                     <button
                       type="submit"
                       className="w-full p-4"
@@ -505,7 +504,7 @@ export default function SearchDesktop() {
                 </li>
               </ul>
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleSeatModal}
               >
                 Simpan
@@ -641,7 +640,7 @@ export default function SearchDesktop() {
             <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b ">
               <button
                 onClick={handlePassengerModal}
-                className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                className="text-white bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
               >
                 Simpan
               </button>
@@ -698,20 +697,20 @@ export default function SearchDesktop() {
                   }}
                   moveRangeOnFirstSelection={false}
                   ranges={date}
-                  // minDate={new Date()}
+                  minDate={new Date()}
                   rangeColors={["#2A629A", "#3472b0", "#003285"]}
                 />
               ) : (
                 <Calendar
                   value={departure_date}
                   onChange={handleSelectDate}
-                  // minDate={new Date()}
+                  minDate={new Date()}
                   color="#2A629A"
                   date={departure_date}
                 />
               )}
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleDateModal}
               >
                 Simpan

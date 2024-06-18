@@ -30,9 +30,6 @@ export default function TicketCheckout() {
 
   const { choosenFlight } = useSelector((state) => state.flight);
 
-  //State untuk tanggal
-  const [date, setDate] = useState(null);
-
   //state untuk modal
   const { token } = useSelector((state) => state.login);
   const [isChecked, setIsChecked] = useState(false);
@@ -219,287 +216,290 @@ export default function TicketCheckout() {
           </div>
         </Modal>
 
-      <div className="p-3">
-        {/* Countdown Bar */}
-        <div className="bg-red-500 text-center py-2 text-white font-bold">
-          Selesaikan dalam {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
-          sebelum tiket kamu hangus!
-        </div>
+        <div className="p-3">
+          {/* Countdown Bar */}
+          <div className="bg-red-500 text-center py-2 text-white font-bold">
+            Selesaikan dalam {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
+            sebelum tiket kamu hangus!
+          </div>
 
-        {/* Menampilkan modal untuk kembali */}
-        <div className="lg:w-1/12 mt-5">
-          <div
-            className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3] cursor-pointer"
-            onClick={() => setOpenModal(true)}
+          {/* Menampilkan modal untuk kembali */}
+          <div className="lg:w-1/12 mt-5">
+            <div
+              className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3] cursor-pointer"
+              onClick={() => setOpenModal(true)}
+            >
+              <IoIosArrowBack className="text-3xl" />
+              <h6 className="text-lg">Kembali</h6>
+            </div>
+          </div>
+          <Modal
+            isOpen={openModal}
+            onRequestClose={() => setOpenModal(false)}
+            contentLabel="Konfirmasi Kembali"
+            className="custom-modal"
+            overlayClassName="custom-overlay"
           >
-            <IoIosArrowBack className="text-3xl" />
-            <h6 className="text-lg">Kembali</h6>
-          </div>
-        </div>
-        <Modal
-          isOpen={openModal}
-          onRequestClose={() => setOpenModal(false)}
-          contentLabel="Konfirmasi Kembali"
-          className="custom-modal"
-          overlayClassName="custom-overlay"
-        >
-          <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-              Apakah kamu yakin ingin keluar?
-            </h3>
-            <div className="flex justify-center gap-4">
-              <button
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-                onClick={() => {
-                  setOpenModal(false);
-                  window.location.href = "/";
-                  dispatch(setChoosenFlight([]));
-                }}
-              >
-                Ya, saya yakin
-              </button>
-              <button
-                className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
-                onClick={() => setOpenModal(false)}
-              >
-                Tidak
-              </button>
+            <div className="text-center">
+              <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                Apakah kamu yakin ingin keluar?
+              </h3>
+              <div className="flex justify-center gap-4">
+                <button
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+                  onClick={() => {
+                    setOpenModal(false);
+                    window.location.href = "/";
+                    dispatch(setChoosenFlight([]));
+                  }}
+                >
+                  Ya, saya yakin
+                </button>
+                <button
+                  className="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded"
+                  onClick={() => setOpenModal(false)}
+                >
+                  Tidak
+                </button>
+              </div>
             </div>
-          </div>
-        </Modal>
+          </Modal>
 
-        <form onSubmit={handleSubmit}>
-          <div className="container mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="col-span-2">
-              {/* Data Akun */}
-              <div className="bg-white shadow-md rounded p-6">
-                <h2 className="text-xl font-semibold mb-4 text-[#003285]">
-                  Data Diri Pemesan
-                </h2>
-                <div className="mb-4">
-                  <label className="block text-[#2A629A] mb-2">
-                    Nama Lengkap
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={orderer.name}
-                    onChange={handleOrdererChange}
-                    className="w-full p-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus-within:border-[#2A629A] text-[#2A629A]"
-                    required
-                  />
-                </div>
-                <div className="mb-4 flex items-center">
-                  <label className="text-[#2A629A] mr-2">
-                    Punya Nama Keluarga?
-                  </label>
-                  <label className="switch">
+          <form onSubmit={handleSubmit}>
+            <div className="container mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="col-span-2">
+                {/* Data Akun */}
+                <div className="bg-white shadow-md rounded p-6">
+                  <h2 className="text-xl font-semibold mb-4 text-[#003285]">
+                    Data Diri Pemesan
+                  </h2>
+                  <div className="mb-4">
+                    <label className="block text-[#2A629A] mb-2">
+                      Nama Lengkap
+                    </label>
                     <input
-                      type="checkbox"
-                      name="family_name"
-                      checked={isChecked}
-                      onChange={handleToogle}
+                      type="text"
+                      name="name"
+                      value={orderer.name}
+                      onChange={handleOrdererChange}
+                      className="w-full p-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus-within:border-[#2A629A] text-[#2A629A]"
+                      required
                     />
-                    <span className="slider"></span>
-                  </label>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-[#2A629A] mb-2">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={orderer.email}
-                    onChange={handleOrdererChange}
-                    className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
-                    placeholder="contoh@gmail.com"
-                    required
-                  />
-                </div>
-                <div className="mb-4">
-                  <label className="block text-[#2A629A] mb-2">
-                    No Telephone
-                  </label>
-                  <input
-                    type="text"
-                    name="phone_number"
-                    value={orderer.phone_number}
-                    onChange={handleOrdererChange}
-                    className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Data Tiket 1 */}
-              <div className="bg-white shadow-md rounded p-6 mt-6">
-                <h2 className="text-xl font-bold mb-4 text-[#003285]">
-                  Isi Data Penumpang
-                </h2>
-                {passengers.map((passenger, index) => (
-                  <div key={index} className="mb-4">
-                    <label className="block text-[#2A629A] mb-2">Title</label>
-                    <div className="relative mb-4">
-                      <select
-                        name="title"
-                        value={passenger.title}
-                        onChange={(e) => handlePassengerChange(index, e)}
-                        className="appearance-none w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A] py-2 pl-3 pr-10"
-                      >
-                        <option className="text-[#2A629A]">Tuan</option>
-                        <option className="text-[#2A629A]">Nyonya</option>
-                        <option className="text-[#2A629A]">Nona</option>
-                      </select>
-                      <span className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          className="h-6 w-6 text-[#2A629A]"
-                        >
-                          <path
-                            d="M10 12.586L4.707 7.293a1 1 0 011.414-1.414L10 10.758l4.879-4.879a1 1 0 111.414 1.414L10 12.586z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">
-                        Nama Lengkap
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={passenger.name}
-                        onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">Email</label>
-                      <input
-                        type="text"
-                        name="email"
-                        placeholder="contoh@gmail.com"
-                        value={passenger.email}
-                        onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">
-                        No Telp
-                      </label>
-                      <input
-                        type="text"
-                        name="phone_number"
-                        value={passenger.phone_number}
-                        onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                        required
-                      />
-                    </div>
-
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">
-                        Tanggal Lahir
-                      </label>
-                      <Flatpickr
-                        value={passenger.date_of_birth}
-                        onChange={(date) =>
-                          handleDateChange(index, "date_of_birth", date)
-                        }
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
-                        placeholder="dd-mm-yyyy"
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">
-                        Kewarganegaraan
-                      </label>
-                      <input
-                        type="text"
-                        name="nationality"
-                        value={passenger.nationality}
-                        onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">
-                        KTP/Paspor
-                      </label>
-                      <input
-                        type="number"
-                        name="identity_number"
-                        value={passenger.identity_number}
-                        onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">
-                        Negara Penerbit
-                      </label>
-                      <input
-                        type="text"
-                        name="issuing_country"
-                        value={passenger.issuing_country}
-                        onChange={(e) => handlePassengerChange(index, e)}
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
-                        required
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">
-                        Berlaku Sampai
-                      </label>
-                      <Flatpickr
-                        value={passenger.valid_until}
-                        onChange={(date) =>
-                          handleDateChange(index, "valid_until", date)
-                        }
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                        placeholder="dd-mm-yyyy"
-                        required
-                      />
-                    </div>
                   </div>
-                ))}
-              </div>
-              <div className="mt-5">
-                <button
-                  type="submit"
-                  className="w-full bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
-                >
-                  Simpan
-                </button>
-              </div>
-            </div>
+                  <div className="mb-4 flex items-center">
+                    <label className="text-[#2A629A] mr-2">
+                      Punya Nama Keluarga?
+                    </label>
+                    <label className="switch">
+                      <input
+                        type="checkbox"
+                        name="family_name"
+                        checked={isChecked}
+                        onChange={handleToogle}
+                      />
+                      <span className="slider"></span>
+                    </label>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-[#2A629A] mb-2">Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={orderer.email}
+                      onChange={handleOrdererChange}
+                      className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                      placeholder="contoh@gmail.com"
+                      required
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-[#2A629A] mb-2">
+                      No Telephone
+                    </label>
+                    <input
+                      type="text"
+                      name="phone_number"
+                      value={orderer.phone_number}
+                      onChange={handleOrdererChange}
+                      className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                      required
+                    />
+                  </div>
+                </div>
 
-            {/* Order Summary */}
-            <div className="col-span-1" ref={orderSummaryRef}>
-              <OrderSummary />
-              {isDataSaved && (
-                <button
-                  onClick={handleLanjutPembayaran}
-                  className="mt-4 ms-3 w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                >
-                  Lanjut Pembayaran
-                </button>
-              )}
+                {/* Data Tiket 1 */}
+                <div className="bg-white shadow-md rounded p-6 mt-6">
+                  <h2 className="text-xl font-bold mb-4 text-[#003285]">
+                    Isi Data Penumpang
+                  </h2>
+                  {passengers.map((passenger, index) => (
+                    <div key={index} className="mb-4">
+                      <label className="block text-[#2A629A] mb-2">Title</label>
+                      <div className="relative mb-4">
+                        <select
+                          name="title"
+                          value={passenger.title}
+                          onChange={(e) => handlePassengerChange(index, e)}
+                          className="appearance-none w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A] py-2 pl-3 pr-10"
+                        >
+                          <option className="text-[#2A629A]">Tuan</option>
+                          <option className="text-[#2A629A]">Nyonya</option>
+                          <option className="text-[#2A629A]">Nona</option>
+                        </select>
+                        <span className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            className="h-6 w-6 text-[#2A629A]"
+                          >
+                            <path
+                              d="M10 12.586L4.707 7.293a1 1 0 011.414-1.414L10 10.758l4.879-4.879a1 1 0 111.414 1.414L10 12.586z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                      </div>
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">
+                          Nama Lengkap
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={passenger.name}
+                          onChange={(e) => handlePassengerChange(index, e)}
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">
+                          Email
+                        </label>
+                        <input
+                          type="text"
+                          name="email"
+                          placeholder="contoh@gmail.com"
+                          value={passenger.email}
+                          onChange={(e) => handlePassengerChange(index, e)}
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">
+                          No Telp
+                        </label>
+                        <input
+                          type="text"
+                          name="phone_number"
+                          value={passenger.phone_number}
+                          onChange={(e) => handlePassengerChange(index, e)}
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          required
+                        />
+                      </div>
+
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">
+                          Tanggal Lahir
+                        </label>
+                        <Flatpickr
+                          value={passenger.date_of_birth}
+                          onChange={(date) =>
+                            handleDateChange(index, "date_of_birth", date)
+                          }
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                          placeholder="dd-mm-yyyy"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">
+                          Kewarganegaraan
+                        </label>
+                        <input
+                          type="text"
+                          name="nationality"
+                          value={passenger.nationality}
+                          onChange={(e) => handlePassengerChange(index, e)}
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">
+                          KTP/Paspor
+                        </label>
+                        <input
+                          type="number"
+                          name="identity_number"
+                          value={passenger.identity_number}
+                          onChange={(e) => handlePassengerChange(index, e)}
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">
+                          Negara Penerbit
+                        </label>
+                        <input
+                          type="text"
+                          name="issuing_country"
+                          value={passenger.issuing_country}
+                          onChange={(e) => handlePassengerChange(index, e)}
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                          required
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">
+                          Berlaku Sampai
+                        </label>
+                        <Flatpickr
+                          value={passenger.valid_until}
+                          onChange={(date) =>
+                            handleDateChange(index, "valid_until", date)
+                          }
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="dd-mm-yyyy"
+                          required
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-5">
+                  <button
+                    type="submit"
+                    className="w-full bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                  >
+                    Simpan
+                  </button>
+                </div>
+              </div>
+
+              {/* Order Summary */}
+              <div className="col-span-1" ref={orderSummaryRef}>
+                <OrderSummary />
+                {isDataSaved && (
+                  <button
+                    onClick={handleLanjutPembayaran}
+                    className="mt-4 ms-3 w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  >
+                    Lanjut Pembayaran
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
+        {isMobile ? "" : <BtnScrollTop />}
+        <Footer />
       </div>
-      {isMobile ? "" : <BtnScrollTop />}
-      <Footer />
     </div>
   );
 }

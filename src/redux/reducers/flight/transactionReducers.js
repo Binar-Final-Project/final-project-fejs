@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   transactions: [],
   isLoading: true,
+  recentSearch: [],
 };
 
 const transactionSlicer = createSlice({
@@ -15,9 +16,28 @@ const transactionSlicer = createSlice({
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    addToRecentSearch: (state, action) => {
+      state.recentSearch = [...state.recentSearch, action.payload];
+    },
+    removeAllFromRecentSearch: (state, action) => {
+      state.recentSearch = state.recentSearch.filter(
+        (search) => search.email !== action.payload
+      );
+    },
+    removeFromRecentSearch: (state, action) => {
+      state.recentSearch = state.recentSearch.filter(
+        (search, index) => index !== action.payload
+      );
+    },
   },
 });
 
-export const { setTransactions, setIsLoading } = transactionSlicer.actions;
+export const {
+  setTransactions,
+  setIsLoading,
+  addToRecentSearch,
+  removeAllFromRecentSearch,
+  removeFromRecentSearch,
+} = transactionSlicer.actions;
 
 export default transactionSlicer.reducer;
