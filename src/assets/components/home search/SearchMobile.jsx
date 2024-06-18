@@ -667,14 +667,14 @@ export default function SearchMobile() {
                   }}
                   moveRangeOnFirstSelection={false}
                   ranges={date}
-                  // minDate={new Date()}
+                  minDate={new Date()}
                   rangeColors={["#2A629A", "#3472b0", "#003285"]}
                 />
               ) : (
                 <Calendar
                   value={departure_date}
                   onChange={handleSelectDate}
-                  // minDate={new Date()}
+                  minDate={new Date()}
                   color="#2A629A"
                   date={departure_date}
                 />

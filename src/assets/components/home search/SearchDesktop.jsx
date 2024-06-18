@@ -37,7 +37,6 @@ export default function SearchDesktop() {
   const [seat_class, setSeat_class] = useState("Economy");
   const [total_passenger, setTotal_passenger] = useState(1);
   const [departure_date, setDeparture_date] = useState(new Date());
-  console.log("departure_date", departure_date);
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -237,7 +236,7 @@ export default function SearchDesktop() {
                         </div>
                         <button
                           type="button"
-                          className="bg-[#003285] text-white p-3 rounded-lg  mt-3 md:mt-0"
+                          className="bg-[#003285] text-white p-3 rounded-full  mt-3 md:mt-0"
                           onClick={handleRotateClick}
                         >
                           <FaArrowsRotate />
@@ -370,7 +369,7 @@ export default function SearchDesktop() {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-[#2A629A] rounded-b-xl shadow-xl text-white font-medium text-center">
+                  <div className="bg-[#2A629A] rounded-b-xl shadow-xl text-white font-medium text-center transition-colors duration-300 hover:bg-[#003285]">
                     <button
                       type="submit"
                       className="w-full p-4"
@@ -698,14 +697,14 @@ export default function SearchDesktop() {
                   }}
                   moveRangeOnFirstSelection={false}
                   ranges={date}
-                  // minDate={new Date()}
+                  minDate={new Date()}
                   rangeColors={["#2A629A", "#3472b0", "#003285"]}
                 />
               ) : (
                 <Calendar
                   value={departure_date}
                   onChange={handleSelectDate}
-                  // minDate={new Date()}
+                  minDate={new Date()}
                   color="#2A629A"
                   date={departure_date}
                 />
