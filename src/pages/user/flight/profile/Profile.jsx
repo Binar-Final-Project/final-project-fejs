@@ -127,7 +127,7 @@ export default function Profile() {
                     ) : (
                       <div>
                         <span className="font-medium text-[#003285] mr-1">
-                          Nama Lengkap :
+                          Nama Lengkap:
                         </span>
                         <span> {profile?.name}</span>
                       </div>
@@ -140,7 +140,7 @@ export default function Profile() {
                   ) : (
                     <div className="flex flex-col md:flex-row">
                       <span className="font-medium text-[#003285] mr-1">
-                        Nomor HP :
+                        Nomor Ponsel:
                       </span>
                       <span> +62{profile?.phone_number}</span>
                     </div>
@@ -152,7 +152,7 @@ export default function Profile() {
                   ) : (
                     <div className="flex flex-col md:flex-row">
                       <span className="font-medium text-[#003285] mr-1">
-                        Email :
+                        Email:
                       </span>
                       <span className="text-balance"> {profile?.email}</span>
                     </div>
@@ -163,7 +163,7 @@ export default function Profile() {
                 <Link to="/ubah-akun">
                   <button
                     type="button"
-                    className="py-2 px-4 rounded-lg bg-[#2A629A] text-white hover:bg-[#3472b0]"
+                    className="py-2 px-4 rounded-lg bg-[#2A629A] text-white hover:bg-[#003285]"
                   >
                     <div className="flex items-center font-medium">
                       <span className="text-md">Ubah</span>

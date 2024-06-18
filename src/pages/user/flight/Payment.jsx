@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { BiErrorCircle } from "react-icons/bi";
 import { RxCrossCircled } from "react-icons/rx";
 import toast, { Toaster } from "react-hot-toast";
 import Navbar from "../../../assets/components/navigations/navbar/Navbar";
@@ -11,12 +12,14 @@ import NavbarMobile from "../../../assets/components/navigations/navbar/Navbar-m
 import {
   setCardNumber,
   setCardHolderName,
+  setCardHolderNameTouched,
   setCvv,
   setExpiryDate,
   setSelectedMethod,
   setIsDropdownOpen,
   setSelectedMonth,
   setSelectedYear,
+  clearError,
 } from "../../../redux/reducers/flight/paymentReducers";
 import {
   processPayment,
@@ -38,6 +41,7 @@ export default function Payment() {
   const {
     card_number,
     card_holder_name,
+    isCardHolderNameTouched,
     cvv,
     isLoading,
     selectedMethod,
@@ -53,6 +57,29 @@ export default function Payment() {
       dispatch(resetPaymentState());
     };
   }, [dispatch]);
+
+  // Fungsi untuk menangani perubahan input nama
+  const handleCardHolderNameChange = (event) => {
+    dispatch(clearError());
+    dispatch(setCardHolderName(event.target.value)); // Memastikan ini mengatur nilai nama pemegang kartu ke dalam Redux state
+    if (!isCardHolderNameTouched) {
+      dispatch(setCardHolderNameTouched(true));
+    }
+  };
+
+  // Fungsi untuk menangani fokus input nama
+  const handleCardHolderNameFocus = () => {
+    if (!isCardHolderNameTouched) {
+      dispatch(setCardHolderNameTouched(true));
+    }
+  };
+
+  // Fungsi untuk menangani blur input nama
+  const handleCardHolderNameBlur = () => {
+    if (card_holder_name === "") {
+      dispatch(setCardHolderNameTouched(false));
+    }
+  };
 
   const handleMethodChange = (payment_method) => {
     if (selectedMethod === payment_method) {
@@ -158,9 +185,35 @@ export default function Payment() {
   return (
     <div>
       {isMobile ? <NavbarMobile /> : <Navbar />}
-      <div className="flex flex-col lg:flex-row justify-center items-start lg:items-center min-h-screen bg-[#FFF0DC] p-2 relative md:pt-14 pt-14">
-        <Toaster position="top-center" reverseOrder={false} />
-        <div className="w-full lg:w-1/2 max-w-[500px] rounded-lg p-6 my-20 bg-white text-center shadow-lg z-10">
+      <div className="flex flex-col lg:flex-row justify-center items-start lg:items-center min-h-screen bg-[#FFF0DC] p-5 relative md:pt-16 pt-16">
+        <Toaster reverseOrder={false} />
+
+        {/* Tombol Kembali
+        <div className="absolute pt-16 top-10 left-10 z-10">
+          <Link to="/checkout">
+            <div className="flex items-center text-[#003285] hover:text-[#40A2E3]">
+              <IoIosArrowBack className="text-3xl mr-2" />
+              <span className="text-lg">Kembali</span>
+            </div>
+          </Link>
+        </div> */}
+
+        {/* Tombol Kembali */}
+        {!isMobile && (
+          <div className="absolute pt-16 top-10 left-10 z-10">
+            <div>
+              <Link to="/checkout">
+                <div className="flex items-center text-[#003285] hover:text-[#40A2E3]">
+                  <IoIosArrowBack className="text-3xl mr-2" />
+                  <span className="text-lg">Kembali</span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Form Pembayaran */}
+        <div className="w-full lg:w-1/2 max-w-[500px] rounded-lg p-6 my-20 bg-white text-center shadow-lg">
           <h1 className="text-[#003285] text-2xl font-bold p-2 mb-7">
             Isi Data Pembayaran
           </h1>
@@ -310,7 +363,7 @@ export default function Payment() {
                   </div>
                   {!validateCardNumber(card_number) && card_number && (
                     <p className="text-[#FF0000] text-xs mt-1 text-left">
-                      Nomor kartu terlalu pendek, minimum berisi 16 angka
+                      Nomor kartu terlalu pendek, minimum 16 angka
                     </p>
                   )}
                 </div>
@@ -318,17 +371,37 @@ export default function Payment() {
                   <label className="block text-left text-[#2A629A] text-sm font-medium mb-1">
                     Nama Pemegang Kartu
                   </label>
-                  <div className="flex items-center p-2 rounded-lg bg-white border border-[#D0D0D0] focus-within:shadow-lg focus-within:border-[#2A629A]">
+                  <div
+                    className={`flex items-center p-2 rounded-lg bg-white border focus-within:shadow-lg
+                    ${
+                      card_holder_name
+                        ? isCardHolderNameTouched
+                          ? "focus-within:border-[#2A629A]"
+                          : "focus-within:border-[#FF0000]"
+                        : "focus-within:border-[#2A629A]"
+                    } 
+                    ${
+                      !isCardHolderNameTouched && card_holder_name
+                        ? "border-[#FF0000]"
+                        : "border-[#D0D0D0]"
+                    }`}
+                  >
                     <input
                       className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                       type="text"
+                      placeholder="Nama"
                       value={card_holder_name}
-                      onChange={(e) =>
-                        dispatch(setCardHolderName(e.target.value))
-                      }
-                      placeholder="Nama Lengkap"
+                      onFocus={handleCardHolderNameFocus}
+                      onBlur={handleCardHolderNameBlur}
+                      onChange={handleCardHolderNameChange}
                     />
                   </div>
+                  {isCardHolderNameTouched && !card_holder_name && (
+                    <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
+                      <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                      <p>Nama pemegang kartu tidak boleh kosong</p>
+                    </div>
+                  )}
                 </div>
                 <div className="mt-2 flex gap-2">
                   <div className="w-1/2">
@@ -363,7 +436,7 @@ export default function Payment() {
                     </div>
                     {!validateCvv(cvv) && cvv && (
                       <p className="text-[#FF0000] text-xs mt-1 text-left">
-                        CVV minimum berisi 3 angka
+                        CVV berisi 3-4 angka
                       </p>
                     )}
                   </div>
@@ -412,9 +485,10 @@ export default function Payment() {
                       `${selectedMonth}/${selectedYear.toString().slice(2)}`
                     ) &&
                       (selectedMonth || selectedYear) && (
-                        <p className="text-[#FF0000] text-xs mt-1 text-left">
-                          Mohon isi kedua kolom di atas
-                        </p>
+                        <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
+                          <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                          <p>Mohon isi kedua kolom di atas</p>
+                        </div>
                       )}
                   </div>
                 </div>
@@ -430,7 +504,8 @@ export default function Payment() {
           </div>
         </div>
 
-        <div className="w-full lg:w-2/5 max-w-[500px] m-10">
+        {/* Format Pemesanan Tiket */}
+        <div className="w-full lg:flex-grow max-w-[500px] lg:ml-10 mt-10 lg:mt-0">
           <BookingSummary />
         </div>
       </div>

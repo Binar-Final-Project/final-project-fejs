@@ -48,9 +48,9 @@ export const login = (email, password, navigate) => async (dispatch) => {
     }
     console.log("Response Login: ", responseLogin);
   } catch (error) {
-    if (error.response && error.response.status === 404) {
-      // dispatch(setError("Alamat Email tidak terdaftar"));
-      toast.error("Alamat Email tidak terdaftar. Silakan coba lagi.", {
+    if (error.response && error.response.status === 400) {
+      // dispatch(setError("Alamat Email tidak terdaftar."));
+      toast.error("Alamat Email tidak terdaftar.", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -65,7 +65,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
         duration: 3000, // Durasi toast
       });
     } else if (error.response && error.response.status === 401) {
-      // dispatch(setError("Password salah. Silakan coba lagi"));
+      // dispatch(setError("Kata sandi salah. Silakan coba lagi"));
       toast.error("Kata sandi salah. Silakan coba lagi", {
         // Menampilkan toast error
         icon: null,

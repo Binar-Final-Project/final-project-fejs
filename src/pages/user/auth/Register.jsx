@@ -255,7 +255,7 @@ export default function Register() {
     }
 
     if (phone_number.length < 8) {
-      toast.error("Mohon masukkan nomor telepon dengan benar!", {
+      toast.error("Mohon masukkan nomor ponsel dengan benar!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -346,7 +346,7 @@ export default function Register() {
         <div className="flex justify-center items-center min-h-screen w-full">
           <Toaster />
 
-          <div className="max-w-[400px] w-full rounded-lg p-5 m-4 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
+          <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
@@ -394,7 +394,7 @@ export default function Register() {
                     {isNameTouched && !name && (
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                         <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
-                        <p>Nama harus diisi</p>
+                        <p>Nama tidak boleh kosong</p>
                       </div>
                     )}
                   </div>
@@ -479,7 +479,7 @@ export default function Register() {
                       phone_number &&
                       phone_number.length > 0 && (
                         <p className="text-[#FF0000] text-xs mt-1 text-left">
-                          Nomor ponsel terlalu pendek, minimum berisi 8 angka
+                          Nomor ponsel terlalu pendek, minimum 8 angka
                         </p>
                       )}
                   </div>

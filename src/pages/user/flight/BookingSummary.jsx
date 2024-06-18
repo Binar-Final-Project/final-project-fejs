@@ -250,10 +250,10 @@ export default function BookingSummary() {
         </div>
       </div>
 
-      {/* Modal Konfirmasi */}
+      {/* Modal Konfirmasi Cetak Tiket */}
       {showConfirmationModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="relative p-4 w-full max-w-[90%] max-h-full">
+          <div className="relative w-full max-w-[90%] md:max-w-[60%] lg:max-w-[40%] max-h-full animate__animated animate__zoomIn mx-4">
             <div className="relative bg-white rounded-lg shadow-lg">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 className="text-xl font-semibold text-gray-900">
@@ -282,22 +282,22 @@ export default function BookingSummary() {
                 </button>
               </div>
               <div className="p-4 md:p-5 space-y-4">
-                <p className="text-base leading-relaxed">
+                <p className="text-base leading-relaxed text-gray-500">
                   Apakah Anda yakin ingin mencetak tiket ini?
                 </p>
               </div>
               <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b">
                 <button
                   onClick={handleCloseModals}
-                  className="py-2 px-5 me-3 text-sm font-medium text-gray-900 bg-white rounded-lg border hover:text-[#2A629A]"
+                  className="py-2 px-4 md:px-7 me-3 text-sm font-medium text-gray-900 bg-white rounded-lg border hover:text-[#2A629A]"
                 >
-                  Tidak
+                  Nanti
                 </button>
                 <button
-                  className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-8 py-2 text-center"
+                  className="text-white bg-[#2A629A] hover:bg-[#3472B0] font-medium rounded-lg text-sm px-5 py-2 text-center"
                   onClick={handleConfirmPrint}
                 >
-                  Ya
+                  Cetak
                 </button>
               </div>
             </div>
@@ -308,8 +308,8 @@ export default function BookingSummary() {
       {/* Modal Sukses */}
       {showSuccessModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="relative p-4 w-full max-w-[70%px] max-h-full">
-            <div className="relative bg-white rounded-lg shadow-lg">
+          <div className="relative w-full max-w-[90%] md:max-w-[50%] lg:max-w-[30%] max-h-full animate__animated animate__zoomIn mx-4">
+            <div className="relative bg-white rounded-lg shadow">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 className="text-xl font-semibold text-gray-900">Sukses!</h3>
                 <button
@@ -335,13 +335,13 @@ export default function BookingSummary() {
                 </button>
               </div>
               <div className="p-4 md:p-5 space-y-4">
-                <p className="text-base leading-relaxed">
+                <p className="text-base leading-relaxed text-gray-500">
                   Tiket berhasil dikirim ke Email Anda!
                 </p>
               </div>
               <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b">
                 <button
-                  className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2 text-center"
+                  className="text-white bg-[#2A629A] hover:bg-[#3472B0] font-medium rounded-lg text-sm px-5 py-2 text-center"
                   onClick={handleCloseModals}
                 >
                   Tutup

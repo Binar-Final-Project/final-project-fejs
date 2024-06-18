@@ -4,6 +4,7 @@ const initialState = {
   payment_method: "",
   card_number: "",
   card_holder_name: "",
+  isCardHolderNameTouched: false,
   cvv: "",
   expiry_date: "",
   selectedMonth: "",
@@ -24,6 +25,9 @@ const paymentSlice = createSlice({
     },
     setCardHolderName: (state, action) => {
       state.card_holder_name = action.payload;
+    },
+    setCardHolderNameTouched: (state, action) => {
+      state.isCardHolderNameTouched = action.payload;
     },
     setCvv: (state, action) => {
       state.cvv = action.payload;
@@ -61,6 +65,7 @@ const paymentSlice = createSlice({
 export const {
   setCardNumber,
   setCardHolderName,
+  setCardHolderNameTouched,
   setCvv,
   setExpiryDate,
   setSelectedMonth,

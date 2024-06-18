@@ -52,67 +52,92 @@ export default function PengaturanAkun() {
     e.preventDefault();
 
     if (!oldPassword && !newPassword && !confirmPassword) {
-      toast("Harap isi semua field terlebih dahulu!", {
-        // Menampilkan toast error
+      toast.error("Mohon isi semua kolom terlebih dahulu!", {
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#fff",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       setSaveModalOpen(!saveModalOpen);
       return;
     }
 
     if (!oldPassword) {
-      toast("Harap isi password lama Anda terlebih dahulu!", {
-        // Menampilkan toast error
+      toast.error("Mohon masukkan kata sandi lama Anda!", {
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#fff",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       setSaveModalOpen(!saveModalOpen);
       return;
     }
 
     if (!newPassword) {
-      toast("Harap isi password baru Anda terlebih dahulu!", {
-        // Menampilkan toast error
+      toast.error("Mohon masukkan kata sandi baru Anda!", {
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#fff",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       setSaveModalOpen(!saveModalOpen);
       return;
     }
 
     if (!confirmPassword) {
-      toast("Harap konfirmasi password Anda terlebih dahulu!", {
-        // Menampilkan toast error
+      toast.error("Mohon masukkan konfirmasi kata sandi Anda!", {
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#fff",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       setSaveModalOpen(!saveModalOpen);
       return;
     }
 
     if (!passwordRegex.test(newPassword)) {
-      toast(
-        "Password harus berisi minimal 8 karakter, termasuk huruf besar dan angka",
+      toast.error(
+        "Kata sandi harus berisi minimal 8 karakter, termasuk huruf besar dan angka.",
         {
-          // Menampilkan toast error
+          icon: null,
           style: {
-            background: "#FF0000",
-            color: "#fff",
+            background: "#FF0000", // Background merah
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px", // Rounded-xl
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
           },
-          duration: 4000, // Durasi toast
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
         }
       );
       setSaveModalOpen(!saveModalOpen);
@@ -120,12 +145,18 @@ export default function PengaturanAkun() {
     }
 
     if (newPassword !== confirmPassword) {
-      toast("Password yang Anda masukkan tidak cocok!", {
+      toast.error("Kata sandi yang Anda masukkan tidak cocok!", {
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#fff",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
-        duration: 4000,
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       setSaveModalOpen(!saveModalOpen);
       return;
@@ -194,7 +225,7 @@ export default function PengaturanAkun() {
                         htmlFor="oldPassword"
                         className="block mb-2 text-sm font-medium text-[#003285] "
                       >
-                        Masukkan Password Lama
+                        Masukkan Kata Sandi Lama
                       </label>
                       <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
                         <input
@@ -227,7 +258,7 @@ export default function PengaturanAkun() {
                         htmlFor="newPassword"
                         className="block mb-2 text-sm font-medium text-[#003285] "
                       >
-                        Masukkan Password Baru
+                        Masukkan Kata Sandi Baru
                       </label>
                       <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
                         <input
@@ -280,7 +311,7 @@ export default function PengaturanAkun() {
                         htmlFor="confirmPassword"
                         className="block mb-2 text-sm font-medium text-[#003285] "
                       >
-                        Konfirmasi Password Baru
+                        Konfirmasi Kata Sandi Baru
                       </label>
                       <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
                         <input
@@ -313,7 +344,7 @@ export default function PengaturanAkun() {
                         <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                           <RxCrossCircled className="w-[20px] h-[20px] mr-1" />
                           <p>
-                            Konfirmasi password tidak cocok dengan password
+                            Konfirmasi kata sandi tidak cocok dengan kata sandi
                             baru!
                           </p>
                         </div>
@@ -322,7 +353,8 @@ export default function PengaturanAkun() {
                         <div className="flex items-center text-xs mt-1 text-left">
                           <BiSolidCheckCircle className="text-[#28A745] w-[20px] h-[20px] mr-1" />
                           <p>
-                            Konfirmasi password sudah cocok dengan password baru
+                            Konfirmasi kata sandi sudah cocok dengan kata sandi
+                            baru
                           </p>
                         </div>
                       )}
@@ -332,7 +364,7 @@ export default function PengaturanAkun() {
                     <button
                       type="button"
                       onClick={handleSaveModal}
-                      className="py-2 px-4 rounded-lg bg-[#2A629A] text-white hover:bg-[#3472b0]"
+                      className="py-2 px-4 rounded-lg bg-[#2A629A] text-white hover:bg-[#003285]"
                     >
                       <div className="flex items-center font-medium">
                         Simpan Perubahan
@@ -344,11 +376,11 @@ export default function PengaturanAkun() {
                 {/* MODAL SIMPAN PERUBAHN */}
                 {saveModalOpen && (
                   <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="relative p-4 w-full max-w-2xl max-h-full">
+                    <div className="relative w-full max-w-[90%] md:max-w-[60%] lg:max-w-[40%] max-h-full animate__animated animate__zoomIn mx-4">
                       <div className="relative bg-white rounded-lg shadow">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-                          <h3 className="text-xl font-semibold text-gray-900">
-                            Simpan Perubahan Password
+                          <h3 className="text-lg md:text-xl font-semibold text-gray-900">
+                            Simpan Perubahan Kata Sandi
                           </h3>
                           <button
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -375,20 +407,20 @@ export default function PengaturanAkun() {
 
                         <div className="p-4 md:p-5 space-y-4">
                           <p className="text-base leading-relaxed text-gray-500">
-                            Apakah Anda yakin ingin menyimpan perubahan
-                            password?
+                            Apakah Anda yakin ingin menyimpan perubahan kata
+                            sandi?
                           </p>
                         </div>
 
                         <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b">
                           <button
                             onClick={handleSaveModal}
-                            className="py-2.5 px-5 me-3 text-sm font-medium text-gray-900 bg-white rounded-lg border hover:text-[#2A629A]"
+                            className="py-2 px-4 md:px-7 me-3 text-sm font-medium text-gray-900 bg-white rounded-lg border hover:text-[#2A629A]"
                           >
                             Batal
                           </button>
                           <button
-                            className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                            className="text-white bg-[#2A629A] hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2 text-center"
                             type="submit"
                           >
                             Simpan

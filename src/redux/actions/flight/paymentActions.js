@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import {
   setCardNumber,
   setCardHolderName,
+  setCardHolderNameTouched,
   setCvv,
   setExpiryDate,
   setSelectedMethod,
@@ -111,6 +112,7 @@ export const processPayment =
 export const resetPaymentState = () => (dispatch) => {
   dispatch(setCardNumber(""));
   dispatch(setCardHolderName(""));
+  dispatch(setCardHolderNameTouched(false));
   dispatch(setCvv(""));
   dispatch(setExpiryDate(""));
   dispatch(setSelectedMethod(""));

@@ -24,7 +24,7 @@ export default function Protected() {
             padding: "10px 20px", // Padding
           },
         });
-      }, 500);
+      }, 3000);
     }
   }, []);
 
