@@ -65,10 +65,9 @@ export default function SearchMobile() {
     setIsChecked(!isChecked);
   };
 
-  // BUAT UBAH FORMAT TANGGAL PERGI
+  // BUAT MENGAMBIL TANGGAL PERGI
   const handleSelectDate = (date) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
-    setDeparture_date(formattedDate);
+    setDeparture_date(date);
   };
 
   // BUAT COUNTER JUMLAH PENUMPANG
@@ -111,6 +110,7 @@ export default function SearchMobile() {
 
     const departureDate = format(new Date(date[0].startDate), "yyyy-MM-dd");
     const returnDate = format(new Date(date[0].endDate), "yyyy-MM-dd");
+    const singleDate = format(new Date(departure_date), "yyyy-MM-dd");
 
     if (isChecked && departureDate === returnDate) {
       toast("Harap pilih tanggal yang berbeda!", {
@@ -138,7 +138,7 @@ export default function SearchMobile() {
         getFlight(
           departure_code,
           arrival_code,
-          departure_date,
+          singleDate,
           seat_class,
           total_passenger,
           filter
@@ -158,7 +158,7 @@ export default function SearchMobile() {
       );
     } else {
       navigate(
-        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${singleDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
         { replace: true }
       );
     }

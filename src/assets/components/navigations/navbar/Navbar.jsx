@@ -6,7 +6,6 @@ import {
   IoPersonOutline,
 } from "react-icons/io5";
 import { FiLogIn } from "react-icons/fi";
-// import Logo from "../../../images/logo.png";
 import Logobiflight from "../../../images/logobiflight.png";
 import { IoMdNotifications, IoMdLogOut } from "react-icons/io";
 import { PiEyes } from "react-icons/pi";

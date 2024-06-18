@@ -43,7 +43,6 @@ export default function OrderHistory() {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
 
   const { transactions, isLoading } = useSelector((state) => state.transaction);
-  console.log("transactions", transactions);
 
   const { profile } = useSelector((state) => state.user);
   const email = profile?.email;

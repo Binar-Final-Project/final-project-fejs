@@ -36,13 +36,6 @@ export default function NavbarTransparent() {
     };
     account();
   }, []);
-  console.log("Cek isLoggedIn", isLoggedIn);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(getNotification());
-    }
-  }, [dispatch]);
 
   // NAMPILIN MODAL LOGOUT
   const handleConfirmModalToggle = () => {

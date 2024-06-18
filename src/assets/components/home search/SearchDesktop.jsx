@@ -37,6 +37,7 @@ export default function SearchDesktop() {
   const [seat_class, setSeat_class] = useState("Economy");
   const [total_passenger, setTotal_passenger] = useState(1);
   const [departure_date, setDeparture_date] = useState(new Date());
+  console.log("departure_date", departure_date);
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -66,17 +67,9 @@ export default function SearchDesktop() {
     setIsChecked(!isChecked);
   };
 
-  // BUAT UBAH FORMAT TANGGAL PERGI
+  // BUAT MENGAMBIL TANGGAL PERGI
   const handleSelectDate = (date) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
-    setDeparture_date(formattedDate);
-    setDate([
-      {
-        startDate: formattedDate,
-        endDate: formattedDate,
-        key: "selection",
-      },
-    ]);
+    setDeparture_date(date);
   };
 
   // BUAT COUNTER JUMLAH PENUMPANG
@@ -119,6 +112,7 @@ export default function SearchDesktop() {
 
     const departureDate = format(new Date(date[0].startDate), "yyyy-MM-dd");
     const returnDate = format(new Date(date[0].endDate), "yyyy-MM-dd");
+    const singleDate = format(new Date(departure_date), "yyyy-MM-dd");
 
     if (isChecked === true && departureDate === returnDate) {
       toast("Harap pilih tanggal yang berbeda!", {
@@ -146,15 +140,13 @@ export default function SearchDesktop() {
         getFlight(
           departure_code,
           arrival_code,
-          departure_date,
+          singleDate,
           seat_class,
           total_passenger,
           filter
         )
       );
     }
-
-    dispatch(setChoosenFlight([]));
 
     dispatch(setChoosenFlight([]));
 
@@ -166,7 +158,7 @@ export default function SearchDesktop() {
       );
     } else {
       navigate(
-        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${singleDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
         { replace: true }
       );
     }
