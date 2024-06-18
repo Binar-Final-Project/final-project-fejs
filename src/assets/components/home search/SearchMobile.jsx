@@ -148,6 +148,8 @@ export default function SearchMobile() {
 
     dispatch(setChoosenFlight([]));
 
+    dispatch(setChoosenFlight([]));
+
     // Navigasi ke halaman pencarian
     if (isChecked && returnDate) {
       navigate(

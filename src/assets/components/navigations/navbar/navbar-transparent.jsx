@@ -43,6 +43,10 @@ export default function NavbarTransparent() {
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getNotification());
+  }, [dispatch]);
+
   // NAMPILIN MODAL LOGOUT
   const handleConfirmModalToggle = () => {
     setConfirmModalOpen(!confirmModalOpen);
