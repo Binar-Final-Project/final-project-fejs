@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { setIsLoading, setProfile } from "../../reducers/user/userReducers";
 import { setIsLoggedIn, setToken } from "../../reducers/auth/loginReducers";
 
-export const getUser = (navigate) => async (dispatch, getState) => {
+export const getUser = () => async (dispatch, getState) => {
   const { token } = getState().login;
   // console.log("token", token);
   dispatch(setProfile([]));
@@ -80,7 +80,7 @@ export const updateUser =
   };
 
 export const updatePassword =
-  (old_password, new_password, navigate) => async (dispatch, getState) => {
+  (old_password, new_password) => async (dispatch, getState) => {
     const { token } = getState().login;
     try {
       const response = await axios.post(

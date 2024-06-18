@@ -109,8 +109,8 @@ export default function SearchMobile() {
       return;
     }
 
-    const departureDate = date[0].startDate.toISOString().split("T")[0];
-    const returnDate = date[0].endDate.toISOString().split("T")[0];
+    const departureDate = format(new Date(date[0].startDate), "yyyy-MM-dd");
+    const returnDate = format(new Date(date[0].endDate), "yyyy-MM-dd");
 
     if (isChecked && departureDate === returnDate) {
       toast("Harap pilih tanggal yang berbeda!", {
@@ -341,7 +341,7 @@ export default function SearchMobile() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full p-4 bg-[#2A629A] text-white rounded-lg"
+                  className="w-full p-4 bg-[#2A629A] text-white rounded-lg transition-colors duration-300 hover:bg-[#003285]"
                   onClick={handleSubmit}
                 >
                   Cari Penerbangan
@@ -471,7 +471,7 @@ export default function SearchMobile() {
                 </li>
               </ul>
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleSeatModal}
               >
                 Simpan
@@ -608,7 +608,7 @@ export default function SearchMobile() {
             <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b ">
               <button
                 onClick={handlePassengerModal}
-                className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                className="text-white bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
               >
                 Simpan
               </button>
@@ -665,7 +665,7 @@ export default function SearchMobile() {
                   }}
                   moveRangeOnFirstSelection={false}
                   ranges={date}
-                  minDate={new Date()}
+                  // minDate={new Date()}
                   rangeColors={["#2A629A", "#3472b0", "#003285"]}
                 />
               ) : (
@@ -678,7 +678,7 @@ export default function SearchMobile() {
                 />
               )}
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleDateModal}
               >
                 Simpan

@@ -70,6 +70,13 @@ export default function SearchDesktop() {
   const handleSelectDate = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     setDeparture_date(formattedDate);
+    setDate([
+      {
+        startDate: formattedDate,
+        endDate: formattedDate,
+        key: "selection",
+      },
+    ]);
   };
 
   // BUAT COUNTER JUMLAH PENUMPANG
@@ -109,10 +116,11 @@ export default function SearchDesktop() {
       toast("Harap isi tanggal kepulangan!");
       return;
     }
-    const departureDate = date[0].startDate.toISOString().split("T")[0];
-    const returnDate = date[0].endDate.toISOString().split("T")[0];
 
-    if (date[0].startDate === date[0].endDate) {
+    const departureDate = format(new Date(date[0].startDate), "yyyy-MM-dd");
+    const returnDate = format(new Date(date[0].endDate), "yyyy-MM-dd");
+
+    if (isChecked === true && departureDate === returnDate) {
       toast("Harap pilih tanggal yang berbeda!", {
         style: {
           background: "#FF0000",
@@ -503,7 +511,7 @@ export default function SearchDesktop() {
                 </li>
               </ul>
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleSeatModal}
               >
                 Simpan
@@ -639,7 +647,7 @@ export default function SearchDesktop() {
             <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b ">
               <button
                 onClick={handlePassengerModal}
-                className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                className="text-white bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
               >
                 Simpan
               </button>
@@ -709,7 +717,7 @@ export default function SearchDesktop() {
                 />
               )}
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleDateModal}
               >
                 Simpan

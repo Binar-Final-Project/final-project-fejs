@@ -162,6 +162,8 @@ export default function SearchResult() {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
           textAlign: "center", //TEKS TENGAH
+          width: "full",
+          maxWidth: "900px",
         },
       });
     } else if (tempFilter === "duration.asc") {
@@ -170,6 +172,8 @@ export default function SearchResult() {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
           textAlign: "center", // TEKS TENGAH
+          width: "full",
+          maxWidth: "900px",
         },
       });
     } else if (tempFilter === "departure_time.asc") {
@@ -178,6 +182,8 @@ export default function SearchResult() {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
           textAlign: "center", // TEKS TENGAH
+          width: "full",
+          maxWidth: "900px",
         },
       });
     } else if (tempFilter === "departure_time.desc") {
@@ -186,6 +192,8 @@ export default function SearchResult() {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
           textAlign: "center", // TEKS TENGAH
+          width: "full",
+          maxWidth: "900px",
         },
       });
     } else if (tempFilter === "arrival_time.asc") {
@@ -194,6 +202,8 @@ export default function SearchResult() {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
           textAlign: "center", // TEKS TENGAH
+          width: "full",
+          maxWidth: "900px",
         },
       });
     } else if (tempFilter === "arrival_time.desc") {
@@ -202,6 +212,8 @@ export default function SearchResult() {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
           textAlign: "center", // TEKS TENGAH
+          width: "full",
+          maxWidth: "900px",
         },
       });
     }
@@ -248,8 +260,8 @@ export default function SearchResult() {
       return;
     }
 
-    const departureDate = date[0].startDate.toISOString().split("T")[0];
-    const returnDate = date[0].endDate.toISOString().split("T")[0];
+    const departureDate = format(new Date(date[0].startDate), "yyyy-MM-dd");
+    const returnDate = format(new Date(date[0].endDate), "yyyy-MM-dd");
 
     if (isChecked && departureDate === returnDate) {
       toast("Harap pilih tanggal yang berbeda!", {
@@ -371,7 +383,8 @@ export default function SearchResult() {
         currentPage
       )
     );
-  }, [filter, currentPage]);
+    setDetailOpen(null);
+  }, [choosenFlight, filter, currentPage]);
 
   // UNTUK PINDAH PAGE JIKA BUTTON PILIH TIKET DI KLIK
   useEffect(() => {
@@ -419,7 +432,7 @@ export default function SearchResult() {
           <div className="my-5">
             <div className="flex justify-end w-full">
               <button
-                className="text-white flex justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white flex justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleSearchModal}
               >
                 Ubah Pencarian
@@ -433,7 +446,7 @@ export default function SearchResult() {
             {isMobile ? (
               <div className="flex justify-end my-5">
                 <button
-                  className="text-white flex justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  className="text-white flex justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                   onClick={handleSearchModal}
                 >
                   Ubah Pencarian
@@ -449,7 +462,7 @@ export default function SearchResult() {
               ) : (
                 <div className="flex justify-end">
                   <button
-                    className="text-white flex justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    className="text-white flex justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     onClick={handleSearchModal}
                   >
                     Ubah Pencarian
@@ -610,10 +623,10 @@ export default function SearchResult() {
                   <div
                     className={`${
                       detailOpen === flight?.flight_id
-                        ? " border-[#003285] border"
+                        ? " border-[#003285] border-2"
                         : ""
                     }
-                    bg-white shadow-lg p-6 rounded-xl over`}
+                    bg-white shadow-lg p-6 rounded-xl`}
                     key={flight?.flight_id}
                   >
                     <div className="flex flex-col md:flex-row justify-between md:items-start gap-8">
@@ -721,7 +734,7 @@ export default function SearchResult() {
                         ) : (
                           <button
                             type="button"
-                            className="py-2 px-10 rounded-2xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
+                            className="py-2 px-10 rounded-2xl bg-[#2A629A] text-white transition-colors duration-300 hover:bg-[#003285]"
                             onClick={() => {
                               const newFlight = [...choosenFlight, flight];
                               dispatch(setChoosenFlight(newFlight));
@@ -881,11 +894,15 @@ export default function SearchResult() {
 
       {/* MODAL UBAH PENCARIAN */}
       <div
-        className={`${
-          searchModalOpen ? "" : "hidden"
-        } fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll`}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          searchModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
-        <div className="relative p-4 w-full max-w-lg max-h-full">
+        <div
+          className={`relative p-4 w-full max-w-lg max-h-full transform transition-transform duration-300 ease-in-out ${
+            searchModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
               <h3 className="text-lg font-semibold text-gray-900 ">
@@ -1060,7 +1077,7 @@ export default function SearchResult() {
                   </div>
                   <button
                     type="submit"
-                    className="w-full p-4 bg-[#2A629A] text-white rounded-lg"
+                    className="w-full p-4 bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] text-white rounded-lg"
                   >
                     Cari Penerbangan
                   </button>
@@ -1073,11 +1090,15 @@ export default function SearchResult() {
 
       {/* FILTER MODAL */}
       <div
-        className={`${
-          isFilterModalOpen ? "" : "hidden"
-        } fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          isFilterModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
-        <div className="relative p-4 w-full max-w-md max-h-full">
+        <div
+          className={`relative p-4 w-full max-w-md max-h-full transform transition-transform duration-300 ease-in-out ${
+            isFilterModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
               <h3 className="text-lg font-semibold text-gray-900 ">
@@ -1236,7 +1257,7 @@ export default function SearchResult() {
                 </li>
               </ul>
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleClearFilter}
               >
                 Hapus Filter
@@ -1365,7 +1386,7 @@ export default function SearchResult() {
                 </li>
               </ul>
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleSeatModal}
               >
                 Simpan
@@ -1501,7 +1522,7 @@ export default function SearchResult() {
             <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b ">
               <button
                 onClick={handlePassengerModal}
-                className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                className="text-white bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
               >
                 Simpan
               </button>
@@ -1570,7 +1591,7 @@ export default function SearchResult() {
                 />
               )}
               <button
-                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleDateModal}
               >
                 Simpan

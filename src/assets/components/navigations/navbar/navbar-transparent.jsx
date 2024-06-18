@@ -31,16 +31,11 @@ export default function NavbarTransparent() {
     const account = async () => {
       if (isLoggedIn) {
         dispatch(getUser(navigate));
+        dispatch(getNotification());
       }
     };
     account();
   }, []);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(getNotification());
-    }
-  }, [dispatch]);
 
   // NAMPILIN MODAL LOGOUT
   const handleConfirmModalToggle = () => {
@@ -192,9 +187,9 @@ export default function NavbarTransparent() {
                     <li>
                       <a
                         href="/profil"
-                        className="block px-4 py-2 hover:bg-[#EEF5FF]"
+                        className=" py-2 px-4 text-sm text-gray-700 hover:bg-[#EEF5FF] flex items-center"
                       >
-                        Profil
+                        <IoPersonOutline className="text-xl" /> Profil
                       </a>
                     </li>
                   </ul>
@@ -218,7 +213,7 @@ export default function NavbarTransparent() {
               <Link to="/login">
                 <button
                   type="button"
-                  className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
+                  className="py-2 px-4 rounded-xl bg-[#2A629A] text-white transition-colors duration-300 hover:bg-[#003285]"
                 >
                   <div className="flex items-center font-medium">
                     <FiLogIn className="mr-1 font-bold text-xl" />
@@ -229,7 +224,7 @@ export default function NavbarTransparent() {
               <Link to="/register">
                 <button
                   type="button"
-                  className="py-2 px-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
+                  className="py-2 px-4 rounded-xl bg-[#2A629A] text-white transition-colors duration-300 hover:bg-[#003285]"
                 >
                   <div className="flex items-center font-medium">
                     <span className="text-md">Daftar</span>
@@ -243,10 +238,15 @@ export default function NavbarTransparent() {
 
       {/* <!-- Popup Modal Logout --> */}
       <div
-        className={`${confirmModalOpen ? "" : "hidden"} 
-         fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          confirmModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
-        <div className="relative p-4 w-full max-w-md max-h-full">
+        <div
+          className={`relative p-4 w-full max-w-lg max-h-full transform transition-transform duration-300 ease-in-out ${
+            confirmModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <button
               type="button"

@@ -17,19 +17,22 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     );
     console.log(response);
     if (response.data.status === true) {
-      toast.success("Email berhasil dikirim! Silahkan buka email anda untuk mengatur ulang kata sandi", {
-        icon: null,
-        style: {
-          background: "#28A745",
-          color: "#FFFFFF",
-          borderRadius: "12px",
-          fontSize: "14px",
-          textAlign: "center",
-          padding: "10px 20px",
-        },
-        position: "top-center",
-        duration: 3000,
-      });
+      toast.success(
+        "Email berhasil dikirim! Silahkan buka email anda untuk mengatur ulang kata sandi",
+        {
+          icon: null,
+          style: {
+            background: "#28A745",
+            color: "#FFFFFF",
+            borderRadius: "12px",
+            fontSize: "14px",
+            textAlign: "center",
+            padding: "10px 20px",
+          },
+          position: "top-center",
+          duration: 3000,
+        }
+      );
       setTimeout(() => {
         navigate("/login");
       }, 3000);

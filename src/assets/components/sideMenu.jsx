@@ -89,10 +89,15 @@ export default function sideMenu() {
       </div>
       {/* MODAL LOGOUT */}
       <div
-        className={`${confirmModalOpen ? "" : "hidden"} 
-         fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          confirmModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
-        <div className="relative p-4 w-full max-w-md max-h-full">
+        <div
+          className={`relative p-4 w-full max-w-lg max-h-full transform transition-transform duration-300 ease-in-out ${
+            confirmModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <button
               type="button"
