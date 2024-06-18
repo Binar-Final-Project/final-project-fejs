@@ -21,7 +21,6 @@ export default function TicketCheckout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const query = new URLSearchParams(location.search);
   const adult = parseInt(query.get("adult"));
@@ -30,6 +29,8 @@ export default function TicketCheckout() {
   const orderSummaryRef = useRef(null);
 
   const { choosenFlight } = useSelector((state) => state.flight);
+
+  //state untuk modal
   const { token } = useSelector((state) => state.login);
   const [isChecked, setIsChecked] = useState(false);
   const [minutes, setMinutes] = useState(15);
@@ -140,6 +141,10 @@ export default function TicketCheckout() {
         "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran"
       );
       setIsDataSaved(true);
+      setTimeout(() => {
+        navigate("/payment");
+      }, 2000);
+      // Setelah menyimpan, mengarah ke tombol "Lanjut Pembayaran"
       if (orderSummaryRef.current) {
         orderSummaryRef.current.scrollIntoView({ behavior: "smooth" });
       }
