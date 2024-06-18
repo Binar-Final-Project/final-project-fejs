@@ -183,3 +183,24 @@ export const logout = (navigate) => async (dispatch) => {
     console.log("error logout", error);
   }
 };
+
+// CHECK TOKEN UNTUK PROTECTED
+export const checkToken = (navigate) => (dispatch, getState) => {
+  const { token, isLoggedin } = getState().login;
+  if (token === null || isLoggedin === false) {
+    navigate("/login");
+    setTimeout(() => {
+      toast("Anda harus login terlebih dahulu!", {
+        icon: null,
+        style: {
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF",
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+        },
+      });
+    }, 500);
+  }
+};
