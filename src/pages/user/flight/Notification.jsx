@@ -50,7 +50,7 @@ export default function Notification() {
     dispatch(UpdateNotifications(id)).then(() => {
       // Setelah pembaruan, ambil notifikasi terbaru
       dispatch(getNotification());
-      toast("Notifikasi sudah dibaca!", {
+      toast("Notifikasi telah dibaca!", {
         style: {
           background: "#28A745", // Background hijau
           color: "#FFFFFF",
@@ -88,7 +88,9 @@ export default function Notification() {
               </div>
             </Link>
           </div>
-          <div className="text-center">
+
+          <Toaster />
+          <div className="text-center flex-1">
             <h5 className="text-3xl font-medium text-[#003285]">Notifikasi</h5>
           </div>
           {/* DROPDOWN SELECT FILTER */}
@@ -178,8 +180,6 @@ export default function Notification() {
             </button>
           </div>
         </div>
-
-        <Toaster />
 
         <div className="flex flex-col items-center md:my-10 my-5">
           {/* JIKA BELUM ADA NOTIFIKASI */}
