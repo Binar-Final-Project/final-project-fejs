@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa6";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { DateRange } from "react-date-range";
+import { DateRange, Calendar } from "react-date-range";
 import { format } from "date-fns";
 import { useDispatch } from "react-redux";
 import { getFlight } from "../../../redux/actions/flight/flightActions";
@@ -36,6 +36,7 @@ export default function SearchDesktop() {
   const [arrival_code, setArrival_code] = useState("DPS");
   const [seat_class, setSeat_class] = useState("Economy");
   const [total_passenger, setTotal_passenger] = useState(1);
+  const [departure_date, setDeparture_date] = useState(new Date());
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -65,24 +66,11 @@ export default function SearchDesktop() {
     setIsChecked(!isChecked);
   };
 
-  // BUAT TANGGAL KEPULANGAN TRUE ATAU FALSE
-  useEffect(() => {
-    if (isChecked) {
-      setDate([
-        {
-          ...date[0],
-          endDate: null,
-        },
-      ]);
-    } else if (!isChecked) {
-      setDate([
-        {
-          ...date[0],
-          endDate: new Date(),
-        },
-      ]);
-    }
-  }, [isChecked]);
+  // BUAT UBAH FORMAT TANGGAL PERGI
+  const handleSelectDate = (date) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    setDeparture_date(formattedDate);
+  };
 
   // BUAT COUNTER JUMLAH PENUMPANG
   const handlePenumpang = (name, operation) => {
@@ -134,16 +122,31 @@ export default function SearchDesktop() {
       return;
     }
 
-    dispatch(
-      getFlight(
-        departure_code,
-        arrival_code,
-        departureDate,
-        seat_class,
-        total_passenger,
-        filter
-      )
-    );
+    if (isChecked) {
+      dispatch(
+        getFlight(
+          departure_code,
+          arrival_code,
+          departureDate,
+          seat_class,
+          total_passenger,
+          filter
+        )
+      );
+    } else {
+      dispatch(
+        getFlight(
+          departure_code,
+          arrival_code,
+          departure_date,
+          seat_class,
+          total_passenger,
+          filter
+        )
+      );
+    }
+
+    dispatch(setChoosenFlight([]));
 
     dispatch(setChoosenFlight([]));
 
@@ -155,7 +158,7 @@ export default function SearchDesktop() {
       );
     } else {
       navigate(
-        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departureDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
         { replace: true }
       );
     }
@@ -175,7 +178,7 @@ export default function SearchDesktop() {
     setPassengerModalOpen(!passengerModalOpen);
   };
 
-  // MODAL TANGGAL
+  // MODAL PILIH TANGGAL PENERBANGAN
   const handleDateModal = () => {
     setDateModalOpen(!dateModalOpen);
   };
@@ -285,10 +288,19 @@ export default function SearchDesktop() {
                                   className="block py-2.5 px-0 w-full -z-10 text-sm text-gray-900 border-0 border-b-2 border-gray-300 "
                                   onClick={handleDateModal}
                                 >
-                                  {`${format(
-                                    date[0].startDate,
-                                    "MM/dd/yyyy"
-                                  )} `}
+                                  {isChecked ? (
+                                    <div>
+                                      {`${format(
+                                        date[0].startDate,
+                                        "dd/MM/yyyy"
+                                      )} `}
+                                    </div>
+                                  ) : (
+                                    <div>{`${format(
+                                      departure_date,
+                                      "dd/MM/yyyy"
+                                    )} `}</div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -305,7 +317,7 @@ export default function SearchDesktop() {
                                     {date[0].endDate
                                       ? `${format(
                                           date[0].endDate,
-                                          "MM/dd/yyyy"
+                                          "dd/MM/yyyy"
                                         )}  `
                                       : "Pilih Tanggal"}
                                   </span>
@@ -320,7 +332,7 @@ export default function SearchDesktop() {
                         </div>
 
                         {/* TOGGLE TANGGAL PULANG */}
-                        <label className="relative inline-flex items-center cursor-pointer">
+                        <label className="flex items-center cursor-pointer">
                           <input
                             type="checkbox"
                             value=""
@@ -330,8 +342,14 @@ export default function SearchDesktop() {
                           <div
                             className={`group peer ring-0 ${
                               isChecked ? "bg-[#003285]" : "bg-[#86B6F6]"
-                            } rounded-full outline-none duration-300 after:duration-300 w-12 h-7 shadow-md peer-focus:outline-none after:rounded-full after:absolute after:bg-gray-50 after:outline-none after:h-5 after:w-5 after:top-1 after:left-0 after:translate-x-1 peer-checked:after:translate-x-6 peer-hover:after:scale-95 peer-checked:translate-x-0`}
-                          ></div>
+                            } rounded-full outline-none duration-300 after:duration-300 w-12 h-7 shadow-md flex items-center`}
+                          >
+                            <div
+                              className={`bg-gray-50 rounded-full h-5 w-5 transform duration-300 ${
+                                isChecked ? "translate-x-6" : "translate-x-1"
+                              }`}
+                            ></div>
+                          </div>
                         </label>
                         <div className="flex justify-center items-center text-gray-500">
                           <FaPerson className="text-xl" />
@@ -667,26 +685,31 @@ export default function SearchDesktop() {
               </button>
             </div>
 
-            <div className="p-5 flex flex-col items-center">
-              <DateRange
-                editableDateInputs={true}
-                onChange={(item) => {
-                  setDate([item.selection]);
-                  if (!isChecked) {
-                    setDate([
-                      {
-                        ...item.selection,
-                        endDate: null,
-                      },
-                    ]);
-                  } else {
+            <div
+              className={`p-5 flex flex-col items-center ${
+                isChecked ? "" : "pt-0"
+              }`}
+            >
+              {isChecked ? (
+                <DateRange
+                  editableDateInputs={true}
+                  onChange={(item) => {
                     setDate([item.selection]);
-                  }
-                }}
-                moveRangeOnFirstSelection={false}
-                ranges={date}
-                minDate={new Date()}
-              />
+                  }}
+                  moveRangeOnFirstSelection={false}
+                  ranges={date}
+                  // minDate={new Date()}
+                  rangeColors={["#2A629A", "#3472b0", "#003285"]}
+                />
+              ) : (
+                <Calendar
+                  value={departure_date}
+                  onChange={handleSelectDate}
+                  // minDate={new Date()}
+                  color="#2A629A"
+                  date={departure_date}
+                />
+              )}
               <button
                 className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 onClick={handleDateModal}

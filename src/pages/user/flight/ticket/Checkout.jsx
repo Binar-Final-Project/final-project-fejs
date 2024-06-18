@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_green.css";
+import "flatpickr/dist/themes/material_blue.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -17,13 +17,10 @@ import { useMediaQuery } from "react-responsive";
 import BtnScrollTop from "../../../../assets/components/BtnScrollUp";
 import { setChoosenFlight } from "../../../../redux/reducers/flight/flightReducers";
 
-
 export default function TicketCheckout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const navigate = useNavigate();
-
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const query = new URLSearchParams(location.search);
   const adult = parseInt(query.get("adult"));
@@ -31,13 +28,17 @@ export default function TicketCheckout() {
   const infant = parseInt(query.get("infant"));
   const orderSummaryRef = useRef(null);
 
-  
   const { choosenFlight } = useSelector((state) => state.flight);
+
+  //State untuk tanggal
+  const [date, setDate] = useState(null);
+
+  //state untuk modal
   const { token } = useSelector((state) => state.login);
   const [isChecked, setIsChecked] = useState(false);
   const [minutes, setMinutes] = useState(15);
   const [seconds, setSeconds] = useState(0);
-  const [timeUpModal, setTimeUpModal] = useState (false);
+  const [timeUpModal, setTimeUpModal] = useState(false);
   const [isDataSaved, setIsDataSaved] = useState(false);
 
   //State untuk tanggal
@@ -81,7 +82,7 @@ export default function TicketCheckout() {
       [e.target.name]: e.target.value,
     });
   };
-  
+
   //Handler untuk mengupdate state passengers
   const handlePassengerChange = (index, e) => {
     const newPassengers = [...passengers];
@@ -143,9 +144,13 @@ export default function TicketCheckout() {
         "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran"
       );
       setIsDataSaved(true);
+      setTimeout(() => {
+        navigate("/payment");
+      }, 2000);
+      // Setelah menyimpan, mengarah ke tombol "Lanjut Pembayaran"
       if (orderSummaryRef.current) {
         orderSummaryRef.current.scrollIntoView({ behavior: "smooth" });
-      }   
+      }
     } else {
       toast.error("Harap lengkapi semua data");
     }
@@ -164,7 +169,7 @@ export default function TicketCheckout() {
       if (seconds === 0) {
         if (minutes === 0) {
           clearInterval(timer);
-          setTimeUpModal(true)
+          setTimeUpModal(true);
         } else {
           setMinutes(minutes - 1);
           setSeconds(59);
@@ -181,19 +186,18 @@ export default function TicketCheckout() {
     navigate("/hasil-pencarian");
   };
 
-
   return (
     <div className="bg-[#FFF0DC] pt-20">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <Toaster />
       <div className="p-3 my-10 pt-8">
         {/* Menampilkan modal waktu habis */}
-        <Modal 
-        isOpen={timeUpModal}
-        onRequestClose={() => setTimeUpModal(false)}
-        contentLabel="Waktu Habis"
-        className="custom-modal"
-        overlayClassName="custom-overlay"
+        <Modal
+          isOpen={timeUpModal}
+          onRequestClose={() => setTimeUpModal(false)}
+          contentLabel="Waktu Habis"
+          className="custom-modal"
+          overlayClassName="custom-overlay"
         >
           <div className="text-center">
             <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
@@ -218,7 +222,8 @@ export default function TicketCheckout() {
       <div className="p-3">
         {/* Countdown Bar */}
         <div className="bg-red-500 text-center py-2 text-white font-bold">
-          Selesaikan dalam {minutes}:{seconds < 10 ? `0${seconds}` : seconds} sebelum tiket kamu hangus!
+          Selesaikan dalam {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
+          sebelum tiket kamu hangus!
         </div>
 
         {/* Menampilkan modal untuk kembali */}
@@ -269,7 +274,9 @@ export default function TicketCheckout() {
             <div className="col-span-2">
               {/* Data Akun */}
               <div className="bg-white shadow-md rounded p-6">
-                <h2 className="text-xl font-semibold mb-4 text-[#003285]">Data Diri Pemesan</h2>
+                <h2 className="text-xl font-semibold mb-4 text-[#003285]">
+                  Data Diri Pemesan
+                </h2>
                 <div className="mb-4">
                   <label className="block text-[#2A629A] mb-2">
                     Nama Lengkap
@@ -326,7 +333,9 @@ export default function TicketCheckout() {
 
               {/* Data Tiket 1 */}
               <div className="bg-white shadow-md rounded p-6 mt-6">
-                <h2 className="text-xl font-bold mb-4 text-[#003285]">Isi Data Penumpang</h2>
+                <h2 className="text-xl font-bold mb-4 text-[#003285]">
+                  Isi Data Penumpang
+                </h2>
                 {passengers.map((passenger, index) => (
                   <div key={index} className="mb-4">
                     <label className="block text-[#2A629A] mb-2">Title</label>
@@ -465,13 +474,13 @@ export default function TicketCheckout() {
                 ))}
               </div>
               <div className="mt-5">
-            <button
-              type="submit"
-              className="w-full bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
-            >
-              Simpan
-            </button>
-          </div>
+                <button
+                  type="submit"
+                  className="w-full bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                >
+                  Simpan
+                </button>
+              </div>
             </div>
 
             {/* Order Summary */}
@@ -487,7 +496,6 @@ export default function TicketCheckout() {
               )}
             </div>
           </div>
-          
         </form>
       </div>
       {isMobile ? "" : <BtnScrollTop />}

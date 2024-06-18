@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  booking_code: "",
   payment_method: "",
   card_number: "",
   card_holder_name: "",
@@ -20,9 +19,6 @@ const paymentSlice = createSlice({
   name: "payment",
   initialState,
   reducers: {
-    setBookingCode: (state, action) => {
-      state.booking_code = action.payload;
-    },
     setCardNumber: (state, action) => {
       state.card_number = action.payload;
     },
@@ -63,7 +59,6 @@ const paymentSlice = createSlice({
 });
 
 export const {
-  setBookingCode,
   setCardNumber,
   setCardHolderName,
   setCvv,

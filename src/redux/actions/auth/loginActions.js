@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import {
   setUser,
   setToken,
+  setError,
   clearError,
   setIsLoggedIn,
 } from "../../reducers/auth/loginReducers";
@@ -27,7 +28,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
       dispatch(clearError()); // Menghapus error ke Reducers
       dispatch(setToken(responseLogin?.data?.data?.token));
       dispatch(setIsLoggedIn(true)); // Mengatur setIsLoggedIn menjadi true ke Reducers
-      toast.success("Berhasil masuk, selamat menikmati perjalananmu!", {
+      toast.success(`Berhasil masuk, selamat datang ${email}!`, {
         //Menampilkan toast sukses
         icon: null,
         style: {
@@ -38,18 +39,18 @@ export const login = (email, password, navigate) => async (dispatch) => {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       setTimeout(() => {
         navigate("/");
-      }, 4000);
+      }, 3000);
     }
     console.log("Response Login: ", responseLogin);
   } catch (error) {
     if (error.response && error.response.status === 404) {
       // dispatch(setError("Alamat Email tidak terdaftar"));
-      toast.error("Alamat Email tidak terdaftar. Silakan coba lagi", {
+      toast.error("Alamat Email tidak terdaftar. Silakan coba lagi.", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -60,12 +61,12 @@ export const login = (email, password, navigate) => async (dispatch) => {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     } else if (error.response && error.response.status === 401) {
       // dispatch(setError("Password salah. Silakan coba lagi"));
-      toast.error("Password salah. Silakan coba lagi", {
+      toast.error("Kata sandi salah. Silakan coba lagi", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -76,12 +77,12 @@ export const login = (email, password, navigate) => async (dispatch) => {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     } else {
       // dispatch(setError("Email dan password salah. Silakan coba lagi"));
-      toast.error("Email atau password salah. Silakan coba lagi", {
+      toast.error("Email atau kata sandi salah. Silakan coba lagi", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -92,10 +93,65 @@ export const login = (email, password, navigate) => async (dispatch) => {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     }
+  }
+};
+
+export const loginWithGoogle = (accessToken, navigate) => async (dispatch) => {
+  try {
+    const responseLoginGoogle = await axios.post(
+      "https://shy-cloud-3319.fly.dev/api/v1/auth/google",
+      {
+        access_token: accessToken,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const { token } = responseLoginGoogle.data.data; // Mendapatkan token dari response data
+    console.log("Token Login Google: ", token);
+    dispatch(setUser(responseLoginGoogle?.data)); // Mengatur data pengguna ke Reducers
+    dispatch(clearError()); // Menghapus error ke Reducers
+    dispatch(setToken(token));
+    dispatch(setIsLoggedIn(true)); // Mengatur setIsLoggedIn menjadi true ke Reducers
+    toast.success("Berhasil masuk dengan Google, selamat datang.", {
+      //Menampilkan toast sukses
+      icon: null,
+      style: {
+        background: "#28A745", // Background hijau
+        color: "#FFFFFF", // Teks putih
+        borderRadius: "12px",
+        fontSize: "14px", // Ukuran font
+        textAlign: "center", // Posisi teks di tengah
+        padding: "10px 20px", // Padding
+      },
+      position: "top-center", // Posisi toast
+      duration: 3000, // Durasi toast
+    });
+    setTimeout(() => {
+      navigate("/", { state: { token: token } });
+    }, 3000);
+    console.log("Response Login Google: ", responseLoginGoogle);
+  } catch (error) {
+    console.log(error); // Menampilkan error di konsol
+    dispatch(setError("Gagal masuk dengan Google. Silakan coba lagi.")); // Mengatur pesan error ke Reducers
+    toast.error("Gagal masuk dengan Google. Silakan coba lagi.", {
+      style: {
+        background: "#FF0000", // Background merah
+        color: "#FFFFFF", // Teks putih
+        borderRadius: "12px", // Ukuran font
+        fontSize: "14px", // Ukuran font
+        textAlign: "center", // Posisi teks di tengah
+        padding: "10px 20px", // Padding
+      },
+      position: "top-center", // Posisi toast
+      duration: 3000, // Durasi toast
+    });
   }
 };
 
@@ -108,11 +164,19 @@ export const logout = (navigate) => async (dispatch) => {
       setTimeout(() => {
         navigate("/"); // KE HOME PAGE DALAM WAKTU 0.5 DETIK
       }, 500);
-      toast("Berhasil keluar!", {
+      toast("Terima kasih, sampai jumpa!", {
+        // Menampilkan toast sukses
+        icon: null,
         style: {
           background: "#28A745", // Background hijau
-          color: "#FFFFFF", // TEKS PUTIH
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     }
   } catch (error) {

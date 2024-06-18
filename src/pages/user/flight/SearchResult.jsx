@@ -10,6 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFlight } from "../../../redux/actions/flight/flightActions";
 import BtnScrollTop from "../../../assets/components/BtnScrollUp";
 import { setChoosenFlight } from "../../../redux/reducers/flight/flightReducers";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { DateRange, Calendar } from "react-date-range";
+import { format } from "date-fns";
 
 // ICON
 import { RiSearchLine } from "react-icons/ri";
@@ -54,6 +58,7 @@ export default function SearchResult() {
   const [seatModalOpen, setSeatModalOpen] = useState(false); // MODAL KELAS PENERBANGAN
   const [passengerModalOpen, setPassengerModalOpen] = useState(false); // MODAL JUMLAH PENUMPANG
   const [searchModalOpen, setSearchModalOpen] = useState(false); // MODAL UNTUK MENGUBAH PENCARIAN
+  const [dateModalOpen, setDateModalOpen] = useState(false); // MODAL TANGGAL PENERBANGAN
   const [filter, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [detailOpen, setDetailOpen] = useState(null);
@@ -63,8 +68,17 @@ export default function SearchResult() {
   const [arrival_code, setArrival_code] = useState(to);
   const [seat_class, setSeat_class] = useState(seatClass);
   const [total_passenger, setTotal_passenger] = useState(passenger);
-  const [departure_date, setDeparture_date] = useState(departureDate);
+  const [departure_date, setDeparture_date] = useState(
+    departureDate || new Date()
+  );
   const [return_date, setReturn_date] = useState(returnDate);
+  const [date, setDate] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
   const [penumpang, setPenumpang] = useState({
     dewasa: 1,
     anak: 0,
@@ -85,6 +99,12 @@ export default function SearchResult() {
   // BUAT NAMPILIN INPUT TANGGAL KEPULANGAN
   const handleToggleChange = () => {
     setIsChecked(!isChecked);
+  };
+
+  // BUAT UBAH FORMAT TANGGAL PERGI
+  const handleSelectDate = (date) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    setDeparture_date(formattedDate);
   };
 
   // FUNGSI UNTUK COUNTER PENUMPANG
@@ -207,6 +227,11 @@ export default function SearchResult() {
     setSearchModalOpen(!searchModalOpen);
   };
 
+  // MODAL PILIH TANGGAL PENERBANGAN
+  const handleDateModal = () => {
+    setDateModalOpen(!dateModalOpen);
+  };
+
   // FUNGSI UNTUK SUBMIT HASIL PENCARIAN
   const handleSubmit = (e) => {
     if (typeof e === "object") {
@@ -223,7 +248,10 @@ export default function SearchResult() {
       return;
     }
 
-    if (isChecked && departure_date === return_date) {
+    const departureDate = date[0].startDate.toISOString().split("T")[0];
+    const returnDate = date[0].endDate.toISOString().split("T")[0];
+
+    if (isChecked && departureDate === returnDate) {
       toast("Harap pilih tanggal yang berbeda!", {
         style: {
           background: "#FF0000",
@@ -238,7 +266,7 @@ export default function SearchResult() {
         getFlight(
           typeof e === "object" ? departure_code : arrival_code,
           typeof e === "object" ? arrival_code : departure_code,
-          typeof e === "object" ? departure_date : return_date,
+          typeof e === "object" ? departureDate : returnDate,
           seat_class,
           total_passenger,
           filter,
@@ -259,9 +287,9 @@ export default function SearchResult() {
       );
       dispatch(setChoosenFlight([]));
     }
-    if (return_date && isChecked) {
+    if (returnDate && isChecked) {
       navigate(
-        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&returnDate=${return_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
+        `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departureDate}&returnDate=${returnDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
         { replace: true }
       );
       setCurrentPage(1);
@@ -585,7 +613,7 @@ export default function SearchResult() {
                         ? " border-[#003285] border"
                         : ""
                     }
-                    bg-white shadow-lg p-6 rounded-xl`}
+                    bg-white shadow-lg p-6 rounded-xl over`}
                     key={flight?.flight_id}
                   >
                     <div className="flex flex-col md:flex-row justify-between md:items-start gap-8">
@@ -603,7 +631,7 @@ export default function SearchResult() {
                         )}
                         {isLoading ? (
                           <div className="max-w-sm animate-pulse ms-2">
-                            <div className="h-2.5 bg-gray-300 rounded-full w-48"></div>
+                            <div className="h-2.5 bg-gray-300 rounded-full w-48 md:w-32 lg:w-48"></div>
                           </div>
                         ) : (
                           <div className="flex items-center">
@@ -619,43 +647,39 @@ export default function SearchResult() {
                         )}
                       </div>
                       <div className="flex flex-col">
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 items-center">
                           {isLoading ? (
-                            <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10 mb-2"></div>
+                            <div>
+                              <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10 mb-2"></div>
+                              <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10"></div>
+                            </div>
                           ) : (
                             <div>
                               <h5 className="text-xl font-semibold">
                                 {flight?.departure_time}
                               </h5>
+                              <div>{flight?.departure_code}</div>
                             </div>
                           )}
                           {isLoading ? (
-                            <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-56"></div>
+                            <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-56 md:w-32 lg:w-56"></div>
                           ) : (
-                            <div className="border-b-2 border-[#003285] lg:w-[30vh] md:w-[10vh] w-[25vh] text-center text-sm">
+                            <div className="border-b-2 border-[#003285] lg:w-[30vh] md:w-[10vh] w-[25vh] text-center text-sm pb-2">
                               <time>{formatDuration(flight?.duration)}</time>
                             </div>
                           )}
                           {isLoading ? (
-                            <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10 mb-2"></div>
+                            <div>
+                              <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10 mb-2"></div>
+                              <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10"></div>
+                            </div>
                           ) : (
                             <div>
                               <h5 className="text-xl font-semibold">
                                 {flight?.arrival_time}
                               </h5>
+                              <div>{flight?.arrival_code}</div>
                             </div>
-                          )}
-                        </div>
-                        <div className="flex justify-between">
-                          {isLoading ? (
-                            <div className="max-w-sm animate-pulse h-2.5 bg-gray-300 rounded-full w-10"></div>
-                          ) : (
-                            <div>{flight?.departure_code}</div>
-                          )}
-                          {isLoading ? (
-                            <div className="max-w-sm animate-pulse h-2.5 ms-2 bg-gray-300 rounded-full w-10"></div>
-                          ) : (
-                            <div>{flight?.arrival_code}</div>
                           )}
                         </div>
                       </div>
@@ -961,24 +985,37 @@ export default function SearchResult() {
                     <h5 className="text-gray-500 text-sm font-medium mr-3.5">
                       Tanggal Pergi
                     </h5>
-                    <input
-                      type="date"
-                      value={departure_date}
-                      onChange={(e) => setDeparture_date(e.target.value)}
-                      className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 focus:outline-none"
-                    />
+                    <div className="flex flex-row items-center">
+                      <span
+                        className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
+                        onClick={handleDateModal}
+                      >
+                        {isChecked ? (
+                          <div>
+                            {`${format(date[0].startDate, "dd/MM/yyyy")} `}
+                          </div>
+                        ) : (
+                          <div>{`${format(
+                            departure_date,
+                            "dd/MM/yyyy"
+                          )} `}</div>
+                        )}
+                      </span>
+                    </div>
                   </div>
                   {isChecked ? (
                     <div className="mt-5">
                       <h5 className="text-gray-500 text-sm font-medium mr-3.5">
                         Tanggal Pulang
                       </h5>
-                      <input
-                        type="date"
-                        value={return_date}
-                        onChange={(e) => setReturn_date(e.target.value)}
-                        className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 focus:outline-none"
-                      />
+                      <div className="flex flex-row items-center">
+                        <span
+                          className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
+                          onClick={handleDateModal}
+                        >
+                          {format(date[0].endDate, "dd/MM/yyyy")}
+                        </span>
+                      </div>
                     </div>
                   ) : (
                     ""
@@ -1465,6 +1502,76 @@ export default function SearchResult() {
               <button
                 onClick={handlePassengerModal}
                 className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+              >
+                Simpan
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* MODAL PILIH TANGGAL PENERBANGAN */}
+      <div
+        className={`${
+          dateModalOpen ? "" : "hidden"
+        } fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
+      >
+        <div className="relative p-4 w-full max-w-md max-h-full">
+          <div className="relative bg-white rounded-lg shadow">
+            <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
+              <h3 className="text-lg font-semibold text-gray-900 ">
+                Pilih tanggal penerbangan
+              </h3>
+              <button
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
+                onClick={handleDateModal}
+              >
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+            </div>
+
+            <div
+              className={`p-5 flex flex-col items-center ${
+                isChecked ? "" : "pt-0"
+              }`}
+            >
+              {isChecked ? (
+                <DateRange
+                  editableDateInputs={true}
+                  onChange={(item) => {
+                    setDate([item.selection]);
+                  }}
+                  moveRangeOnFirstSelection={false}
+                  ranges={date}
+                  // minDate={new Date()}
+                  rangeColors={["#2A629A", "#3472b0", "#003285"]}
+                />
+              ) : (
+                <Calendar
+                  value={departure_date}
+                  onChange={handleSelectDate}
+                  // minDate={new Date()}
+                  color="#2A629A"
+                  date={departure_date}
+                />
+              )}
+              <button
+                className="text-white inline-flex w-full justify-center bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                onClick={handleDateModal}
               >
                 Simpan
               </button>

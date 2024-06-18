@@ -36,6 +36,9 @@ export default function Register() {
     phone_number,
     isPhoneNumberValid,
   } = useSelector((state) => state.register); // Menggunakan useSelector untuk mengambil state register dari reducers
+  const passwordInputType = showPassword ? "text" : "password"; // Menentukan tipe input untuk password
+  const confirmPasswordInputType = showConfirmPassword ? "text" : "password"; // Menentukan tipe input untuk konfirmasi password
+  const passwordsMatch = password === confirmPassword;
 
   // Mengatur ulang state ketika komponen dimuat
   useEffect(() => {
@@ -126,7 +129,7 @@ export default function Register() {
   const handleRegister = async (event) => {
     event.preventDefault();
     if (!name) {
-      toast.error("Mohon input nama Anda terlebih dahulu!", {
+      toast.error("Mohon masukkan nama Anda!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -137,14 +140,14 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (!email) {
-      toast.error("Mohon input alamat Email Anda terlebih dahulu!", {
+      toast.error("Mohon masukkan alamat Email Anda!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -155,14 +158,14 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (!phone_number) {
-      toast.error("Mohon input nomor telepon Anda terlebih dahulu!", {
+      toast.error("Mohon masukkan nomor telepon Anda!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -173,14 +176,14 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (!password) {
-      toast.error("Mohon buat password Anda terlebih dahulu!", {
+      toast.error("Mohon masukkan kata sandi Anda!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -191,14 +194,14 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (!confirmPassword) {
-      toast.error("Mohon input konfirmasi password Anda terlebih dahulu!", {
+      toast.error("Mohon masukkan konfirmasi kata sandi Anda!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -207,16 +210,16 @@ export default function Register() {
           borderRadius: "12px", // Rounded-xl
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
-          padding: "10px 20px", // Padding
+          padding: "10px 30px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (!name || !email || !phone_number || !password || !confirmPassword) {
-      toast.error("Mohon input semua field terlebih dahulu!", {
+      toast.error("Mohon isi semua kolom terlebih dahulu!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -227,14 +230,14 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (!isEmailValid) {
-      toast.error("Mohon input Email dengan benar!", {
+      toast.error("Mohon masukkan alamat Email dengan benar!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -245,14 +248,14 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (phone_number.length < 8) {
-      toast.error("Mohon input nomor telepon dengan benar!", {
+      toast.error("Mohon masukkan nomor telepon dengan benar!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -263,8 +266,8 @@ export default function Register() {
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
-        position: "bottom-center", // Posisi toast
-        duration: 4000, // Durasi toast
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
@@ -272,7 +275,7 @@ export default function Register() {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
       toast.error(
-        "Password harus berisi minimal 8 karakter, termasuk huruf besar dan angka",
+        "Kata sandi harus berisi minimal 8 karakter, termasuk huruf besar dan angka.",
         {
           // Menampilkan toast error
           icon: null,
@@ -284,15 +287,15 @@ export default function Register() {
             textAlign: "center", // Posisi teks di tengah
             padding: "10px 20px", // Padding
           },
-          position: "bottom-center", // Posisi toast
-          duration: 4000, // Durasi toast
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
         }
       );
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.error("Password yang Anda masukkan tidak sama", {
+      toast.error("Kata sandi yang Anda masukkan tidak sama!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -303,8 +306,8 @@ export default function Register() {
           textAlign: "center",
           padding: "10px 20px",
         },
-        position: "bottom-center",
-        duration: 4000,
+        position: "top-center",
+        duration: 2000,
       });
       return;
     }
@@ -318,10 +321,6 @@ export default function Register() {
 
     dispatch(register(email, name, password, phone_number, navigate)); // Mengirim actions register ke Reducers dengan email, name, password, phoneNumber, dan navigate function
   };
-
-  const passwordInputType = showPassword ? "text" : "password"; // Menentukan tipe input untuk password
-  const confirmPasswordInputType = showConfirmPassword ? "text" : "password"; // Menentukan tipe input untuk konfirmasi password
-  const passwordsMatch = password === confirmPassword;
 
   return (
     <div>
@@ -357,7 +356,7 @@ export default function Register() {
               <h1 className="text-[#003285] text-2xl mb-1 font-bold text-center w-full">
                 Buat Akun Baru
               </h1>
-              <h2 className="text-[#2A629A] text-sm mb-10 text-center w-full">
+              <h2 className="text-[#2A629A] text-sm font-medium mb-10 text-center w-full">
                 Masukkan Data Diri Anda
               </h2>
 
@@ -480,19 +479,19 @@ export default function Register() {
                       phone_number &&
                       phone_number.length > 0 && (
                         <p className="text-[#FF0000] text-xs mt-1 text-left">
-                          Nomor ponsel terlalu pendek, minimum 8 angka
+                          Nomor ponsel terlalu pendek, minimum berisi 8 angka
                         </p>
                       )}
                   </div>
                   <div className="flex flex-col space-y-1">
                     <label className="text-left text-[#2A629A] text-sm font-medium">
-                      Password
+                      Kata Sandi
                     </label>
                     <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                         type={passwordInputType}
-                        placeholder="Password"
+                        placeholder="••••••••••"
                         value={password}
                         onChange={handlePasswordChange}
                       />
@@ -523,23 +522,23 @@ export default function Register() {
                         </div>
                         <p className="text-xs">
                           {passwordStrength === "weak"
-                            ? "Password lemah"
+                            ? "Kata sandi lemah"
                             : passwordStrength === "medium"
-                            ? "Password sedang"
-                            : "Password kuat"}
+                            ? "Kata sandi sedang"
+                            : "Kata sandi kuat"}
                         </p>
                       </div>
                     )}
                   </div>
                   <div className="flex flex-col space-y-1">
                     <label className="text-left text-[#2A629A] text-sm font-medium">
-                      Konfirmasi Password
+                      Konfirmasi Kata Sandi
                     </label>
                     <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                         type={confirmPasswordInputType}
-                        placeholder="Konfirmasi Password"
+                        placeholder="••••••••••"
                         value={confirmPassword}
                         onChange={handleConfirmPasswordChange}
                       />
@@ -558,7 +557,9 @@ export default function Register() {
                     {!passwordsMatch && confirmPassword && (
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                         <RxCrossCircled className="w-[20px] h-[20px] mr-1" />
-                        <p>Konfirmasi password tidak cocok dengan password</p>
+                        <p>
+                          Konfirmasi kata sandi tidak cocok dengan kata sandi
+                        </p>
                       </div>
                     )}
                   </div>

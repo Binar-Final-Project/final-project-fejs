@@ -15,6 +15,7 @@ import Protected from "./assets/components/Protected.jsx";
 import UbahAkun from "./pages/user/flight/profile/UbahAkun.jsx";
 import SearchResult from "./pages/user/flight/SearchResult.jsx";
 import Notification from "./pages/user/flight/Notification.jsx";
+import OrderHistory from "./pages/user/flight/OrderHistory.jsx";
 
 export default function App() {
   return (
@@ -85,6 +86,15 @@ export default function App() {
             <div>
               <Protected />
               <Notification />
+            </div>
+          }
+        />
+        <Route
+          path="/riwayat-pemesanan"
+          element={
+            <div>
+              <Protected />
+              <OrderHistory />
             </div>
           }
         />

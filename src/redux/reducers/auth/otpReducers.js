@@ -4,7 +4,7 @@ const initialState = {
   otpInput: "",
   email: "",
   error: null,
-  timer: 60,
+  timer: 30,
 };
 
 const otpSlice = createSlice({
@@ -27,7 +27,7 @@ const otpSlice = createSlice({
       state.timer -= 1;
     },
     resetTimer: (state) => {
-      state.timer = 60;
+      state.timer = 30;
     },
   },
 });

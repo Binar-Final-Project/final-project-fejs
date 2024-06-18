@@ -43,7 +43,7 @@ export const register =
           navigate(`/verify-otp?email=${email}`);
         }, 4000);
         toast.success(
-          "Pendaftaran berhasil! Cek email Anda untuk verifikasi dengan kode OTP",
+          "Pendaftaran berhasil! Kode OTP akan dikirim ke Email Anda.",
           {
             // Menampilkan toast sukses
             icon: null,
@@ -55,8 +55,8 @@ export const register =
               textAlign: "center", // Posisi teks di tengah
               padding: "10px 20px", // Padding
             },
-            position: "bottom-center", // Posisi toast
-            duration: 4000, // Durasi toast
+            position: "top-center", // Posisi toast
+            duration: 3000, // Durasi toast
           }
         );
       }
@@ -66,14 +66,13 @@ export const register =
         "Error registering user:",
         error.response?.data || error.message
       );
-
       dispatch(
         setError(
-          "Pendaftaran gagal! Email atau nomor telepon ini mungkin sudah terdaftar. Silakan coba lagi"
+          "Pendaftaran gagal! Email atau nomor telepon ini sudah terdaftar. Silakan coba lagi."
         )
       );
       toast.error(
-        "Pendaftaran gagal! Email atau nomor telepon ini mungkin sudah terdaftar. Silakan coba lagi",
+        "Pendaftaran gagal! Email atau nomor telepon ini sudah terdaftar. Silakan coba lagi.",
         {
           // Menampilkan toast error
           icon: null,
@@ -85,8 +84,8 @@ export const register =
             textAlign: "center", // Posisi teks di tengah
             padding: "10px 20px", // Padding
           },
-          position: "bottom-center", // Posisi toast
-          duration: 4000, // Durasi toast
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
         }
       );
     }

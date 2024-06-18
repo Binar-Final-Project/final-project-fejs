@@ -35,6 +35,13 @@ export default function NavbarTransparent() {
     };
     account();
   }, []);
+  console.log("Cek isLoggedIn", isLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(getNotification());
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getNotification());
@@ -80,7 +87,7 @@ export default function NavbarTransparent() {
           {/* KALAU LOGIN */}
           {isLoggedIn ? (
             <>
-              <Link to="">
+              <Link to="/riwayat-pemesanan">
                 <IoListOutline
                   className={`text-2xl ${
                     isScrolled

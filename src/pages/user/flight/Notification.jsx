@@ -2,7 +2,6 @@ import React, { useEffect, useState, Fragment } from "react";
 import Navbar from "../../../assets/components/navigations/navbar/Navbar";
 import Footer from "../../../assets/components/navigations/Footer";
 import NavbarMobile from "../../../assets/components/navigations/navbar/Navbar-mobile";
-import { IoIosArrowBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,11 +11,16 @@ import BtnScrollTop from "../../../assets/components/BtnScrollUp";
 import {
   UpdateNotifications,
   getNotification,
+  readAllNotifications,
 } from "../../../redux/actions/flight/notificationActions";
 
 //ICON
 import { IoFilter } from "react-icons/io5";
-import { IoMdNotifications, IoMdCheckmark } from "react-icons/io";
+import {
+  IoMdNotifications,
+  IoMdCheckmark,
+  IoIosArrowBack,
+} from "react-icons/io";
 import { HiOutlineSelector } from "react-icons/hi";
 
 const filter = [
@@ -55,6 +59,13 @@ export default function Notification() {
     });
   };
 
+  const handleReadAll = () => {
+    dispatch(readAllNotifications()).then(() => {
+      // Setelah pembaruan, ambil notifikasi terbaru
+      dispatch(getNotification());
+    });
+  };
+
   const filteredNotifications = notifikasi.filter((notification) => {
     if (selected?.status === "Semua") return true;
     if (selected?.status === "Read" && notification?.status === "read")
@@ -68,8 +79,8 @@ export default function Notification() {
     <div className="bg-[#FFF0DC] py-5 md:py-0">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <div className="m-5 md:m-10 md:py-20">
-        <div className="flex items-center">
-          <div className={`lg:w-1/12 ${isMobile ? "hidden" : ""}`}>
+        <div className="flex flex-col md:flex-row items-center gap-3 justify-between md:gap-0">
+          <div className={`${isMobile ? "hidden" : "lg:w-1/12"}`}>
             <Link to="/">
               <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
                 <IoIosArrowBack className="text-3xl" />
@@ -77,6 +88,7 @@ export default function Notification() {
               </div>
             </Link>
           </div>
+
           <Toaster />
           <div className="text-center flex-1">
             <h5 className="text-3xl font-medium text-[#003285]">Notifikasi</h5>
@@ -155,12 +167,21 @@ export default function Notification() {
                 </>
               )}
             </Listbox>
+
+            {/* BUTTON BACA SEMUA NOTIFIKASI */}
+            <button
+              type="button"
+              className="py-2 px-6 ml-4 rounded-xl bg-[#2A629A] text-white hover:bg-[#3472b0]"
+              onClick={handleReadAll}
+            >
+              <div className="flex items-center font-medium">
+                <span className="text-md">Baca Semua</span>
+              </div>
+            </button>
           </div>
         </div>
 
-        <Toaster />
-
-        <div className="flex flex-col items-center my-10">
+        <div className="flex flex-col items-center md:my-10 my-5">
           {/* JIKA BELUM ADA NOTIFIKASI */}
           {filteredNotifications?.length === 0 && (
             <div>
