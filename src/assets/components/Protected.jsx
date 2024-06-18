@@ -26,7 +26,7 @@ export default function Protected() {
         });
       }, 500);
     }
-  }, []);
+  }, [navigate]);
 
   return;
 }

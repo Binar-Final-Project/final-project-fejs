@@ -1,14 +1,28 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   IoListOutline,
   IoNotificationsOutline,
   IoPersonOutline,
   IoHomeOutline,
 } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
+import { getNotification } from "../../../../redux/actions/flight/notificationActions";
 
 export default function NavbarMobile() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isLoggedIn } = useSelector((state) => state.login); // VALIDASI NAVBAR
+  const { notifikasi } = useSelector((state) => state.notification); // UNTUK JUMLAH NOTIFIKASI
+
+  // MENDAPATKAN DATA NOTIFIKASI BUAT JUMLAH NOTIFIKASI
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(getNotification());
+    }
+  }, [dispatch]);
+
   return (
     <>
       <div className="fixed bottom-0 z-50 w-full shadow-2xl">
@@ -62,6 +76,25 @@ export default function NavbarMobile() {
             >
               Notifikasi
             </span>
+            {isLoggedIn ? (
+              <div>
+                {notifikasi?.filter(
+                  (notification) => notification.status === "unread"
+                ).length === 0 ? (
+                  ""
+                ) : (
+                  <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full top-1">
+                    {
+                      notifikasi?.filter(
+                        (notification) => notification.status === "unread"
+                      ).length
+                    }
+                  </div>
+                )}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div
             className="flex flex-col items-center justify-center gap-2"
