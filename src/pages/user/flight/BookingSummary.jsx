@@ -3,10 +3,9 @@ import { useSelector } from "react-redux";
 import { RiFileList2Fill } from "react-icons/ri";
 
 export default function BookingSummary() {
-  const { ticket } = useSelector((state) => state.ticket);
+  const { ticketSelected, ticket } = useSelector((state) => state.ticket);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  // console.log("ticket data: ", ticket);
 
   // // Fungsi untuk Mengubah Durasi Penerbangan
   // function formatDuration(minutes) {
@@ -17,7 +16,7 @@ export default function BookingSummary() {
   //   }`;
   // }
 
-  if (!ticket) {
+  if (!ticketSelected) {
     return null;
   }
 
@@ -39,6 +38,8 @@ export default function BookingSummary() {
     setShowSuccessModal(true);
   };
 
+  console.log("ticketSelected", ticketSelected);
+
   return (
     <div className="max-w-[500px] w-full mx-auto bg-white mt-5 rounded-lg shadow-lg mb-5 relative">
       <h1 className="text-lg font-semibold mb-3 bg-[#2A629A] text-white rounded-t-md shadow-md px-4 py-3 flex items-center relative z-10">
@@ -50,7 +51,7 @@ export default function BookingSummary() {
           <div className="flex mb-3 font-semibold">
             <h5>Kode Pemesanan: </h5>
             <p className="text-[#003285] text-xl font-semibold ml-2">
-              {ticket?.booking_code}
+              {ticketSelected?.booking_code}
             </p>
           </div>
 
@@ -63,33 +64,39 @@ export default function BookingSummary() {
             <div className="flex flex-col justify-between items-center">
               <div className="flex flex-col text-center mt-1.5">
                 <time className="mb-1 text-lg font-semibold leading-none ">
-                  {ticket?.departure?.departure_time}
+                  {ticketSelected?.departure?.departure_time
+                    ? ticketSelected?.departure?.departure_time
+                    : ticketSelected?.departure_flight?.departure_time}
                 </time>
                 <div className="text-sm">
-                  {new Date(ticket?.departure?.flight_date).toLocaleString(
-                    "id-ID",
-                    {
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric",
-                    }
-                  )}
+                  {new Date(
+                    ticketSelected?.departure?.flight_date
+                      ? ticketSelected?.departure?.flight_date
+                      : ticketSelected?.departure_flight?.flight_date
+                  ).toLocaleString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
                 </div>
               </div>
               <div></div>
               <div className="flex flex-col text-center mt-1.5">
                 <time className="mb-1 text-lg font-semibold leading-none ">
-                  {ticket?.departure?.arrival_time}
+                  {ticketSelected?.departure?.arrival_time
+                    ? ticketSelected?.departure?.arrival_time
+                    : ticketSelected?.departure_flight?.arrival_time}
                 </time>
                 <div className="text-sm">
-                  {new Date(ticket?.departure?.flight_date).toLocaleString(
-                    "id-ID",
-                    {
-                      day: "2-digit",
-                      month: "long",
-                      year: "numeric",
-                    }
-                  )}
+                  {new Date(
+                    ticketSelected?.departure?.flight_date
+                      ? ticketSelected?.departure?.flight_date
+                      : ticketSelected?.departure_flight?.flight_date
+                  ).toLocaleString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  })}
                 </div>
               </div>
               <div></div>
@@ -99,32 +106,46 @@ export default function BookingSummary() {
                 <li className="mb-5 ms-4">
                   <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
                   <h3 className="text-lg font-semibold">
-                    {ticket?.departure?.departure_airport}
+                    {ticketSelected?.departure?.departure_airport
+                      ? ticketSelected?.departure?.departure_airport
+                      : ticketSelected?.departure_flight?.departure_airport}
                   </h3>
                   <p className="mb-4 text-sm ">
-                    {ticket?.departure?.departure_terminal}
+                    {ticketSelected?.departure?.departure_terminal
+                      ? ticketSelected?.departure?.departure_terminal
+                      : ticketSelected?.departure_flight?.departure_terminal}
                   </p>
                 </li>
                 <li className="mb-5 ms-4 flex flex-col gap-1">
                   <div className="flex items-center">
-                    <p>{ticket?.departure?.airline}</p>
+                    <p>
+                      {ticketSelected?.departure?.airline
+                        ? ticketSelected?.departure?.airline
+                        : ticketSelected?.departure_flight?.airline}
+                    </p>
                   </div>
                 </li>
                 <li className="ms-4">
                   <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
                   <h3 className="text-lg font-semibold">
-                    {ticket?.departure?.arrival_airport}
+                    {ticketSelected?.departure?.arrival_airport
+                      ? ticketSelected?.departure?.arrival_airport
+                      : ticketSelected?.departure_flight?.arrival_airport}
                   </h3>
                 </li>
               </ol>
               <div className="ms-4">
-                <p className="text-sm">{ticket?.departure?.arrival_terminal}</p>
+                <p className="text-sm">
+                  {ticketSelected?.departure?.arrival_terminal
+                    ? ticketSelected?.departure?.arrival_terminal
+                    : ticketSelected?.departure_flight?.arrival_terminal}
+                </p>
               </div>
             </div>
           </div>
 
           {/* Menampilkan Tiket Pulang Jika PP */}
-          {ticket?.return && (
+          {(ticketSelected?.return || ticketSelected?.return_flight) && (
             <div>
               <div className="flex my-4">
                 <h5 className="font-medium bg-[#86B6F6] rounded-lg text-white px-3 py-0.5">
@@ -135,38 +156,44 @@ export default function BookingSummary() {
                 <div className="flex flex-col justify-between items-center">
                   <div className="flex flex-col text-center mt-1.5">
                     <time className="mb-1 text-lg font-semibold leading-none ">
-                      {ticket?.return?.departure_time}
+                      {ticketSelected?.return?.departure_time
+                        ? ticketSelected?.return?.departure_time
+                        : ticketSelected?.return_flight?.departure_time}
                     </time>
                     <div className="text-sm">
-                      {new Date(ticket?.return?.flight_date).toLocaleString(
-                        "id-ID",
-                        {
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                        }
-                      )}
+                      {new Date(
+                        ticketSelected?.return?.flight_date
+                          ? ticketSelected?.return?.flight_date
+                          : ticketSelected?.return_flight?.flight_date
+                      ).toLocaleString("id-ID", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}
                     </div>
                   </div>
                   {/* <div className="pt-7">
                     <span className="text-sm">
-                      {formatDuration(ticket?.return?.duration)}
+                      {formatDuration(ticketSelected?.return?.duration)}
                     </span>
                   </div> */}
                   <div></div>
                   <div className="flex flex-col text-center mt-1.5">
                     <time className="mb-1 text-lg font-semibold leading-none ">
-                      {ticket?.return?.arrival_time}
+                      {ticketSelected?.return?.arrival_time
+                        ? ticketSelected?.return?.arrival_time
+                        : ticketSelected?.return_flight?.arrival_time}
                     </time>
                     <div className="text-sm">
-                      {new Date(ticket?.return?.flight_date).toLocaleString(
-                        "id-ID",
-                        {
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                        }
-                      )}
+                      {new Date(
+                        ticketSelected?.return?.flight_date
+                          ? ticketSelected?.return?.flight_date
+                          : ticketSelected?.return_flight?.flight_date
+                      ).toLocaleString("id-ID", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}
                     </div>
                   </div>
                   <div></div>
@@ -176,28 +203,40 @@ export default function BookingSummary() {
                     <li className="mb-5 ms-4">
                       <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
                       <h3 className="text-lg font-semibold">
-                        {ticket?.return?.departure_airport}
+                        {ticketSelected?.return?.departure_airport
+                          ? ticketSelected?.return?.departure_airport
+                          : ticketSelected?.return_flight?.departure_airport}
                       </h3>
                       <p className="mb-4 text-sm ">
-                        {ticket?.return?.departure_terminal}
+                        {ticketSelected?.return?.departure_terminal
+                          ? ticketSelected?.return?.departure_terminal
+                          : ticketSelected?.return_flight?.departure_terminal}
                       </p>
                     </li>
                     <li className="mb-5 ms-4 flex flex-col gap-1">
                       <div className="flex items-center">
-                        <p>{ticket?.return?.airline}</p>
+                        <p>
+                          {ticketSelected?.return?.airline
+                            ? ticketSelected?.return?.airline
+                            : ticketSelected?.return_flight?.airline}
+                        </p>
                       </div>
                     </li>
                     <li className="ms-4">
                       <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
                       <h3 className="text-lg font-semibold">
-                        {ticket?.return?.arrival_airport}
+                        {ticketSelected?.return?.arrival_airport
+                          ? ticketSelected?.return?.arrival_airport
+                          : ticketSelected?.return_flight?.arrival_airport}
                       </h3>
                     </li>
                   </ol>
 
                   <div className="ms-4">
                     <p className="text-sm">
-                      {ticket?.return?.arrival_terminal}
+                      {ticketSelected?.return?.arrival_terminal
+                        ? ticketSelected?.return?.arrival_terminal
+                        : ticketSelected?.return_flight?.arrival_terminal}
                     </p>
                   </div>
                 </div>
@@ -217,13 +256,13 @@ export default function BookingSummary() {
                   {new Intl.NumberFormat("id-ID", {
                     style: "currency",
                     currency: "IDR",
-                  }).format(ticket?.total_before_tax)}
+                  }).format(ticketSelected?.total_before_tax)}
                 </p>
                 <p>
                   {new Intl.NumberFormat("id-ID", {
                     style: "currency",
                     currency: "IDR",
-                  }).format(ticket?.tax)}
+                  }).format(ticketSelected?.tax)}
                 </p>
               </div>
             </div>
@@ -234,7 +273,7 @@ export default function BookingSummary() {
               {new Intl.NumberFormat("id-ID", {
                 style: "currency",
                 currency: "IDR",
-              }).format(ticket?.total_price)}
+              }).format(ticketSelected?.total_price)}
             </h5>
           </div>
         </div>

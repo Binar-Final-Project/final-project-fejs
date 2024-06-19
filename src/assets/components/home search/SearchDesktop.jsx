@@ -245,7 +245,7 @@ export default function SearchDesktop() {
                           <div className="flex items-center text-gray-500">
                             <MdFlightLand className="text-xl" />
                             <p className="text-sm ml-1">Ke</p>
-                            <div className="relative z-0 ml-2">
+                            <div className="ml-2">
                               <div className="w-full">
                                 <AirportInput
                                   value={arrival_code}
@@ -387,11 +387,15 @@ export default function SearchDesktop() {
 
       {/* MODAL PILIH KELAS KURSI PENERBANGAN */}
       <div
-        className={`${
-          seatModalOpen ? "" : "hidden"
-        } fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          seatModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
-        <div className="relative p-4 w-full max-w-md max-h-full">
+        <div
+          className={`relative p-4 w-full max-w-md max-h-full transform transition-transform duration-300 ease-in-out ${
+            seatModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
               <h3 className="text-lg font-semibold text-gray-900 ">
@@ -515,11 +519,15 @@ export default function SearchDesktop() {
       </div>
       {/* MODAL PILIH JUMLAH PENUMPANG */}
       <div
-        className={`${
-          passengerModalOpen ? "" : "hidden"
-        } fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          passengerModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
-        <div className="relative p-4 w-full lg:w-2/5 max-w-2xl max-h-full">
+        <div
+          className={`relative p-4 w-full lg:w-2/5 max-w-2xl max-h-full transform transition-transform duration-300 ease-in-out ${
+            passengerModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
               <h3 className="text-xl font-semibold text-gray-900">
@@ -651,11 +659,15 @@ export default function SearchDesktop() {
 
       {/* MODAL PILIH TANGGAL PENERBANGAN */}
       <div
-        className={`${
-          dateModalOpen ? "" : "hidden"
-        } fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          dateModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
-        <div className="relative p-4 w-full max-w-md max-h-full">
+        <div
+          className={`relative p-4 w-full max-w-md max-h-full transform transition-transform duration-300 ease-in-out ${
+            dateModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <div className="flex items-center justify-center p-4 md:p-5 border-b rounded-t ">
               <h3 className="text-lg font-semibold text-gray-900 ">

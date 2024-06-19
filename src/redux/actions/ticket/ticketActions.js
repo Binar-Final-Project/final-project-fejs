@@ -1,4 +1,5 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 import { setPassengers, setTicket } from "../../reducers/ticket/ticketReducers";
 
 export const getTicket =
@@ -25,7 +26,12 @@ export const getTicket =
         }
       );
       console.log("response ticket", response.data);
-      dispatch(setTicket(response?.data?.data));
+      if (response?.data?.status === true) {
+        dispatch(setTicket(response?.data?.data));
+        toast.success(
+          "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran"
+        );
+      }
       return response.data;
     } catch (error) {
       console.log("Error during ticket retrieval ", error);

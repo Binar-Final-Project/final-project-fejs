@@ -13,6 +13,7 @@ import "react-date-range/dist/theme/default.css";
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 import {
+  cancelTransactions,
   getTransactions,
   printTransactions,
 } from "../../../redux/actions/flight/transactionActions";
@@ -28,6 +29,8 @@ import { IoIosArrowBack, IoMdCheckmark } from "react-icons/io";
 import { IoFilter, IoLocationSharp } from "react-icons/io5";
 import { HiOutlineSelector } from "react-icons/hi";
 import { RiSearchLine } from "react-icons/ri";
+import { getTicket } from "../../../redux/actions/ticket/ticketActions";
+import { setTicketSelected } from "../../../redux/reducers/ticket/ticketReducers";
 
 const filter = [
   { id: 1, status: "Semua" },
@@ -47,7 +50,6 @@ export default function OrderHistory() {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
 
   const { transactions, isLoading } = useSelector((state) => state.transaction);
-  console.log("transactions", transactions);
 
   const { profile } = useSelector((state) => state.user);
   const email = profile?.email;
@@ -61,6 +63,7 @@ export default function OrderHistory() {
   const [isSearchCodeOpen, setIsSearchCodeOpen] = useState(false); // MODAL PENCARIAN BERDASARKAN NOMOR PENERBANGAN
   const [isSearchDateOpen, setIsSearchDateOpen] = useState(false); // MODAL PENCARIAN BERDASARKAN TANGGAL
   const [confirmModalOpen, setConfirmModalOpen] = useState(false); // MODAL KONFIRMASI HAPUS RIWAYAT PENCARIAN KODE PENERBANGAN
+  const [cancelModalOpen, setCancelModalOpen] = useState(false); // MODAL KONFIRMASI MEMBATALKAN PEMESANAN TIKET PENERBANGAN
   const [searchButton, setSearchButton] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState([]);
   const [query, setQuery] = useState("");
@@ -111,6 +114,11 @@ export default function OrderHistory() {
     if (selectedFilter?.status === "Issued" && transaction?.status === "ISSUED")
       return true;
     if (selectedFilter?.status === "Unpaid" && transaction?.status === "UNPAID")
+      return true;
+    if (
+      selectedFilter?.status === "Cancelled" &&
+      transaction?.status === "CANCELLED"
+    )
       return true;
     return false;
   });
@@ -193,9 +201,14 @@ export default function OrderHistory() {
     dispatch(removeFromRecentSearch(index));
   };
 
-  // NAMPILIN MODAL CONFIRM HAPUS
+  // FUNGSI UNTUK MENAMPILKAN MODAL CONFIRM HAPUS
   const handleConfirmModalToggle = () => {
     setConfirmModalOpen(!confirmModalOpen);
+  };
+
+  // FUNGSI UNTUK MENAMPILKAN MODAL PEMBATALAN PEMESANAN TIKET
+  const handleCancelModalToggle = () => {
+    setCancelModalOpen(!cancelModalOpen);
   };
 
   // FUNGSI UNTUK MENGHAPUS PENCARIAN
@@ -211,6 +224,24 @@ export default function OrderHistory() {
   // FUNGSI UNTUK MEMASUKKAN RIWAYAT PENCARIAN KE INPUT
   const handleSearchClick = (searchQuery) => {
     setQuery(searchQuery);
+  };
+
+  const handleCancelTransactions = () => {
+    dispatch(cancelTransactions(selectedTicket?.booking_code)).then(() => {
+      // Setelah pembaruan, ambil data transaksi terbaru
+      dispatch(getTransactions(lt, gte, query));
+    });
+    handleCancelModalToggle(false);
+    setSelectedTicket([]);
+  };
+
+  console.log("selectedTicket", selectedTicket);
+
+  const handlePayment = () => {
+    if (selectedTicket) {
+      dispatch(setTicketSelected(selectedTicket));
+      navigate("/payment");
+    }
   };
 
   return (
@@ -403,12 +434,17 @@ export default function OrderHistory() {
                               </div>
                             )}
                             {transaction?.status === "ISSUED" && (
-                              <span className="bg-[#73CA5C] text-white py-2 px-4 rounded-full">
+                              <span className="bg-[#28A745] text-white py-2 px-4 rounded-full">
                                 {transaction?.status}
                               </span>
                             )}
                             {transaction?.status === "UNPAID" && (
                               <span className="bg-[#FF0000] text-white py-2 px-4 rounded-full">
+                                {transaction?.status}
+                              </span>
+                            )}
+                            {transaction?.status === "CANCELLED" && (
+                              <span className="bg-[#8A8A8A] text-white py-2 px-4 rounded-full">
                                 {transaction?.status}
                               </span>
                             )}
@@ -594,6 +630,11 @@ export default function OrderHistory() {
                             )}
                             {selectedTicket?.status === "UNPAID" && (
                               <span className="bg-[#FF0000] text-white py-2 px-4 rounded-full text-sm">
+                                {selectedTicket?.status}
+                              </span>
+                            )}
+                            {selectedTicket?.status === "CANCELLED" && (
+                              <span className="bg-[#8A8A8A] text-white py-2 px-4 rounded-full text-sm">
                                 {selectedTicket?.status}
                               </span>
                             )}
@@ -981,7 +1022,7 @@ export default function OrderHistory() {
                         <button
                           onClick={() =>
                             dispatch(
-                              printTransactions(selectedTicket?.transaction_id)
+                              printTransactions(selectedTicket?.booking_code)
                             )
                           }
                           className="mt-4 w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#2A629A] font-medium text-white hover:bg-[#003285] focus:outline-none focus:ring-0"
@@ -990,12 +1031,20 @@ export default function OrderHistory() {
                         </button>
                       )}
                       {selectedTicket?.status === "UNPAID" && (
-                        <button
-                          // onClick={handlePayment}
-                          className="mt-4 w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#FF0000] font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-0"
-                        >
-                          Lanjut Bayar
-                        </button>
+                        <div>
+                          <button
+                            onClick={handlePayment}
+                            className="mt-4 w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#28A745] font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-0"
+                          >
+                            Lanjut Bayar
+                          </button>
+                          <button
+                            onClick={handleCancelModalToggle}
+                            className="mt-4 w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#FF0000] font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-0"
+                          >
+                            Batalkan Pemesanan
+                          </button>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -1325,6 +1374,65 @@ export default function OrderHistory() {
                     </button>
                     <button
                       onClick={handleRemoveAll}
+                      className="text-white ms-3 bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
+                    >
+                      Ya
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* MODAL KONFIRMASI MEMBATALKAN PEMESANAN TIKET PENERBANGAN */}
+            <div
+              className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+                cancelModalOpen
+                  ? "opacity-100"
+                  : "opacity-0 pointer-events-none"
+              }`}
+            >
+              <div
+                className={`relative p-4 w-full max-w-3xl max-h-full transform transition-transform duration-300 ease-in-out ${
+                  cancelModalOpen ? "translate-y-0" : "-translate-y-full"
+                }`}
+              >
+                <div className="relative bg-white rounded-lg shadow">
+                  <button
+                    type="button"
+                    className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                    onClick={handleCancelModalToggle} // MENUTUP MODAL
+                  >
+                    <svg
+                      className="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                      />
+                    </svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
+                  <div className="p-4 md:p-5 text-center">
+                    <h3 className="mb-5 text-lg font-normal text-gray-500">
+                      Apakah Anda yakin ingin membatalkan pesanan tiket
+                      penerbangan ini?
+                    </h3>
+                    <button
+                      onClick={handleCancelModalToggle} // MENUTUP MODAL
+                      type="button"
+                      className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-[#003285] focus:z-10 focus:ring-4 focus:ring-gray-100 "
+                    >
+                      Kembali
+                    </button>
+                    <button
+                      onClick={handleCancelTransactions}
                       className="text-white ms-3 bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
                     >
                       Ya

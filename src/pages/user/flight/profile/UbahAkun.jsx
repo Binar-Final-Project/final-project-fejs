@@ -99,6 +99,17 @@ export default function UbahAkun() {
       });
       return;
     }
+
+    if (name.length < 3) {
+      toast("Nama minimal memiliki 3 huruf!", {
+        style: {
+          background: "#FF0000",
+          color: "#FFFFFF",
+        },
+      });
+      return;
+    }
+
     if (!phone_number) {
       toast.error("Mohon masukkan nomor ponsel Anda!", {
         // Menampilkan toast error
@@ -117,10 +128,8 @@ export default function UbahAkun() {
       return;
     }
 
-    if (phone_number.length < 8) {
-      toast.error("Mohon masukkan nomor ponsel dengan benar!", {
-        // Menampilkan toast error
-        icon: null,
+    if (phone_number.length < 8 || phone_number.length >= 14) {
+      toast("Mohon input nomor telepon dengan benar!", {
         style: {
           background: "#FF0000", // Background merah
           color: "#FFFFFF", // Teks putih
@@ -205,6 +214,12 @@ export default function UbahAkun() {
                           <p>Nama harus diisi</p>
                         </div>
                       )}
+                      {isNameValid && name && name.length < 3 && (
+                        <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
+                          <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                          <p>Nama minimal memiliki 3 huruf</p>
+                        </div>
+                      )}
                     </div>
                     <div className="flex flex-col space-y-1 my-3">
                       <label className="text-left text-[#003285] font-medium text-sm">
@@ -230,10 +245,15 @@ export default function UbahAkun() {
                           onChange={handlePhoneNumberChange}
                           id="phone"
                         />
-                        {phone_number && phone_number.length >= 8 && (
-                          <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745] mr-2" />
-                        )}
+                        {phone_number &&
+                          phone_number.length >= 8 &&
+                          phone_number.length < 14 && (
+                            <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745] mr-2" />
+                          )}
                         {phone_number && phone_number.length < 8 && (
+                          <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] mr-2.5" />
+                        )}
+                        {phone_number && phone_number.length >= 14 && (
                           <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] mr-2.5" />
                         )}
                         {!phone_number && (
@@ -245,9 +265,14 @@ export default function UbahAkun() {
                           Nomor ponsel terlalu pendek, minimum 8 angka
                         </p>
                       )}
+                      {phone_number && phone_number.length >= 14 && (
+                        <p className="text-[#FF0000] text-xs mt-1 text-left">
+                          Nomor ponsel terlalu panjang, maksimal 14 angka
+                        </p>
+                      )}
                       {!phone_number && (
                         <p className="text-[#FF0000] text-xs mt-1 text-left">
-                          Nomor ponsel tidak boleh kosong!
+                          Nomor ponsel tidak boleh kosong
                         </p>
                       )}
                     </div>

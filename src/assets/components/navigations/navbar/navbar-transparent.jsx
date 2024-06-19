@@ -5,6 +5,7 @@ import {
   IoNotificationsOutline,
   IoPersonOutline,
 } from "react-icons/io5";
+import { TbUser } from "react-icons/tb";
 import { FiLogIn } from "react-icons/fi";
 import Logobiflight from "../../../images/logobiflight.png";
 import { IoMdNotifications, IoMdLogOut } from "react-icons/io";
@@ -189,7 +190,7 @@ export default function NavbarTransparent() {
                         href="/profil"
                         className=" py-2 px-4 text-sm text-gray-700 hover:bg-[#EEF5FF] flex items-center"
                       >
-                        <IoPersonOutline className="text-xl" /> Profil
+                        <TbUser className="text-xl" /> Profil
                       </a>
                     </li>
                   </ul>

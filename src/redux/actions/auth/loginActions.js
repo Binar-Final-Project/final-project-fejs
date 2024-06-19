@@ -195,8 +195,6 @@ export const checkToken = (navigate) => (dispatch, getState) => {
         style: {
           background: "#FF0000", // Background merah
           color: "#FFFFFF",
-          borderRadius: "12px",
-          fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
         },
