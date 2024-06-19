@@ -16,6 +16,7 @@ import NavbarMobile from "../../../../assets/components/navigations/navbar/Navba
 import { useMediaQuery } from "react-responsive";
 import BtnScrollTop from "../../../../assets/components/BtnScrollUp";
 import { setChoosenFlight } from "../../../../redux/reducers/flight/flightReducers";
+import { setTicketSelected } from "../../../../redux/reducers/ticket/ticketReducers";
 
 export default function TicketCheckout() {
   const dispatch = useDispatch();
@@ -141,9 +142,9 @@ export default function TicketCheckout() {
         "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran"
       );
       setIsDataSaved(true);
-      setTimeout(() => {
-        navigate("/payment");
-      }, 2000);
+      // setTimeout(() => {
+      //   navigate("/payment");
+      // }, 2000);
       // Setelah menyimpan, mengarah ke tombol "Lanjut Pembayaran"
       if (orderSummaryRef.current) {
         orderSummaryRef.current.scrollIntoView({ behavior: "smooth" });
@@ -152,6 +153,13 @@ export default function TicketCheckout() {
       toast.error("Harap lengkapi semua data");
     }
   };
+
+  const { ticket } = useSelector((state) => state.ticket);
+  useEffect(() => {
+    if (ticket) {
+      dispatch(setTicketSelected(ticket));
+    }
+  }, [ticket]);
 
   const handleLanjutPembayaran = () => {
     navigate("/payment");

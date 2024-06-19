@@ -225,11 +225,11 @@ export default function Notification() {
                       <button
                         className={`group flex items-center justify-start w-2.5 h-2.5 ${
                           notif?.status === "unread"
-                            ? "bg-red-500"
-                            : "bg-green-500"
+                            ? "bg-[#FF0000]"
+                            : "bg-[#28A745]"
                         } rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:h-11 hover:w-32 hover:rounded-lg active:translate-x-1 active:translate-y-1`}
                       >
-                        <div className="absolute pl-2 transform translate-x-full opacity-0 text-white font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                        <div className="absolute pl-2 transform translate-x-full opacity-0 text-white font-medium transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
                           {notif?.status === "unread"
                             ? "Belum dibaca"
                             : "Sudah dibaca"}

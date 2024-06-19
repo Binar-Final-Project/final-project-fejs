@@ -47,7 +47,7 @@ export const printTransactions = (id) => async (dispatch, getState) => {
   const { token } = getState().login;
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_REACT_APP_SERVER}/transactions/print/${id}`,
+      `${import.meta.env.VITE_REACT_APP_SERVER}/transactions/${id}`,
       {
         headers: {
           accept: "application/json",
@@ -60,3 +60,37 @@ export const printTransactions = (id) => async (dispatch, getState) => {
     console.log("error print", error);
   }
 };
+
+export const cancelTransactions =
+  (bookingCode, navigate) => async (dispatch, getState) => {
+    const { token } = getState().login;
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_REACT_APP_SERVER}/transactions/${bookingCode}`,
+        { bookingCode },
+        {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("response cancel", response);
+      if (response?.status === 200) {
+        toast(response?.data?.message, {
+          style: {
+            background: "#28A745", // Background hijau
+            color: "#FFFFFF",
+          },
+        });
+      }
+    } catch (error) {
+      console.log("error cancel", error);
+      toast(error?.response?.data?.message, {
+        style: {
+          background: "#FF0000",
+          color: "#fff",
+        },
+      });
+    }
+  };

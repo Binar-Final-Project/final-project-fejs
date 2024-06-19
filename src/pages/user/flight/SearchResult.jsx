@@ -307,6 +307,8 @@ export default function SearchResult() {
       setCurrentPage(1);
       setFilter("");
       setSearchModalOpen(false);
+      setDeparture_date(departureDate);
+      setReturn_date(returnDate);
     } else {
       navigate(
         `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
@@ -356,6 +358,8 @@ export default function SearchResult() {
   // UNTUK MENGHAPUS TIKET YANG SUDAH DIPILIH SAAT DI REFRESH
   useEffect(() => {
     dispatch(setChoosenFlight([]));
+    setDeparture_date(departureDate);
+    setReturn_date(returnDate);
   }, []);
 
   // UNTUK MENJALANKAN FUNGSI GET FLIGHT SAAT GANTI PAGE ATAU FILTER
@@ -383,10 +387,12 @@ export default function SearchResult() {
         currentPage
       )
     );
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
     setDetailOpen(null);
-  }, [choosenFlight, filter, currentPage, departure_date, return_date]);
-
-  console.log("flights", flights);
+  }, [choosenFlight, filter, currentPage]);
 
   // UNTUK PINDAH PAGE JIKA BUTTON PILIH TIKET DI KLIK
   useEffect(() => {
