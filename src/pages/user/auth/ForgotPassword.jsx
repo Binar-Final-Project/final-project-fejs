@@ -10,14 +10,14 @@ import backgroundImage from "../../../assets/images/loginregister.png";
 const ForgotPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showNewPassword, setShowNewPassword] = useState(false); 
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const queryParams = new URLSearchParams(location.search);
-  const token = queryParams.get("token");
+  const token = queryParams.get("token").replace(/ /g, "+");
   console.log("Token: ", token);
 
   const handleSubmit = async (e) => {
@@ -39,7 +39,7 @@ const ForgotPassword = () => {
       return;
     }
 
-    dispatch(getUpdatePass(password, confirmPassword, token));
+    dispatch(getUpdatePass(password, confirmPassword, token, navigate));
   };
 
   const handleInput = (e) => {

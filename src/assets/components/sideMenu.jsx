@@ -80,10 +80,10 @@ export default function sideMenu() {
         </div>
         <div className=" bg-white rounded-b-lg shadow mb-2">
           <div
-            className="flex items-center hover:bg-[#EEF5FF] p-4 w-full rounded-b-lg"
+            className="flex items-center hover:bg-[#EEF5FF] p-4 w-full rounded-b-lg text-[#003285]"
             onClick={handleConfirmModalToggle}
           >
-            <IoMdLogOut className="mr-2 text-2xl text-[#003285]" /> Keluar
+            <IoMdLogOut className="mr-2 text-2xl" /> Keluar
           </div>
         </div>
       </div>
