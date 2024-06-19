@@ -37,6 +37,7 @@ export default function TicketCheckout() {
   const [seconds, setSeconds] = useState(0);
   const [timeUpModal, setTimeUpModal] = useState(false);
   const [isDataSaved, setIsDataSaved] = useState(false);
+  
 
   //State untuk tanggal
   const [date, setDate] = useState(null);
@@ -62,7 +63,7 @@ export default function TicketCheckout() {
       title: "",
       name: "",
       email: "",
-      passenger_type: "adult",
+      passenger_type: "",
       phone_number: "",
       date_of_birth: "",
       nationality: "",
@@ -71,9 +72,16 @@ export default function TicketCheckout() {
       valid_until: "",
     },
   ]);
+  console.log(passengers);
 
   //Handler untuk mengupdate state ordered
   const handleOrdererChange = (e) => {
+    const { name, value } = e.target;
+  
+    // Hanya memperbolehkan angka
+    if (name === "phone_number" && !/^\d*$/.test(value)) {
+      return;
+    }
     setOrderer({
       ...orderer,
       [e.target.name]: e.target.value,
@@ -82,6 +90,12 @@ export default function TicketCheckout() {
 
   //Handler untuk mengupdate state passengers
   const handlePassengerChange = (index, e) => {
+    const { name, value } = e.target;
+  
+    // Hanya memperbolehkan angka
+    if ((name === "phone_number" || name === "identity_number") && !/^\d*$/.test(value)) {
+      return;
+    } 
     const newPassengers = [...passengers];
     newPassengers[index][e.target.name] = e.target.value;
     setPassengers(newPassengers);
@@ -183,11 +197,61 @@ export default function TicketCheckout() {
     navigate("/hasil-pencarian");
   };
 
+
+  //form untuk sesuai dengan jumlah tiket
+  useEffect(() => {
+    const newPassengers = [];
+    for (let i = 0; i < adult; i++) {
+      newPassengers.push({
+        title: "",
+        name: "",
+        email: "",
+        passenger_type: "Dewasa",
+        phone_number: "",
+        date_of_birth: "",
+        nationality: "",
+        identity_number: "",
+        issuing_country: "",
+        valid_until: "",
+      });
+    }
+    for (let i = 0; i < child; i++) {
+      newPassengers.push({
+        title: "",
+        name: "",
+        email: "",
+        passenger_type: "Anak",
+        phone_number: "",
+        date_of_birth: "",
+        nationality: "",
+        identity_number: "",
+        issuing_country: "",
+        valid_until: "",
+      });
+    }
+    for (let i = 0; i < infant; i++) {
+      newPassengers.push({
+        title: "",
+        name: "",
+        email: "",
+        passenger_type: "Bayi",
+        phone_number: "",
+        date_of_birth: "",
+        nationality: "",
+        identity_number: "",
+        issuing_country: "",
+        valid_until: "",
+      });
+    }
+    setPassengers(newPassengers);
+  }, [adult, child, infant]);
+  
+
   return (
-    <div className="bg-[#FFF0DC] pt-20">
+    <div className="bg-[#FFF0DC]">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <Toaster />
-      <div className="p-3 my-10 pt-8">
+      <div className="p-3 my-10 pt-3">
         {/* Menampilkan modal waktu habis */}
         <Modal
           isOpen={timeUpModal}
@@ -218,13 +282,13 @@ export default function TicketCheckout() {
 
         <div className="p-3">
           {/* Countdown Bar */}
-          <div className="bg-red-500 text-center py-2 text-white font-bold">
+          <div className="bg-[#FF0000] text-center p-3 mt-16 text-white font-bold fixed top-0 left-0 w-full z-10">
             Selesaikan dalam {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
             sebelum tiket kamu hangus!
           </div>
 
           {/* Menampilkan modal untuk kembali */}
-          <div className="lg:w-1/12 mt-5">
+          <div className="lg:w-1/12 mt-16">
             <div
               className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3] cursor-pointer"
               onClick={() => setOpenModal(true)}
@@ -266,11 +330,13 @@ export default function TicketCheckout() {
             </div>
           </Modal>
 
+          {/* Form Data Akun */}
           <form onSubmit={handleSubmit}>
             <div className="container mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="col-span-2">
+              <div className="col-span-2 ">
                 {/* Data Akun */}
-                <div className="bg-white shadow-md rounded p-6">
+                <div className="bg-white shadow-md rounded p-6 ">
+                  <div className="border border-gray-300 rounded-xl p-4">
                   <h2 className="text-xl font-semibold mb-4 text-[#003285]">
                     Data Diri Pemesan
                   </h2>
@@ -284,6 +350,7 @@ export default function TicketCheckout() {
                       value={orderer.name}
                       onChange={handleOrdererChange}
                       className="w-full p-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus-within:border-[#2A629A] text-[#2A629A]"
+                      placeholder="Nama sesuai KTP / identitas"
                       required
                     />
                   </div>
@@ -301,6 +368,21 @@ export default function TicketCheckout() {
                       <span className="slider"></span>
                     </label>
                   </div>
+                  {isChecked && (
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">
+                          Nama Keluarga
+                        </label>
+                        <input
+                          type="text"
+                          name="family_name"
+                          value={orderer.family_name}
+                          onChange={handleOrdererChange}
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                          placeholder="Nama keluarga (opsional)"
+                        />
+                      </div>
+                  )}
                   <div className="mb-4">
                     <label className="block text-[#2A629A] mb-2">Email</label>
                     <input
@@ -315,69 +397,70 @@ export default function TicketCheckout() {
                   </div>
                   <div className="mb-4">
                     <label className="block text-[#2A629A] mb-2">
-                      No Telephone
+                      No Telp
                     </label>
                     <input
-                      type="text"
+                      type="tel"
                       name="phone_number"
                       value={orderer.phone_number}
                       onChange={handleOrdererChange}
                       className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                      placeholder="08XXXXXXXXXX"
                       required
                     />
                   </div>
+                  </div>
                 </div>
 
-                {/* Data Tiket 1 */}
-                <div className="bg-white shadow-md rounded p-6 mt-6">
-                  <h2 className="text-xl font-bold mb-4 text-[#003285]">
-                    Isi Data Penumpang
-                  </h2>
+                {/* Form Data Tiket */}
+                <div className="bg-white shadow-md rounded p-6 mt-6 space-y-6">
                   {passengers.map((passenger, index) => (
-                    <div key={index} className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">Title</label>
-                      <div className="relative mb-4">
-                        <select
-                          name="title"
-                          value={passenger.title}
-                          onChange={(e) => handlePassengerChange(index, e)}
-                          className="appearance-none w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A] py-2 pl-3 pr-10"
-                        >
-                          <option className="text-[#2A629A]">Tuan</option>
-                          <option className="text-[#2A629A]">Nyonya</option>
-                          <option className="text-[#2A629A]">Nona</option>
-                        </select>
-                        <span className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            className="h-6 w-6 text-[#2A629A]"
+                    <div key={index} className="border border-gray-300 rounded-xl p-4">
+                      <h3 className="text-xl font-semibold text-[#003285] mb-4">
+                        Isi Data Penumpang {index + 1}
+                      </h3>
+                      <div className="mb-4">
+                        <label className="block text-[#2A629A] mb-2">Titel</label>
+                        <div className="relative mb-4">
+                          <select
+                            name="title"
+                            value={passenger.title}
+                            onChange={(e) => handlePassengerChange(index, e)}
+                            className="appearance-none w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A] py-2 pl-3 pr-10"
                           >
-                            <path
-                              d="M10 12.586L4.707 7.293a1 1 0 011.414-1.414L10 10.758l4.879-4.879a1 1 0 111.414 1.414L10 12.586z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </span>
+                            <option className="text-[#2A629A]">Tuan</option>
+                            <option className="text-[#2A629A]">Nyonya</option>
+                            <option className="text-[#2A629A]">Nona</option>
+                          </select>
+                          <span className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              className="h-6 w-6 text-[#2A629A]"
+                            >
+                              <path
+                                d="M10 12.586L4.707 7.293a1 1 0 011.414-1.414L10 10.758l4.879-4.879a1 1 0 111.414 1.414L10 12.586z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </span>
+                        </div>
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
-                          Nama Lengkap
-                        </label>
+                        <label className="block text-[#2A629A] mb-2">Nama Lengkap</label>
                         <input
                           type="text"
                           name="name"
                           value={passenger.name}
                           onChange={(e) => handlePassengerChange(index, e)}
                           className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="Nama sesuai KTP / identitas"
                           required
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
-                          Email
-                        </label>
+                        <label className="block text-[#2A629A] mb-2">Email</label>
                         <input
                           type="text"
                           name="email"
@@ -389,89 +472,86 @@ export default function TicketCheckout() {
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
-                          No Telp
-                        </label>
+                        <label className="block text-[#2A629A] mb-2">No Telp</label>
                         <input
-                          type="text"
+                          type="tel"
                           name="phone_number"
                           value={passenger.phone_number}
                           onChange={(e) => handlePassengerChange(index, e)}
                           className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="08XXXXXXXXXX"
                           required
                         />
                       </div>
-
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
-                          Tanggal Lahir
-                        </label>
+                        <label className="block text-[#2A629A] mb-2">Tanggal Lahir</label>
                         <Flatpickr
                           value={passenger.date_of_birth}
-                          onChange={(date) =>
-                            handleDateChange(index, "date_of_birth", date)
-                          }
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                          onChange={(date) => handleDateChange(index, "date_of_birth", date)}
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                           placeholder="dd-mm-yyyy"
                           required
+                          options={{
+                            maxDate: new Date(), 
+                            dateFormat: "d-m-Y",
+                          }}
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
-                          Kewarganegaraan
-                        </label>
+                        <label className="block text-[#2A629A] mb-2">Kewarganegaraan</label>
                         <input
                           type="text"
                           name="nationality"
                           value={passenger.nationality}
                           onChange={(e) => handlePassengerChange(index, e)}
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="Contoh: Indonesia, Malaysia, Singapura, dll."
                           required
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
-                          KTP/Paspor
-                        </label>
+                        <label className="block text-[#2A629A] mb-2">KTP/Paspor</label>
                         <input
-                          type="number"
+                          type="tel"
                           name="identity_number"
                           value={passenger.identity_number}
                           onChange={(e) => handlePassengerChange(index, e)}
+                          maxLength={16}
                           className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="Masukkan nomor KTP atau Paspor"
                           required
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
-                          Negara Penerbit
-                        </label>
+                        <label className="block text-[#2A629A] mb-2">Negara Penerbit</label>
                         <input
                           type="text"
                           name="issuing_country"
                           value={passenger.issuing_country}
                           onChange={(e) => handlePassengerChange(index, e)}
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="Contoh: Indonesia, Malaysia, Singapura, dll."
                           required
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
-                          Berlaku Sampai
-                        </label>
+                        <label className="block text-[#2A629A] mb-2">Berlaku Sampai</label>
                         <Flatpickr
                           value={passenger.valid_until}
-                          onChange={(date) =>
-                            handleDateChange(index, "valid_until", date)
-                          }
+                          onChange={(date) => handleDateChange(index, "valid_until", date)}
                           className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                           placeholder="dd-mm-yyyy"
                           required
+                          options={{
+                            minDate: new Date(), 
+                            dateFormat: "d-m-Y", 
+                          }}
                         />
                       </div>
                     </div>
                   ))}
                 </div>
+
                 <div className="mt-5">
                   <button
                     type="submit"
@@ -497,9 +577,9 @@ export default function TicketCheckout() {
             </div>
           </form>
         </div>
-        {isMobile ? "" : <BtnScrollTop />}
-        <Footer />
       </div>
+      {isMobile ? "" : <BtnScrollTop />}
+      <Footer />
     </div>
   );
 }
