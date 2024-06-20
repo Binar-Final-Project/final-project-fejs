@@ -16,6 +16,7 @@ import UbahAkun from "./pages/user/flight/profile/UbahAkun.jsx";
 import SearchResult from "./pages/user/flight/SearchResult.jsx";
 import Notification from "./pages/user/flight/Notification.jsx";
 import OrderHistory from "./pages/user/flight/OrderHistory.jsx";
+import AboutUs from "./assets/components/AboutUs.jsx";
 
 export default function App() {
   return (
@@ -98,6 +99,7 @@ export default function App() {
             </div>
           }
         />
+        <Route path="about-us" element={<AboutUs />} />
       </Routes>
     </Router>
   );

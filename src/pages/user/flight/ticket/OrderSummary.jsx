@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setChoosenFlight } from "../../../../redux/reducers/flight/flightReducers";
-
 import { PiBagSimpleBold } from "react-icons/pi";
 import { FiInfo } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
@@ -78,14 +77,13 @@ export default function OrderSummary() {
     return total * 0.1;
 }
 
-
   return (
     <div>
       {choosenFlight.map((flight, index) => (
         <div key={index} className="container bg-white shadow-md rounded p-6 w-full ms-3">
           <div className="col-span-1">
             <div className="flex flex-col border-b border-gray-300 pb-4">
-              <div className="bg-[#86B6F6] p-1 text-sm font-medium rounded-lg text-center inline-block w-[4rem]">
+              <div className="bg-[#40A2E3] text-white p-1 text-sm font-medium rounded-lg text-center inline-block w-[4rem]">
               <h1>{index === 0 ? "Pergi" : "Pulang"}</h1>
               </div>
               <div className="text-center p-3">
