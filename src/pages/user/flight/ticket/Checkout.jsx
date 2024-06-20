@@ -22,27 +22,22 @@ export default function TicketCheckout() {
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
+  const isLaptop = useMediaQuery({ minWidth: 1024 });
   const query = new URLSearchParams(location.search);
   const adult = parseInt(query.get("adult"));
   const child = parseInt(query.get("child"));
   const infant = parseInt(query.get("infant"));
   const orderSummaryRef = useRef(null);
-
   const { choosenFlight } = useSelector((state) => state.flight);
 
-  //state untuk modal
+
   const { token } = useSelector((state) => state.login);
   const [isChecked, setIsChecked] = useState(false);
   const [minutes, setMinutes] = useState(15);
   const [seconds, setSeconds] = useState(0);
   const [timeUpModal, setTimeUpModal] = useState(false);
   const [isDataSaved, setIsDataSaved] = useState(false);
-  
-
-  //State untuk tanggal
-  const [date, setDate] = useState(null);
-
-  //state untuk modal
   const [openModal, setOpenModal] = useState(false);
   const [penumpang, setPenumpang] = useState({
     dewasa: adult,
@@ -282,13 +277,21 @@ export default function TicketCheckout() {
 
         <div className="p-3">
           {/* Countdown Bar */}
-          <div className="bg-[#FF0000] text-center p-3 mt-16 text-white font-bold fixed top-0 left-0 w-full z-10">
+          <div
+            className={`bg-[#FF0000] text-center p-3 text-white font-bold fixed left-0 w-full z-10 ${
+              isMobile ? "top-0 text-sm" : isTablet ? "top-18" : "top-18"
+            }`}
+          >
             Selesaikan dalam {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
             sebelum tiket kamu hangus!
           </div>
 
           {/* Menampilkan modal untuk kembali */}
-          <div className="lg:w-1/12 mt-16">
+          <div
+            className={`lg:w-1/12 ${
+              isMobile ? "mt-5" : isTablet ? "mt-16" : isLaptop ? "mt-20" : "mt-20"
+            }`}
+          >
             <div
               className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3] cursor-pointer"
               onClick={() => setOpenModal(true)}

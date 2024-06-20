@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setChoosenFlight } from "../../../../redux/reducers/flight/flightReducers";
-
 import { PiBagSimpleBold } from "react-icons/pi";
 import { FiInfo } from "react-icons/fi";
 import { useLocation } from "react-router-dom";
