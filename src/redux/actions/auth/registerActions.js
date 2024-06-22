@@ -54,6 +54,8 @@ export const register =
               fontSize: "14px", // Ukuran font
               textAlign: "center", // Posisi teks di tengah
               padding: "10px 20px", // Padding
+              width: "full",
+              maxWidth: "900px",
             },
             position: "top-center", // Posisi toast
             duration: 3000, // Durasi toast
@@ -83,6 +85,8 @@ export const register =
             fontSize: "14px", // Ukuran font
             textAlign: "center", // Posisi teks di tengah
             padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
           },
           position: "top-center", // Posisi toast
           duration: 3000, // Durasi toast

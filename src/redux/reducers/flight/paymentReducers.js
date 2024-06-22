@@ -1,19 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  payment_method: "",
   card_number: "",
   card_holder_name: "",
   isCardHolderNameTouched: false,
+  isCardHolderNameValid: false,
   cvv: "",
-  expiry_date: "",
   selectedMonth: "",
   selectedYear: "",
-  selectedMethod: "",
   isDropdownOpen: false,
   error: null,
   isLoading: false,
   paymentSuccess: false,
+  showConfirmationModal: false,
+  showSuccessModal: false,
 };
 
 const paymentSlice = createSlice({
@@ -29,20 +29,17 @@ const paymentSlice = createSlice({
     setCardHolderNameTouched: (state, action) => {
       state.isCardHolderNameTouched = action.payload;
     },
+    setCardHolderNameValid: (state, action) => {
+      state.isCardHolderNameValid = action.payload.length > 3;
+    },
     setCvv: (state, action) => {
       state.cvv = action.payload;
-    },
-    setExpiryDate: (state, action) => {
-      state.expiry_date = action.payload;
     },
     setSelectedMonth: (state, action) => {
       state.selectedMonth = action.payload;
     },
     setSelectedYear: (state, action) => {
       state.selectedYear = action.payload;
-    },
-    setSelectedMethod: (state, action) => {
-      state.selectedMethod = action.payload;
     },
     setIsDropdownOpen: (state, action) => {
       state.isDropdownOpen = action.payload;
@@ -59,6 +56,12 @@ const paymentSlice = createSlice({
     setPaymentSuccess: (state, action) => {
       state.paymentSuccess = action.payload;
     },
+    setShowConfirmationModal: (state, action) => {
+      state.showConfirmationModal = action.payload;
+    },
+    setShowSuccessModal: (state, action) => {
+      state.showSuccessModal = action.payload;
+    },
   },
 });
 
@@ -66,16 +69,18 @@ export const {
   setCardNumber,
   setCardHolderName,
   setCardHolderNameTouched,
+  setCardHolderNameValid,
   setCvv,
   setExpiryDate,
   setSelectedMonth,
   setSelectedYear,
-  setSelectedMethod,
   setIsDropdownOpen,
   setError,
   clearError,
   setLoading,
   setPaymentSuccess,
+  setShowConfirmationModal,
+  setShowSuccessModal,
 } = paymentSlice.actions;
 
 export default paymentSlice.reducer;

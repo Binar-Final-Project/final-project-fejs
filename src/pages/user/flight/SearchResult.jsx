@@ -137,12 +137,19 @@ export default function SearchResult() {
     setDetailOpen(null);
     setCurrentPage(1);
     setIsFilterModalOpen(false);
-    toast("Berhasil menghapus filter", {
+    toast("Data diurutkan tanpa filter.", {
       style: {
         background: "#28A745", // Background hijau
         color: "#FFFFFF", // TEKS PUTIH
-        textAlign: "center", // TEKS TENGAH
+        borderRadius: "12px",
+        fontSize: "14px", // Ukuran font
+        textAlign: "center", //TEKS TENGAH
+        padding: "10px 20px", // Padding
+        width: "full",
+        maxWidth: "900px",
       },
+      position: "top-center", // Posisi toast
+      duration: 3000, // Durasi toast
     });
   };
 
@@ -161,60 +168,90 @@ export default function SearchResult() {
         style: {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
           textAlign: "center", //TEKS TENGAH
+          padding: "10px 20px", // Padding
           width: "full",
           maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     } else if (tempFilter === "duration.asc") {
       toast("Berhasil mengurutkan berdasarkan durasi terpendek", {
         style: {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
           textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
           width: "full",
           maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     } else if (tempFilter === "departure_time.asc") {
       toast("Berhasil mengurutkan berdasarkan keberangkatan paling awal", {
         style: {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
           textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
           width: "full",
           maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     } else if (tempFilter === "departure_time.desc") {
       toast("Berhasil mengurutkan berdasarkan keberangkatan paling akhir", {
         style: {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
           textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
           width: "full",
           maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     } else if (tempFilter === "arrival_time.asc") {
       toast("Berhasil mengurutkan berdasarkan kedatangan paling awal", {
         style: {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
           textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
           width: "full",
           maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     } else if (tempFilter === "arrival_time.desc") {
       toast("Berhasil mengurutkan berdasarkan keberangkatan paling akhir", {
         style: {
           background: "#28A745", // Background hijau
           color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
           textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
           width: "full",
           maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     }
   };
@@ -254,8 +291,16 @@ export default function SearchResult() {
       toast("Harap pilih destinasi Anda!", {
         style: {
           background: "#FF0000",
-          color: "#fff",
+          color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
@@ -267,8 +312,16 @@ export default function SearchResult() {
       toast("Harap pilih tanggal yang berbeda!", {
         style: {
           background: "#FF0000",
-          color: "#fff",
+          color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }

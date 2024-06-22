@@ -9,6 +9,7 @@ import { register } from "../../../redux/actions/auth/registerActions";
 import {
   setName,
   setNameTouched,
+  setNameValid,
   setEmail,
   setPassword,
   setShowPassword,
@@ -26,6 +27,7 @@ export default function Register() {
   const {
     name,
     isNameTouched,
+    isNameValid,
     email,
     isEmailValid,
     password,
@@ -35,28 +37,29 @@ export default function Register() {
     showConfirmPassword,
     phone_number,
     isPhoneNumberValid,
-  } = useSelector((state) => state.register); // Menggunakan useSelector untuk mengambil state register dari reducers
-  const passwordInputType = showPassword ? "text" : "password"; // Menentukan tipe input untuk password
-  const confirmPasswordInputType = showConfirmPassword ? "text" : "password"; // Menentukan tipe input untuk konfirmasi password
+  } = useSelector((state) => state.register); // Menggunakan useSelector untuk mengambil data dari state register
+  const passwordInputType = showPassword ? "text" : "password"; // Menentukan tipe input untuk kata sandi
+  const confirmPasswordInputType = showConfirmPassword ? "text" : "password"; // Menentukan tipe input untuk konfirmasi kata sandi
   const passwordsMatch = password === confirmPassword;
 
-  // Mengatur ulang state ketika komponen dimuat
+  // Mengatur ulang state registrasi ke nilai awal atau kosong
   useEffect(() => {
     return () => {
-      dispatch(setName("")); // Mengatur nama ke nilai kosong di Reducers
-      dispatch(setNameTouched(false)); // Mengatur nama ke nilai false di Reducers
-      dispatch(setEmail("")); // Mengatur email ke nilai kosong di Reducers
-      dispatch(setPhoneNumber("")); // Mengatur nomor telepon ke nilai kosong di Reducers
-      dispatch(setPassword("")); // Mengatur password ke nilai kosong di Reducers
-      dispatch(setConfirmPassword("")); // Mengatur password ke nilai kosong di Reducers
-      dispatch(clearError()); // Menghapus error di Reducers
+      dispatch(setName(""));
+      dispatch(setNameTouched(false));
+      dispatch(setNameValid(false));
+      dispatch(setEmail(""));
+      dispatch(setPhoneNumber(""));
+      dispatch(setPassword(""));
+      dispatch(setConfirmPassword(""));
+      dispatch(clearError());
     };
   }, [dispatch]);
 
   // Fungsi untuk menangani perubahan input nama
   const handleNameChange = (event) => {
     dispatch(clearError());
-    dispatch(setName(event.target.value)); // Actions untuk mengatur nama ke Reducers
+    dispatch(setName(event.target.value));
     if (!isNameTouched) {
       dispatch(setNameTouched(true));
     }
@@ -79,7 +82,7 @@ export default function Register() {
   // Fungsi untuk menangani perubahan input email
   const handleEmailChange = (event) => {
     dispatch(clearError());
-    dispatch(setEmail(event.target.value)); // Actions untuk mengatur email ke Reducers
+    dispatch(setEmail(event.target.value));
   };
 
   // Fungsi untuk menangani perubahan input nomor telepon
@@ -88,7 +91,7 @@ export default function Register() {
     const { value } = event.target;
     const isValidPhoneNumber = /^\d*$/.test(value); // Mengizinkan angka atau kosong
     if (isValidPhoneNumber) {
-      dispatch(setPhoneNumber(value)); // Actions untuk mengatur nomor telepon ke Reducers
+      dispatch(setPhoneNumber(value));
     }
   };
 
@@ -110,7 +113,7 @@ export default function Register() {
   // Fungsi untuk menangani toggle visibilitas password
   const togglePasswordVisibility = () => {
     dispatch(clearError());
-    dispatch(setShowPassword(!showPassword)); // Actions untuk mengatur showPassword ke Reducers
+    dispatch(setShowPassword(!showPassword));
   };
 
   // Fungsi untuk menangani perubahan input konfirmasi password
@@ -122,12 +125,13 @@ export default function Register() {
   // Fungsi untuk menangani toggle visibilitas konfirmasi password
   const toggleConfirmPasswordVisibility = () => {
     dispatch(clearError());
-    dispatch(setShowConfirmPassword(!showConfirmPassword)); // Actions untuk mengatur showConfirmPassword ke Reducers
+    dispatch(setShowConfirmPassword(!showConfirmPassword));
   };
 
   // Fungsi untuk menangani proses registrasi akun
   const handleRegister = async (event) => {
     event.preventDefault();
+    // Jika nama pengguna tidak diisi
     if (!name) {
       toast.error("Mohon masukkan nama Anda!", {
         // Menampilkan toast error
@@ -139,6 +143,8 @@ export default function Register() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -146,6 +152,7 @@ export default function Register() {
       return;
     }
 
+    // Jika Email pengguna tidak diisi
     if (!email) {
       toast.error("Mohon masukkan alamat Email Anda!", {
         // Menampilkan toast error
@@ -157,6 +164,8 @@ export default function Register() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -164,8 +173,9 @@ export default function Register() {
       return;
     }
 
+    // Jika nomor ponsel pengguna tidak diisi
     if (!phone_number) {
-      toast.error("Mohon masukkan nomor telepon Anda!", {
+      toast.error("Mohon masukkan nomor ponsel Anda!", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -175,6 +185,8 @@ export default function Register() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -182,6 +194,7 @@ export default function Register() {
       return;
     }
 
+    // Jika kata sandi pengguna tidak diisi
     if (!password) {
       toast.error("Mohon masukkan kata sandi Anda!", {
         // Menampilkan toast error
@@ -193,6 +206,8 @@ export default function Register() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -200,6 +215,7 @@ export default function Register() {
       return;
     }
 
+    // Jika konfirmasi kata sandi pengguna tidak diisi
     if (!confirmPassword) {
       toast.error("Mohon masukkan konfirmasi kata sandi Anda!", {
         // Menampilkan toast error
@@ -211,6 +227,8 @@ export default function Register() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 30px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -218,6 +236,7 @@ export default function Register() {
       return;
     }
 
+    // Jika semua kolom tidak diisi
     if (!name || !email || !phone_number || !password || !confirmPassword) {
       toast.error("Mohon isi semua kolom terlebih dahulu!", {
         // Menampilkan toast error
@@ -229,6 +248,8 @@ export default function Register() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -236,6 +257,28 @@ export default function Register() {
       return;
     }
 
+    // Jika nama kurang dari minimum karakter
+    if (name.length < 3) {
+      toast.error("Mohon masukkan nama dengan benar!", {
+        // Menampilkan toast error
+        icon: null,
+        style: {
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
+        },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
+      });
+      return;
+    }
+
+    // Jika Email pengguna tidak valid
     if (!isEmailValid) {
       toast.error("Mohon masukkan alamat Email dengan benar!", {
         // Menampilkan toast error
@@ -247,6 +290,8 @@ export default function Register() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -254,7 +299,8 @@ export default function Register() {
       return;
     }
 
-    if (phone_number.length < 8) {
+    // Jika nomor nomor ponsel pengguna kurang atau lebih dari dari batas karakter
+    if (phone_number.length < 8 || phone_number.length >= 14) {
       toast.error("Mohon masukkan nomor ponsel dengan benar!", {
         // Menampilkan toast error
         icon: null,
@@ -265,6 +311,8 @@ export default function Register() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -272,6 +320,7 @@ export default function Register() {
       return;
     }
 
+    // Jika kata sandi pengguna tidak sesuai ketentuan
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
     if (!passwordRegex.test(password)) {
       toast.error(
@@ -286,6 +335,8 @@ export default function Register() {
             fontSize: "14px", // Ukuran font
             textAlign: "center", // Posisi teks di tengah
             padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
           },
           position: "top-center", // Posisi toast
           duration: 3000, // Durasi toast
@@ -294,32 +345,38 @@ export default function Register() {
       return;
     }
 
+    // Jika kata sandi tidak cocok dengan konfirmasi kata sandi
     if (password !== confirmPassword) {
-      toast.error("Kata sandi yang Anda masukkan tidak sama!", {
-        // Menampilkan toast error
-        icon: null,
-        style: {
-          background: "#FF0000",
-          color: "#FFFFFF",
-          borderRadius: "12px",
-          fontSize: "14px",
-          textAlign: "center",
-          padding: "10px 20px",
-        },
-        position: "top-center",
-        duration: 2000,
-      });
+      toast.error(
+        "Kata sandi yang Anda masukkan tidak cocok dengan konfirmasi kata sandi!",
+        {
+          // Menampilkan toast error
+          icon: null,
+          style: {
+            background: "#FF0000",
+            color: "#FFFFFF",
+            borderRadius: "12px",
+            fontSize: "14px",
+            textAlign: "center",
+            padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center",
+          duration: 2000,
+        }
+      );
       return;
     }
 
-    console.log("Register data:", {
-      name,
-      email,
-      phone_number,
-      password,
-    });
+    // console.log("Register data:", {
+    //   name,
+    //   email,
+    //   phone_number,
+    //   password,
+    // });
 
-    dispatch(register(email, name, password, phone_number, navigate)); // Mengirim actions register ke Reducers dengan email, name, password, phoneNumber, dan navigate function
+    dispatch(register(email, name, password, phone_number, navigate));
   };
 
   return (
@@ -379,6 +436,13 @@ export default function Register() {
                       !isNameTouched && name
                         ? "border-[#FF0000]"
                         : "border-[#D0D0D0]"
+                    }
+                    ${
+                      name
+                        ? !isNameValid && name && name.length < 3
+                          ? "focus-within:border-[#FF0000]"
+                          : "focus-within:border-[#2A629A]"
+                        : "focus-within:border-[#FF0000]"
                     }`}
                     >
                       <input
@@ -395,6 +459,12 @@ export default function Register() {
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                         <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
                         <p>Nama tidak boleh kosong</p>
+                      </div>
+                    )}
+                    {!isNameValid && name && name.length < 3 && (
+                      <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
+                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                        <p>Nama terlalu pendek, minimum 3 huruf</p>
                       </div>
                     )}
                   </div>
@@ -475,11 +545,24 @@ export default function Register() {
                           <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] mr-2.5" />
                         )}
                     </div>
+                    {/* {!phone_number && (
+                      <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
+                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                        <p>Nomor ponsel tidak boleh kosong</p>
+                      </div>
+                    )} */}
                     {!isPhoneNumberValid &&
                       phone_number &&
-                      phone_number.length > 0 && (
+                      phone_number.length < 8 && (
                         <p className="text-[#FF0000] text-xs mt-1 text-left">
                           Nomor ponsel terlalu pendek, minimum 8 angka
+                        </p>
+                      )}
+                    {!isPhoneNumberValid &&
+                      phone_number &&
+                      phone_number.length >= 14 && (
+                        <p className="text-[#FF0000] text-xs mt-1 text-left">
+                          Nomor ponsel terlalu panjang, maksimum 14 angka
                         </p>
                       )}
                   </div>

@@ -26,19 +26,19 @@ export default function LoginUser() {
     showPassword,
     isPasswordTouched,
     error,
-  } = useSelector((state) => state.login); // Menggunakan useSelector untuk mengambil state login dari reducers
+  } = useSelector((state) => state.login); // Menggunakan useSelector untuk mengambil data dari state login
   const passwordInputType = showPassword ? "text" : "password";
   // Validasi password (minimal 8 karakter, termasuk huruf besar dan angka)
   const isPasswordValid =
     password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password);
 
-  // Mengatur ulang state ketika komponen di-unmount
+  // Mengatur ulang state login ke nilai awal atau kosong
   useEffect(() => {
     return () => {
-      dispatch(setEmail("")); // Mengatur email ke nilai kosong di Reducers
-      dispatch(setPassword("")); // Mengatur password ke nilai kosong di Reducers
-      dispatch(setPasswordTouched(false)); // Mengatur password false ketika diklik di Reducers
-      dispatch(clearError()); // Menghapus error di Reducers
+      dispatch(setEmail(""));
+      dispatch(setPassword(""));
+      dispatch(setPasswordTouched(false));
+      dispatch(clearError());
     };
   }, [dispatch]);
 
@@ -110,6 +110,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -117,6 +119,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika kata sandi pengguna tidak diisi
     if (!password) {
       toast.error("Mohon masukkan kata sandi Anda!", {
         // Menampilkan toast error
@@ -128,6 +131,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -135,6 +140,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika semua kolom tidak diisi
     if (!email || !password) {
       toast.error("Mohon isi semua kolom terlebih dahulu!", {
         // Menampilkan toast error
@@ -146,6 +152,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -153,6 +161,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika email dan kata sandi pengguna tidak sesuai ketentuan
     if (!isEmailValid && !isPasswordValid) {
       toast.error("Mohon isi kedua kolom sesuai ketentuan!", {
         // Menampilkan toast error
@@ -164,6 +173,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -171,6 +182,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika Email pengguna tidak diisi
     if (!isEmailValid) {
       toast.error("Mohon masukkan alamat Email dengan benar!", {
         // Menampilkan toast error
@@ -182,6 +194,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -189,6 +203,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika kata sandi pengguna tidak valid
     if (!isPasswordValid) {
       toast.error("Mohon masukkan kata sandi sesuai ketentuan!", {
         // Menampilkan toast error
@@ -200,13 +215,14 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
       });
       return;
     }
-
     dispatch(login(email, password, navigate));
   };
 

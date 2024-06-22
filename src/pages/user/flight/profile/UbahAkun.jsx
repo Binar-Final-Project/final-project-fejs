@@ -101,11 +101,18 @@ export default function UbahAkun() {
     }
 
     if (name.length < 3) {
-      toast("Nama minimal memiliki 3 huruf!", {
+      toast.error("Nama minimal memiliki 3 huruf!", {
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#FFFFFF",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
@@ -129,7 +136,7 @@ export default function UbahAkun() {
     }
 
     if (phone_number.length < 8 || phone_number.length >= 14) {
-      toast("Mohon input nomor telepon dengan benar!", {
+      toast.error("Mohon masukkan nomor telepon dengan benar!", {
         style: {
           background: "#FF0000", // Background merah
           color: "#FFFFFF", // Teks putih
@@ -211,13 +218,13 @@ export default function UbahAkun() {
                       {isNameValid && !name && (
                         <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                           <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
-                          <p>Nama harus diisi</p>
+                          <p>Nama tidak boleh kosong</p>
                         </div>
                       )}
                       {isNameValid && name && name.length < 3 && (
                         <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                           <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
-                          <p>Nama minimal memiliki 3 huruf</p>
+                          <p>Nama terlalu pendek, minimum 3 huruf</p>
                         </div>
                       )}
                     </div>
@@ -267,7 +274,7 @@ export default function UbahAkun() {
                       )}
                       {phone_number && phone_number.length >= 14 && (
                         <p className="text-[#FF0000] text-xs mt-1 text-left">
-                          Nomor ponsel terlalu panjang, maksimal 14 angka
+                          Nomor ponsel terlalu panjang, maksimum 14 angka
                         </p>
                       )}
                       {!phone_number && (

@@ -52,9 +52,17 @@ export default function Notification() {
       dispatch(getNotification());
       toast("Notifikasi telah dibaca!", {
         style: {
-          background: "#28A745", // Background hijau
-          color: "#FFFFFF",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     });
   };

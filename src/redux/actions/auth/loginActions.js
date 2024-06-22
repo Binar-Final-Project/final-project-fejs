@@ -9,6 +9,7 @@ import {
 } from "../../reducers/auth/loginReducers";
 import { setProfile } from "../../reducers/user/userReducers";
 
+// Action untuk login dengan Email
 export const login = (email, password, navigate) => async (dispatch) => {
   try {
     const responseLogin = await axios.post(
@@ -27,8 +28,9 @@ export const login = (email, password, navigate) => async (dispatch) => {
       dispatch(setUser(responseLogin?.data)); // Mengatur setUser ke Reducers
       dispatch(clearError()); // Menghapus error ke Reducers
       dispatch(setToken(responseLogin?.data?.data?.token));
+      console.log("Token: ", responseLogin?.data?.data?.token);
       dispatch(setIsLoggedIn(true)); // Mengatur setIsLoggedIn menjadi true ke Reducers
-      toast.success(`Berhasil masuk, selamat datang ${email}!`, {
+      toast.success("Berhasil masuk, selamat menikmati perjalananmu!", {
         //Menampilkan toast sukses
         icon: null,
         style: {
@@ -38,6 +40,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -60,6 +63,8 @@ export const login = (email, password, navigate) => async (dispatch) => {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -76,6 +81,8 @@ export const login = (email, password, navigate) => async (dispatch) => {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -92,6 +99,8 @@ export const login = (email, password, navigate) => async (dispatch) => {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -100,10 +109,11 @@ export const login = (email, password, navigate) => async (dispatch) => {
   }
 };
 
+// Action untuk login dengan Google
 export const loginWithGoogle = (accessToken, navigate) => async (dispatch) => {
   try {
     const responseLoginGoogle = await axios.post(
-      "https://shy-cloud-3319.fly.dev/api/v1/auth/google",
+      "https://express-production-3572.up.railway.app/api/v1/users/google",
       {
         access_token: accessToken,
       },
@@ -113,30 +123,35 @@ export const loginWithGoogle = (accessToken, navigate) => async (dispatch) => {
         },
       }
     );
-    const { token } = responseLoginGoogle.data.data; // Mendapatkan token dari response data
-    console.log("Token Login Google: ", token);
-    dispatch(setUser(responseLoginGoogle?.data)); // Mengatur data pengguna ke Reducers
+    const token = responseLoginGoogle.data.tokenJWT; // Mendapatkan token dari response data
+    dispatch(setUser(responseLoginGoogle?.data.data)); // Mengatur data pengguna ke Reducers
+    // console.log("Cek: ", responseLoginGoogle?.data.data);
     dispatch(clearError()); // Menghapus error ke Reducers
     dispatch(setToken(token));
     dispatch(setIsLoggedIn(true)); // Mengatur setIsLoggedIn menjadi true ke Reducers
-    toast.success("Berhasil masuk dengan Google, selamat datang.", {
-      //Menampilkan toast sukses
-      icon: null,
-      style: {
-        background: "#28A745", // Background hijau
-        color: "#FFFFFF", // Teks putih
-        borderRadius: "12px",
-        fontSize: "14px", // Ukuran font
-        textAlign: "center", // Posisi teks di tengah
-        padding: "10px 20px", // Padding
-      },
-      position: "top-center", // Posisi toast
-      duration: 3000, // Durasi toast
-    });
+    toast.success(
+      "Berhasil masuk dengan Google, selamat menikmati perjalananmu!",
+      {
+        //Menampilkan toast sukses
+        icon: null,
+        style: {
+          background: "#28A745", // Background hijau
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
+        },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
+      }
+    );
     setTimeout(() => {
       navigate("/", { state: { token: token } });
     }, 3000);
-    console.log("Response Login Google: ", responseLoginGoogle);
+    console.log("Response Login Google: ", responseLoginGoogle.data.tokenJWT);
   } catch (error) {
     console.log(error); // Menampilkan error di konsol
     dispatch(setError("Gagal masuk dengan Google. Silakan coba lagi.")); // Mengatur pesan error ke Reducers
@@ -148,6 +163,8 @@ export const loginWithGoogle = (accessToken, navigate) => async (dispatch) => {
         fontSize: "14px", // Ukuran font
         textAlign: "center", // Posisi teks di tengah
         padding: "10px 20px", // Padding
+        width: "full",
+        maxWidth: "900px",
       },
       position: "top-center", // Posisi toast
       duration: 3000, // Durasi toast
@@ -176,7 +193,7 @@ export const logout = (navigate) => async (dispatch) => {
           padding: "10px 20px", // Padding
         },
         position: "top-center", // Posisi toast
-        duration: 3000, // Durasi toast
+        duration: 1500, // Durasi toast
       });
     }
   } catch (error) {
@@ -190,14 +207,20 @@ export const checkToken = (navigate) => (dispatch, getState) => {
   if (token === null || isLoggedin === false) {
     navigate("/login");
     setTimeout(() => {
-      toast("Anda harus login terlebih dahulu!", {
+      toast("Maaf, Anda harus masuk terlebih dahulu!", {
         icon: null,
         style: {
           background: "#FF0000", // Background merah
           color: "#FFFFFF",
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     }, 500);
   }

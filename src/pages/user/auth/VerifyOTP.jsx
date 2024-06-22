@@ -5,7 +5,6 @@ import { Toaster, toast } from "react-hot-toast";
 import { BiArrowBack } from "react-icons/bi";
 import {
   setOtpInput,
-  // setEmail,
   decrementTimer,
   resetTimer,
 } from "../../../redux/reducers/auth/otpReducers"; // Import setEmail dan timer actions
@@ -20,24 +19,25 @@ export default function VerifyOTP() {
   const [isToastShown, setIsToastShown] = useState(false); // State untuk memastikan toast hanya muncul sekali
   const [isResendVisible, setIsResendVisible] = useState(false); // State untuk tombol Resend OTP
 
+  // Mengatur ulang state verifikasi OTP ke nilai awal atau kosong
   useEffect(() => {
-    console.log("Email dari state register:", registerEmail); // Cek nilai email dari state register
-    dispatch(setOtpInput("")); // Mengosongkan otpInput ketika komponen pertama kali dimuat
-    dispatch(resetTimer()); // Mereset timer ketika komponen pertama kali dimuat
+    // console.log("Email dari state register:", registerEmail);
+    dispatch(setOtpInput(""));
+    dispatch(resetTimer());
 
-    // Mengurangi timer setiap detik
+    // Fungsi untuk mengurangi timer setiap detik
     const countdown = setInterval(() => {
       dispatch(decrementTimer());
     }, 1000);
-
-    return () => clearInterval(countdown); // Membersihkan interval ketika komponen di-unmount
+    // Membersihkan interval ketika dimuat
+    return () => clearInterval(countdown);
   }, [dispatch]);
 
-  // Untuk menampilkan Email pengguna pada halaman verifikasi
+  // Fungsi untuk menampilkan Email pengguna saat pendaftaran pada halaman verifikasi OTP
   const queryParams = new URLSearchParams(location.search);
   const email = queryParams.get("email");
 
-  // Fungsi untuk menyensor Email pengguna pada halaman verifikasi
+  // Fungsi untuk menyensor Email pengguna pada halaman verifikasi OTP
   const censorEmail = (email) => {
     const [localPart, domain] = email.split("@");
     const censoredLocalPart = localPart[0] + "*".repeat(localPart.length - 1);
@@ -55,6 +55,8 @@ export default function VerifyOTP() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -98,14 +100,14 @@ export default function VerifyOTP() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
       });
       return;
     }
-
-    // Memanggil action verifyOtp dengan navigate
     dispatch(verifyOtp(navigate));
   };
 
@@ -117,6 +119,7 @@ export default function VerifyOTP() {
     dispatch(resetTimer()); // Mereset timer
   };
 
+  // Fungsi untuk menangani format waktu pengiriman ulang OTP
   const formatTime = (time) => {
     // Menghitung jumlah menit dari waktu dalam detik
     const minutes = String(Math.floor(time / 60)).padStart(2, "0");
@@ -159,13 +162,6 @@ export default function VerifyOTP() {
               <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-8">
                 Verifikasi Email
               </h1>
-              {/* <h2 className="text-[#2A629A] text-l mb-5 text-center text-sm font-semibold">
-                {email
-                  ? `Masukkan 6 Digit Kode OTP yang Dikirim ke ${censorEmail(
-                      email
-                    )}`
-                  : "Masukkan 6 Digit Kode OTP yang Dikirim ke Email Anda"}
-              </h2> */}
               <h2 className="text-[#2A629A] text-l mb-5 text-center text-sm font-medium">
                 Masukkan 6 Digit Kode OTP yang Dikirim ke{" "}
                 <span className="font-bold">{email && censorEmail(email)}</span>
