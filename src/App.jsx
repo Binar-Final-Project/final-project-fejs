@@ -99,7 +99,7 @@ export default function App() {
             </div>
           }
         />
-        <Route path="about-us" element={<AboutUs />} />
+        <Route path="/tentang-kami" element={<AboutUs />} />
       </Routes>
     </Router>
   );
