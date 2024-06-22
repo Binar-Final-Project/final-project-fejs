@@ -196,9 +196,8 @@ export const checkToken = (navigate) => (dispatch, getState) => {
           background: "#FF0000", // Background merah
           color: "#FFFFFF",
           textAlign: "center", // Posisi teks di tengah
-          padding: "10px 20px", // Padding
         },
       });
-    }, 500);
+    });
   }
 };

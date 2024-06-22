@@ -61,7 +61,7 @@ export default function OrderHistory() {
   const [selectedFilter, setSelectedFilter] = useState(filter[0]);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false); // MODAL MENU PENCARIAN
   const [isSearchCodeOpen, setIsSearchCodeOpen] = useState(false); // MODAL PENCARIAN BERDASARKAN NOMOR PENERBANGAN
-  const [isSearchDateOpen, setIsSearchDateOpen] = useState(false); // MODAL PENCARIAN BERDASARKAN TANGGAL
+  const [isSearchDateOpen, setIsSearchDateOpen] = useState(false); // MODAL PENCARIAN BERDASARKAN TANGGAL TRANSAKSI
   const [confirmModalOpen, setConfirmModalOpen] = useState(false); // MODAL KONFIRMASI HAPUS RIWAYAT PENCARIAN KODE PENERBANGAN
   const [cancelModalOpen, setCancelModalOpen] = useState(false); // MODAL KONFIRMASI MEMBATALKAN PEMESANAN TIKET PENERBANGAN
   const [searchButton, setSearchButton] = useState(false);
@@ -99,13 +99,10 @@ export default function OrderHistory() {
   const handleSelectTicket = (transaction) => {
     setSelectedTicket(transaction);
 
-    // Scroll keatas
-    if (!isMobile && !isTablet) {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   // FUNGSI UNTUK MENAMPILKAN RIWAYAT PEMESANAN TIKET BERDASARKAN FILTER
@@ -129,18 +126,18 @@ export default function OrderHistory() {
     setIsSearchModalOpen(!isSearchModalOpen);
   };
 
-  // FUNGSI UNTUK MENAMPILKAN MODAL PENCARIAN BERDASARKAN TANGGAL
+  // FUNGSI UNTUK MENAMPILKAN MODAL PENCARIAN BERDASARKAN TANGGAL TRANSAKSI
   const handleSearchDateModal = () => {
     setIsSearchDateOpen(!isSearchDateOpen);
     setIsSearchModalOpen(!isSearchModalOpen);
   };
 
-  // FUNGSI UNTUK SUBMIT HASIL PENCARIAN BERDASARKAN TANGGAL
+  // FUNGSI UNTUK SUBMIT HASIL PENCARIAN BERDASARKAN TANGGAL TRANSAKSI
   const handleSubmitDate = (e) => {
     e?.preventDefault();
 
-    const lessThan = format(new Date(date[0].startDate), "yyyy-MM-dd");
-    const greaterThan = format(new Date(date[0].endDate), "yyyy-MM-dd");
+    const lessThan = format(new Date(date[0].endDate), "yyyy-MM-dd");
+    const greaterThan = format(new Date(date[0].startDate), "yyyy-MM-dd");
 
     setLt(lessThan);
     setGte(greaterThan);
@@ -390,7 +387,7 @@ export default function OrderHistory() {
                     <h5 className="text-[#003285] text-xl font-medium text-center">
                       Anda belum memiliki riwayat pesanan.
                     </h5>
-                    <p className="text-[#003285] text-sm font-medium">
+                    <p className="text-[#003285] text-sm font-medium text-center">
                       Silahkan lakukan pemesanan dan temukan perjalanan yang
                       seru!
                     </p>
@@ -403,7 +400,7 @@ export default function OrderHistory() {
                 </div>
               ) : (
                 // JIKA ADA RIWAYAT PEMESANAN
-                <div className="flex flex-col lg:flex-row justify-center gap-14 overflow-hidden">
+                <div className="flex flex-col-reverse lg:flex-row justify-center gap-14 overflow-hidden">
                   <div>
                     {filteredTransactions
                       ?.sort((a, b) => b.transaction_id - a.transaction_id)
@@ -604,10 +601,18 @@ export default function OrderHistory() {
                                 }).format(transaction?.total_price)}
                               </h4>
                             </div>
+                            <hr />
+                            <div className="flex">
+                              <p className="font-medium">Tanggal Pemesanan: </p>
+                              <time className="ml-2">
+                                {transaction?.transaction_date}
+                              </time>
+                            </div>
                           </div>
                         </div>
                       ))}
                   </div>
+
                   <div className="lg:w-2/5">
                     {/* CARD DETAIL TIKET */}
                     <div className="bg-white shadow-lg p-6 rounded-xl my-3">
@@ -639,11 +644,19 @@ export default function OrderHistory() {
                               </span>
                             )}
                           </div>
-                          <div className="flex my-4">
-                            <h5>Nomor Penerbangan : </h5>
-                            <p className="text-[#003285] font-semibold ml-2">
-                              {selectedTicket?.booking_code}
-                            </p>
+                          <div className="flex justify-between items-center my-4">
+                            <div className="">
+                              <h5>Tanggal Pemesanan: </h5>
+                              <p className="text-[#003285] font-semibold">
+                                <time>{selectedTicket?.transaction_date}</time>
+                              </p>
+                            </div>
+                            <div className="">
+                              <h5>Nomor Penerbangan: </h5>
+                              <p className="text-[#003285] font-semibold">
+                                {selectedTicket?.booking_code}
+                              </p>
+                            </div>
                           </div>
                           {selectedTicket?.return_flight && (
                             <div className="flex mb-4">
@@ -655,7 +668,7 @@ export default function OrderHistory() {
                           <div className="flex flex-row gap-3">
                             <div className="flex flex-col justify-between items-center">
                               <div className="flex flex-col text-center mt-1.5">
-                                <time className="mb-1 text-lg font-semibold leading-none ">
+                                <time className="mb-1 text-lg font-semibold leading-none">
                                   {
                                     selectedTicket?.departure_flight
                                       ?.departure_time
@@ -671,16 +684,17 @@ export default function OrderHistory() {
                                   })}
                                 </div>
                               </div>
-                              <div className="pt-7">
+                              <div className="flex-grow"></div>
+                              <div className="flex items-center justify-center">
                                 <span className="text-sm">
                                   {formatDuration(
                                     selectedTicket?.departure_flight?.duration
                                   )}
                                 </span>
                               </div>
-                              <div></div>
+                              <div className="flex-grow"></div>
                               <div className="flex flex-col text-center mt-1.5">
-                                <time className="mb-1 text-lg font-semibold leading-none ">
+                                <time className="mb-1 text-lg font-semibold leading-none">
                                   {
                                     selectedTicket?.departure_flight
                                       ?.arrival_time
@@ -696,7 +710,6 @@ export default function OrderHistory() {
                                   })}
                                 </div>
                               </div>
-                              <div></div>
                             </div>
                             <div>
                               <ol className="relative border-s border-gray-200">
@@ -708,7 +721,7 @@ export default function OrderHistory() {
                                         ?.departure_airport
                                     }
                                   </h3>
-                                  <p className="mb-4 text-sm ">
+                                  <p className="mb-4 text-sm">
                                     {
                                       selectedTicket?.departure_flight
                                         ?.departure_terminal
@@ -723,11 +736,6 @@ export default function OrderHistory() {
                                           ?.airline
                                       }
                                     </p>
-                                    {/* <img
-                        src={flight?.airline_icon_url}
-                        className="h-8 ml-2"
-                        alt="Airline Logo"
-                      /> */}
                                   </div>
                                   {selectedTicket?.passengers?.map(
                                     (passenger, i) => {
@@ -754,7 +762,6 @@ export default function OrderHistory() {
                                   </h3>
                                 </li>
                               </ol>
-
                               <div className="ms-4">
                                 <p className="text-sm">
                                   {
@@ -777,7 +784,7 @@ export default function OrderHistory() {
                               <div className="flex flex-row gap-3">
                                 <div className="flex flex-col justify-between items-center">
                                   <div className="flex flex-col text-center mt-1.5">
-                                    <time className="mb-1 text-lg font-semibold leading-none ">
+                                    <time className="mb-1 text-lg font-semibold leading-none">
                                       {
                                         selectedTicket?.return_flight
                                           ?.departure_time
@@ -793,16 +800,17 @@ export default function OrderHistory() {
                                       })}
                                     </div>
                                   </div>
-                                  <div className="pt-7">
+                                  <div className="flex-grow"></div>
+                                  <div className="flex items-center justify-center">
                                     <span className="text-sm">
                                       {formatDuration(
                                         selectedTicket?.return_flight?.duration
                                       )}
                                     </span>
                                   </div>
-                                  <div></div>
+                                  <div className="flex-grow"></div>
                                   <div className="flex flex-col text-center mt-1.5">
-                                    <time className="mb-1 text-lg font-semibold leading-none ">
+                                    <time className="mb-1 text-lg font-semibold leading-none">
                                       {
                                         selectedTicket?.return_flight
                                           ?.arrival_time
@@ -818,7 +826,6 @@ export default function OrderHistory() {
                                       })}
                                     </div>
                                   </div>
-                                  <div></div>
                                 </div>
                                 <div>
                                   <ol className="relative border-s border-gray-200">
@@ -830,7 +837,7 @@ export default function OrderHistory() {
                                             ?.departure_airport
                                         }
                                       </h3>
-                                      <p className="mb-4 text-sm ">
+                                      <p className="mb-4 text-sm">
                                         {
                                           selectedTicket?.return_flight
                                             ?.departure_terminal
@@ -845,11 +852,6 @@ export default function OrderHistory() {
                                               ?.airline
                                           }
                                         </p>
-                                        {/* <img
-                        src={flight?.airline_icon_url}
-                        className="h-8 ml-2"
-                        alt="Airline Logo"
-                      /> */}
                                       </div>
                                       {selectedTicket?.passengers?.map(
                                         (passenger, i) => {
@@ -879,7 +881,6 @@ export default function OrderHistory() {
                                       </h3>
                                     </li>
                                   </ol>
-
                                   <div className="ms-4">
                                     <p className="text-sm">
                                       {
@@ -1067,8 +1068,8 @@ export default function OrderHistory() {
               >
                 <div className="relative bg-white rounded-lg shadow">
                   <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
-                    <h3 className="text-lg font-semibold text-gray-900 ">
-                      Cari Tiket Berdasarkan
+                    <h3 className="text-xl font-semibold text-gray-900 ">
+                      Cari Riwayat Pemesanan Berdasarkan
                     </h3>
                     <button
                       className=" bg-transparent hover:bg-gray-300 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
@@ -1111,7 +1112,7 @@ export default function OrderHistory() {
                       <div className="border-2 rounded-lg flex flex-col items-center p-2">
                         <iframe src="https://lottie.host/embed/0ca4c8c8-3f0d-4340-a5b9-f3634e51687c/I0PxXV0ARf.json"></iframe>
                         <h5 className="text-xl font-medium text-[#003285]">
-                          Tanggal Penerbangan
+                          Tanggal Transaksi
                         </h5>
                       </div>
                     </div>
@@ -1259,7 +1260,7 @@ export default function OrderHistory() {
               </div>
             </div>
 
-            {/* MODAL PENCARIAN BERDASARKAN TANGGAL PENERBANGAN */}
+            {/* MODAL PENCARIAN BERDASARKAN TANGGAL TRANSAKSI */}
             <div
               className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
                 isSearchDateOpen
@@ -1275,7 +1276,7 @@ export default function OrderHistory() {
                 <div className="relative bg-white w-full rounded-lg shadow">
                   <div className="flex items-center justify-center p-4 md:p-5 border-b rounded-t ">
                     <h3 className="text-xl font-semibold text-gray-900 ">
-                      Pilih tanggal penerbangan
+                      Pilih tanggal transaksi
                     </h3>
                     <button
                       className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
@@ -1309,7 +1310,7 @@ export default function OrderHistory() {
                         }}
                         moveRangeOnFirstSelection={false}
                         ranges={date}
-                        // minDate={new Date()}
+                        maxDate={new Date()}
                         rangeColors={["#2A629A", "#3472b0", "#003285"]}
                       />
 

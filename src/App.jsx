@@ -72,7 +72,7 @@ export default function App() {
           }
         />
         <Route
-          path="/pengaturan-akun"
+          path="/ubah-password"
           element={
             <div>
               <Protected />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useMediaQuery } from "react-responsive";
 import Navbar from "../../../assets/components/navigations/navbar/Navbar";
 import Footer from "../../../assets/components/navigations/Footer";
@@ -64,6 +64,8 @@ export default function SearchResult() {
   const [detailOpen, setDetailOpen] = useState(null);
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
+  const [daysOfWeek, setDaysOfWeek] = useState([]);
+  const [dates, setDates] = useState([]);
   const [departure_code, setDeparture_code] = useState(from);
   const [arrival_code, setArrival_code] = useState(to);
   const [seat_class, setSeat_class] = useState(seatClass);
@@ -72,6 +74,7 @@ export default function SearchResult() {
     departureDate || new Date()
   );
   const [return_date, setReturn_date] = useState(returnDate);
+  const [selectedDate, setSelectedDate] = useState("");
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -79,6 +82,7 @@ export default function SearchResult() {
       key: "selection",
     },
   ]);
+
   const [penumpang, setPenumpang] = useState({
     dewasa: 1,
     anak: 0,
@@ -299,6 +303,9 @@ export default function SearchResult() {
       );
       dispatch(setChoosenFlight([]));
     }
+
+    setSelectedDate(departure_date);
+
     if (returnDate && isChecked) {
       navigate(
         `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departureDate}&returnDate=${returnDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
@@ -353,6 +360,15 @@ export default function SearchResult() {
       anak: child,
       bayi: infant,
     });
+
+    // UNTUK MEMBUAT FORMAT TANGGAL
+    const tanggal = new Date(departure_date).toLocaleString("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+
+    setSelectedDate(tanggal);
   }, [from, to, seatClass, passenger, departureDate]);
 
   // UNTUK MENGHAPUS TIKET YANG SUDAH DIPILIH SAAT DI REFRESH
@@ -387,6 +403,7 @@ export default function SearchResult() {
         currentPage
       )
     );
+
     window.scrollTo({
       top: 0,
       behavior: "smooth",
@@ -417,6 +434,82 @@ export default function SearchResult() {
     }
   }, [choosenFlight]);
 
+  // FUNGSI UNTUK MENDAPATKAN TANGGAL DAN HARI PERMINGGU
+  useEffect(() => {
+    const startDateObj = new Date(departureDate);
+    const daysOfWeekArray = [
+      "Minggu",
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jumat",
+      "Sabtu",
+    ];
+
+    let daysOfWeekTemp = [];
+    let datesTemp = [];
+    for (let i = 0; i < 7; i++) {
+      const dayDate = new Date(
+        startDateObj.getTime() + i * 24 * 60 * 60 * 1000
+      );
+      const dayName = daysOfWeekArray[dayDate.getDay()];
+      const dayDateStr = dayDate.toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      daysOfWeekTemp.push(dayName);
+      datesTemp.push(dayDateStr);
+    }
+
+    setDaysOfWeek(daysOfWeekTemp);
+    setDates(datesTemp);
+  }, [departureDate, selectedDate]);
+
+  const handleDateClick = (date) => {
+    const [day, month, year] = date.split(" ");
+    const monthNumber =
+      [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ].indexOf(month) + 1;
+
+    const formattedDate = `${year}-${padZero(monthNumber)}-${padZero(day)}`;
+
+    function padZero(num) {
+      return (num < 10 ? "0" : "") + num;
+    }
+
+    dispatch(
+      getFlight(
+        departure_code,
+        arrival_code,
+        formattedDate,
+        seat_class,
+        total_passenger,
+        filter,
+        currentPage
+      )
+    );
+
+    dispatch(setChoosenFlight([]));
+    setDeparture_date(formattedDate);
+    setSelectedDate(date);
+    setCurrentPage(1);
+    setFilter("");
+  };
+
   return (
     <div className="bg-[#FFF0DC] py-5 md:py-0">
       {isMobile ? <NavbarMobile /> : <Navbar />}
@@ -434,6 +527,21 @@ export default function SearchResult() {
           <Toaster />
         </div>
         <p className="text-3xl font-bold text-[#003285]">Hasil Pencarian</p>
+
+        <div className="flex justify-between items-center mt-5 lg:mx-10 bg-white rounded-full overflow-x-scroll shadow-lg whitespace-nowrap">
+          {daysOfWeek.map((day, index) => (
+            <button
+              key={index}
+              onClick={() => handleDateClick(dates[index])}
+              className={`flex flex-col items-center py-3 px-5 mx-5 my-1 rounded-xl text-sm ${
+                selectedDate === dates[index] ? "text-white bg-[#2A629A]" : ""
+              }`}
+            >
+              <div>{day}</div>
+              <div>{dates[index]}</div>
+            </button>
+          ))}
+        </div>
 
         {/* JIKA HASILNYA KOSONG ATAU TIDAK ADA */}
         {flights?.length === 0 ? (
