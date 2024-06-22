@@ -17,6 +17,7 @@ import SearchResult from "./pages/user/flight/SearchResult.jsx";
 import Notification from "./pages/user/flight/Notification.jsx";
 import OrderHistory from "./pages/user/flight/OrderHistory.jsx";
 import PrintTicket from "./pages/user/flight/PrintTicket.jsx";
+import AboutUs from "./assets/components/AboutUs.jsx";
 
 export default function App() {
   return (
@@ -82,7 +83,7 @@ export default function App() {
           }
         />
         <Route
-          path="/pengaturan-akun"
+          path="/ubah-password"
           element={
             <div>
               <Protected />
@@ -109,6 +110,7 @@ export default function App() {
             </div>
           }
         />
+        <Route path="/tentang-kami" element={<AboutUs />} />
       </Routes>
     </Router>
   );

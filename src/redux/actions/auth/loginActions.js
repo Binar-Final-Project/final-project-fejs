@@ -222,6 +222,6 @@ export const checkToken = (navigate) => (dispatch, getState) => {
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
       });
-    }, 500);
+    });
   }
 };

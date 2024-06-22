@@ -5,6 +5,7 @@ const initialState = {
   pages: null,
   isLoading: true,
   choosenFlight: [],
+  cheapestFlights: [],
 };
 
 const flightSlicer = createSlice({
@@ -23,10 +24,18 @@ const flightSlicer = createSlice({
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    setCheapestFlights: (state, action) => {
+      state.cheapestFlights = action.payload;
+    },
   },
 });
 
-export const { setFlights, setPages, setIsLoading, setChoosenFlight } =
-  flightSlicer.actions;
+export const {
+  setFlights,
+  setPages,
+  setIsLoading,
+  setChoosenFlight,
+  setCheapestFlights,
+} = flightSlicer.actions;
 
 export default flightSlicer.reducer;

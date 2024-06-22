@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { TbUser } from "react-icons/tb";
-import { SlSettings } from "react-icons/sl";
+import { TbUser, TbEdit } from "react-icons/tb";
 import { IoMdLogOut } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,7 +19,7 @@ export default function sideMenu() {
 
   return (
     <div>
-      <div className="">
+      <div>
         <div className="bg-white rounded-t-lg shadow p-4">
           {isLoading ? (
             <div className="max-w-sm animate-pulse ms-2">
@@ -56,24 +55,24 @@ export default function sideMenu() {
                 Akun Saya
               </div>
             </Link>
-            <Link to="/pengaturan-akun">
+            <Link to="/ubah-password">
               <div
                 className={`flex items-center px-4 py-3 
                  ${
-                   location.pathname === "/pengaturan-akun"
+                   location.pathname === "/ubah-password"
                      ? `bg-[#2A629A] text-white`
                      : `text-[#003285] hover:bg-[#EEF5FF]`
                  }
               `}
               >
-                <SlSettings
+                <TbEdit
                   className={`mr-2 text-2xl ${
-                    location.pathname === "/pengaturan-akun"
+                    location.pathname === "/ubah-password"
                       ? ``
                       : `text-[#003285]`
                   } `}
                 />{" "}
-                Pengaturan Akun
+                Ubah Password
               </div>
             </Link>
           </div>
