@@ -246,7 +246,7 @@ export default function Notification() {
           </div>
         </div>
       </div>
-      <BtnScrollTop />
+      {isMobile ? "" : <BtnScrollTop />}
       <Footer />
     </div>
   );

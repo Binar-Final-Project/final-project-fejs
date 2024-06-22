@@ -1,10 +1,12 @@
 import React from "react";
 import Logo from "../../../assets/images/logo-bg.jpg";
+import { useMediaQuery } from "react-responsive";
 
 export default function footer() {
+  const isMobile = useMediaQuery({ maxWidth: 767 }); // UNTUK TAMPILAN MOBILE
   return (
     <div>
-      <footer className="bg-[#003285]">
+      <footer className={`bg-[#003285] ${isMobile ? "pb-20" : "pb-0"}`}>
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
@@ -61,7 +63,7 @@ export default function footer() {
             </div>
           </div>
           <hr className="my-6 border-gray-200 sm:mx-auto lg:my-8" />
-          <div className="sm:flex sm:items-center justify-center">
+          <div className="flex items-center justify-center">
             <span className="text-sm text-center text-gray-200">
               © 2024{" "}
               <a href="/" className="hover:underline">

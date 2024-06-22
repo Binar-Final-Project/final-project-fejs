@@ -29,7 +29,6 @@
   max-width: 500px; /* optional: set max width for the modal */
 }
 
-
 /* Custom Toggle */
 .switch {
   position: relative;
@@ -75,5 +74,3 @@ input:checked + .slider {
 input:checked + .slider:before {
   transform: translateX(14px);
 }
-
-
