@@ -34,9 +34,14 @@ export default function footer() {
                       Github
                     </a>
                   </li>
-                  <li>
+                  <li className="mb-4">
                     <a href="" className="hover:underline">
                       Discord
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/tentang-kami" className="hover:underline">
+                      Tentang Kami
                     </a>
                   </li>
                 </ul>
