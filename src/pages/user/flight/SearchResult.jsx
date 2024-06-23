@@ -59,6 +59,7 @@ export default function SearchResult() {
   const [passengerModalOpen, setPassengerModalOpen] = useState(false); // MODAL JUMLAH PENUMPANG
   const [searchModalOpen, setSearchModalOpen] = useState(false); // MODAL UNTUK MENGUBAH PENCARIAN
   const [dateModalOpen, setDateModalOpen] = useState(false); // MODAL TANGGAL PENERBANGAN
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // DRAWER KONFIRMASI PILIHAN TIKET
   const [filter, setFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [detailOpen, setDetailOpen] = useState(null);
@@ -377,6 +378,7 @@ export default function SearchResult() {
       setCurrentPage(1);
       setFilter("");
       setSearchModalOpen(false);
+      dispatch(return_date());
     }
   };
 
@@ -469,23 +471,29 @@ export default function SearchResult() {
     // JIKA PULANG-PERGI
     if (returnDate) {
       if (choosenFlight?.length == 2) {
-        setTimeout(() => {
-          navigate(
-            `/checkout?&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`
-          );
-        }, 1000);
+        setIsDrawerOpen(!isDrawerOpen);
       }
     } else {
       // JIKA SEKALI JALAN
       if (choosenFlight?.length == 1) {
-        setTimeout(() => {
-          navigate(
-            `/checkout?&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`
-          );
-        }, 1000);
+        setIsDrawerOpen(!isDrawerOpen);
       }
     }
   }, [choosenFlight]);
+
+  // FUNGSI UNTUK MENGHAPUS TIKET PERTAMA YANG DIPILIH
+  const removeFirstTicket = () => {
+    const firstTicket = choosenFlight?.slice(1);
+    dispatch(setChoosenFlight(firstTicket));
+    setIsDrawerOpen(false);
+  };
+
+  // FUNGSI UNTUK MENGHAPUS TIKET KEDUA YANG DIPILIH
+  const removeSecondTicket = () => {
+    const secondTicket = choosenFlight?.slice(0, 1);
+    dispatch(setChoosenFlight(secondTicket));
+    setIsDrawerOpen(false);
+  };
 
   // FUNGSI UNTUK MENDAPATKAN TANGGAL DAN HARI PERMINGGU
   useEffect(() => {
@@ -563,6 +571,8 @@ export default function SearchResult() {
     setFilter("");
   };
 
+  console.log("choosenFlight", choosenFlight);
+
   return (
     <div className="bg-[#FFF0DC] py-5 md:py-0">
       {isMobile ? <NavbarMobile /> : <Navbar />}
@@ -586,8 +596,10 @@ export default function SearchResult() {
             <button
               key={index}
               onClick={() => handleDateClick(dates[index])}
-              className={`flex flex-col items-center py-3 px-5 mx-5 my-1 rounded-xl text-sm ${
-                selectedDate === dates[index] ? "text-white bg-[#2A629A]" : ""
+              className={`flex flex-col items-center py-3 px-5 mx-5 my-1 rounded-xl text-sm border-2 border-white ${
+                selectedDate === dates[index]
+                  ? "text-white bg-[#2A629A] border-2 border-[#2A629A]"
+                  : "hover:border-2 hover:border-slate-200"
               }`}
             >
               <div>{day}</div>
@@ -725,26 +737,50 @@ export default function SearchResult() {
                         const index = i + 1;
                         return (
                           <div key={flight?.flight_id}>
-                            <div className="flex items-center gap-2">
-                              <div className="bg-[#2A629A] text-white py-1 px-3 rounded-lg">
-                                {index}
-                              </div>
-                              <div className="text-sm">
-                                <div>
-                                  {new Date(flight?.flight_date).toLocaleString(
-                                    "id-ID",
-                                    {
+                            <div className="flex items-start justify-between">
+                              <div className="flex items-center gap-2">
+                                <div className="bg-[#2A629A] text-white py-1 px-3 rounded-lg">
+                                  {index}
+                                </div>
+                                <div className="text-sm">
+                                  <div>
+                                    {new Date(
+                                      flight?.flight_date
+                                    ).toLocaleString("id-ID", {
                                       day: "2-digit",
                                       month: "long",
                                       year: "numeric",
-                                    }
-                                  )}
-                                  , {flight?.departure_time}
+                                    })}
+                                    , {flight?.departure_time}
+                                  </div>
+                                  <div className="font-medium">
+                                    {flight?.departure_city} →{" "}
+                                    {flight?.arrival_city}
+                                  </div>
                                 </div>
-                                <div className="font-medium">
-                                  {flight?.departure_city} →{" "}
-                                  {flight?.arrival_city}
-                                </div>
+                              </div>
+                              <div>
+                                <button
+                                  onClick={() => removeFirstTicket()}
+                                  className="text-gray-400 bg-transparent hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
+                                >
+                                  <svg
+                                    className="w-3 h-3"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 14 14"
+                                  >
+                                    <path
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                    />
+                                  </svg>
+                                  <span className="sr-only">Close modal</span>
+                                </button>
                               </div>
                             </div>
 
@@ -1564,6 +1600,7 @@ export default function SearchResult() {
           </div>
         </div>
       </div>
+
       {/* MODAL PILIH JUMLAH PENUMPANG */}
       <div
         className={`${
@@ -1699,6 +1736,7 @@ export default function SearchResult() {
           </div>
         </div>
       </div>
+
       {/* MODAL PILIH TANGGAL PENERBANGAN */}
       <div
         className={`${
@@ -1772,6 +1810,193 @@ export default function SearchResult() {
 
       {isMobile ? "" : <BtnScrollTop />}
       <Footer />
+
+      {/* DRAWER KONFIRMASI PILIHAN TIKET */}
+      {isDrawerOpen && (
+        <div
+          className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-40"
+          onClick={returnDate ? removeSecondTicket : removeFirstTicket}
+        ></div>
+      )}
+
+      <div
+        className={`fixed top-0 right-0 md:z-[999] z-40 h-screen overflow-y-auto transition-transform bg-white lg:w-2/5 md:w-3/6 w-4/5 ${
+          isDrawerOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        tabIndex="-1"
+      >
+        <div className="p-4">
+          <div className="flex items-center justify-between border-0 border-b-2 py-1 mb-5">
+            <div className="flex items-center gap-1">
+              <BiSolidPlaneAlt className="text-3xl text-[#003285]" />
+              <h5 className="text-xl font-semibold">Penerbangan Anda</h5>
+            </div>
+
+            <button
+              onClick={returnDate ? removeSecondTicket : removeFirstTicket}
+              type="button"
+              className="text-gray-400 hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex items-center justify-center"
+            >
+              <svg
+                className="w-3 h-3"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 14 14"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                />
+              </svg>
+            </button>
+          </div>
+          {choosenFlight?.map((flight, i) => {
+            const index = i + 1;
+            return (
+              <div>
+                <div>
+                  {choosenFlight.length === 2 && (
+                    <h5 className="font-medium py-1 px-3 rounded-lg bg-[#86B6F6] text-white mb-3">
+                      {index === 1 ? "Pergi" : "Pulang"}
+                    </h5>
+                  )}
+                </div>
+                <div className="flex flex-row gap-3 mb-6">
+                  <div className="flex flex-col justify-between items-center">
+                    <div className="flex flex-col text-center mt-1.5">
+                      <time className="mb-1 text-lg font-semibold leading-none ">
+                        {flight?.departure_time}
+                      </time>
+                      <div className="text-sm">
+                        {new Date(flight?.flight_date).toLocaleString("id-ID", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </div>
+                    </div>
+                    <div className="pt-12">
+                      <span className="text-sm">
+                        <time>{formatDuration(flight?.duration)}</time>
+                      </span>
+                    </div>
+                    <div></div>
+                    <div className="flex flex-col text-center mt-1.5">
+                      <time className="mb-1 text-lg font-semibold leading-none ">
+                        {flight?.arrival_time}
+                      </time>
+                      <div className="text-sm">
+                        {new Date(flight?.flight_date).toLocaleString("id-ID", {
+                          day: "2-digit",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </div>
+                    </div>
+                    <div></div>
+                  </div>
+                  <div>
+                    <ol className="relative border-s border-gray-200">
+                      <li className="mb-5 ms-4">
+                        <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
+                        <h3 className="text-lg font-semibold">
+                          {flight?.departure_city} ({flight?.departure_code})
+                        </h3>
+                        <p className="text-sm ">{flight?.departure_airport}</p>
+                        <p className="mb-4 text-sm ">
+                          {flight?.departure_terminal}
+                        </p>
+                      </li>
+                      <li className="mb-5 ms-4">
+                        <div className="flex items-center">
+                          <p>{flight?.airline_name}</p>
+                          <img
+                            src={flight?.airline_icon_url}
+                            className="h-8 ml-2"
+                            alt="Airline Logo"
+                          />
+                        </div>
+                        <div className="text-sm">
+                          <span>{flight?.class}</span>
+                        </div>
+                        <div className="flex gap-5 md:gap-20 my-3 flex-col md:flex-row">
+                          {flight?.baggage ? (
+                            <div className="flex gap-3">
+                              <div>
+                                <PiBagSimpleBold className="text-xl" />
+                              </div>
+                              <div className="gap-1 flex flex-col">
+                                <p className="text-sm">
+                                  Kabin : {flight?.cabin_baggage} kg
+                                </p>
+                                <p className="text-sm">
+                                  Bagasi : {flight?.free_baggage} kg
+                                </p>
+                              </div>
+                            </div>
+                          ) : (
+                            ""
+                          )}
+                          <div className="flex gap-3">
+                            <div>
+                              <FiInfo className="text-xl" />
+                            </div>
+                            <div>
+                              <p className="text-sm">
+                                {flight?.airplane_model}
+                              </p>
+                              <p className="text-sm">
+                                {flight?.flight_entertaiment
+                                  ? "Hiburan di pesawat"
+                                  : ""}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li className="ms-4">
+                        <div className="absolute w-3 h-3 bg-[#2A629A] rounded-full mt-1.5 -start-1.5 border border-white"></div>
+                        <h3 className="text-lg font-semibold">
+                          {flight?.arrival_city} ({flight?.arrival_code})
+                        </h3>
+                      </li>
+                    </ol>
+
+                    <div className="ms-4">
+                      <p className="text-sm">{flight?.arrival_airport}</p>
+                      <p className="text-sm">{flight?.arrival_terminal}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div
+          className={`w-full ${isMobile ? "pb-16" : ""} ${
+            returnDate ? "" : "fixed bottom-0"
+          }`}
+        >
+          <hr />
+          <div className="p-4">
+            <button
+              onClick={() =>
+                navigate(
+                  `/checkout?&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`
+                )
+              }
+              className="px-4 py-2 w-full font-medium text-center text-white bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] rounded-lg focus:outline-none"
+            >
+              Lanjut ke Pemesanan
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

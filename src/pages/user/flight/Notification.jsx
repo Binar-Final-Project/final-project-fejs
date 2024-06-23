@@ -37,14 +37,14 @@ export default function Notification() {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [selected, setSelected] = useState(filter[0]);
 
-  const { notifikasi, isLoading } = useSelector((state) => state.notification);
+  const { notifikasi } = useSelector((state) => state.notification);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getNotification());
-  }, [dispatch]);
+  }, [dispatch, notifikasi]);
 
   const handleUpdateStatus = (id) => {
     dispatch(UpdateNotifications(id)).then(() => {
