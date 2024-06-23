@@ -20,8 +20,9 @@ export default function Home() {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1023 }); // UNTUK TAMPILAN TABLET
 
   const { cheapestFlights, isLoading } = useSelector((state) => state.flight);
-  // console.log("cheapestFlights", cheapestFlights);
   const dispatch = useDispatch();
+  const [airlines, setAirlines] = useState([]);
+  const [selectedAirline, setSelectedAirline] = useState("");
 
   useEffect(() => {
     dispatch(getCheapestFlights());
@@ -36,18 +37,25 @@ export default function Home() {
     autoplay: false,
   };
 
-  const airlines = useMemo(() => {
-    // MENCARI MASKAPAI UNIK (TIDAK DUPLIKAT)
+  // Effect untuk menghitung maskapai unik
+  useEffect(() => {
     const allAirlines = cheapestFlights.map((flight) => flight.airline);
-    return [...new Set(allAirlines)];
+    const uniqueAirlines = [...new Set(allAirlines)];
+    setAirlines(uniqueAirlines);
+    setSelectedAirline(uniqueAirlines[0]);
   }, [cheapestFlights]);
-  const [selectedAirline, setSelectedAirline] = useState(airlines[0]);
 
-  const filteredFlights = useMemo(() => {
-    if (!selectedAirline) return cheapestFlights;
-    return cheapestFlights.filter(
-      (flight) => flight.airline === selectedAirline
-    );
+  // Effect untuk memfilter penerbangan berdasarkan maskapai yang dipilih
+  const [filteredFlights, setFilteredFlights] = useState([]);
+  useEffect(() => {
+    if (selectedAirline === "") {
+      setFilteredFlights(cheapestFlights);
+    } else {
+      const flightsFiltered = cheapestFlights.filter(
+        (flight) => flight.airline === selectedAirline
+      );
+      setFilteredFlights(flightsFiltered);
+    }
   }, [selectedAirline, cheapestFlights]);
 
   return (

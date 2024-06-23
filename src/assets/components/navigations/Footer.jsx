@@ -36,11 +36,6 @@ export default function footer() {
                       Github
                     </a>
                   </li>
-                  <li className="mb-4">
-                    <a href="" className="hover:underline">
-                      Discord
-                    </a>
-                  </li>
                   <li>
                     <a href="/tentang-kami" className="hover:underline">
                       Tentang Kami
@@ -50,12 +45,12 @@ export default function footer() {
               </div>
               <div>
                 <h2 className="mb-6 text-sm font-semibold uppercase text-white">
-                  Legal
+                  Penerbangan
                 </h2>
                 <ul className="text-white font-medium">
                   <li className="mb-4">
-                    <a href="#" className="hover:underline">
-                      Privacy Policy
+                    <a href="/" className="hover:underline">
+                      Domestik
                     </a>
                   </li>
                   <li>
