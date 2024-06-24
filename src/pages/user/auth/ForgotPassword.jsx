@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getUpdatePass } from "../../../redux/actions/auth/getPassActions";
 import backgroundImage from "../../../assets/images/loginregister.png";
+import { useMediaQuery } from "react-responsive";
+import BtnScrollTop from "../../../assets/components/BtnScrollUp";
+import Footer from "../../../assets/components/navigations/Footer";
 
 const ForgotPassword = () => {
   const [password, setPassword] = useState("");
@@ -15,6 +18,7 @@ const ForgotPassword = () => {
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token").replace(/ /g, "+");
@@ -70,13 +74,13 @@ const ForgotPassword = () => {
 
   return (
     <div>
-      <style>
+      {/* <style>
         {`
           body, html {
             overflow: hidden;
           }
         `}
-      </style>
+      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -202,6 +206,8 @@ const ForgotPassword = () => {
           </div>
         </div>
       </div>
+      {isMobile ? "" : <BtnScrollTop />}
+      <Footer />
     </div>
   );
 };

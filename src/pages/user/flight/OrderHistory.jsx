@@ -29,7 +29,6 @@ import { IoIosArrowBack, IoMdCheckmark } from "react-icons/io";
 import { IoFilter, IoLocationSharp } from "react-icons/io5";
 import { HiOutlineSelector } from "react-icons/hi";
 import { RiSearchLine } from "react-icons/ri";
-import { getTicket } from "../../../redux/actions/ticket/ticketActions";
 import { setTicketSelected } from "../../../redux/reducers/ticket/ticketReducers";
 
 const filter = [
@@ -142,25 +141,29 @@ export default function OrderHistory() {
     setLt(lessThan);
     setGte(greaterThan);
 
-    if (lessThan === greaterThan) {
-      toast("Harap pilih tanggal yang berbeda!", {
-        style: {
-          background: "#FF0000", // Background merah
-          color: "#FFFFFF", // Teks putih
-          borderRadius: "12px", // Rounded-xl
-          fontSize: "14px", // Ukuran font
-          textAlign: "center", // Posisi teks di tengah
-          padding: "10px 20px", // Padding
-          width: "full",
-          maxWidth: "900px",
-        },
-        position: "top-center", // Posisi toast
-        duration: 3000, // Durasi toast
-      });
-      return;
-    }
+    // if (lessThan === greaterThan) {
+    //   toast("Harap pilih tanggal yang berbeda!", {
+    //     style: {
+    //       background: "#FF0000", // Background merah
+    //       color: "#FFFFFF", // Teks putih
+    //       borderRadius: "12px", // Rounded-xl
+    //       fontSize: "14px", // Ukuran font
+    //       textAlign: "center", // Posisi teks di tengah
+    //       padding: "10px 20px", // Padding
+    //       width: "full",
+    //       maxWidth: "900px",
+    //     },
+    //     position: "top-center", // Posisi toast
+    //     duration: 3000, // Durasi toast
+    //   });
+    //   return;
+    // }
 
-    dispatch(getTransactions(lessThan, greaterThan, ""));
+    if (lessThan === greaterThan) {
+      dispatch(getTransactions("", greaterThan, ""));
+    } else {
+      dispatch(getTransactions(lessThan, greaterThan, ""));
+    }
     setIsSearchDateOpen(false);
     setIsSearchModalOpen(false);
     setSelectedTicket([]);
@@ -247,7 +250,7 @@ export default function OrderHistory() {
   const handlePayment = () => {
     if (selectedTicket) {
       dispatch(setTicketSelected(selectedTicket));
-      navigate("/payment");
+      navigate(`/payment/${selectedTicket?.booking_code}`);
     }
   };
 

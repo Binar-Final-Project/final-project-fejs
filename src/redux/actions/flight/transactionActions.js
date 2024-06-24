@@ -66,8 +66,27 @@ export const printTransactions = (id) => async (dispatch, getState) => {
       }
     );
     console.log("response print", response);
-    dispatch(setShowConfirmationModal(false));
-    dispatch(setShowSuccessModal(true)); // Tampilkan modal sukses setelah cetak tiket berhasil
+    if (response?.status === 202) {
+      if (location.pathname === "/print-ticket/:booking_code") {
+        dispatch(setShowConfirmationModal(false));
+        dispatch(setShowSuccessModal(true)); // Tampilkan modal sukses setelah cetak tiket berhasil
+      } else {
+        toast("Tiket berhasil dikirim ke Email Anda!", {
+          style: {
+            background: "#28A745", // Background hijau
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px",
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
+        });
+      }
+    }
   } catch (error) {
     console.log(
       "Print ticket error response: ",
@@ -88,6 +107,7 @@ export const printTransactions = (id) => async (dispatch, getState) => {
       position: "top-center", // Posisi toast
       duration: 3000, // Durasi toast
     });
+    dispatch(setShowSuccessModal(false));
   }
 };
 

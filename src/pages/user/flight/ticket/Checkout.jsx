@@ -166,7 +166,7 @@ export default function TicketCheckout() {
   }, [ticket]);
 
   const handleLanjutPembayaran = () => {
-    navigate("/payment");
+    navigate(`/payment/${ticket?.booking_code}`);
   };
 
   //Timer

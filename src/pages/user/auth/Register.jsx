@@ -22,10 +22,13 @@ import {
 import Footer from "../../../assets/components/navigations/Footer";
 import backgroundImage from "../../../assets/images/loginregister.png";
 import Logobiflight from "../../../assets/images/logobiflight.png";
+import BtnScrollTop from "../../../assets/components/BtnScrollUp";
+import { useMediaQuery } from "react-responsive";
 
 export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   const {
     name,
     isNameTouched,
@@ -698,6 +701,7 @@ export default function Register() {
           </div>
         </div>
       </div>
+      {isMobile ? "" : <BtnScrollTop />}
       <Footer />
     </div>
   );
