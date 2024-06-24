@@ -324,7 +324,7 @@ export default function LoginUser() {
                       </label>
                       <a
                         href="forgot-password"
-                        className="text-[#40A2E3] text-sm hover:underline font-medium"
+                        className="text-[#40A2E3] text-sm underline font-medium"
                       >
                         Lupa Kata Sandi
                       </a>
@@ -403,7 +403,7 @@ export default function LoginUser() {
                 </span>
                 <a
                   href="/register"
-                  className="text-[#40A2E3] font-semibold text-sm hover:underline"
+                  className="text-[#40A2E3] font-semibold text-sm"
                 >
                   Daftar di sini
                 </a>
