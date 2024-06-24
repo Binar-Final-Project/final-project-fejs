@@ -13,8 +13,10 @@ import {
   setPasswordTouched,
   clearError,
 } from "../../../redux/reducers/auth/loginReducers";
-import backgroundImage from "../../../assets/images/loginregister.png";
 import LoginGoogle from "./LoginGoogle";
+import Footer from "../../../assets/components/navigations/Footer";
+import backgroundImage from "../../../assets/images/loginregister.png";
+import Logobiflight from "../../../assets/images/logobiflight.png";
 
 export default function LoginUser() {
   const dispatch = useDispatch();
@@ -26,19 +28,19 @@ export default function LoginUser() {
     showPassword,
     isPasswordTouched,
     error,
-  } = useSelector((state) => state.login); // Menggunakan useSelector untuk mengambil state login dari reducers
+  } = useSelector((state) => state.login); // Menggunakan useSelector untuk mengambil data dari state login
   const passwordInputType = showPassword ? "text" : "password";
   // Validasi password (minimal 8 karakter, termasuk huruf besar dan angka)
   const isPasswordValid =
     password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password);
 
-  // Mengatur ulang state ketika komponen di-unmount
+  // Mengatur ulang state login ke nilai awal atau kosong
   useEffect(() => {
     return () => {
-      dispatch(setEmail("")); // Mengatur email ke nilai kosong di Reducers
-      dispatch(setPassword("")); // Mengatur password ke nilai kosong di Reducers
-      dispatch(setPasswordTouched(false)); // Mengatur password false ketika diklik di Reducers
-      dispatch(clearError()); // Menghapus error di Reducers
+      dispatch(setEmail(""));
+      dispatch(setPassword(""));
+      dispatch(setPasswordTouched(false));
+      dispatch(clearError());
     };
   }, [dispatch]);
 
@@ -110,6 +112,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -117,6 +121,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika kata sandi pengguna tidak diisi
     if (!password) {
       toast.error("Mohon masukkan kata sandi Anda!", {
         // Menampilkan toast error
@@ -128,6 +133,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -135,6 +142,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika semua kolom tidak diisi
     if (!email || !password) {
       toast.error("Mohon isi semua kolom terlebih dahulu!", {
         // Menampilkan toast error
@@ -146,6 +154,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -153,6 +163,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika email dan kata sandi pengguna tidak sesuai ketentuan
     if (!isEmailValid && !isPasswordValid) {
       toast.error("Mohon isi kedua kolom sesuai ketentuan!", {
         // Menampilkan toast error
@@ -164,6 +175,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -171,6 +184,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika Email pengguna tidak diisi
     if (!isEmailValid) {
       toast.error("Mohon masukkan alamat Email dengan benar!", {
         // Menampilkan toast error
@@ -182,6 +196,8 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
@@ -189,6 +205,7 @@ export default function LoginUser() {
       return;
     }
 
+    // Jika kata sandi pengguna tidak valid
     if (!isPasswordValid) {
       toast.error("Mohon masukkan kata sandi sesuai ketentuan!", {
         // Menampilkan toast error
@@ -200,25 +217,26 @@ export default function LoginUser() {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
       });
       return;
     }
-
     dispatch(login(email, password, navigate));
   };
 
   return (
     <div>
-      <style>
+      {/* <style>
         {`
             body, html {
               overflow: hidden;
             }
             `}
-      </style>
+      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -232,7 +250,7 @@ export default function LoginUser() {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <div className="max-w-[400px] w-full rounded-lg p-5 m-4 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
+          <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
@@ -240,9 +258,23 @@ export default function LoginUser() {
             />
             <Toaster />
             <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
-              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-10">
-                Masuk ke BiFlight
+              <img
+                src={Logobiflight}
+                className="w-24 p-1.5"
+                alt="BiFlight Logo"
+              />
+              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-3">
+                Masuk ke Akun Anda
               </h1>
+              <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
+                <a href="/login" className="text-[#40A2E3] hover:underline">
+                  Masuk
+                </a>
+                <span className="text-[#2A629A]"> </span>
+                <span className="text-[#2A629A]">
+                  untuk akses cepat dan mudah ke tiket pesawat terbaik!
+                </span>
+              </h2>
 
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col space-y-3">
@@ -292,7 +324,7 @@ export default function LoginUser() {
                       </label>
                       <a
                         href="forgot-password"
-                        className="text-[#40A2E3] text-sm underline font-medium"
+                        className="text-[#40A2E3] text-sm hover:underline font-medium"
                       >
                         Lupa Kata Sandi
                       </a>
@@ -361,18 +393,17 @@ export default function LoginUser() {
 
               <LoginGoogle buttonText={"Lanjutkan dengan Google"} />
 
-              <p className="text-[#2A629A] mt-7 mb-3 text-sm">
+              <p className="text-[#2A629A] mt-7 text-sm font-medium">
                 Baru di{" "}
-                <a
-                  href="/"
-                  className="text-[#2A629A] mt-7 mb-3 text-sm font-semibold"
-                >
+                <a href="/" className="text-[#2A629A] mt-7 text-sm font-bold">
                   BiFlight
                 </a>
-                <span className="text-[#2A629A] mt-7 mb-3 text-sm">? </span>
+                <span className="text-[#2A629A] mt-7 text-sm font-medium">
+                  ?{" "}
+                </span>
                 <a
                   href="/register"
-                  className="text-[#40A2E3] font-semibold text-sm"
+                  className="text-[#40A2E3] font-semibold text-sm hover:underline"
                 >
                   Daftar di sini
                 </a>
@@ -381,6 +412,7 @@ export default function LoginUser() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

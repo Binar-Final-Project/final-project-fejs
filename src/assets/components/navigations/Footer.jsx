@@ -24,7 +24,7 @@ export default function footer() {
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
               <div>
                 <h2 className="mb-6 text-sm font-semibold uppercase text-white">
-                  Follow us
+                  Ikuti Kami
                 </h2>
                 <ul className="text-white font-medium">
                   <li className="mb-4">
@@ -33,7 +33,7 @@ export default function footer() {
                       target="_blank"
                       className="hover:underline "
                     >
-                      Github
+                      GitHub
                     </a>
                   </li>
                   <li>
@@ -64,7 +64,7 @@ export default function footer() {
               <a href="/" className="hover:underline">
                 BiFlight
               </a>
-              . All Rights Reserved.
+              . Seluruh Hak Cipta Dilindungi.
             </span>
           </div>
         </div>

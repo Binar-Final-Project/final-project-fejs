@@ -29,10 +29,16 @@ export const getUser = () => async (dispatch, getState) => {
       dispatch(setToken(null));
       dispatch(setIsLoggedIn(false));
     } else {
-      toast("Terjadi kesalahan", {
+      toast("Terjadi kesalahan!", {
         style: {
           background: "#FF0000",
-          color: "#fff",
+          color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
       });
     }
@@ -64,18 +70,32 @@ export const updateUser =
         toast("Berhasil mengubah data Anda!", {
           style: {
             background: "#28A745", // Background hijau
-            color: "#FFFFFF",
+            color: "#FFFFFF", // TEKS PUTIH
+            borderRadius: "12px",
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", //TEKS TENGAH
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
           },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
         });
       }
     } catch (error) {
       console.log("error update profile", error);
-      // toast("Terjadi kesalahan", {
-      //   style: {
-      //     background: "#FF0000",
-      //     color: "#fff",
-      //   },
-      // });
+      toast("Terjadi kesalahan!", {
+        style: {
+          background: "#FF0000",
+          color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
+        },
+      });
     }
   };
 
@@ -98,28 +118,50 @@ export const updatePassword =
       );
       console.log("response update password", response);
       if (response.status === 200) {
-        toast("Berhasil mengubah password Anda!", {
+        toast("Berhasil mengubah kata sandi Anda!", {
           style: {
             background: "#28A745", // Background hijau
-            color: "#FFFFFF",
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px",
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
           },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
         });
         return true;
       }
     } catch (error) {
       console.log("error update password", error);
       if (error?.response?.status === 400) {
-        toast("Password lama yang Anda masukkan salah!", {
+        toast("Kata sandi lama yang Anda masukkan salah!", {
           style: {
             background: "#FF0000",
-            color: "#fff",
+            color: "#FFFFFF", // TEKS PUTIH
+            borderRadius: "12px",
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // TEKS TENGAH
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
           },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
         });
       } else {
-        toast("Terjadi kesalahan", {
+        toast("Terjadi kesalahan!", {
           style: {
             background: "#FF0000",
-            color: "#fff",
+            color: "#FFFFFF", // TEKS PUTIH
+            borderRadius: "12px",
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // TEKS TENGAH
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
           },
         });
       }
