@@ -1,7 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 import {
-  setError,
   clearError,
   setPasswordStrength,
 } from "../../reducers/auth/registerReducers";
@@ -35,15 +34,16 @@ export const register =
       );
 
       if (
-        responseRegister.data.status === true &&
-        responseRegister.data.data.email !== ""
+        responseRegister?.data?.status === true &&
+        responseRegister?.data?.data?.email !== "" &&
+        responseRegister?.data?.message === "Pengguna berhasil didaftarkan"
       ) {
         dispatch(clearError());
         setTimeout(() => {
           navigate(`/verify-otp?email=${email}`);
-        }, 4000);
+        }, 3000);
         toast.success(
-          "Pendaftaran berhasil! Kode OTP akan dikirim ke Email Anda.",
+          "Pendaftaran berhasil! Kode OTP sedang dikirim ke Email Anda.",
           {
             // Menampilkan toast sukses
             icon: null,
@@ -54,39 +54,38 @@ export const register =
               fontSize: "14px", // Ukuran font
               textAlign: "center", // Posisi teks di tengah
               padding: "10px 20px", // Padding
+              width: "full",
+              maxWidth: "900px",
             },
             position: "top-center", // Posisi toast
             duration: 3000, // Durasi toast
           }
         );
       }
-      // console.log("Data: ", responseRegister.data);
+      console.log("Response Register: ", responseRegister?.data);
     } catch (error) {
-      console.error(
-        "Error registering user:",
-        error.response?.data || error.message
-      );
-      dispatch(
-        setError(
-          "Pendaftaran gagal! Email atau nomor telepon ini sudah terdaftar. Silakan coba lagi."
-        )
-      );
-      toast.error(
-        "Pendaftaran gagal! Email atau nomor telepon ini sudah terdaftar. Silakan coba lagi.",
-        {
-          // Menampilkan toast error
-          icon: null,
-          style: {
-            background: "#FF0000", // Background merah
-            color: "#FFFFFF", // Teks putih
-            borderRadius: "12px", // Rounded-xl
-            fontSize: "14px", // Ukuran font
-            textAlign: "center", // Posisi teks di tengah
-            padding: "10px 20px", // Padding
-          },
-          position: "top-center", // Posisi toast
-          duration: 3000, // Durasi toast
-        }
-      );
+      if (
+        error?.response?.data?.message === "Email atau nomor telepon sudah ada"
+      ) {
+        toast.error(
+          "Pendaftaran gagal! Email atau nomor telepon ini sudah terdaftar.",
+          {
+            // Menampilkan toast error
+            icon: null,
+            style: {
+              background: "#FF0000", // Background merah
+              color: "#FFFFFF", // Teks putih
+              borderRadius: "12px", // Rounded-xl
+              fontSize: "14px", // Ukuran font
+              textAlign: "center", // Posisi teks di tengah
+              padding: "10px 20px", // Padding
+              width: "full",
+              maxWidth: "900px",
+            },
+            position: "top-center", // Posisi toast
+            duration: 3000, // Durasi toast
+          }
+        );
+      }
     }
   };

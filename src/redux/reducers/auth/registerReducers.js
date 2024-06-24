@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   name: "",
   isNameTouched: false,
+  isNameValid: false,
   email: "",
   isEmailValid: false,
   phone_number: "",
@@ -25,13 +26,17 @@ const registerSlice = createSlice({
     setNameTouched: (state, action) => {
       state.isNameTouched = action.payload;
     },
+    setNameValid: (state, action) => {
+      state.isNameValid = action.payload.length > 3;
+    },
     setEmail: (state, action) => {
       state.email = action.payload;
       state.isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(action.payload); // Update validasi email dengan regular expression
     },
     setPhoneNumber: (state, action) => {
       state.phone_number = action.payload;
-      state.isPhoneNumberValid = action.payload.length >= 8; // Update validasi nomor telepon
+      state.isPhoneNumberValid =
+        action.payload.length >= 8 && action.payload.length <= 14; // Update validasi nomor telepon
     },
     setPassword: (state, action) => {
       state.password = action.payload;
@@ -60,6 +65,7 @@ const registerSlice = createSlice({
 export const {
   setName,
   setNameTouched,
+  setNameValid,
   setEmail,
   setPhoneNumber,
   setPassword,

@@ -30,10 +30,16 @@ export const getNotification = () => async (dispatch, getState) => {
       dispatch(setToken(null));
       dispatch(setIsLoggedIn(false));
     } else {
-      toast("Terjadi kesalahan", {
+      toast("Terjadi kesalahan!", {
         style: {
           background: "#FF0000",
-          color: "#fff",
+          color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
       });
     }
@@ -80,8 +86,16 @@ export const readAllNotifications = () => async (dispatch, getState) => {
       toast("Semua notifikasi sudah dibaca!", {
         style: {
           background: "#28A745", // Background hijau
-          color: "#FFFFFF",
+          color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     }
   } catch (error) {

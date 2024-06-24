@@ -4,8 +4,10 @@ import {
   setIsLoading,
   setTransactions,
 } from "../../reducers/flight/transactionReducers";
+import { setLoading } from "../../reducers/flight/paymentReducers";
 import { setIsLoggedIn, setToken } from "../../reducers/auth/loginReducers";
 
+// Action untuk mendapatkan data history transaksi
 export const getTransactions = (lt, gte, q) => async (dispatch, getState) => {
   const { token } = getState().login;
   dispatch(setIsLoading(true));
@@ -32,10 +34,16 @@ export const getTransactions = (lt, gte, q) => async (dispatch, getState) => {
       dispatch(setToken(null));
       dispatch(setIsLoggedIn(false));
     } else {
-      toast("Terjadi kesalahan", {
+      toast("Terjadi kesalahan!", {
         style: {
           background: "#FF0000",
-          color: "#fff",
+          color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
       });
     }
@@ -43,8 +51,10 @@ export const getTransactions = (lt, gte, q) => async (dispatch, getState) => {
   }
 };
 
+// Action untuk mencetak tiket
 export const printTransactions = (id) => async (dispatch, getState) => {
   const { token } = getState().login;
+  dispatch(setLoading(true));
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_REACT_APP_SERVER}/transactions/${id}`,
@@ -56,11 +66,32 @@ export const printTransactions = (id) => async (dispatch, getState) => {
       }
     );
     console.log("response print", response);
+    dispatch(setShowConfirmationModal(false));
+    dispatch(setShowSuccessModal(true)); // Tampilkan modal sukses setelah cetak tiket berhasil
   } catch (error) {
-    console.log("error print", error);
+    console.log(
+      "Print ticket error response: ",
+      error.response?.data || error.message
+    );
+    toast.error("Gagal mencetak tiket! Silakan coba lagi.", {
+      icon: null,
+      style: {
+        background: "#FF0000", // Background merah
+        color: "#FFFFFF", // Teks putih
+        borderRadius: "12px", // Rounded-xl
+        fontSize: "14px", // Ukuran font
+        textAlign: "center", // Posisi teks di tengah
+        padding: "10px 20px", // Padding
+        width: "full",
+        maxWidth: "900px",
+      },
+      position: "top-center", // Posisi toast
+      duration: 3000, // Durasi toast
+    });
   }
 };
 
+// Action untuk membatalkan transaksi
 export const cancelTransactions =
   (bookingCode, navigate) => async (dispatch, getState) => {
     const { token } = getState().login;
@@ -80,8 +111,16 @@ export const cancelTransactions =
         toast(response?.data?.message, {
           style: {
             background: "#28A745", // Background hijau
-            color: "#FFFFFF",
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px",
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
           },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
         });
       }
     } catch (error) {
@@ -89,8 +128,16 @@ export const cancelTransactions =
       toast(error?.response?.data?.message, {
         style: {
           background: "#FF0000",
-          color: "#fff",
+          color: "#FFFFFF", // TEKS PUTIH
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // TEKS TENGAH
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
     }
   };

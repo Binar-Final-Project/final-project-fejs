@@ -95,17 +95,59 @@ export default function SearchDesktop() {
     e.preventDefault();
 
     if (departure_code === "" || arrival_code === "") {
-      toast("Harap pilih destinasi Anda!");
+      toast("Harap pilih destinasi Anda!"),
+        {
+          style: {
+            background: "#FF0000", // Background merah
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px", // Rounded-xl
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
+        };
       return;
     }
 
     if (departure_code === arrival_code) {
-      toast("Harap pilih destinasi yang berbeda!");
+      toast("Harap pilih destinasi yang berbeda!"),
+        {
+          style: {
+            background: "#FF0000", // Background merah
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px", // Rounded-xl
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
+        };
       return;
     }
 
     if (isChecked === true && date[0].endDate === null) {
-      toast("Harap isi tanggal kepulangan!");
+      toast("Harap isi tanggal kepulangan!"),
+        {
+          style: {
+            background: "#FF0000", // Background merah
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px", // Rounded-xl
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
+        };
       return;
     }
 
@@ -116,9 +158,17 @@ export default function SearchDesktop() {
     if (isChecked === true && departureDate === returnDate) {
       toast("Harap pilih tanggal yang berbeda!", {
         style: {
-          background: "#FF0000",
-          color: "#fff",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }

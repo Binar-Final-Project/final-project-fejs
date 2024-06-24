@@ -65,51 +65,88 @@ export default function UbahAkun() {
     setSaveModalOpen(!saveModalOpen);
 
     if (!name && !phone_number) {
-      toast("Harap isi semua field terlebih dahulu!", {
+      toast.error("Mohon isi semua kolom terlebih dahulu!", {
+        // Menampilkan toast error
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#FFFFFF",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (!name) {
-      toast("Harap masukkan nama Anda terlebih dahulu", {
+      toast.error("Mohon masukkan nama Anda!", {
+        // Menampilkan toast error
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#FFFFFF",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (name.length < 3) {
-      toast("Nama minimal memiliki 3 huruf!", {
+      toast.error("Nama minimal memiliki 3 huruf!", {
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#FFFFFF",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (!phone_number) {
-      toast("Harap masukkan nomor telepon Anda terlebih dahulu", {
+      toast.error("Mohon masukkan nomor ponsel Anda!", {
+        // Menampilkan toast error
+        icon: null,
         style: {
-          background: "#FF0000",
-          color: "#FFFFFF",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
 
     if (phone_number.length < 8 || phone_number.length >= 14) {
-      toast("Mohon input nomor telepon dengan benar!", {
+      toast.error("Mohon masukkan nomor telepon dengan benar!", {
         style: {
-          background: "#FF0000",
-          color: "#FFFFFF",
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
         },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
       });
       return;
     }
@@ -181,13 +218,13 @@ export default function UbahAkun() {
                       {isNameValid && !name && (
                         <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                           <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
-                          <p>Nama harus diisi</p>
+                          <p>Nama tidak boleh kosong</p>
                         </div>
                       )}
                       {isNameValid && name && name.length < 3 && (
                         <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
                           <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
-                          <p>Nama minimal memiliki 3 huruf</p>
+                          <p>Nama terlalu pendek, minimum 3 huruf</p>
                         </div>
                       )}
                     </div>
@@ -237,7 +274,7 @@ export default function UbahAkun() {
                       )}
                       {phone_number && phone_number.length >= 14 && (
                         <p className="text-[#FF0000] text-xs mt-1 text-left">
-                          Nomor ponsel terlalu panjang, maksimal 14 angka
+                          Nomor ponsel terlalu panjang, maksimum 14 angka
                         </p>
                       )}
                       {!phone_number && (
@@ -251,7 +288,7 @@ export default function UbahAkun() {
                     <button
                       type="button"
                       onClick={handleSaveModal}
-                      className="py-2 px-4 rounded-lg bg-[#2A629A] text-white hover:bg-[#3472b0]"
+                      className="py-2 px-4 rounded-lg bg-[#2A629A] text-white hover:bg-[#003285]"
                     >
                       <div className="flex items-center font-medium">
                         Simpan Perubahan
@@ -260,14 +297,14 @@ export default function UbahAkun() {
                   </div>
                 </div>
 
-                {/* MODAL SIMPAN PERUBAHN */}
+                {/* MODAL SIMPAN PERUBAHAN */}
                 {saveModalOpen && (
                   <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="relative p-4 w-full max-w-2xl max-h-full">
+                    <div className="relative w-full max-w-[90%] md:max-w-[60%] lg:max-w-[40%] max-h-full animate__animated animate__zoomIn mx-4">
                       <div className="relative bg-white rounded-lg shadow">
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-                          <h3 className="text-xl font-semibold text-gray-900">
-                            Simpan Perubahan
+                          <h3 className="text-lg md:text-xl font-semibold text-gray-900">
+                            Simpan Perubahan Data Diri
                           </h3>
                           <button
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
@@ -301,11 +338,11 @@ export default function UbahAkun() {
                         <div className="flex items-center justify-end p-4 md:p-5 border-t border-gray-200 rounded-b">
                           <button
                             onClick={handleSaveModal}
-                            className="py-2.5 px-5 me-3 text-sm font-medium text-gray-900 bg-white rounded-lg border hover:text-[#2A629A]"
+                            className="py-2 px-4 md:px-7 me-3 text-sm font-medium text-gray-900 bg-white rounded-lg border hover:text-[#2A629A]"
                           >
                             Batal
                           </button>
-                          <button className="text-white bg-[#2A629A] hover:bg-[#3472b0] font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                          <button className="text-white bg-[#2A629A] hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2 text-center">
                             Simpan
                           </button>
                         </div>
