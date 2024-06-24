@@ -72,7 +72,7 @@ export default function sideMenu() {
                       : `text-[#003285]`
                   } `}
                 />{" "}
-                Ubah Password
+                Ubah Kata Sandi
               </div>
             </Link>
           </div>

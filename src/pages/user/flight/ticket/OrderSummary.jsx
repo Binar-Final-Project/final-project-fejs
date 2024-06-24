@@ -77,7 +77,8 @@ export default function OrderSummary() {
 
   //Untuk menghitung pajak
   const calculateTax = (total) => {
-    return total * 0.1;
+    const tax = total * 0.1;
+    return Math.floor(tax);
   };
 
   return (
@@ -86,22 +87,30 @@ export default function OrderSummary() {
         {choosenFlight.map((flight, index) => (
           <div
             key={index}
-            className={`bg-white shadow-md rounded p-6 w-full ${ isMobile ? "ms-3" :
-              isTablet ? "m-10 mt-0 mb-0" : ""
+            className={`bg-white shadow-md rounded p-6 w-full ${
+              isMobile ? "ms-3" : isTablet ? "m-10 mt-0 mb-0" : ""
             }`}
           >
             <div className="col-span-1">
               <div className="flex flex-col border-b border-gray-300 pb-4">
-                <div className="bg-[#40A2E3] text-white p-1 text-sm font-medium rounded-lg text-center inline-block w-[4rem]">
-                  <h1>{index === 0 ? "Pergi" : "Pulang"}</h1>
-                </div>
+                {choosenFlight.length === 2 && (
+                  <div className="bg-[#40A2E3] text-white p-1 text-sm font-medium rounded-lg text-center inline-block w-[4rem]">
+                    <h1>{index === 0 ? "Pergi" : "Pulang"}</h1>
+                  </div>
+                )}
                 <div className="text-center p-3">
                   <h2 className="text-xl font-semibold mb-0 mr-4 text-[#003285]">
                     {flight.departure_city} → {flight.arrival_city}
                   </h2>
                 </div>
                 <div className="text-gray-500 justify-between flex">
-                  <p>{flight.flight_date}</p>
+                  <p>
+                    {new Date(flight?.flight_date).toLocaleString("id-ID", {
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
                   <a
                     href="#"
                     className="text-blue-500 font-semibold hover:text-blue-700"
@@ -129,9 +138,13 @@ export default function OrderSummary() {
                     <p className="mb-1">Dewasa:</p>
                     <p className="mb-1">
                       {penumpang.dewasa > 0
-                        ? `${
-                            penumpang.dewasa
-                          } x IDR ${flight.price.toLocaleString("id-ID")}`
+                        ? `${penumpang.dewasa} x ${flight.price.toLocaleString(
+                            "id-ID",
+                            {
+                              style: "currency",
+                              currency: "IDR",
+                            }
+                          )}`
                         : "0"}
                     </p>
                   </div>
@@ -139,9 +152,13 @@ export default function OrderSummary() {
                     <p className="mb-1">Anak:</p>
                     <p className="mb-1">
                       {penumpang.anak > 0
-                        ? `${
-                            penumpang.anak
-                          } x IDR ${flight.price.toLocaleString("id-ID")}`
+                        ? `${penumpang.anak} x ${flight.price.toLocaleString(
+                            "id-ID",
+                            {
+                              style: "currency",
+                              currency: "IDR",
+                            }
+                          )}`
                         : "0"}
                     </p>
                   </div>
@@ -149,19 +166,25 @@ export default function OrderSummary() {
                     <p className="mb-1">Bayi:</p>
                     <p className="mb-1">
                       {penumpang.bayi > 0
-                        ? `${
-                            penumpang.bayi
-                          } x IDR ${flight.price.toLocaleString("id-ID")}`
+                        ? `${penumpang.bayi} x ${flight.price.toLocaleString(
+                            "id-ID",
+                            {
+                              style: "currency",
+                              currency: "IDR",
+                            }
+                          )}`
                         : "0"}
                     </p>
                   </div>
                   <div className="text-sm flex justify-between">
                     <h4 className="mb-1">Pajak (10%)</h4>
                     <p className="mb-1">
-                      IDR{" "}
                       {calculateTax(
                         calculateTotalPayment(flight)
-                      ).toLocaleString("id-ID")}
+                      ).toLocaleString("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      })}
                     </p>
                   </div>
                 </div>
@@ -171,11 +194,13 @@ export default function OrderSummary() {
                     Total Pembayaran
                   </h4>
                   <p className="font-medium">
-                    IDR{" "}
                     {(
                       calculateTotalPayment(flight) +
                       calculateTax(calculateTotalPayment(flight))
-                    ).toLocaleString("id-ID")}
+                    ).toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
                   </p>
                 </div>
               </div>
@@ -186,8 +211,8 @@ export default function OrderSummary() {
       <div>
         {choosenFlight.length === 2 && (
           <div
-            className={`bg-white shadow-md rounded p-6 w-full mt-6 ${ isMobile ? "ms-3" :
-              isTablet ? "ms-24 mt-0" : ""
+            className={`bg-white shadow-md rounded p-6 w-full mt-6 ${
+              isMobile ? "ms-3" : isTablet ? "ms-24 mt-0" : ""
             }`}
           >
             <div className="col-span-1">
@@ -200,41 +225,51 @@ export default function OrderSummary() {
                 <div className="flex justify-between text-sm">
                   <p>Total Harga untuk Pergi</p>
                   <p>
-                    IDR{" "}
                     {calculateTotalPayment(choosenFlight[0]).toLocaleString(
-                      "id-ID"
+                      "id-ID",
+                      {
+                        style: "currency",
+                        currency: "IDR",
+                      }
                     )}
                   </p>
                 </div>
                 <div className="flex justify-between text-sm">
                   <p>Total Harga untuk Pulang</p>
                   <p>
-                    IDR{" "}
                     {calculateTotalPayment(choosenFlight[1]).toLocaleString(
-                      "id-ID"
+                      "id-ID",
+                      {
+                        style: "currency",
+                        currency: "IDR",
+                      }
                     )}
                   </p>
                 </div>
                 <div className="flex justify-between text-sm">
                   <p>Pajak (10%)</p>
                   <p>
-                    IDR{" "}
                     {(
                       calculateTax(calculateTotalPayment(choosenFlight[0])) +
                       calculateTax(calculateTotalPayment(choosenFlight[1]))
-                    ).toLocaleString("id-ID")}
+                    ).toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
                   </p>
                 </div>
                 <div className="flex justify-between font-semibold pt-4 mt-4">
                   <p className="text-sm text-gray-500">Total Pembayaran</p>
                   <p className="font-medium">
-                    IDR{" "}
                     {(
                       calculateTotalPayment(choosenFlight[0]) +
                       calculateTotalPayment(choosenFlight[1]) +
                       calculateTax(calculateTotalPayment(choosenFlight[0])) +
                       calculateTax(calculateTotalPayment(choosenFlight[1]))
-                    ).toLocaleString("id-ID")}
+                    ).toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
                   </p>
                 </div>
               </div>

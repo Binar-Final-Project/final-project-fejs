@@ -358,8 +358,6 @@ export default function SearchResult() {
       dispatch(setChoosenFlight([]));
     }
 
-    setSelectedDate(departure_date);
-
     if (returnDate && isChecked) {
       navigate(
         `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departureDate}&returnDate=${returnDate}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
@@ -370,6 +368,7 @@ export default function SearchResult() {
       setSearchModalOpen(false);
       setDeparture_date(departureDate);
       setReturn_date(returnDate);
+      setSelectedDate(departureDate);
     } else {
       navigate(
         `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
@@ -379,6 +378,7 @@ export default function SearchResult() {
       setFilter("");
       setSearchModalOpen(false);
       dispatch(return_date());
+      setSelectedDate(departure_date);
     }
   };
 
@@ -571,8 +571,6 @@ export default function SearchResult() {
     setFilter("");
   };
 
-  console.log("choosenFlight", choosenFlight);
-
   return (
     <div className="bg-[#FFF0DC] py-5 md:py-0">
       {isMobile ? <NavbarMobile /> : <Navbar />}
@@ -713,7 +711,6 @@ export default function SearchResult() {
         ) : (
           <>
             {/* JIKA HASILNYA ADA */}
-
             <div
               className={`flex gap-10 ${
                 isMobile || isTablet ? "flex-col" : "flex-row"
@@ -1857,7 +1854,7 @@ export default function SearchResult() {
           {choosenFlight?.map((flight, i) => {
             const index = i + 1;
             return (
-              <div>
+              <div key={flight?.flight_id}>
                 <div>
                   {choosenFlight.length === 2 && (
                     <h5 className="font-medium py-1 px-3 rounded-lg bg-[#86B6F6] text-white mb-3">
@@ -1979,7 +1976,7 @@ export default function SearchResult() {
 
         <div
           className={`w-full ${isMobile ? "pb-16" : ""} ${
-            returnDate ? "" : "fixed bottom-0"
+            returnDate ? (isTablet ? "fixed bottom-0" : "") : "fixed bottom-0"
           }`}
         >
           <hr />

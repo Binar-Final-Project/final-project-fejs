@@ -52,7 +52,7 @@ export default function Notification() {
       dispatch(getNotification());
       toast("Notifikasi telah dibaca!", {
         style: {
-          background: "#FF0000", // Background merah
+          background: "#28A745", // Background Hijau
           color: "#FFFFFF", // Teks putih
           borderRadius: "12px", // Rounded-xl
           fontSize: "14px", // Ukuran font

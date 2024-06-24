@@ -6,12 +6,16 @@ import { getForgetPassAction } from "../../../redux/actions/auth/getPassActions"
 import { RxCrossCircled } from "react-icons/rx";
 import { BiSolidCheckCircle, BiArrowBack } from "react-icons/bi";
 import backgroundImage from "../../../assets/images/loginregister.png";
+import BtnScrollTop from "../../../assets/components/BtnScrollUp";
+import Footer from "../../../assets/components/navigations/Footer";
+import { useMediaQuery } from "react-responsive";
 
 const EmailResetPassword = () => {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const handleEmailChange = (e) => {
     const emailValue = e.target.value;
@@ -44,7 +48,7 @@ const EmailResetPassword = () => {
       toast.error("Mohon input Email dengan benar!", {
         icon: null,
         style: {
-          icon:null,
+          icon: null,
           background: "#FF0000 ",
           color: "#FFFFFF",
           borderRadius: "12px",
@@ -64,13 +68,13 @@ const EmailResetPassword = () => {
 
   return (
     <div>
-      <style>
+      {/* <style>
         {`
           body, html {
             overflow: hidden;
           }
         `}
-      </style>
+      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -160,6 +164,8 @@ const EmailResetPassword = () => {
           </div>
         </div>
       </div>
+      {isMobile ? "" : <BtnScrollTop />}
+      <Footer />
     </div>
   );
 };

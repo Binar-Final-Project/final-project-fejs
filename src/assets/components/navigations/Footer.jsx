@@ -6,7 +6,7 @@ export default function footer() {
   const isMobile = useMediaQuery({ maxWidth: 767 }); // UNTUK TAMPILAN MOBILE
   return (
     <div>
-      <footer className={`bg-[#003285] ${isMobile ? "pb-20" : "pb-0"}`}>
+      <footer className={`bg-[#003285] ${isMobile ? "pb-14" : "pb-0"}`}>
         <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
@@ -51,11 +51,6 @@ export default function footer() {
                   <li className="mb-4">
                     <a href="/" className="hover:underline">
                       Domestik
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="hover:underline">
-                      Syarat & Ketentuan
                     </a>
                   </li>
                 </ul>

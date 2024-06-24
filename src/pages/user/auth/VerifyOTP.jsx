@@ -10,10 +10,14 @@ import {
 } from "../../../redux/reducers/auth/otpReducers"; // Import setEmail dan timer actions
 import { verifyOtp, resendOtp } from "../../../redux/actions/auth/otpActions";
 import backgroundImage from "../../../assets/images/otp.png";
+import BtnScrollTop from "../../../assets/components/BtnScrollUp";
+import Footer from "../../../assets/components/navigations/Footer";
+import { useMediaQuery } from "react-responsive";
 
 export default function VerifyOTP() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   const { otpInput, timer } = useSelector((state) => state.otp); // Mengambil otpInput dan timer dari state otp
   const registerEmail = useSelector((state) => state.register.email); // Mengambil email dari state register
   const [isToastShown, setIsToastShown] = useState(false); // State untuk memastikan toast hanya muncul sekali
@@ -131,13 +135,13 @@ export default function VerifyOTP() {
 
   return (
     <div>
-      <style>
+      {/* <style>
         {`
           body, html {
             overflow: hidden;
           }
           `}
-      </style>
+      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -207,6 +211,8 @@ export default function VerifyOTP() {
           </div>
         </div>
       </div>
+      {isMobile ? "" : <BtnScrollTop />}
+      <Footer />
     </div>
   );
 }

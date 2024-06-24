@@ -26,7 +26,7 @@ export const getNotification = () => async (dispatch, getState) => {
     }
   } catch (error) {
     console.log(error);
-    if (error?.response?.status === 401) {
+    if (error?.response?.status === 403) {
       dispatch(setToken(null));
       dispatch(setIsLoggedIn(false));
     } else {

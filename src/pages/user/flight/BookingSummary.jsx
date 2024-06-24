@@ -9,7 +9,7 @@ export default function BookingSummary() {
     return null;
   }
 
-  // console.log("ticketSelected", ticketSelected);
+  console.log("ticketSelected", ticketSelected);
 
   return (
     <div className="max-w-[500px] w-full mx-auto bg-white mt-5 rounded-lg shadow-lg mb-5 relative">

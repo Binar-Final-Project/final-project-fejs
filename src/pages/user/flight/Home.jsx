@@ -630,8 +630,8 @@ export default function Home() {
               </div>
 
               {/* JUMBOTRON SECTION */}
-              <div className="flex flex-col items-center max-w-screen-xl text-center">
-                <h1 className="text-4xl font-bold md:text-5xl lg:text-5xl">
+              <div className="flex flex-col items-center max-w-screen-xl text-center mx-auto">
+                <h1 className="text-4xl font-bold md:text-5xl">
                   Life is short. Book the trip now!
                 </h1>
                 <hr className="my-2 w-1/4 bg-[#003285] p-1 rounded" />
