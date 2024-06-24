@@ -45,7 +45,7 @@ export default function Profile() {
 
         <Toaster />
 
-        <div className="flex flex-col md:flex-row justify-start lg:mx-24 gap-12">
+        <div className="flex flex-col lg:flex-row justify-start lg:mx-24 gap-12">
           {/* SIDE MENU */}
           <div className="lg:w-2/5 w-full">
             <SideMenu />

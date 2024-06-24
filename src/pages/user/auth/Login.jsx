@@ -17,10 +17,13 @@ import LoginGoogle from "./LoginGoogle";
 import Footer from "../../../assets/components/navigations/Footer";
 import backgroundImage from "../../../assets/images/loginregister.png";
 import Logobiflight from "../../../assets/images/logobiflight.png";
+import BtnScrollTop from "../../../assets/components/BtnScrollUp";
+import { useMediaQuery } from "react-responsive";
 
-export default function LoginUser() {
+export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
   const {
     email,
     isEmailValid,
@@ -412,6 +415,7 @@ export default function LoginUser() {
           </div>
         </div>
       </div>
+      {isMobile ? "" : <BtnScrollTop />}
       <Footer />
     </div>
   );

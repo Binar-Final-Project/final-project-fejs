@@ -67,7 +67,6 @@ export default function TicketCheckout() {
       valid_until: "",
     },
   ]);
-  console.log(passengers);
 
   //Handler untuk mengupdate state ordered
   const handleOrdererChange = (e) => {
@@ -149,13 +148,7 @@ export default function TicketCheckout() {
           passengers
         )
       );
-      toast.success(
-        "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran"
-      );
       setIsDataSaved(true);
-      // setTimeout(() => {
-      //   navigate("/payment");
-      // }, 2000);
       // Setelah menyimpan, mengarah ke tombol "Lanjut Pembayaran"
       if (orderSummaryRef.current) {
         orderSummaryRef.current.scrollIntoView({ behavior: "smooth" });
@@ -173,7 +166,7 @@ export default function TicketCheckout() {
   }, [ticket]);
 
   const handleLanjutPembayaran = () => {
-    navigate("/payment");
+    navigate(`/payment/${ticket?.booking_code}`);
   };
 
   //Timer

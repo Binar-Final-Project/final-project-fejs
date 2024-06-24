@@ -44,6 +44,18 @@ export default function Navbar() {
     setConfirmModalOpen(!confirmModalOpen);
   };
 
+  // UNTUK MEMBUKA DROPDOWN NOTIFIKASI
+  const handleOpenNotification = () => {
+    setShowDropdownNotification(!showDropdownNotification);
+    setShowDropdownProfile(false);
+  };
+
+  // UNTUK MEMBUKA DROPDOWN PROFIL
+  const handleOpenProfile = () => {
+    setShowDropdownProfile(!showDropdownProfile);
+    setShowDropdownNotification(false);
+  };
+
   return (
     <nav className="fixed w-full z-20 top-0 start-0 bg-white shadow">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4">
@@ -70,9 +82,7 @@ export default function Navbar() {
                 />
               </Link>
               <div
-                onClick={() =>
-                  setShowDropdownNotification(!showDropdownNotification)
-                }
+                onClick={handleOpenNotification}
                 className="relative inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400"
               >
                 <IoNotificationsOutline
@@ -149,10 +159,7 @@ export default function Navbar() {
                   </Link>
                 </div>
               )}
-              <div
-                onClick={() => setShowDropdownProfile(!showDropdownProfile)}
-                className="flex text-sm "
-              >
+              <div onClick={handleOpenProfile} className="flex text-sm ">
                 <IoPersonOutline
                   className={`text-2xl ${
                     location.pathname === "/profil" ||
