@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import {
   setUser,
   setToken,
-  setError,
   clearError,
   setIsLoggedIn,
 } from "../../reducers/auth/loginReducers";
@@ -24,7 +23,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
         },
       }
     );
-    if (responseLogin.status === 200) {
+    if (responseLogin?.status === 200) {
       dispatch(setUser(responseLogin?.data)); // Mengatur setUser ke Reducers
       dispatch(clearError()); // Menghapus error ke Reducers
       dispatch(setToken(responseLogin?.data?.data?.token));
@@ -49,11 +48,10 @@ export const login = (email, password, navigate) => async (dispatch) => {
         navigate("/");
       }, 3000);
     }
-    console.log("Response Login: ", responseLogin);
+    console.log("Response Login: ", responseLogin?.data);
   } catch (error) {
-    if (error.response && error.response.status === 400) {
-      // dispatch(setError("Alamat Email tidak terdaftar."));
-      toast.error("Alamat Email tidak terdaftar.", {
+    if (error?.response?.data?.message === "Pengguna tidak ditemukan") {
+      toast.error("Maaf, alamat Email tidak terdaftar! Silakan daftar akun.", {
         // Menampilkan toast error
         icon: null,
         style: {
@@ -69,24 +67,26 @@ export const login = (email, password, navigate) => async (dispatch) => {
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
       });
-    } else if (error.response && error.response.status === 401) {
-      // dispatch(setError("Kata sandi salah. Silakan coba lagi"));
-      toast.error("Kata sandi salah. Silakan coba lagi", {
-        // Menampilkan toast error
-        icon: null,
-        style: {
-          background: "#FF0000", // Background merah
-          color: "#FFFFFF", // Teks putih
-          borderRadius: "12px", // Rounded-xl
-          fontSize: "14px", // Ukuran font
-          textAlign: "center", // Posisi teks di tengah
-          padding: "10px 20px", // Padding
-          width: "full",
-          maxWidth: "900px",
-        },
-        position: "top-center", // Posisi toast
-        duration: 3000, // Durasi toast
-      });
+    } else if (error?.response?.data?.message === "Password salah") {
+      toast.error(
+        "Maaf, kata sandi salah! Masukkan kata sandi Anda dengan benar.",
+        {
+          // Menampilkan toast error
+          icon: null,
+          style: {
+            background: "#FF0000", // Background merah
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px", // Rounded-xl
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
+        }
+      );
     } else {
       // dispatch(setError("Email dan password salah. Silakan coba lagi"));
       toast.error("Email atau kata sandi salah. Silakan coba lagi", {
@@ -154,7 +154,6 @@ export const loginWithGoogle = (accessToken, navigate) => async (dispatch) => {
     console.log("Response Login Google: ", responseLoginGoogle.data.tokenJWT);
   } catch (error) {
     console.log(error); // Menampilkan error di konsol
-    dispatch(setError("Gagal masuk dengan Google. Silakan coba lagi.")); // Mengatur pesan error ke Reducers
     toast.error("Gagal masuk dengan Google. Silakan coba lagi.", {
       style: {
         background: "#FF0000", // Background merah

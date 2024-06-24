@@ -44,7 +44,7 @@ export default function PrintTicket() {
     <div>
       {isMobile ? <NavbarMobile /> : <Navbar />}
 
-      {/* Tombol Kembali */}
+      {/* Tombol Kembali
       {!isMobile && (
         <div className="absolute pt-16 top-10 left-10 z-10">
           <div>
@@ -56,7 +56,7 @@ export default function PrintTicket() {
             </Link>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Komponen Transaksi Sukses */}
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#FFF0DC] p-5 pt-20">
@@ -77,7 +77,7 @@ export default function PrintTicket() {
               Cetak Tiket
             </button>
             <button
-              onClick={() => navigate("/search")}
+              onClick={() => navigate("/")}
               className="bg-gray-200 text-gray-800 text-sm font-medium p-2 rounded-xl focus:outline-none w-full hover:bg-gray-300 transition-colors duration-300"
             >
               Cari Penerbangan Lain

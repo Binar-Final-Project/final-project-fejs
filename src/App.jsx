@@ -34,7 +34,7 @@ export default function App() {
 
         {/* FLIGHT */}
         <Route
-          path="/payment"
+          path="/payment/:booking_code"
           element={
             <div>
               <Protected />

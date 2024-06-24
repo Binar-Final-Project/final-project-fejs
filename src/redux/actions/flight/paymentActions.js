@@ -40,6 +40,7 @@ export const processPayment =
       if (response.status === 200) {
         dispatch(setPaymentSuccess(true));
         dispatch(clearError());
+        // Menampilkan toast sukses
         toast.success("Pembayaran berhasil! Harap cetak tiket Anda.", {
           icon: null,
           style: {
@@ -95,6 +96,25 @@ export const processPayment =
           position: "top-center", // Posisi toast
           duration: 3000, // Durasi toast
         });
+      } else if (error?.response?.data?.message === "Kartu anda tidak valid") {
+        toast.error(
+          "Maaf, kartu Anda tidak valid. Mohon masukkan data kartu dengan benar!",
+          {
+            icon: null,
+            style: {
+              background: "#FF0000", // Background merah
+              color: "#FFFFFF", // Teks putih
+              borderRadius: "12px", // Rounded-xl
+              fontSize: "14px", // Ukuran font
+              textAlign: "center", // Posisi teks di tengah
+              padding: "10px 20px", // Padding
+              width: "full",
+              maxWidth: "900px",
+            },
+            position: "top-center", // Posisi toast
+            duration: 3000, // Durasi toast
+          }
+        );
       } else {
         toast.error("Pembayaran gagal! Silakan coba lagi.", {
           icon: null,

@@ -9,7 +9,7 @@ export default function BookingSummary() {
     return null;
   }
 
-  console.log("ticketSelected", ticketSelected);
+  // console.log("ticketSelected", ticketSelected);
 
   return (
     <div className="max-w-[500px] w-full mx-auto bg-white mt-5 rounded-lg shadow-lg mb-5 relative">
@@ -119,7 +119,7 @@ export default function BookingSummary() {
           {(ticketSelected?.return || ticketSelected?.return_flight) && (
             <div>
               <div className="flex my-4">
-                <h5 className="font-medium bg-[#86B6F6] rounded-lg text-white px-3 py-0.5">
+                <h5 className="font-medium bg-[#40A2E3] rounded-lg text-white px-3 py-0.5">
                   Pulang
                 </h5>
               </div>
@@ -220,7 +220,7 @@ export default function BookingSummary() {
             <div className="flex justify-between">
               <div>
                 <p className="text-sm">Total Harga Tiket</p>
-                <p className="text-sm">Pajak</p>
+                <p className="text-sm">Pajak (10%)</p>
               </div>
               <div className="text-sm">
                 <p>

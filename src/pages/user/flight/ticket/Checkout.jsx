@@ -32,7 +32,6 @@ export default function TicketCheckout() {
   const orderSummaryRef = useRef(null);
   const { choosenFlight } = useSelector((state) => state.flight);
 
-
   const { token } = useSelector((state) => state.login);
   const [isChecked, setIsChecked] = useState(false);
   const [minutes, setMinutes] = useState(15);
@@ -73,7 +72,7 @@ export default function TicketCheckout() {
   //Handler untuk mengupdate state ordered
   const handleOrdererChange = (e) => {
     const { name, value } = e.target;
-  
+
     // Hanya memperbolehkan angka
     if (name === "phone_number" && !/^\d*$/.test(value)) {
       return;
@@ -87,11 +86,14 @@ export default function TicketCheckout() {
   //Handler untuk mengupdate state passengers
   const handlePassengerChange = (index, e) => {
     const { name, value } = e.target;
-  
+
     // Hanya memperbolehkan angka
-    if ((name === "phone_number" || name === "identity_number") && !/^\d*$/.test(value)) {
+    if (
+      (name === "phone_number" || name === "identity_number") &&
+      !/^\d*$/.test(value)
+    ) {
       return;
-    } 
+    }
     const newPassengers = [...passengers];
     newPassengers[index][e.target.name] = e.target.value;
     setPassengers(newPassengers);
@@ -200,7 +202,6 @@ export default function TicketCheckout() {
     navigate("/hasil-pencarian");
   };
 
-
   //form untuk sesuai dengan jumlah tiket
   useEffect(() => {
     const newPassengers = [];
@@ -248,7 +249,6 @@ export default function TicketCheckout() {
     }
     setPassengers(newPassengers);
   }, [adult, child, infant]);
-  
 
   return (
     <div className="bg-[#FFF0DC]">
@@ -297,7 +297,13 @@ export default function TicketCheckout() {
           {/* Menampilkan modal untuk kembali */}
           <div
             className={`lg:w-1/12 ${
-              isMobile ? "mt-5" : isTablet ? "mt-16" : isLaptop ? "mt-20" : "mt-20"
+              isMobile
+                ? "mt-5"
+                : isTablet
+                ? "mt-16"
+                : isLaptop
+                ? "mt-20"
+                : "mt-20"
             }`}
           >
             <div
@@ -348,38 +354,38 @@ export default function TicketCheckout() {
                 {/* Data Akun */}
                 <div className="bg-white shadow-md rounded p-6 ">
                   <div className="border border-gray-300 rounded-xl p-4">
-                  <h2 className="text-xl font-semibold mb-4 text-[#003285]">
-                    Data Diri Pemesan
-                  </h2>
-                  <div className="mb-4">
-                    <label className="block text-[#2A629A] mb-2">
-                      Nama Lengkap
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={orderer.name}
-                      onChange={handleOrdererChange}
-                      className="w-full p-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus-within:border-[#2A629A] text-[#2A629A]"
-                      placeholder="Nama sesuai KTP / identitas"
-                      required
-                    />
-                  </div>
-                  <div className="mb-4 flex items-center">
-                    <label className="text-[#2A629A] mr-2">
-                      Punya Nama Keluarga?
-                    </label>
-                    <label className="switch">
+                    <h2 className="text-xl font-semibold mb-4 text-[#003285]">
+                      Data Diri Pemesan
+                    </h2>
+                    <div className="mb-4">
+                      <label className="block text-[#2A629A] mb-2">
+                        Nama Lengkap
+                      </label>
                       <input
-                        type="checkbox"
-                        name="family_name"
-                        checked={isChecked}
-                        onChange={handleToogle}
+                        type="text"
+                        name="name"
+                        value={orderer.name}
+                        onChange={handleOrdererChange}
+                        className="w-full p-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus-within:border-[#2A629A] text-[#2A629A]"
+                        placeholder="Nama sesuai KTP / identitas"
+                        required
                       />
-                      <span className="slider"></span>
-                    </label>
-                  </div>
-                  {isChecked && (
+                    </div>
+                    <div className="mb-4 flex items-center">
+                      <label className="text-[#2A629A] mr-2">
+                        Punya Nama Keluarga?
+                      </label>
+                      <label className="switch">
+                        <input
+                          type="checkbox"
+                          name="family_name"
+                          checked={isChecked}
+                          onChange={handleToogle}
+                        />
+                        <span className="slider"></span>
+                      </label>
+                    </div>
+                    {isChecked && (
                       <div className="mb-4">
                         <label className="block text-[#2A629A] mb-2">
                           Nama Keluarga
@@ -393,45 +399,50 @@ export default function TicketCheckout() {
                           placeholder="Nama keluarga (opsional)"
                         />
                       </div>
-                  )}
-                  <div className="mb-4">
-                    <label className="block text-[#2A629A] mb-2">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={orderer.email}
-                      onChange={handleOrdererChange}
-                      className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
-                      placeholder="contoh@gmail.com"
-                      required
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-[#2A629A] mb-2">
-                      No Telp
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone_number"
-                      value={orderer.phone_number}
-                      onChange={handleOrdererChange}
-                      className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                      placeholder="08XXXXXXXXXX"
-                      required
-                    />
-                  </div>
+                    )}
+                    <div className="mb-4">
+                      <label className="block text-[#2A629A] mb-2">Email</label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={orderer.email}
+                        onChange={handleOrdererChange}
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                        placeholder="contoh@gmail.com"
+                        required
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label className="block text-[#2A629A] mb-2">
+                        No Telp
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone_number"
+                        value={orderer.phone_number}
+                        onChange={handleOrdererChange}
+                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                        placeholder="08XXXXXXXXXX"
+                        required
+                      />
+                    </div>
                   </div>
                 </div>
 
                 {/* Form Data Tiket */}
                 <div className="bg-white shadow-md rounded p-6 mt-6 space-y-6">
                   {passengers.map((passenger, index) => (
-                    <div key={index} className="border border-gray-300 rounded-xl p-4">
+                    <div
+                      key={index}
+                      className="border border-gray-300 rounded-xl p-4"
+                    >
                       <h3 className="text-xl font-semibold text-[#003285] mb-4">
                         Isi Data Penumpang {index + 1}
                       </h3>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">Titel</label>
+                        <label className="block text-[#2A629A] mb-2">
+                          Titel
+                        </label>
                         <div className="relative mb-4">
                           <select
                             name="title"
@@ -459,7 +470,9 @@ export default function TicketCheckout() {
                         </div>
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">Nama Lengkap</label>
+                        <label className="block text-[#2A629A] mb-2">
+                          Nama Lengkap
+                        </label>
                         <input
                           type="text"
                           name="name"
@@ -471,7 +484,9 @@ export default function TicketCheckout() {
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">Email</label>
+                        <label className="block text-[#2A629A] mb-2">
+                          Email
+                        </label>
                         <input
                           type="text"
                           name="email"
@@ -483,7 +498,9 @@ export default function TicketCheckout() {
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">No Telp</label>
+                        <label className="block text-[#2A629A] mb-2">
+                          No Telp
+                        </label>
                         <input
                           type="tel"
                           name="phone_number"
@@ -495,21 +512,27 @@ export default function TicketCheckout() {
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">Tanggal Lahir</label>
+                        <label className="block text-[#2A629A] mb-2">
+                          Tanggal Lahir
+                        </label>
                         <Flatpickr
                           value={passenger.date_of_birth}
-                          onChange={(date) => handleDateChange(index, "date_of_birth", date)}
+                          onChange={(date) =>
+                            handleDateChange(index, "date_of_birth", date)
+                          }
                           className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                           placeholder="dd-mm-yyyy"
                           required
                           options={{
-                            maxDate: new Date(), 
+                            maxDate: new Date(),
                             dateFormat: "d-m-Y",
                           }}
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">Kewarganegaraan</label>
+                        <label className="block text-[#2A629A] mb-2">
+                          Kewarganegaraan
+                        </label>
                         <input
                           type="text"
                           name="nationality"
@@ -521,7 +544,9 @@ export default function TicketCheckout() {
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">KTP/Paspor</label>
+                        <label className="block text-[#2A629A] mb-2">
+                          KTP/Paspor
+                        </label>
                         <input
                           type="tel"
                           name="identity_number"
@@ -534,7 +559,9 @@ export default function TicketCheckout() {
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">Negara Penerbit</label>
+                        <label className="block text-[#2A629A] mb-2">
+                          Negara Penerbit
+                        </label>
                         <input
                           type="text"
                           name="issuing_country"
@@ -546,16 +573,20 @@ export default function TicketCheckout() {
                         />
                       </div>
                       <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">Berlaku Sampai</label>
+                        <label className="block text-[#2A629A] mb-2">
+                          Berlaku Sampai
+                        </label>
                         <Flatpickr
                           value={passenger.valid_until}
-                          onChange={(date) => handleDateChange(index, "valid_until", date)}
+                          onChange={(date) =>
+                            handleDateChange(index, "valid_until", date)
+                          }
                           className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                           placeholder="dd-mm-yyyy"
                           required
                           options={{
-                            minDate: new Date(), 
-                            dateFormat: "d-m-Y", 
+                            minDate: new Date(),
+                            dateFormat: "d-m-Y",
                           }}
                         />
                       </div>

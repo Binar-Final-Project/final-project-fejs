@@ -19,7 +19,9 @@ import {
   setPhoneNumber,
   clearError,
 } from "../../../redux/reducers/auth/registerReducers";
+import Footer from "../../../assets/components/navigations/Footer";
 import backgroundImage from "../../../assets/images/loginregister.png";
+import Logobiflight from "../../../assets/images/logobiflight.png";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -401,20 +403,30 @@ export default function Register() {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <Toaster />
-
           <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
               onClick={() => navigate("/")}
             />
+            <Toaster />
             <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
-              <h1 className="text-[#003285] text-2xl mb-1 font-bold text-center w-full">
-                Buat Akun Baru
+              <img
+                src={Logobiflight}
+                className="w-24 p-1.5"
+                alt="BiFlight Logo"
+              />
+              <h1 className="text-[#003285] text-2xl mb-3 mt-3 font-bold text-center w-full">
+                Buat Akun Baru Anda
               </h1>
-              <h2 className="text-[#2A629A] text-sm font-medium mb-10 text-center w-full">
-                Masukkan Data Diri Anda
+              <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
+                <a href="/register" className="text-[#40A2E3] hover:underline">
+                  Daftarkan
+                </a>
+                <span className="text-[#2A629A]"> </span>
+                <span className="text-[#2A629A]">
+                  akun Anda dan dapatkan akses ke promo tiket pesawat murah!
+                </span>
               </h2>
 
               <form onSubmit={handleRegister} className="w-full">
@@ -527,7 +539,9 @@ export default function Register() {
                     }`}
                     >
                       <div className="flex items-center bg-gray-300 p-2 px-3 rounded-l-xl border-r-0">
-                        <span className="text-sm text-[#2A629A]">+62</span>
+                        <span className="text-sm text-[#2A629A] font-medium">
+                          +62
+                        </span>
                       </div>
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] pl-2"
@@ -655,18 +669,17 @@ export default function Register() {
                 </div>
               </form>
 
-              <p className="text-[#2A629A] mt-7 mb-3 text-sm">
+              <p className="text-[#2A629A] mt-7 text-sm font-medium">
                 Sudah punya akun{" "}
-                <a
-                  href="/"
-                  className="text-[#2A629A] mt-7 mb-3 text-sm font-semibold"
-                >
+                <a href="/" className="text-[#2A629A] mt-7 text-sm font-bold">
                   BiFlight
                 </a>
-                <span className="text-[#2A629A] mt-7 mb-3 text-sm">? </span>
+                <span className="text-[#2A629A] mt-7 text-sm font-medium">
+                  ?{" "}
+                </span>
                 <a
                   href="/login"
-                  className="text-[#40A2E3] font-semibold text-sm"
+                  className="text-[#40A2E3] hover:underline font-semibold text-sm"
                 >
                   Masuk di sini
                 </a>
@@ -685,6 +698,7 @@ export default function Register() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

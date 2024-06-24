@@ -13,8 +13,10 @@ import {
   setPasswordTouched,
   clearError,
 } from "../../../redux/reducers/auth/loginReducers";
-import backgroundImage from "../../../assets/images/loginregister.png";
 import LoginGoogle from "./LoginGoogle";
+import Footer from "../../../assets/components/navigations/Footer";
+import backgroundImage from "../../../assets/images/loginregister.png";
+import Logobiflight from "../../../assets/images/logobiflight.png";
 
 export default function LoginUser() {
   const dispatch = useDispatch();
@@ -228,13 +230,13 @@ export default function LoginUser() {
 
   return (
     <div>
-      <style>
+      {/* <style>
         {`
             body, html {
               overflow: hidden;
             }
             `}
-      </style>
+      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -256,9 +258,23 @@ export default function LoginUser() {
             />
             <Toaster />
             <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
-              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-10">
-                Masuk ke BiFlight
+              <img
+                src={Logobiflight}
+                className="w-24 p-1.5"
+                alt="BiFlight Logo"
+              />
+              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-3">
+                Masuk ke Akun Anda
               </h1>
+              <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
+                <a href="/login" className="text-[#40A2E3] hover:underline">
+                  Masuk
+                </a>
+                <span className="text-[#2A629A]"> </span>
+                <span className="text-[#2A629A]">
+                  untuk akses cepat dan mudah ke tiket pesawat terbaik!
+                </span>
+              </h2>
 
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col space-y-3">
@@ -308,7 +324,7 @@ export default function LoginUser() {
                       </label>
                       <a
                         href="forgot-password"
-                        className="text-[#40A2E3] text-sm underline font-medium"
+                        className="text-[#40A2E3] text-sm hover:underline font-medium"
                       >
                         Lupa Kata Sandi
                       </a>
@@ -377,18 +393,17 @@ export default function LoginUser() {
 
               <LoginGoogle buttonText={"Lanjutkan dengan Google"} />
 
-              <p className="text-[#2A629A] mt-7 mb-3 text-sm">
+              <p className="text-[#2A629A] mt-7 text-sm font-medium">
                 Baru di{" "}
-                <a
-                  href="/"
-                  className="text-[#2A629A] mt-7 mb-3 text-sm font-semibold"
-                >
+                <a href="/" className="text-[#2A629A] mt-7 text-sm font-bold">
                   BiFlight
                 </a>
-                <span className="text-[#2A629A] mt-7 mb-3 text-sm">? </span>
+                <span className="text-[#2A629A] mt-7 text-sm font-medium">
+                  ?{" "}
+                </span>
                 <a
                   href="/register"
-                  className="text-[#40A2E3] font-semibold text-sm"
+                  className="text-[#40A2E3] font-semibold text-sm hover:underline"
                 >
                   Daftar di sini
                 </a>
@@ -397,6 +412,7 @@ export default function LoginUser() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

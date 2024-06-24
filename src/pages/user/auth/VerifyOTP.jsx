@@ -160,7 +160,7 @@ export default function VerifyOTP() {
             />
             <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
               <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-8">
-                Verifikasi Email
+                Verifikasi Email Anda
               </h1>
               <h2 className="text-[#2A629A] text-l mb-5 text-center text-sm font-medium">
                 Masukkan 6 Digit Kode OTP yang Dikirim ke{" "}

@@ -24,6 +24,7 @@ import {
   resetPaymentState,
 } from "../../../redux/actions/flight/paymentActions";
 import BookingSummary from "./BookingSummary";
+import BtnScrollTop from "../../../assets/components/BtnScrollUp";
 import VisaLogo from "../../../assets/images/visa-logo.png";
 import MastercardLogo from "../../../assets/images/mastercard-logo.png";
 import PayPalLogo from "../../../assets/images/paypal-logo.png";
@@ -305,26 +306,9 @@ export default function Payment() {
     dispatch(processPayment(paymentData, navigate)); // Mengirim data pembayaran ke proses pembayaran di actions
   };
 
-  // Menghandle sukses pembayaran dengan menampilkan toast sukses
+  // Menghandle sukses pembayaran dengan menampilkan toast sukses dari actions dan navigasi ke page print ticket
   useEffect(() => {
     if (paymentSuccess) {
-      // Menampilkan toast sukses
-      toast.success("Pembayaran berhasil! Harap cetak tiket Anda.", {
-        icon: null,
-        style: {
-          background: "#28A745", // Background hijau
-          color: "#FFFFFF", // Teks putih
-          borderRadius: "12px",
-          fontSize: "14px", // Ukuran font
-          textAlign: "center", // Posisi teks di tengah
-          padding: "10px 20px", // Padding
-          width: "full",
-          maxWidth: "900px",
-        },
-        position: "top-center", // Posisi toast
-        duration: 3000, // Durasi toast
-      });
-      // Setelah menampilkan toast, navigasi ke halaman cetak tiket setelah 3 detik
       setTimeout(() => {
         navigate(`/print-ticket/${ticket.booking_code}`);
       }, 3000);
@@ -357,12 +341,12 @@ export default function Payment() {
             isTablet ? "lg:w-2/3" : "lg:w-1/3"
           } max-w-[500px] rounded-lg p-6 my-20 bg-white text-center shadow-lg`}
         >
-          <h1 className="text-[#003285] text-2xl font-bold p-2 mb-7">
+          <h1 className="text-[#003285] text-xl font-bold p-2 mb-7">
             Isi Data Pembayaran
           </h1>
           <div className="flex flex-col items-center">
             <button
-              className={`w-full flex justify-between items-center p-3 rounded-xl mb-3 ${
+              className={`w-full flex justify-between items-center p-3 font-medium text-base rounded-xl mb-3 ${
                 isDropdownOpen
                   ? "bg-[#2A629A] hover:bg-[#003285] text-white"
                   : "bg-gray-200 hover:bg-gray-300 text-black"
@@ -568,7 +552,7 @@ export default function Payment() {
                   disabled={isLoading}
                   className="w-full p-3 rounded-xl bg-[#2A629A] text-white text-base font-medium mt-3 transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
                 >
-                  {isLoading ? "Memproses Pembayaran..." : "Bayar Sekarang"}
+                  {isLoading ? "Memproses Pembayaran..." : "Bayar"}
                 </button>
               </form>
             )}
@@ -580,6 +564,7 @@ export default function Payment() {
           <BookingSummary />
         </div>
       </div>
+      {isMobile ? "" : <BtnScrollTop />}
       <Footer />
     </div>
   );
