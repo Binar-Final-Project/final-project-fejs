@@ -286,8 +286,8 @@ export default function TicketCheckout() {
         <div className="p-3">
           {/* Countdown Bar */}
           <div
-            className={`bg-[#FF0000] text-center p-3 text-white font-bold fixed left-0 w-full z-10 ${
-              isMobile ? "top-0 text-sm" : isTablet ? "top-18" : "top-18"
+            className={`bg-[#FF0000] text-center p-3 mt-2 text-white font-bold fixed left-0 w-full z-10 ${
+              isMobile ? "top-0 mt-0 text-sm" : isTablet ? "top-18" : "top-18"
             }`}
           >
             Selesaikan dalam {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
@@ -349,16 +349,23 @@ export default function TicketCheckout() {
 
           {/* Form Data Akun */}
           <form onSubmit={handleSubmit}>
-            <div className="container mx-auto px-4 py-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div
+              className={`container mx-auto mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${
+                isMobile ? "" : ""
+              }`}
+            >
               <div className="col-span-2 ">
                 {/* Data Akun */}
-                <div className="bg-white shadow-md rounded p-6 ">
-                  <div className="border border-gray-300 rounded-xl p-4">
-                    <h2 className="text-xl font-semibold mb-4 text-[#003285]">
+                <div className="bg-white shadow-md rounded p-6">
+                  <h1 className="text-2xl text-center font-bold mb-4 text-[#003285]">
+                    Isi Data Pemesan
+                  </h1>
+                  <div className="border border-gray-300 rounded-xl">
+                    <h2 className="text-lg font-medium mb-4 text-white bg-[#2A629A] rounded-t-lg p-2">
                       Data Diri Pemesan
                     </h2>
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">
+                    <div className="ps-4 pe-4 mt-4">
+                      <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                         Nama Lengkap
                       </label>
                       <input
@@ -371,8 +378,8 @@ export default function TicketCheckout() {
                         required
                       />
                     </div>
-                    <div className="mb-4 flex items-center">
-                      <label className="text-[#2A629A] mr-2">
+                    <div className="flex items-center ps-4 pe-4 mt-4">
+                      <label className="text-[#2A629A] mr-2 text-sm font-medium">
                         Punya Nama Keluarga?
                       </label>
                       <label className="switch">
@@ -386,8 +393,8 @@ export default function TicketCheckout() {
                       </label>
                     </div>
                     {isChecked && (
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4 mt-4">
+                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           Nama Keluarga
                         </label>
                         <input
@@ -400,8 +407,10 @@ export default function TicketCheckout() {
                         />
                       </div>
                     )}
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">Email</label>
+                    <div className="ps-4 pe-4 mt-4">
+                      <label className="block text-[#2A629A] mb-2 text-sm font-medium">
+                        Email
+                      </label>
                       <input
                         type="email"
                         name="email"
@@ -412,8 +421,8 @@ export default function TicketCheckout() {
                         required
                       />
                     </div>
-                    <div className="mb-4">
-                      <label className="block text-[#2A629A] mb-2">
+                    <div className="ps-4 pe-4 mt-4 mb-4">
+                      <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                         No Telp
                       </label>
                       <input
@@ -434,13 +443,13 @@ export default function TicketCheckout() {
                   {passengers.map((passenger, index) => (
                     <div
                       key={index}
-                      className="border border-gray-300 rounded-xl p-4"
+                      className="border border-gray-300 rounded-xl"
                     >
-                      <h3 className="text-xl font-semibold text-[#003285] mb-4">
+                      <h3 className="text-lg font-medium mb-4 text-white bg-[#2A629A] rounded-t-lg p-2">
                         Isi Data Penumpang {index + 1}
                       </h3>
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4">
+                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           Titel
                         </label>
                         <div className="relative mb-4">
@@ -469,8 +478,8 @@ export default function TicketCheckout() {
                           </span>
                         </div>
                       </div>
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4">
+                        <label className="block text-[#2A629A]  mb-2 text-sm font-medium">
                           Nama Lengkap
                         </label>
                         <input
@@ -483,8 +492,8 @@ export default function TicketCheckout() {
                           required
                         />
                       </div>
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4 mt-4">
+                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           Email
                         </label>
                         <input
@@ -497,8 +506,8 @@ export default function TicketCheckout() {
                           required
                         />
                       </div>
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4 mt-4">
+                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           No Telp
                         </label>
                         <input
@@ -511,8 +520,8 @@ export default function TicketCheckout() {
                           required
                         />
                       </div>
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4 mt-4">
+                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           Tanggal Lahir
                         </label>
                         <Flatpickr
@@ -529,8 +538,8 @@ export default function TicketCheckout() {
                           }}
                         />
                       </div>
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4 mt-4">
+                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           Kewarganegaraan
                         </label>
                         <input
@@ -543,8 +552,8 @@ export default function TicketCheckout() {
                           required
                         />
                       </div>
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4 mt-4">
+                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           KTP/Paspor
                         </label>
                         <input
@@ -558,8 +567,8 @@ export default function TicketCheckout() {
                           required
                         />
                       </div>
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4 mt-4">
+                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           Negara Penerbit
                         </label>
                         <input
@@ -572,8 +581,8 @@ export default function TicketCheckout() {
                           required
                         />
                       </div>
-                      <div className="mb-4">
-                        <label className="block text-[#2A629A] mb-2">
+                      <div className="ps-4 pe-4 mt-4 mb-4">
+                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           Berlaku Sampai
                         </label>
                         <Flatpickr
@@ -597,7 +606,7 @@ export default function TicketCheckout() {
                 <div className="mt-5">
                   <button
                     type="submit"
-                    className="w-full bg-[#2A629A] text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                    className="w-full bg-[#2A629A] font-medium text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
                   >
                     Simpan
                   </button>
@@ -605,12 +614,13 @@ export default function TicketCheckout() {
               </div>
 
               {/* Order Summary */}
-              <div className="col-span-1" ref={orderSummaryRef}>
+              <div className={`col-span-1`}>
                 <OrderSummary />
                 {isDataSaved && (
                   <button
                     onClick={handleLanjutPembayaran}
-                    className="mt-4 ms-3 w-full inline-flex justify-center rounded-xl border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    className={`w-full bg-[#2A629A] font-medium text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]" 
+                      ${isTablet ? "ms-80 " : ""}`}
                   >
                     Lanjut Pembayaran
                   </button>
