@@ -43,6 +43,18 @@ export default function NavbarTransparent() {
     setConfirmModalOpen(!confirmModalOpen);
   };
 
+  // UNTUK MEMBUKA DROPDOWN NOTIFIKASI
+  const handleOpenNotification = () => {
+    setShowDropdownNotification(!showDropdownNotification);
+    setShowDropdownProfile(false);
+  };
+
+  // UNTUK MEMBUKA DROPDOWN PROFIL
+  const handleOpenProfile = () => {
+    setShowDropdownProfile(!showDropdownProfile);
+    setShowDropdownNotification(false);
+  };
+
   // BUAT GANTI WARNA BACKGROUND NAVBAR KALAU DI SCROLL
   useEffect(() => {
     const handleScroll = () => {
@@ -88,9 +100,7 @@ export default function NavbarTransparent() {
                 />
               </Link>
               <div
-                onClick={() =>
-                  setShowDropdownNotification(!showDropdownNotification)
-                }
+                onClick={handleOpenNotification}
                 className="relative inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400"
               >
                 <IoNotificationsOutline
@@ -166,10 +176,7 @@ export default function NavbarTransparent() {
                   </Link>
                 </div>
               )}
-              <div
-                onClick={() => setShowDropdownProfile(!showDropdownProfile)}
-                className="flex text-sm "
-              >
+              <div onClick={handleOpenProfile} className="flex text-sm ">
                 <IoPersonOutline
                   className={`text-2xl ${
                     isScrolled

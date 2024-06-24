@@ -70,12 +70,12 @@ export const updateUser =
       }
     } catch (error) {
       console.log("error update profile", error);
-      toast("Terjadi kesalahan", {
-        style: {
-          background: "#FF0000",
-          color: "#fff",
-        },
-      });
+      // toast("Terjadi kesalahan", {
+      //   style: {
+      //     background: "#FF0000",
+      //     color: "#fff",
+      //   },
+      // });
     }
   };
 

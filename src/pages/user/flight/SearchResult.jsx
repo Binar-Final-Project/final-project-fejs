@@ -518,8 +518,6 @@ export default function SearchResult() {
     setFilter("");
   };
 
-  console.log("choosenFlight", choosenFlight);
-
   return (
     <div className="bg-[#FFF0DC] py-5 md:py-0">
       {isMobile ? <NavbarMobile /> : <Navbar />}
@@ -1926,7 +1924,7 @@ export default function SearchResult() {
 
         <div
           className={`w-full ${isMobile ? "pb-16" : ""} ${
-            returnDate ? "" : "fixed bottom-0"
+            returnDate ? (isTablet ? "fixed bottom-0" : "") : "fixed bottom-0"
           }`}
         >
           <hr />

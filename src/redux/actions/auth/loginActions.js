@@ -161,9 +161,7 @@ export const logout = (navigate) => async (dispatch) => {
     dispatch(setIsLoggedIn(false)); // MENGEMBALIKAN JADI FALSE
     dispatch(setProfile([]));
     if (navigate) {
-      setTimeout(() => {
-        navigate("/"); // KE HOME PAGE DALAM WAKTU 0.5 DETIK
-      }, 500);
+      navigate("/"); // KE HOME PAGE DALAM WAKTU 0.5 DETIK
       toast("Terima kasih, sampai jumpa!", {
         // Menampilkan toast sukses
         icon: null,

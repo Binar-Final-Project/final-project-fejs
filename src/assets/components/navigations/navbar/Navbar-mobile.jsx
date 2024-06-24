@@ -8,6 +8,7 @@ import {
 } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { getNotification } from "../../../../redux/actions/flight/notificationActions";
+import toast from "react-hot-toast";
 
 export default function NavbarMobile() {
   const navigate = useNavigate();
@@ -54,7 +55,20 @@ export default function NavbarMobile() {
           <div
             className="flex flex-col items-center justify-center gap-2"
             onClick={() => {
-              navigate("/notifikasi");
+              if (isLoggedIn) {
+                navigate("/notifikasi");
+              } else {
+                navigate("/login");
+                setTimeout(() => {
+                  toast("Silahkan Masuk Terlebih Dahulu", {
+                    style: {
+                      background: "#FF0000", // Background merah
+                      color: "#FFFFFF",
+                      textAlign: "center", // Posisi teks di tengah
+                    },
+                  });
+                }, 100);
+              }
             }}
           >
             <div
@@ -99,7 +113,20 @@ export default function NavbarMobile() {
           <div
             className="flex flex-col items-center justify-center gap-2"
             onClick={() => {
-              navigate("/riwayat-pemesanan");
+              if (isLoggedIn) {
+                navigate("/riwayat-pemesanan");
+              } else {
+                navigate("/login");
+                setTimeout(() => {
+                  toast("Silahkan Masuk Terlebih Dahulu", {
+                    style: {
+                      background: "#FF0000", // Background merah
+                      color: "#FFFFFF",
+                      textAlign: "center", // Posisi teks di tengah
+                    },
+                  });
+                }, 100);
+              }
             }}
           >
             <div
@@ -125,7 +152,20 @@ export default function NavbarMobile() {
           <div
             className="flex flex-col items-center justify-center gap-2"
             onClick={() => {
-              navigate("/profil");
+              if (isLoggedIn) {
+                navigate("/profil");
+              } else {
+                navigate("/login");
+                setTimeout(() => {
+                  toast("Silahkan Masuk Terlebih Dahulu", {
+                    style: {
+                      background: "#FF0000", // Background merah
+                      color: "#FFFFFF",
+                      textAlign: "center", // Posisi teks di tengah
+                    },
+                  });
+                }, 100);
+              }
             }}
           >
             <div
