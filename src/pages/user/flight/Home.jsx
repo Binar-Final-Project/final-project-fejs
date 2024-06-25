@@ -102,9 +102,9 @@ export default function Home() {
 
                 {/* ARILINES SECTION */}
                 <div>
-                  <div className="relative flex flex-wrap items-center overflow-x-auto lg:mx-20">
+                  <div className="relative flex flex-wrap items-center overflow-x-auto no-scrollbar lg:mx-20">
                     <div className="whitespace-nowrap h-full">
-                      <div className="flex overflow-x-scroll">
+                      <div className="flex">
                         {airlines.map((airline) => (
                           <button
                             key={airline}

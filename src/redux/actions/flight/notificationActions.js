@@ -25,11 +25,11 @@ export const getNotification = () => async (dispatch, getState) => {
       dispatch(setIsLoading(false));
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     if (error?.response?.status === 403) {
       dispatch(setToken(null));
       dispatch(setIsLoggedIn(false));
-    } else {
+    } else if (error?.response?.status !== 400) {
       toast("Terjadi kesalahan!", {
         style: {
           background: "#FF0000",
@@ -62,9 +62,37 @@ export const UpdateNotifications = (id) => async (dispatch, getState) => {
     console.log("response update notif", response);
     if (response.status === 200) {
       dispatch(setUpdateNotifikasi(response?.data));
+      toast("Notifikasi telah dibaca!", {
+        style: {
+          background: "#28A745", // Background Hijau
+          color: "#FFFFFF", // Teks putih
+          borderRadius: "12px", // Rounded-xl
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
+        },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
+      });
     }
   } catch (error) {
     console.log("error update notif", error);
+    toast("Terjadi Kesalahan", {
+      style: {
+        background: "#FF0000", // Background Merah
+        color: "#FFFFFF", // Teks putih
+        borderRadius: "12px", // Rounded-xl
+        fontSize: "14px", // Ukuran font
+        textAlign: "center", // Posisi teks di tengah
+        padding: "10px 20px", // Padding
+        width: "full",
+        maxWidth: "900px",
+      },
+      position: "top-center", // Posisi toast
+      duration: 3000, // Durasi toast
+    });
   }
 };
 
