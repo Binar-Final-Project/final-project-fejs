@@ -130,7 +130,7 @@ export const loginWithGoogle = (accessToken, navigate) => async (dispatch) => {
     dispatch(setToken(token));
     dispatch(setIsLoggedIn(true)); // Mengatur setIsLoggedIn menjadi true ke Reducers
     toast.success(
-      "Berhasil masuk dengan Google, selamat menikmati perjalananmu!",
+      "Berhasil masuk dengan akun Google, selamat menikmati perjalananmu!",
       {
         //Menampilkan toast sukses
         icon: null,
@@ -154,7 +154,7 @@ export const loginWithGoogle = (accessToken, navigate) => async (dispatch) => {
     console.log("Response Login Google: ", responseLoginGoogle.data.tokenJWT);
   } catch (error) {
     console.log(error); // Menampilkan error di konsol
-    toast.error("Gagal masuk dengan Google. Silakan coba lagi.", {
+    toast.error("Gagal masuk dengan akun Google. Silakan coba lagi.", {
       style: {
         background: "#FF0000", // Background merah
         color: "#FFFFFF", // Teks putih
@@ -188,6 +188,7 @@ export const logout = (navigate) => async (dispatch) => {
           fontSize: "14px", // Ukuran font
           textAlign: "center", // Posisi teks di tengah
           padding: "10px 20px", // Padding
+          width: "full",
         },
         position: "top-center", // Posisi toast
         duration: 1500, // Durasi toast

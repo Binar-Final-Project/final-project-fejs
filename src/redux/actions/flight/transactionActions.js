@@ -4,7 +4,11 @@ import {
   setIsLoading,
   setTransactions,
 } from "../../reducers/flight/transactionReducers";
-import { setLoading } from "../../reducers/flight/paymentReducers";
+import {
+  setLoading,
+  setShowConfirmationModal,
+  setShowSuccessModal,
+} from "../../reducers/flight/paymentReducers";
 import { setIsLoggedIn, setToken } from "../../reducers/auth/loginReducers";
 
 // Action untuk mendapatkan data history transaksi
@@ -43,7 +47,6 @@ export const getTransactions = (lt, gte, q) => async (dispatch, getState) => {
           textAlign: "center", // TEKS TENGAH
           padding: "10px 20px", // Padding
           width: "full",
-          maxWidth: "900px",
         },
       });
     }

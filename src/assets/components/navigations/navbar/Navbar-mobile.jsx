@@ -60,11 +60,16 @@ export default function NavbarMobile() {
               } else {
                 navigate("/login");
                 setTimeout(() => {
-                  toast("Silahkan Masuk Terlebih Dahulu", {
+                  toast("Silakan masuk terlebih dahulu!", {
                     style: {
-                      background: "#FF0000", // Background merah
-                      color: "#FFFFFF",
-                      textAlign: "center", // Posisi teks di tengah
+                      background: "#FF0000",
+                      color: "#FFFFFF", // TEKS PUTIH
+                      borderRadius: "12px",
+                      fontSize: "14px", // Ukuran font
+                      textAlign: "center", // TEKS TENGAH
+                      padding: "10px 20px", // Padding
+                      width: "full",
+                      maxWidth: "900px",
                     },
                   });
                 }, 100);
@@ -118,11 +123,16 @@ export default function NavbarMobile() {
               } else {
                 navigate("/login");
                 setTimeout(() => {
-                  toast("Silahkan Masuk Terlebih Dahulu", {
+                  toast("Silakan masuk terlebih dahulu!", {
                     style: {
-                      background: "#FF0000", // Background merah
-                      color: "#FFFFFF",
-                      textAlign: "center", // Posisi teks di tengah
+                      background: "#FF0000",
+                      color: "#FFFFFF", // TEKS PUTIH
+                      borderRadius: "12px",
+                      fontSize: "14px", // Ukuran font
+                      textAlign: "center", // TEKS TENGAH
+                      padding: "10px 20px", // Padding
+                      width: "full",
+                      maxWidth: "900px",
                     },
                   });
                 }, 100);
@@ -157,11 +167,16 @@ export default function NavbarMobile() {
               } else {
                 navigate("/login");
                 setTimeout(() => {
-                  toast("Silahkan Masuk Terlebih Dahulu", {
+                  toast("Silakan masuk terlebih dahulu!", {
                     style: {
-                      background: "#FF0000", // Background merah
-                      color: "#FFFFFF",
-                      textAlign: "center", // Posisi teks di tengah
+                      background: "#FF0000",
+                      color: "#FFFFFF", // TEKS PUTIH
+                      borderRadius: "12px",
+                      fontSize: "14px", // Ukuran font
+                      textAlign: "center", // TEKS TENGAH
+                      padding: "10px 20px", // Padding
+                      width: "full",
+                      maxWidth: "900px",
                     },
                   });
                 }, 100);

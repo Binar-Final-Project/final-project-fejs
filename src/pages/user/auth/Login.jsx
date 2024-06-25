@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Toaster, toast } from "react-hot-toast";
+import { useMediaQuery } from "react-responsive";
+import toast, { Toaster } from "react-hot-toast";
 import { BiArrowBack, BiSolidCheckCircle, BiErrorCircle } from "react-icons/bi";
 import { RxCrossCircled } from "react-icons/rx";
 import { FiEye, FiEyeOff } from "react-icons/fi";
@@ -18,7 +19,6 @@ import Footer from "../../../assets/components/navigations/Footer";
 import backgroundImage from "../../../assets/images/loginregister.png";
 import Logobiflight from "../../../assets/images/logobiflight.png";
 import BtnScrollTop from "../../../assets/components/BtnScrollUp";
-import { useMediaQuery } from "react-responsive";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -327,7 +327,7 @@ export default function Login() {
                       </label>
                       <a
                         href="forgot-password"
-                        className="text-[#40A2E3] text-sm underline font-medium"
+                        className="text-[#40A2E3] text-sm hover:underline font-medium"
                       >
                         Lupa Kata Sandi
                       </a>
@@ -406,7 +406,7 @@ export default function Login() {
                 </span>
                 <a
                   href="/register"
-                  className="text-[#40A2E3] font-semibold text-sm"
+                  className="text-[#40A2E3] font-semibold text-sm hover:underline"
                 >
                   Daftar di sini
                 </a>

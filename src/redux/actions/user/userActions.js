@@ -38,7 +38,6 @@ export const getUser = () => async (dispatch, getState) => {
           textAlign: "center", // TEKS TENGAH
           padding: "10px 20px", // Padding
           width: "full",
-          maxWidth: "900px",
         },
       });
     }
@@ -93,7 +92,6 @@ export const updateUser =
           textAlign: "center", // TEKS TENGAH
           padding: "10px 20px", // Padding
           width: "full",
-          maxWidth: "900px",
         },
       });
     }
@@ -161,7 +159,6 @@ export const updatePassword =
             textAlign: "center", // TEKS TENGAH
             padding: "10px 20px", // Padding
             width: "full",
-            maxWidth: "900px",
           },
         });
       }
