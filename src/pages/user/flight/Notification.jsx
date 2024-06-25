@@ -25,8 +25,8 @@ import { HiOutlineSelector } from "react-icons/hi";
 
 const filter = [
   { id: 1, status: "Semua" },
-  { id: 2, status: "Unread" },
-  { id: 3, status: "Read" },
+  { id: 2, status: "Belum dibaca" },
+  { id: 3, status: "Dibaca" },
 ];
 
 function classNames(...classes) {
@@ -50,20 +50,6 @@ export default function Notification() {
     dispatch(UpdateNotifications(id)).then(() => {
       // Setelah pembaruan, ambil notifikasi terbaru
       dispatch(getNotification());
-      toast("Notifikasi telah dibaca!", {
-        style: {
-          background: "#28A745", // Background Hijau
-          color: "#FFFFFF", // Teks putih
-          borderRadius: "12px", // Rounded-xl
-          fontSize: "14px", // Ukuran font
-          textAlign: "center", // Posisi teks di tengah
-          padding: "10px 20px", // Padding
-          width: "full",
-          maxWidth: "900px",
-        },
-        position: "top-center", // Posisi toast
-        duration: 3000, // Durasi toast
-      });
     });
   };
 
@@ -76,9 +62,12 @@ export default function Notification() {
 
   const filteredNotifications = notifikasi.filter((notification) => {
     if (selected?.status === "Semua") return true;
-    if (selected?.status === "Read" && notification?.status === "read")
+    if (selected?.status === "Dibaca" && notification?.status === "read")
       return true;
-    if (selected?.status === "Unread" && notification?.status === "unread")
+    if (
+      selected?.status === "Belum dibaca" &&
+      notification?.status === "unread"
+    )
       return true;
     return false;
   });
@@ -106,13 +95,13 @@ export default function Notification() {
             <Listbox value={selected} onChange={setSelected}>
               {({ open }) => (
                 <>
-                  <div className="mt-1 relative w-36">
+                  <div className="mt-1 relative w-44">
                     <Listbox.Button className="flex items-center border-[#003285] border-2 py-2 px-3 w-full rounded-full">
                       <span className="truncate flex items-center">
                         <IoFilter className="mr-1 text-xl" />
                         {selected.status}
                       </span>
-                      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                      <span className="absolute inset-y-0 right-0 flex items-center pr-1 pointer-events-none">
                         <HiOutlineSelector
                           className="h-5 w-5"
                           aria-hidden="true"
@@ -146,7 +135,7 @@ export default function Notification() {
                                 <span
                                   className={classNames(
                                     selected ? "font-semibold" : "font-normal",
-                                    "block truncate"
+                                    "block whitespace-nowrap"
                                   )}
                                 >
                                   {filtered.status}

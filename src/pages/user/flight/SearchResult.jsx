@@ -417,14 +417,33 @@ export default function SearchResult() {
     });
 
     // UNTUK MEMBUAT FORMAT TANGGAL
-    const tanggal = new Date(departure_date).toLocaleString("id-ID", {
+    const tanggalPergi = new Date(departure_date).toLocaleString("id-ID", {
       day: "2-digit",
       month: "long",
       year: "numeric",
     });
 
-    setSelectedDate(tanggal);
-  }, [from, to, seatClass, passenger, departureDate]);
+    const tanggalPulang = new Date(return_date).toLocaleString("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+
+    if (choosenFlight.length === 0) {
+      setSelectedDate(tanggalPergi);
+    }
+    if (choosenFlight.length === 1) {
+      setSelectedDate(tanggalPulang);
+    }
+  }, [
+    from,
+    to,
+    seatClass,
+    passenger,
+    departureDate,
+    returnDate,
+    choosenFlight,
+  ]);
 
   // UNTUK MENGHAPUS TIKET YANG SUDAH DIPILIH SAAT DI REFRESH
   useEffect(() => {
@@ -433,38 +452,38 @@ export default function SearchResult() {
     setReturn_date(returnDate);
   }, []);
 
-  // UNTUK MENJALANKAN FUNGSI GET FLIGHT SAAT GANTI PAGE ATAU FILTER
-  useEffect(() => {
-    dispatch(
-      getFlight(
-        return_date
-          ? choosenFlight?.length === 0
-            ? departure_code
-            : arrival_code
-          : departure_code,
-        return_date
-          ? choosenFlight?.length === 0
-            ? arrival_code
-            : departure_code
-          : arrival_code,
-        return_date
-          ? choosenFlight?.length === 0
-            ? departure_date
-            : return_date
-          : departure_date,
-        seat_class,
-        total_passenger,
-        filter,
-        currentPage
-      )
-    );
+  // // UNTUK MENJALANKAN FUNGSI GET FLIGHT SAAT GANTI PAGE ATAU FILTER
+  // useEffect(() => {
+  //   dispatch(
+  //     getFlight(
+  //       return_date
+  //         ? choosenFlight?.length === 0
+  //           ? departure_code
+  //           : arrival_code
+  //         : departure_code,
+  //       return_date
+  //         ? choosenFlight?.length === 0
+  //           ? arrival_code
+  //           : departure_code
+  //         : arrival_code,
+  //       return_date
+  //         ? choosenFlight?.length === 0
+  //           ? departure_date
+  //           : return_date
+  //         : departure_date,
+  //       seat_class,
+  //       total_passenger,
+  //       filter,
+  //       currentPage
+  //     )
+  //   );
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-    setDetailOpen(null);
-  }, [choosenFlight, filter, currentPage]);
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth",
+  //   });
+  //   setDetailOpen(null);
+  // }, [choosenFlight, filter, currentPage]);
 
   // UNTUK PINDAH PAGE JIKA BUTTON PILIH TIKET DI KLIK
   useEffect(() => {
@@ -510,7 +529,7 @@ export default function SearchResult() {
 
     let daysOfWeekTemp = [];
     let datesTemp = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 14; i++) {
       const dayDate = new Date(
         startDateObj.getTime() + i * 24 * 60 * 60 * 1000
       );
@@ -526,8 +545,9 @@ export default function SearchResult() {
 
     setDaysOfWeek(daysOfWeekTemp);
     setDates(datesTemp);
-  }, [departureDate, selectedDate]);
+  }, [departureDate, returnDate]);
 
+  // FUNGSI UNTUK MENGUBAH FORMAT TANGGAL SAAT MENGGUNAKAN DATEPICKER
   const handleDateClick = (date) => {
     const [day, month, year] = date.split(" ");
     const monthNumber =
@@ -552,24 +572,55 @@ export default function SearchResult() {
       return (num < 10 ? "0" : "") + num;
     }
 
-    dispatch(
-      getFlight(
-        departure_code,
-        arrival_code,
-        formattedDate,
-        seat_class,
-        total_passenger,
-        filter,
-        currentPage
-      )
-    );
-
-    dispatch(setChoosenFlight([]));
-    setDeparture_date(formattedDate);
+    if (choosenFlight?.length === 0) {
+      setDeparture_date(formattedDate);
+    }
+    if (choosenFlight?.length === 1) {
+      setReturn_date(formattedDate);
+    }
     setSelectedDate(date);
     setCurrentPage(1);
     setFilter("");
   };
+
+  // UNTUK MENJALANKAN FUNGSI GET FLIGHT SAAT GANTI PAGE ATAU FILTER
+  useEffect(() => {
+    if (choosenFlight?.length === 0) {
+      dispatch(
+        getFlight(
+          departure_code,
+          arrival_code,
+          departure_date,
+          seat_class,
+          total_passenger,
+          filter,
+          currentPage
+        )
+      );
+    }
+
+    if (returnDate) {
+      if (choosenFlight?.length === 1) {
+        dispatch(
+          getFlight(
+            arrival_code,
+            departure_code,
+            return_date,
+            seat_class,
+            total_passenger,
+            filter,
+            currentPage
+          )
+        );
+      }
+    }
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setDetailOpen(null);
+  }, [departure_date, return_date, choosenFlight, filter, currentPage]);
 
   return (
     <div className="bg-[#FFF0DC] py-5 md:py-0">
@@ -589,7 +640,7 @@ export default function SearchResult() {
         </div>
         <p className="text-3xl font-bold text-[#003285]">Hasil Pencarian</p>
 
-        <div className="flex justify-between items-center mt-5 lg:mx-10 bg-white rounded-full overflow-x-scroll shadow-lg whitespace-nowrap">
+        <div className="flex justify-between items-center mt-5 lg:mx-10 bg-white rounded-full overflow-x-scroll no-scrollbar shadow-lg whitespace-nowrap">
           {daysOfWeek.map((day, index) => (
             <button
               key={index}
