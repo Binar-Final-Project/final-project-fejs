@@ -33,9 +33,9 @@ import { setTicketSelected } from "../../../redux/reducers/ticket/ticketReducers
 
 const filter = [
   { id: 1, status: "Semua" },
-  { id: 2, status: "Issued" },
-  { id: 3, status: "Unpaid" },
-  { id: 4, status: "Cancelled" },
+  { id: 2, status: "Berhasil" },
+  { id: 3, status: "Belum dibayar" },
+  { id: 4, status: "Batal" },
 ];
 
 function classNames(...classes) {
@@ -107,14 +107,17 @@ export default function OrderHistory() {
   // FUNGSI UNTUK MENAMPILKAN RIWAYAT PEMESANAN TIKET BERDASARKAN FILTER
   const filteredTransactions = transactions.filter((transaction) => {
     if (selectedFilter?.status === "Semua") return true;
-    if (selectedFilter?.status === "Issued" && transaction?.status === "ISSUED")
-      return true;
-    if (selectedFilter?.status === "Unpaid" && transaction?.status === "UNPAID")
+    if (
+      selectedFilter?.status === "Berhasil" &&
+      transaction?.status === "BERHASIL"
+    )
       return true;
     if (
-      selectedFilter?.status === "Cancelled" &&
-      transaction?.status === "CANCELLED"
+      selectedFilter?.status === "Belum dibayar" &&
+      transaction?.status === "BELUM DIBAYAR"
     )
+      return true;
+    if (selectedFilter?.status === "Batal" && transaction?.status === "BATAL")
       return true;
     return false;
   });
@@ -332,7 +335,7 @@ export default function OrderHistory() {
                                               selectedFilter
                                                 ? "font-semibold"
                                                 : "font-normal",
-                                              "block truncate"
+                                              "block whitespace-nowrap"
                                             )}
                                           >
                                             {filtered.status}
@@ -443,17 +446,17 @@ export default function OrderHistory() {
                                 </span>
                               </div>
                             )}
-                            {transaction?.status === "ISSUED" && (
+                            {transaction?.status === "BERHASIL" && (
                               <span className="bg-[#28A745] text-white py-2 px-4 rounded-full">
                                 {transaction?.status}
                               </span>
                             )}
-                            {transaction?.status === "UNPAID" && (
+                            {transaction?.status === "BELUM DIBAYAR" && (
                               <span className="bg-[#FF0000] text-white py-2 px-4 rounded-full">
                                 {transaction?.status}
                               </span>
                             )}
-                            {transaction?.status === "CANCELLED" && (
+                            {transaction?.status === "BATAL" && (
                               <span className="bg-[#8A8A8A] text-white py-2 px-4 rounded-full">
                                 {transaction?.status}
                               </span>
@@ -641,17 +644,17 @@ export default function OrderHistory() {
                             <h4 className="text-xl text-[#003285] font-semibold">
                               Detail Pesanan
                             </h4>
-                            {selectedTicket?.status === "ISSUED" && (
+                            {selectedTicket?.status === "BERHASIL" && (
                               <span className="bg-[#28A745] text-white py-2 px-4 rounded-full text-sm">
                                 {selectedTicket?.status}
                               </span>
                             )}
-                            {selectedTicket?.status === "UNPAID" && (
+                            {selectedTicket?.status === "BELUM DIBAYAR" && (
                               <span className="bg-[#FF0000] text-white py-2 px-4 rounded-full text-sm">
                                 {selectedTicket?.status}
                               </span>
                             )}
-                            {selectedTicket?.status === "CANCELLED" && (
+                            {selectedTicket?.status === "BATAL" && (
                               <span className="bg-[#8A8A8A] text-white py-2 px-4 rounded-full text-sm">
                                 {selectedTicket?.status}
                               </span>
@@ -1032,7 +1035,7 @@ export default function OrderHistory() {
                       )}
                     </div>
                     <div className="w-full">
-                      {selectedTicket?.status === "ISSUED" && (
+                      {selectedTicket?.status === "BERHASIL" && (
                         <button
                           onClick={() =>
                             dispatch(
@@ -1044,7 +1047,7 @@ export default function OrderHistory() {
                           Cetak Tiket
                         </button>
                       )}
-                      {selectedTicket?.status === "UNPAID" && (
+                      {selectedTicket?.status === "BELUM DIBAYAR" && (
                         <div>
                           <button
                             onClick={handlePayment}

@@ -5,8 +5,11 @@ import {
   setToken,
   clearError,
   setIsLoggedIn,
+  setShowPassword,
 } from "../../reducers/auth/loginReducers";
 import { setProfile } from "../../reducers/user/userReducers";
+import { setNotifikasi } from "../../reducers/flight/notificationReducers";
+import { setTransactions } from "../../reducers/flight/transactionReducers";
 
 // Action untuk login dengan Email
 export const login = (email, password, navigate) => async (dispatch) => {
@@ -23,12 +26,15 @@ export const login = (email, password, navigate) => async (dispatch) => {
         },
       }
     );
+
+    console.log("response login", responseLogin);
     if (responseLogin?.status === 200) {
       dispatch(setUser(responseLogin?.data)); // Mengatur setUser ke Reducers
       dispatch(clearError()); // Menghapus error ke Reducers
       dispatch(setToken(responseLogin?.data?.data?.token));
       console.log("Token: ", responseLogin?.data?.data?.token);
       dispatch(setIsLoggedIn(true)); // Mengatur setIsLoggedIn menjadi true ke Reducers
+      dispatch(setShowPassword(false));
       toast.success("Berhasil masuk, selamat menikmati perjalananmu!", {
         //Menampilkan toast sukses
         icon: null,
@@ -176,6 +182,8 @@ export const logout = (navigate) => async (dispatch) => {
     dispatch(setToken(null)); // MENGHAPUS TOKEN
     dispatch(setIsLoggedIn(false)); // MENGEMBALIKAN JADI FALSE
     dispatch(setProfile([]));
+    dispatch(setNotifikasi([]));
+    dispatch(setTransactions([]));
     if (navigate) {
       navigate("/"); // KE HOME PAGE DALAM WAKTU 0.5 DETIK
       toast("Terima kasih, sampai jumpa!", {
@@ -219,6 +227,6 @@ export const checkToken = (navigate) => (dispatch, getState) => {
         position: "top-center", // Posisi toast
         duration: 3000, // Durasi toast
       });
-    });
+    }, 10);
   }
 };

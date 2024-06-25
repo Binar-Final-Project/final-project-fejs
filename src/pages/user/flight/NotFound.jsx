@@ -8,7 +8,7 @@ export default function NotFound() {
           src="https://lottie.host/embed/2af231a8-4446-476d-8fc1-072768c977e3/jDM7FCulyH.json"
           className="h-full w-full mb-3"
         ></iframe>
-        Page Not Found
+        Halaman Tidak Ditemukan
         <div className="text-xl my-3 hover:text-[#003285]">
           <Link to="/">Kembali ke beranda</Link>
         </div>
