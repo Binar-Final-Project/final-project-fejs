@@ -10,6 +10,7 @@ export default function OrderSummary() {
   const dispatch = useDispatch();
   const location = useLocation();
   const choosenFlight = useSelector((state) => state.flight.choosenFlight);
+  const {tickedSelected} = useSelector((state) => state.ticket);
   const [showModal, setShowModal] = useState(false);
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [penumpang, setPenumpang] = useState({ dewasa: 0, anak: 0, bayi: 0 });
@@ -69,7 +70,7 @@ export default function OrderSummary() {
         total += flight.price * penumpang.anak;
       }
       if (penumpang.bayi > 0) {
-        total += flight.price * penumpang.bayi;
+        total += (flight.price * 0.1) * penumpang.bayi;
       }
     }
     return total;
@@ -82,13 +83,13 @@ export default function OrderSummary() {
   };
 
   return (
-    <div className={`${isTablet ? "flex flex-row " : ""}`}>
-      <div>
+    <div className={`${isTablet ? "flex-col" : ""}`}>
+      <div className={` ${isTablet ? "flex flex-row ms-20" : ""}`}>
         {choosenFlight.map((flight, index) => (
           <div
             key={index}
-            className={`bg-white shadow-md rounded p-6 w-full ${
-              isMobile ? "ms-3" : isTablet ? "m-10 mt-0 mb-0" : ""
+            className={`bg-white shadow-md rounded w-full ${
+              isMobile ? "ms-3 p-6 " : isTablet ? "p-10" : isLaptop ? "p-6" : ""
             }`}
           >
             <div className="col-span-1">
@@ -132,8 +133,8 @@ export default function OrderSummary() {
                 </div>
               </div>
               <div>
-                <div className="bg-white p-4">
-                  <h4 className="font-semibold  mb-3">Rincian Harga</h4>
+                <div className={`bg-white  ${isMobile ? "p-1" : isTablet ? "p-1 " : isLaptop ? "p-4" : ""}`}>
+                  <h4 className="font-semibold mt-3 mb-3">Rincian Harga</h4>
                   <div className="text-sm flex justify-between">
                     <p className="mb-1">Dewasa:</p>
                     <p className="mb-1">
@@ -166,7 +167,7 @@ export default function OrderSummary() {
                     <p className="mb-1">Bayi:</p>
                     <p className="mb-1">
                       {penumpang.bayi > 0
-                        ? `${penumpang.bayi} x ${flight.price.toLocaleString(
+                        ? `${penumpang.bayi} x ${(flight.price * 0.1).toLocaleString(
                             "id-ID",
                             {
                               style: "currency",
@@ -212,7 +213,7 @@ export default function OrderSummary() {
         {choosenFlight.length === 2 && (
           <div
             className={`bg-white shadow-md rounded p-6 w-full mt-6 ${
-              isMobile ? "ms-3" : isTablet ? "ms-24 mt-0" : ""
+              isMobile ? "ms-3" : isTablet ? "ms-44 mt-0" : ""
             }`}
           >
             <div className="col-span-1">
@@ -223,7 +224,7 @@ export default function OrderSummary() {
                   </h2>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <p>Total Harga untuk Pergi</p>
+                  <p>Total Harga Pergi</p>
                   <p>
                     {calculateTotalPayment(choosenFlight[0]).toLocaleString(
                       "id-ID",
@@ -235,7 +236,7 @@ export default function OrderSummary() {
                   </p>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <p>Total Harga untuk Pulang</p>
+                  <p>Total Harga Pulang</p>
                   <p>
                     {calculateTotalPayment(choosenFlight[1]).toLocaleString(
                       "id-ID",
