@@ -9,6 +9,7 @@ import backgroundImage from "../../../assets/images/loginregister.png";
 import { useMediaQuery } from "react-responsive";
 import BtnScrollTop from "../../../assets/components/BtnScrollUp";
 import Footer from "../../../assets/components/navigations/Footer";
+import Logobiflight from "../../../assets/images/logobiflight.png";
 
 const ForgotPassword = () => {
   const [password, setPassword] = useState("");
@@ -94,17 +95,27 @@ const ForgotPassword = () => {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <Toaster />
           <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center shadow-lg relative">
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
               onClick={() => navigate("/forgot-password")}
             />
+            <Toaster />
             <div className="max-w-[550px] mx-auto flex flex-col items-center mt-10">
-              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-10">
+            <img
+                src={Logobiflight}
+                className="w-24 p-1.5"
+                alt="BiFlight Logo"
+              />
+              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-3">
                 Atur Ulang Kata Sandi
               </h1>
+              <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
+                <span className="text-[#2A629A]">
+                  Masukkan kata sandi baru Anda di bawah ini!
+                </span>
+              </h2>
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col space-y-3">
                   <div className="flex flex-col space-y-1">
