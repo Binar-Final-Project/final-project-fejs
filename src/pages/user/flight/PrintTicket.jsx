@@ -1,8 +1,8 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { IoIosArrowBack } from "react-icons/io";
+import toast from "react-hot-toast";
 import { printTransactions } from "../../../redux/actions/flight/transactionActions";
 import {
   setShowConfirmationModal,
@@ -21,20 +21,38 @@ export default function PrintTicket() {
     (state) => state.payment
   ); // Menggunakan useSelector untuk mengambil data dari state payment
 
-  // Fungsi untuk menampilkan modal konfirmasi
+  // Fungsi untuk menampilkan modal konfirmasi cetak tiket
   const handlePrintTicket = async () => {
     dispatch(setShowConfirmationModal(true));
   };
 
-  // Fungsi untuk menangani modal konfirmasi
+  // Fungsi untuk menangani modal konfirmasi cetak tiket
   const handleConfirmPrint = async () => {
     // console.log(`Konfirmasi tiket kode: ${ticketSelected?.booking_code}`);
     dispatch(setShowConfirmationModal(false));
-    await dispatch(printTransactions(ticketSelected?.booking_code));
-    dispatch(setShowSuccessModal(true));
+    try {
+      await dispatch(printTransactions(ticketSelected?.booking_code));
+      dispatch(setShowSuccessModal(true));
+    } catch (error) {
+      toast.error("Gagal mencetak tiket Anda! Silakan coba lagi.", {
+        icon: null,
+        style: {
+          background: "#FF0000",
+          color: "#FFFFFF",
+          borderRadius: "12px",
+          fontSize: "14px",
+          textAlign: "center",
+          padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
+        },
+        position: "top-center",
+        duration: 3000,
+      });
+    }
   };
 
-  // Fungsi untuk menutup modal konfirmasi
+  // Fungsi untuk menutup modal konfirmasi cetak tiket
   const handleCloseModals = () => {
     dispatch(setShowConfirmationModal(false));
     dispatch(setShowSuccessModal(false));
@@ -43,20 +61,6 @@ export default function PrintTicket() {
   return (
     <div>
       {isMobile ? <NavbarMobile /> : <Navbar />}
-
-      {/* Tombol Kembali
-      {!isMobile && (
-        <div className="absolute pt-16 top-10 left-10 z-10">
-          <div>
-            <Link to="/payment">
-              <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
-                <IoIosArrowBack className="text-2xl" />
-                <span className="text-lg">Kembali</span>
-              </div>
-            </Link>
-          </div>
-        </div>
-      )} */}
 
       {/* Komponen Transaksi Sukses */}
       <div className="flex flex-col items-center justify-center min-h-screen bg-[#FFF0DC] p-5 pt-20">
@@ -72,13 +76,13 @@ export default function PrintTicket() {
           <div className="flex flex-col space-y-3">
             <button
               onClick={handlePrintTicket}
-              className="bg-[#2A629A] text-white text-sm font-medium p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+              className="bg-[#2A629A] text-white text-sm font-medium py-2.5 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
             >
               Cetak Tiket
             </button>
             <button
               onClick={() => navigate("/")}
-              className="bg-gray-200 text-gray-800 text-sm font-medium p-2 rounded-xl focus:outline-none w-full hover:bg-gray-300 transition-colors duration-300"
+              className="bg-gray-200 text-gray-800 text-sm font-medium py-2.5 rounded-xl focus:outline-none w-full hover:bg-gray-300 transition-colors duration-300"
             >
               Cari Penerbangan Lain
             </button>

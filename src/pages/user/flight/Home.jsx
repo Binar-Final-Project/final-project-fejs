@@ -136,7 +136,7 @@ export default function Home() {
               {/* WHY US SECTION */}
               <div className="my-16 md:mb-24 lg:mx-20">
                 <h2 className="text-3xl md:text-4xl font-semibold text-[#003285] text-center mb-10">
-                  Mengapa beli tiket penerbangan di BiFlight?
+                  Mengapa Harus Pilih Tiket Penerbangan di BiFlight?
                 </h2>
                 <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-3 gap-6">
                   <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out">
@@ -213,12 +213,13 @@ export default function Home() {
                         />
                       </svg>
                     </div>
-                    <h5 className="text-center my-3 font-medium">
+                    <h5 className="text-center my-3 font-bold text-lg">
                       Hasil Pencarian Lengkap
                     </h5>
                     <p className="text-center">
                       Lihat semua opsi yang tersedia dan pilih yang paling
-                      sesuai dengan kebutuhan Anda.
+                      sesuai dengan kebutuhan Anda. Kami menawarkan berbagai
+                      pilihan penerbangan dari berbagai maskapai.
                     </p>
                   </div>
                   <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out">
@@ -407,12 +408,13 @@ export default function Home() {
                         />
                       </svg>
                     </div>
-                    <h5 className="text-center my-3 font-medium">
-                      Harga Kompetitif
+                    <h5 className="text-center my-3 font-bold text-lg">
+                      Penawaran Harga Terbaik
                     </h5>
                     <p className="text-center">
                       Dapatkan harga tiket pesawat terbaik dengan membandingkan
-                      berbagai jadwal dan maskapai.
+                      berbagai jadwal dan maskapai. Kami memastikan Anda
+                      mendapatkan penawaran terbaik dengan transparansi harga.
                     </p>
                   </div>
                   <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 ease-in-out">
@@ -621,9 +623,14 @@ export default function Home() {
                         />
                       </svg>
                     </div>
-                    <h5 className="text-center my-3 font-medium">Kemudahan</h5>
+                    <h5 className="text-center my-3 font-bold text-lg">
+                      Proses Pemesanan Mudah
+                    </h5>
                     <p className="text-center">
-                      Pesan tiket pesawat dengan cepat dan mudah.
+                      Pesan tiket pesawat dengan aman, cepat, dan mudah.
+                      Platform kami dirancang untuk memastikan kelancaran, mulai
+                      dari pencarian opsi penerbangan hingga proses pembayaran
+                      yang aman dan efisien.
                     </p>
                   </div>
                 </div>
@@ -632,7 +639,7 @@ export default function Home() {
               {/* JUMBOTRON SECTION */}
               <div className="flex flex-col items-center max-w-screen-xl text-center mx-auto">
                 <h1 className="text-4xl font-bold md:text-5xl">
-                  Life is short. Book the trip now!
+                  Life is Short. Book the Trip Now!
                 </h1>
                 <hr className="my-2 w-1/4 bg-[#003285] p-1 rounded" />
                 <p className="mb-8 text-lg font-normal lg:text-xl sm:px-16 lg:px-48 ">

@@ -24,6 +24,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
   const {
     email,
     isEmailValid,
@@ -233,13 +234,6 @@ export default function Login() {
 
   return (
     <div>
-      {/* <style>
-        {`
-            body, html {
-              overflow: hidden;
-            }
-            `}
-      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -253,7 +247,11 @@ export default function Login() {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
+          <div
+            className={`max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg
+              ${isTablet ? "max-w-[650px] p-8" : ""}
+            `}
+          >
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
@@ -391,7 +389,7 @@ export default function Login() {
               </form>
 
               <div className="relative max-w-[400px] w-full rounded-lg m-4 sm:m-8 mt-8 mb-8">
-                <hr className="absolute left-0 right-0 border-t-2 border-[#2A629A]" />
+                <hr className="absolute left-0 right-0 border-t border-gray-400" />
                 <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#FFF8ED] px-2 text-[#2A629A] text-sm font-medium">
                   atau
                 </p>

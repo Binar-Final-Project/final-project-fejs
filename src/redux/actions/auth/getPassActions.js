@@ -18,7 +18,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     console.log(response);
     if (response.data.status === true) {
       toast.success(
-        "Email berhasil dikirim! Silahkan buka email anda untuk mengatur ulang kata sandi",
+        "Tautan berhasil dikirim! Cek Email untuk mengatur ulang kata sandi Anda.",
         {
           icon: null,
           style: {
@@ -28,6 +28,8 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
             fontSize: "14px",
             textAlign: "center",
             padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
           },
           position: "top-center",
           duration: 3000,
@@ -40,7 +42,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
   } catch (error) {
     console.log("error", error);
     if (error.response.data.message === "User not found or not verified") {
-      toast.error("User tidak ditemukan", {
+      toast.error("Maaf, alamat Email tidak ditemukan! Silakan coba lagi.", {
         icon: null,
         style: {
           background: "#FF0000",
@@ -49,12 +51,14 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
           fontSize: "14px",
           textAlign: "center",
           padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center",
         duration: 3000,
       });
     } else if (error.response.data.message === "Email is invalid") {
-      toast.error("Email tidak valid", {
+      toast.error("Maaf, alamat Email salah! Silakan coba lagi.", {
         icon: null,
         style: {
           background: "#FF0000",
@@ -63,6 +67,8 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
           fontSize: "14px",
           textAlign: "center",
           padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center",
         duration: 3000,
@@ -90,7 +96,7 @@ export const getUpdatePass =
       );
       console.log(response);
       if (response.data.status === true) {
-        toast.success("Kata sandi berhasil direset!", {
+        toast.success("Kata sandi Anda berhasil direset.", {
           icon: null,
           style: {
             background: "#28A745",
@@ -99,6 +105,8 @@ export const getUpdatePass =
             fontSize: "14px",
             textAlign: "center",
             padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
           },
           position: "top-center",
           duration: 3000,
@@ -110,7 +118,7 @@ export const getUpdatePass =
     } catch (error) {
       console.log("error ", error);
       if (error.response.data.message === "Password or token not sent") {
-        toast.error("Password tidak terkirim", {
+        toast.error("Kata sandi Anda tidak terkirim!", {
           icon: null,
           style: {
             background: "#FF0000",
@@ -119,12 +127,14 @@ export const getUpdatePass =
             fontSize: "14px",
             textAlign: "center",
             padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
           },
           position: "top-center",
           duration: 3000,
         });
       } else if (error.response.data.message === "Password do not match") {
-        toast.error("Password tidak sama", {
+        toast.error("Maaf, kata sandi yang Anda masukkan tidak cocok!", {
           icon: null,
           style: {
             background: "#FF0000",
@@ -133,6 +143,8 @@ export const getUpdatePass =
             fontSize: "14px",
             textAlign: "center",
             padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
           },
           position: "top-center",
           duration: 3000,

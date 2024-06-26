@@ -29,6 +29,7 @@ export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
   const {
     name,
     isNameTouched,
@@ -305,7 +306,7 @@ export default function Register() {
     }
 
     // Jika nomor nomor ponsel pengguna kurang atau lebih dari dari batas karakter
-    if (phone_number.length < 8 || phone_number.length >= 14) {
+    if (phone_number.length < 8 || phone_number.length > 14) {
       toast.error("Mohon masukkan nomor ponsel dengan benar!", {
         // Menampilkan toast error
         icon: null,
@@ -374,25 +375,11 @@ export default function Register() {
       return;
     }
 
-    // console.log("Register data:", {
-    //   name,
-    //   email,
-    //   phone_number,
-    //   password,
-    // });
-
     dispatch(register(email, name, password, phone_number, navigate));
   };
 
   return (
     <div>
-      {/* <style>
-        {`
-          body, html {
-            overflow: hidden;
-          }
-          `}
-      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -406,7 +393,11 @@ export default function Register() {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
+          <div
+            className={`max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg
+              ${isTablet ? "max-w-[650px] p-8" : ""}
+            `}
+          >
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
@@ -562,12 +553,6 @@ export default function Register() {
                           <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] mr-2.5" />
                         )}
                     </div>
-                    {/* {!phone_number && (
-                      <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
-                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
-                        <p>Nomor ponsel tidak boleh kosong</p>
-                      </div>
-                    )} */}
                     {!isPhoneNumberValid &&
                       phone_number &&
                       phone_number.length < 8 && (
@@ -577,7 +562,7 @@ export default function Register() {
                       )}
                     {!isPhoneNumberValid &&
                       phone_number &&
-                      phone_number.length >= 14 && (
+                      phone_number.length > 14 && (
                         <p className="text-[#FF0000] text-xs mt-1 text-left">
                           Nomor ponsel terlalu panjang, maksimum 14 angka
                         </p>

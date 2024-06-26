@@ -12,11 +12,12 @@ import Logobiflight from "../../../assets/images/logobiflight.png";
 import { useMediaQuery } from "react-responsive";
 
 const EmailResetPassword = () => {
-  const [email, setEmail] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   const handleEmailChange = (e) => {
     const emailValue = e.target.value;
@@ -73,13 +74,6 @@ const EmailResetPassword = () => {
 
   return (
     <div>
-      {/* <style>
-        {`
-          body, html {
-            overflow: hidden;
-          }
-        `}
-      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -93,7 +87,11 @@ const EmailResetPassword = () => {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center shadow-lg relative">
+          <div
+            className={`max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg
+              ${isTablet ? "max-w-[650px] p-8" : ""}
+            `}
+          >
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
@@ -118,7 +116,7 @@ const EmailResetPassword = () => {
                 </a>
                 <span className="text-[#2A629A]">? </span>
                 <span className="text-[#2A629A]">
-                  Masukkan email Anda untuk mereset kata sandi!
+                  Masukkan Email Anda untuk mereset kata sandi!
                 </span>
               </h2>
 

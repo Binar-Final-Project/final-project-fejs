@@ -23,7 +23,7 @@ export default function footer() {
             </div>
             <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
               <div>
-                <h2 className="mb-6 text-sm font-semibold uppercase text-white">
+                <h2 className="mb-6 text-base font-semibold uppercase text-white">
                   Ikuti Kami
                 </h2>
                 <ul className="text-white font-medium">
@@ -31,25 +31,31 @@ export default function footer() {
                     <a
                       href="https://github.com/Binar-Final-Project"
                       target="_blank"
-                      className="hover:underline "
+                      className="hover:underline hover:text-[#86B6F6]"
                     >
                       GitHub
                     </a>
                   </li>
                   <li>
-                    <a href="/tentang-kami" className="hover:underline">
+                    <a
+                      href="/tentang-kami"
+                      className="hover:underline hover:text-[#86B6F6]"
+                    >
                       Tentang Kami
                     </a>
                   </li>
                 </ul>
               </div>
               <div>
-                <h2 className="mb-6 text-sm font-semibold uppercase text-white">
+                <h2 className="mb-6 text-base font-semibold uppercase text-white">
                   Penerbangan
                 </h2>
                 <ul className="text-white font-medium">
                   <li className="mb-4">
-                    <a href="/" className="hover:underline">
+                    <a
+                      href="/"
+                      className="hover:underline hover:text-[#86B6F6]"
+                    >
                       Domestik
                     </a>
                   </li>
@@ -64,7 +70,10 @@ export default function footer() {
               <a href="/" className="hover:underline">
                 BiFlight
               </a>
-              . Seluruh Hak Cipta Dilindungi.
+              <a href="/" className="hover:underline">
+                {" "}
+              </a>
+              | Seluruh Hak Cipta Dilindungi.
             </span>
           </div>
         </div>

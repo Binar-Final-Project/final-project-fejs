@@ -10,11 +10,9 @@ export default function BookingSummary() {
     return null;
   }
 
-  // console.log("ticketSelected", ticketSelected);
-
   return (
-    <div className="max-w-[500px] w-full mx-auto bg-white mt-5 rounded-lg shadow-lg mb-5 relative">
-      <h1 className="text-lg font-semibold mb-3 bg-[#2A629A] text-white rounded-t-md shadow-md px-4 py-3 flex items-center relative z-10">
+    <div className="max-w-[750px] w-full mx-auto bg-white mt-24 rounded-xl shadow-lg mb-5 relative">
+      <h1 className="text-lg font-semibold mb-3 bg-[#2A629A] text-white rounded-t-xl shadow-md px-4 py-3 flex items-center relative z-10">
         <RiFileList2Fill className="w-7 h-7 mr-2" />
         Format Pemesanan
       </h1>
@@ -29,7 +27,7 @@ export default function BookingSummary() {
 
           {!isRoundTrip ? null : (
             <div className="flex mb-4">
-              <h5 className="font-medium bg-[#86B6F6] rounded-lg text-white px-5 py-0.5 mt-3">
+              <h5 className="font-medium bg-[#40A2E3] rounded-lg text-white px-5 py-0.5 mt-3">
                 Pergi
               </h5>
             </div>
@@ -217,10 +215,140 @@ export default function BookingSummary() {
             <h5 className="font-semibold text-base">Rincian Harga</h5>
             <div className="flex justify-between">
               <div>
-                <p className="text-sm">Total Harga Tiket</p>
-                <p className="text-sm">Pajak (10%)</p>
+                {ticketSelected?.total_adult !== 0 && (
+                  <p>{ticketSelected?.total_adult} Dewasa</p>
+                )}
+                {ticketSelected?.total_children !== 0 && (
+                  <p>{ticketSelected?.total_children} Anak</p>
+                )}
+                {ticketSelected?.total_baby !== 0 && (
+                  <p>{ticketSelected?.total_baby} Bayi</p>
+                )}
+                <p>Total Sebelum Pajak</p>
+                <p>Pajak (10%)</p>
+                <p>Total Setelah Pajak</p>
               </div>
-              <div className="text-sm">
+              <div>
+                {ticketSelected?.total_adult !== 0 && (
+                  <div>
+                    {ticketSelected?.default_departure_price ? (
+                      <div>
+                        {new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(
+                          ticketSelected?.total_adult *
+                            ticketSelected?.default_departure_price
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        {ticketSelected?.return_flight ? (
+                          <p>
+                            {new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(
+                              ticketSelected?.total_adult *
+                                (ticketSelected?.departure_flight?.price +
+                                  ticketSelected?.return_flight?.price)
+                            )}
+                          </p>
+                        ) : (
+                          <p>
+                            {new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(
+                              ticketSelected?.total_adult *
+                                ticketSelected?.departure_flight?.price
+                            )}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {ticketSelected?.total_children !== 0 && (
+                  <div>
+                    {ticketSelected?.default_departure_price ? (
+                      <div>
+                        {new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(
+                          ticketSelected?.total_children *
+                            ticketSelected?.default_departure_price
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        {ticketSelected?.return_flight ? (
+                          <p>
+                            {new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(
+                              ticketSelected?.total_children *
+                                (ticketSelected?.departure_flight?.price +
+                                  ticketSelected?.return_flight?.price)
+                            )}
+                          </p>
+                        ) : (
+                          <p>
+                            {new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(
+                              ticketSelected?.total_children *
+                                ticketSelected?.departure_flight?.price
+                            )}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+                {ticketSelected?.total_baby !== 0 && (
+                  <div>
+                    {ticketSelected?.default_departure_baby_price ? (
+                      <div>
+                        {new Intl.NumberFormat("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        }).format(
+                          ticketSelected?.total_baby *
+                            ticketSelected?.default_departure_baby_price
+                        )}
+                      </div>
+                    ) : (
+                      <div>
+                        {ticketSelected?.return_flight ? (
+                          <p>
+                            {new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(
+                              ticketSelected?.total_baby *
+                                (ticketSelected?.departure_flight?.baby_price +
+                                  ticketSelected?.return_flight?.baby_price)
+                            )}
+                          </p>
+                        ) : (
+                          <p>
+                            {new Intl.NumberFormat("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                            }).format(
+                              ticketSelected?.total_baby *
+                                ticketSelected?.departure_flight?.baby_price
+                            )}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
                 <p>
                   {new Intl.NumberFormat("id-ID", {
                     style: "currency",
@@ -232,6 +360,12 @@ export default function BookingSummary() {
                     style: "currency",
                     currency: "IDR",
                   }).format(ticketSelected?.tax)}
+                </p>
+                <p>
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  }).format(ticketSelected?.total_price)}
                 </p>
               </div>
             </div>

@@ -45,7 +45,7 @@ export default function Payment() {
     selectedMonth,
     selectedYear,
   } = useSelector((state) => state.payment); // Menggunakan useSelector untuk mengambil state payment dari reducers
-  const { ticket } = useSelector((state) => state.ticket); // Menggunakan useSelector untuk mengambil state ticket dari reducers
+  const { ticketSelected } = useSelector((state) => state.ticket); // Menggunakan useSelector untuk mengambil state ticket dari reducers
   const paymentSuccess = useSelector((state) => state.payment.paymentSuccess); // Mengambil status pembayaran sukses dari state payment
 
   // Fungsi untuk membersihkan state ketika komponen di-refresh
@@ -295,7 +295,7 @@ export default function Payment() {
     }
     const expiry_date = `${selectedMonth}/${selectedYear.toString().slice(2)}`; // Format tanggal kedaluwarsa
     const paymentData = {
-      booking_code: ticket.booking_code,
+      booking_code: ticketSelected.booking_code,
       // payment_method,
       card_number: card_number.replace(/\s/g, ""),
       card_holder_name,
@@ -310,22 +310,28 @@ export default function Payment() {
   useEffect(() => {
     if (paymentSuccess) {
       setTimeout(() => {
-        navigate(`/print-ticket/${ticket.booking_code}`);
+        navigate(`/print-ticket/${ticketSelected.booking_code}`);
       }, 3000);
     }
-  }, [paymentSuccess, navigate, ticket.booking_code]);
+  }, [paymentSuccess, navigate, ticketSelected.booking_code]);
 
   return (
     <div>
       {isMobile ? <NavbarMobile /> : <Navbar />}
-      <div className="flex flex-col lg:flex-row justify-center items-start lg:items-center min-h-screen bg-[#FFF0DC] p-5 relative md:pt-16 pt-16">
+      <div
+        className={`flex flex-col ${
+          isTablet
+            ? "items-center justify-center"
+            : "lg:flex-row justify-center items-start lg:items-center"
+        } min-h-screen bg-[#FFF0DC] p-5 relative md:pt-16 pt-16`}
+      >
         <Toaster reverseOrder={false} />
 
         {/* Tombol Kembali */}
         {!isMobile && (
           <div className="absolute pt-16 top-10 left-10 z-10">
             <div>
-              <Link to="/payment">
+              <Link to="/checkout">
                 <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
                   <IoIosArrowBack className="text-2xl" />
                   <span className="text-lg">Kembali</span>
@@ -338,8 +344,8 @@ export default function Payment() {
         {/* Form Data Pembayaran Tiket */}
         <div
           className={`w-full ${
-            isTablet ? "lg:w-2/3" : "lg:w-1/3"
-          } max-w-[500px] rounded-lg p-6 my-20 bg-white text-center shadow-lg`}
+            isTablet ? "lg:w-2/3 max-w-[750px]" : "lg:w-1/3"
+          } max-w-[500px] rounded-xl p-6 mt-20 bg-white text-center shadow-lg`}
         >
           <h1 className="text-[#003285] text-xl font-bold p-2 mb-7">
             Isi Data Pembayaran
@@ -392,7 +398,7 @@ export default function Payment() {
                       value={card_number}
                       onChange={(e) => handleInputChange(e, setCardNumber)}
                       onKeyPress={handleNumberInput}
-                      placeholder="4480 0000 0000 0000"
+                      placeholder="4111 0000 0000 0000"
                       maxLength={19} // Menyesuaikan panjang input agar sesuai dengan format kartu kredit yang mengandung spasi
                     />
                     {!validateCardNumber(card_number) && card_number && (
@@ -560,7 +566,11 @@ export default function Payment() {
         </div>
 
         {/* Format Pemesanan Tiket */}
-        <div className="w-full lg:flex-grow max-w-[500px] lg:ml-10 mt-10 lg:mt-0">
+        <div
+          className={`w-full ${
+            isTablet ? "lg:w-2/3 max-w-[750px]" : "lg:w-1/3"
+          } max-w-[500px] lg:ml-10 lg:mt-0`}
+        >
           <BookingSummary />
         </div>
       </div>
