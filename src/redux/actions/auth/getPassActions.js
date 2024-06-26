@@ -39,7 +39,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     }
   } catch (error) {
     console.log("error", error);
-    if (error.response.data.message === "User not found or not verified") {
+    if (error.response.data.message === "Pengguna tidak ditemukan atau belum diverifikasi") {
       toast.error("User tidak ditemukan", {
         icon: null,
         style: {

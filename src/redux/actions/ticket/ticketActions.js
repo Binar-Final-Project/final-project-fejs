@@ -29,7 +29,20 @@ export const getTicket =
       if (response?.data?.status === true) {
         dispatch(setTicket(response?.data?.data));
         toast.success(
-          "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran"
+          "Data anda berhasil disimpan, Silahkan lanjutkan pembayaran",
+          {
+            icon: null,
+            style: {
+              background: "#28A745",
+              color: "#FFFFFF",
+              borderRadius: "12px",
+              fontSize: "14px",
+              textAlign: "center",
+              padding: "10px 20px",
+            },
+            position: "top-center",
+            duration: 3000,
+          }
         );
       }
       return response.data;

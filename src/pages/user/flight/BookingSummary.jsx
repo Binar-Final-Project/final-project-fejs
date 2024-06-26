@@ -4,12 +4,13 @@ import { RiFileList2Fill } from "react-icons/ri";
 
 export default function BookingSummary() {
   const { ticketSelected } = useSelector((state) => state.ticket);
+  const isRoundTrip = ticketSelected?.return || ticketSelected?.return_flight;
 
   if (!ticketSelected) {
     return null;
   }
 
-  console.log("ticketSelected", ticketSelected);
+  // console.log("ticketSelected", ticketSelected);
 
   return (
     <div className="max-w-[500px] w-full mx-auto bg-white mt-5 rounded-lg shadow-lg mb-5 relative">
@@ -19,18 +20,20 @@ export default function BookingSummary() {
       </h1>
       <div className="px-4 py-3">
         <div>
-          <div className="flex font-semibold text-lg">
+          <div className="flex font-semibold text-lg mb-5">
             <h5>Kode Pemesanan: </h5>
             <p className="text-[#003285] text-xl font-semibold ml-2">
               {ticketSelected?.booking_code}
             </p>
           </div>
 
-          <div className="flex mb-4">
-            <h5 className="font-medium bg-[#86B6F6] rounded-lg text-white px-5 py-0.5 mt-3">
-              Pergi
-            </h5>
-          </div>
+          {!isRoundTrip ? null : (
+            <div className="flex mb-4">
+              <h5 className="font-medium bg-[#86B6F6] rounded-lg text-white px-5 py-0.5 mt-3">
+                Pergi
+              </h5>
+            </div>
+          )}
           <div className="flex flex-row gap-3">
             <div className="flex flex-col justify-between items-center">
               <div className="flex flex-col text-center mt-1.5">
@@ -116,7 +119,7 @@ export default function BookingSummary() {
           </div>
 
           {/* Menampilkan Tiket Pulang Jika PP */}
-          {(ticketSelected?.return || ticketSelected?.return_flight) && (
+          {isRoundTrip && (
             <div>
               <div className="flex my-4">
                 <h5 className="font-medium bg-[#40A2E3] rounded-lg text-white px-3 py-0.5">
@@ -143,11 +146,6 @@ export default function BookingSummary() {
                       })}
                     </div>
                   </div>
-                  {/* <div className="pt-7">
-                    <span className="text-sm">
-                      {formatDuration(ticketSelected?.return?.duration)}
-                    </span>
-                  </div> */}
                   <div></div>
                   <div className="flex flex-col text-center mt-1.5">
                     <time className="mb-1 text-lg font-semibold leading-none ">

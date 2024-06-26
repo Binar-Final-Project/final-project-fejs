@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Toaster, toast } from "react-hot-toast";
+import { useMediaQuery } from "react-responsive";
+import toast, { Toaster } from "react-hot-toast";
 import { BiArrowBack, BiSolidCheckCircle, BiErrorCircle } from "react-icons/bi";
 import { RxCrossCircled } from "react-icons/rx";
 import { FiEye, FiEyeOff } from "react-icons/fi";
@@ -18,7 +19,6 @@ import Footer from "../../../assets/components/navigations/Footer";
 import backgroundImage from "../../../assets/images/loginregister.png";
 import Logobiflight from "../../../assets/images/logobiflight.png";
 import BtnScrollTop from "../../../assets/components/BtnScrollUp";
-import { useMediaQuery } from "react-responsive";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -279,6 +279,7 @@ export default function Login() {
                 </span>
               </h2>
 
+              {/* Form masuk akun Email */}
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col space-y-3">
                   <div className="flex flex-col space-y-1">
@@ -378,6 +379,8 @@ export default function Login() {
                       </div>
                     )}
                   </div>
+
+                  {/* Tombol masuk ke akun pengguna */}
                   <button
                     type="submit"
                     className="bg-[#2A629A] text-white text-sm font-medium p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
@@ -394,8 +397,10 @@ export default function Login() {
                 </p>
               </div>
 
+              {/* Tombol masuk menggunakan akun Google kepada pengguna */}
               <LoginGoogle buttonText={"Lanjutkan dengan Google"} />
 
+              {/* Mengarahkan ke halaman daftar jika pengguna belum punya akun */}
               <p className="text-[#2A629A] mt-7 text-sm font-medium">
                 Baru di{" "}
                 <a href="/" className="text-[#2A629A] mt-7 text-sm font-bold">

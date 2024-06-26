@@ -39,7 +39,6 @@ export const getNotification = () => async (dispatch, getState) => {
           textAlign: "center", // TEKS TENGAH
           padding: "10px 20px", // Padding
           width: "full",
-          maxWidth: "900px",
         },
       });
     }

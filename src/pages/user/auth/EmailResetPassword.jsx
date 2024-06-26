@@ -8,6 +8,7 @@ import { BiSolidCheckCircle, BiArrowBack } from "react-icons/bi";
 import backgroundImage from "../../../assets/images/loginregister.png";
 import BtnScrollTop from "../../../assets/components/BtnScrollUp";
 import Footer from "../../../assets/components/navigations/Footer";
+import Logobiflight from "../../../assets/images/logobiflight.png";
 import { useMediaQuery } from "react-responsive";
 
 const EmailResetPassword = () => {
@@ -29,7 +30,7 @@ const EmailResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) {
-      toast.error("Harap masukkan email Anda terlebih dahulu", {
+      toast.error("Mohon masukkan alamat Email Anda!", {
         icon: null,
         style: {
           background: "#FF0000",
@@ -38,6 +39,8 @@ const EmailResetPassword = () => {
           fontSize: "14px",
           textAlign: "center",
           padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center",
         duration: 3000,
@@ -45,7 +48,7 @@ const EmailResetPassword = () => {
       return;
     }
     if (!isEmailValid) {
-      toast.error("Mohon input Email dengan benar!", {
+      toast.error("Mohon masukkan alamat Email dengan benar!", {
         icon: null,
         style: {
           icon: null,
@@ -55,6 +58,8 @@ const EmailResetPassword = () => {
           fontSize: "14px",
           textAlign: "center",
           padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center",
         duration: 3000,
@@ -88,21 +93,37 @@ const EmailResetPassword = () => {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <Toaster />
           <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center shadow-lg relative">
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
               onClick={() => navigate("/login")}
             />
-            <div className="max-w-[550px] mx-auto flex flex-col items-center mt-10">
-              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mb-6">
-                Lupa Password
+            <Toaster />
+            <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
+              <img
+                src={Logobiflight}
+                className="w-24 p-1.5"
+                alt="BiFlight Logo"
+              />
+              <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-3">
+                Lupa Kata Sandi
               </h1>
-              <p className="text-center mb-4 text-sm text-[#2A629A]">
-                Masukkan email Anda untuk menerima tautan reset kata sandi
-              </p>
-              <form onSubmit={handleSubmit} className="w-full space-y-6">
+              <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
+                <a
+                  href="/forgot-password"
+                  className="text-[#40A2E3] hover:underline"
+                >
+                  Lupa kata sandi
+                </a>
+                <span className="text-[#2A629A]">? </span>
+                <span className="text-[#2A629A]">
+                  Masukkan email Anda untuk mereset kata sandi!
+                </span>
+              </h2>
+
+              {/* Form Email reset kata sandi */}
+              <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col space-y-1">
                   <label className="text-left text-[#2A629A] font-medium text-sm">
                     Email
@@ -124,24 +145,28 @@ const EmailResetPassword = () => {
                       type="email"
                       value={email}
                       onChange={handleEmailChange}
-                      placeholder="contoh@gmail.com"
+                      placeholder="Alamat Email"
                       className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                       required
                     />
                     {isEmailValid && email && (
-                      <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#188E55]" />
+                      <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745]" />
                     )}
                     {!isEmailValid && email && (
-                      <RxCrossCircled className="text-red-500 w-[20px] h-[20px] ml-2" />
+                      <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2" />
                     )}
                   </div>
+
                   {!isEmailValid && email && (
-                    <p className="text-red-500 text-xs mt-1 text-left">
-                      Format Email salah.
+                    <p className="text-[#FF0000] text-xs text-left">
+                      Format Email salah
                     </p>
                   )}
                 </div>
-                <div className="flex space-x-4">
+
+                {/* Tombol kirim Email untuk mereset kata sandi */}
+                <div className="mt-3">
+                  {" "}
                   <button
                     type="submit"
                     className="bg-[#2A629A] text-white font-medium text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
@@ -151,13 +176,15 @@ const EmailResetPassword = () => {
                   </button>
                 </div>
               </form>
-              <p className="text-[#2A629A] mt-7 mb-3 text-sm">
-                Ingat Kata Sandi anda?{" "}
+
+              {/* Mengarahkan ke halaman masuk jika pengguna ingat kata sandi */}
+              <p className="text-[#2A629A] mt-7 text-sm font-medium">
+                Ingat kata sandi Anda?{" "}
                 <a
                   href="/login"
-                  className="text-[#40A2E3] font-semibold text-sm"
+                  className="text-[#40A2E3] font-semibold text-sm hover:underline"
                 >
-                  Login disini
+                  Masuk di sini
                 </a>
               </p>
             </div>
