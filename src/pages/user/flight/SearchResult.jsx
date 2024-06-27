@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import Navbar from "../../../assets/components/navigations/navbar/Navbar";
 import Footer from "../../../assets/components/navigations/Footer";
@@ -18,7 +18,6 @@ import { format } from "date-fns";
 // ICON
 import { RiSearchLine } from "react-icons/ri";
 import { IoFilter } from "react-icons/io5";
-import { FaArrowCircleLeft, FaArrowCircleRight } from "react-icons/fa";
 import { TfiArrowCircleDown, TfiArrowCircleUp } from "react-icons/tfi";
 import { PiBagSimpleBold, PiSeatFill } from "react-icons/pi";
 import { FiInfo } from "react-icons/fi";
@@ -29,7 +28,6 @@ import {
   FaBaby,
   FaChildDress,
 } from "react-icons/fa6";
-import { IoIosArrowBack } from "react-icons/io";
 import { MdFlightTakeoff, MdFlightLand } from "react-icons/md";
 import { BiSolidPlaneAlt } from "react-icons/bi";
 
@@ -71,24 +69,27 @@ export default function SearchResult() {
   const [arrival_code, setArrival_code] = useState(to);
   const [seat_class, setSeat_class] = useState(seatClass);
   const [total_passenger, setTotal_passenger] = useState(passenger);
-  const [departure_date, setDeparture_date] = useState(
-    departureDate || new Date()
-  );
+  const [departure_date, setDeparture_date] = useState(departureDate);
   const [return_date, setReturn_date] = useState(returnDate);
   const [selectedDate, setSelectedDate] = useState("");
-  const [date, setDate] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
-
   const [penumpang, setPenumpang] = useState({
     dewasa: 1,
     anak: 0,
     bayi: 0,
   });
+
+  const today = new Date();
+  // Membuat tanggal besok dengan menambahkan 1 hari ke tanggal hari ini
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
+  const [date, setDate] = useState([
+    {
+      startDate: today,
+      endDate: tomorrow,
+      key: "selection",
+    },
+  ]);
 
   // BUAT NUKER POSISI DARI DESTINASI AWAL-DESTINASI TUJUAN
   const handleRotateClick = () => {
@@ -355,7 +356,7 @@ export default function SearchResult() {
           currentPage
         )
       );
-      dispatch(setChoosenFlight([]));
+      setReturn_date();
     }
 
     if (returnDate && isChecked) {
@@ -368,7 +369,13 @@ export default function SearchResult() {
       setSearchModalOpen(false);
       setDeparture_date(departureDate);
       setReturn_date(returnDate);
-      setSelectedDate(departureDate);
+      setSelectedDate(
+        new Date(departureDate).toLocaleString("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        })
+      );
     } else {
       navigate(
         `/hasil-pencarian?from=${departure_code}&to=${arrival_code}&departureDate=${departure_date}&class=${seat_class}&passenger=${total_passenger}&adult=${penumpang.dewasa}&child=${penumpang.anak}&infant=${penumpang.bayi}`,
@@ -377,8 +384,13 @@ export default function SearchResult() {
       setCurrentPage(1);
       setFilter("");
       setSearchModalOpen(false);
-      dispatch(return_date());
-      setSelectedDate(departure_date);
+      setSelectedDate(
+        new Date(departure_date).toLocaleString("id-ID", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        })
+      );
     }
   };
 
@@ -403,13 +415,18 @@ export default function SearchResult() {
     setDetailOpen(null);
   };
 
+  // FUNGSI UNTUK KE PAGE TERTENTU
+  const goToPage = (page) => {
+    setCurrentPage(page);
+    setDetailOpen(null);
+  };
+
   // UNTUK MEMBUAT STATE AWAL DARI QUERY URL
   useEffect(() => {
     setDeparture_code(from);
     setArrival_code(to);
     setSeat_class(seatClass);
     setTotal_passenger(passenger);
-    setDeparture_date(departureDate);
     setPenumpang({
       dewasa: adult,
       anak: child,
@@ -435,55 +452,12 @@ export default function SearchResult() {
     if (choosenFlight.length === 1) {
       setSelectedDate(tanggalPulang);
     }
-  }, [
-    from,
-    to,
-    seatClass,
-    passenger,
-    departureDate,
-    returnDate,
-    choosenFlight,
-  ]);
+  }, [from, to, seatClass, passenger, choosenFlight]);
 
   // UNTUK MENGHAPUS TIKET YANG SUDAH DIPILIH SAAT DI REFRESH
   useEffect(() => {
     dispatch(setChoosenFlight([]));
-    setDeparture_date(departureDate);
-    setReturn_date(returnDate);
   }, []);
-
-  // // UNTUK MENJALANKAN FUNGSI GET FLIGHT SAAT GANTI PAGE ATAU FILTER
-  // useEffect(() => {
-  //   dispatch(
-  //     getFlight(
-  //       return_date
-  //         ? choosenFlight?.length === 0
-  //           ? departure_code
-  //           : arrival_code
-  //         : departure_code,
-  //       return_date
-  //         ? choosenFlight?.length === 0
-  //           ? arrival_code
-  //           : departure_code
-  //         : arrival_code,
-  //       return_date
-  //         ? choosenFlight?.length === 0
-  //           ? departure_date
-  //           : return_date
-  //         : departure_date,
-  //       seat_class,
-  //       total_passenger,
-  //       filter,
-  //       currentPage
-  //     )
-  //   );
-
-  //   window.scrollTo({
-  //     top: 0,
-  //     behavior: "smooth",
-  //   });
-  //   setDetailOpen(null);
-  // }, [choosenFlight, filter, currentPage]);
 
   // UNTUK PINDAH PAGE JIKA BUTTON PILIH TIKET DI KLIK
   useEffect(() => {
@@ -491,11 +465,15 @@ export default function SearchResult() {
     if (returnDate) {
       if (choosenFlight?.length == 2) {
         setIsDrawerOpen(!isDrawerOpen);
+        setCurrentPage(1);
+        setFilter("");
       }
     } else {
       // JIKA SEKALI JALAN
       if (choosenFlight?.length == 1) {
         setIsDrawerOpen(!isDrawerOpen);
+        setCurrentPage(1);
+        setFilter("");
       }
     }
   }, [choosenFlight]);
@@ -516,7 +494,9 @@ export default function SearchResult() {
 
   // FUNGSI UNTUK MENDAPATKAN TANGGAL DAN HARI PERMINGGU
   useEffect(() => {
-    const startDateObj = new Date(departureDate);
+    const startDateObj = new Date(
+      choosenFlight.length === 0 ? departureDate : departure_date
+    );
     const daysOfWeekArray = [
       "Minggu",
       "Senin",
@@ -545,7 +525,7 @@ export default function SearchResult() {
 
     setDaysOfWeek(daysOfWeekTemp);
     setDates(datesTemp);
-  }, [departureDate, returnDate]);
+  }, [departureDate, choosenFlight]);
 
   // FUNGSI UNTUK MENGUBAH FORMAT TANGGAL SAAT MENGGUNAKAN DATEPICKER
   const handleDateClick = (date) => {
@@ -574,10 +554,20 @@ export default function SearchResult() {
 
     if (choosenFlight?.length === 0) {
       setDeparture_date(formattedDate);
+      if (returnDate) {
+        // Menghitung returnDate (departureDate ditambah 1 hari)
+        const nextDay = new Date(year, monthNumber - 1, parseInt(day, 10) + 1);
+        const returnFormattedDate = `${nextDay.getFullYear()}-${padZero(
+          nextDay.getMonth() + 1
+        )}-${padZero(nextDay.getDate())}`;
+        setReturn_date(returnFormattedDate);
+      }
     }
+
     if (choosenFlight?.length === 1) {
       setReturn_date(formattedDate);
     }
+
     setSelectedDate(date);
     setCurrentPage(1);
     setFilter("");
@@ -626,124 +616,129 @@ export default function SearchResult() {
     <div className="bg-[#FFF0DC] py-5 md:py-0">
       {isMobile ? <NavbarMobile /> : <Navbar />}
       <div className="m-5 md:m-10 md:py-20">
-        {/* BACK BUTTON AND TOASTER */}
-        <div className="lg:w-1/12 mb-5">
-          <Link to="/">
-            <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
-              <IoIosArrowBack className="text-3xl" />
-              <h6 className="text-lg">Kembali</h6>
-            </div>
-          </Link>
-        </div>
+        <nav className="flex mb-5">
+          <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li className="inline-flex items-center">
+              <a
+                href="/"
+                className="inline-flex items-center text-sm font-medium hover:text-[#003285]"
+              >
+                Beranda
+              </a>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <svg
+                  className="rtl:rotate-180 w-3 h-3 text-[#003285] mx-1"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+                <span className="ms-1 text-sm font-medium md:ms-2">
+                  Hasil Pencarian
+                </span>
+              </div>
+            </li>
+          </ol>
+        </nav>
         <div>
           <Toaster />
         </div>
-        <p className="text-3xl font-bold text-[#003285]">Hasil Pencarian</p>
+        <div className="lg:flex lg:justify-center">
+          <div className="flex justify-between items-center mt-5 rounded-full lg:mx-10 bg-white py-2 px-5 shadow-lg lg:w-10/12">
+            <div className="flex overflow-hidden whitespace-nowrap">
+              <span className="pr-5">
+                {departure_code} → {arrival_code}
+              </span>
 
-        <div className="flex justify-between items-center mt-5 lg:mx-10 bg-white rounded-full overflow-x-scroll no-scrollbar shadow-lg whitespace-nowrap">
+              <span className="border-x-2 px-5">
+                {new Date(departure_date).toLocaleString("id-ID", {
+                  weekday: "long",
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
+                {returnDate
+                  ? ` - ${new Date(return_date).toLocaleString("id-ID", {
+                      weekday: "long",
+                      day: "2-digit",
+                      month: "long",
+                      year: "numeric",
+                    })}`
+                  : ""}
+              </span>
+              <span className="border-r-2 px-5">
+                {total_passenger} Penumpang
+              </span>
+              <span className="px-5">{seat_class}</span>
+            </div>
+            <div>
+              {isMobile ? (
+                <button
+                  className="text-white flex justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  onClick={handleSearchModal}
+                >
+                  <RiSearchLine className="text-lg mr-1" />
+                  Ubah
+                </button>
+              ) : (
+                <button
+                  className="group flex items-center justify-start w-11 h-11 bg-[#2A629A] hover:bg-[#003285] rounded-full cursor-pointer relative overflow-hidden transition-all duration-200 shadow-lg hover:w-52 hover:rounded-lg active:translate-x-1 active:translate-y-1"
+                  onClick={handleSearchModal}
+                >
+                  <div className="flex items-center justify-center w-full transition-all duration-300 group-hover:justify-start group-hover:px-3">
+                    <RiSearchLine className="text-lg text-white" />
+                  </div>
+                  <div className="absolute right-5 transform translate-x-full opacity-0 text-white text-lg font-semibold transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                    Ubah Pencarian
+                  </div>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-between items-center mt-5 rounded-full lg:mx-10 bg-white overflow-x-scroll no-scrollbar shadow-lg whitespace-nowrap">
           {daysOfWeek.map((day, index) => (
             <button
               key={index}
               onClick={() => handleDateClick(dates[index])}
-              className={`flex flex-col items-center py-3 px-5 mx-5 my-1 rounded-xl text-sm border-2 border-white ${
+              className={`flex flex-col items-center py-3 px-10 text-sm border ${
                 selectedDate === dates[index]
-                  ? "text-white bg-[#2A629A] border-2 border-[#2A629A]"
-                  : "hover:border-2 hover:border-slate-200"
+                  ? "text-white bg-[#2A629A] border-[#2A629A] "
+                  : "border-slate-300 hover:bg-[#EEF5FF] "
               }`}
             >
-              <div>{day}</div>
+              <div className="font-semibold">{day}</div>
               <div>{dates[index]}</div>
             </button>
           ))}
         </div>
 
-        {/* JIKA HASILNYA KOSONG ATAU TIDAK ADA */}
         {flights?.length === 0 ? (
-          <div className="my-5">
-            <div className="flex justify-end w-full">
-              <button
-                className="text-white flex justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                onClick={handleSearchModal}
-              >
-                Ubah Pencarian
-                <RiSearchLine className="text-lg ml-1" />
-              </button>
-            </div>
-          </div>
+          ""
         ) : (
-          // JIKA HASILNYA ADA
-          <>
-            {isMobile ? (
-              <div className="flex justify-end my-5">
-                <button
-                  className="text-white flex justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  onClick={handleSearchModal}
-                >
-                  Ubah Pencarian
-                  <RiSearchLine className="text-lg ml-1" />
-                </button>
+          <div className="flex justify-end items-center my-6 gap-5">
+            {/* FILTER AND PAGE SECTION */}
+            <button onClick={handleFilterModal}>
+              <div
+                className={`flex items-center border-[#003285] border-2 py-2 px-3 rounded-full ${
+                  filter ? "bg-[#003285] text-white" : ""
+                }`}
+              >
+                <IoFilter className="mr-1 text-xl" />
+                Urutkan
               </div>
-            ) : (
-              ""
-            )}
-            <div className="flex md:justify-end justify-center items-center my-6 gap-5">
-              {isMobile ? (
-                ""
-              ) : (
-                <div className="flex justify-end">
-                  <button
-                    className="text-white flex justify-center bg-[#2A629A] transition-colors duration-300 hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    onClick={handleSearchModal}
-                  >
-                    Ubah Pencarian
-                    <RiSearchLine className="text-lg ml-1" />
-                  </button>
-                </div>
-              )}
-              {/* FILTER AND PAGE SECTION */}
-              <button onClick={handleFilterModal}>
-                <div
-                  className={`flex items-center border-[#003285] border-2 py-2 px-3 rounded-full ${
-                    filter ? "bg-[#003285] text-white" : ""
-                  }`}
-                >
-                  <IoFilter className="mr-1 text-xl" />
-                  Urutkan
-                </div>
-              </button>
-              <div>
-                <div className="flex items-center">
-                  <button
-                    className="text-2xl mr-2"
-                    onClick={goToPrevPage}
-                    disabled={currentPage === 1}
-                  >
-                    <FaArrowCircleLeft
-                      className={`${
-                        currentPage === 1
-                          ? "text-[#564d4d] hover:text-[#564d4d]/50"
-                          : "text-[#003285] hover:text-[#003285]/75"
-                      }`}
-                    />
-                  </button>
-                  {currentPage} dari {pages}
-                  <button
-                    className="text-2xl ml-2"
-                    onClick={goToNextPage}
-                    disabled={currentPage === pages}
-                  >
-                    <FaArrowCircleRight
-                      className={`${
-                        currentPage === pages
-                          ? "text-[#564d4d] hover:text-[#564d4d]/50"
-                          : "text-[#003285] hover:text-[#003285]/75"
-                      }`}
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>
+            </button>
+          </div>
         )}
 
         {/* SEARCH RESULT */}
@@ -754,10 +749,7 @@ export default function SearchResult() {
             <p className="text-3xl font-bold text-[#003285] mt-6 mb-2">
               Penerbangan yang Anda cari tidak tersedia
             </p>
-            <p>
-              Silahkan ganti tanggal atau destinasi lainnya untuk menemukan
-              perjalanan seru.
-            </p>
+            <p>Silahkan ganti tanggal atau destinasi lainnya.</p>
           </div>
         ) : (
           <>
@@ -827,7 +819,6 @@ export default function SearchResult() {
                                       d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                                     />
                                   </svg>
-                                  <span className="sr-only">Close modal</span>
                                 </button>
                               </div>
                             </div>
@@ -881,6 +872,7 @@ export default function SearchResult() {
                     }
                     bg-white shadow-lg p-6 rounded-xl`}
                     key={flight?.flight_id}
+                    onClick={() => handleDetail(flight?.flight_id)}
                   >
                     <div className="flex flex-col md:flex-row justify-between md:items-start gap-8">
                       <div className="flex items-center">
@@ -1141,6 +1133,72 @@ export default function SearchResult() {
                 ))}
               </div>
             </div>
+
+            {/* PAGINATION */}
+            <nav>
+              <ul className="flex items-center justify-center mt-10 -space-x-px h-10">
+                <li>
+                  <button
+                    onClick={goToPrevPage}
+                    disabled={currentPage === 1}
+                    className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+                  >
+                    <svg
+                      className="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 6 10"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 1 1 5l4 4"
+                      />
+                    </svg>
+                  </button>
+                </li>
+                {[...Array(pages)].map((_, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => goToPage(index + 1)}
+                      className={`flex items-center justify-center px-4 h-10 leading-tight ${
+                        currentPage === index + 1
+                          ? "text-[#003285] border border-[#2A629A] bg-blue-50"
+                          : "text-gray-500 bg-white border border-gray-300"
+                      } hover:bg-gray-100 hover:text-gray-700`}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+                <li>
+                  <button
+                    onClick={goToNextPage}
+                    disabled={currentPage === pages}
+                    className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+                  >
+                    <svg
+                      className="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 6 10"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 9 4-4-4-4"
+                      />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+            </nav>
           </>
         )}
       </div>
@@ -1180,7 +1238,6 @@ export default function SearchResult() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
             <form onSubmit={handleSubmit}>
@@ -1199,7 +1256,7 @@ export default function SearchResult() {
                             onChange={(airportCode) =>
                               setDeparture_code(airportCode)
                             }
-                            placeholder="Pilih bandara awal"
+                            placeholder="Pilih kota awal"
                             className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
                           />
                         </div>
@@ -1226,7 +1283,7 @@ export default function SearchResult() {
                           onChange={(airportCode) =>
                             setArrival_code(airportCode)
                           }
-                          placeholder="Pilih bandara tujuan"
+                          placeholder="Pilih kota tujuan"
                           className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
                         />
                       </div>
@@ -1341,7 +1398,7 @@ export default function SearchResult() {
         </div>
       </div>
 
-      {/* FILTER MODAL */}
+      {/* MODAL FILTER */}
       <div
         className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
           isFilterModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -1376,7 +1433,6 @@ export default function SearchResult() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 
@@ -1551,7 +1607,6 @@ export default function SearchResult() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 
@@ -1650,12 +1705,17 @@ export default function SearchResult() {
       </div>
 
       {/* MODAL PILIH JUMLAH PENUMPANG */}
+
       <div
-        className={`${
-          passengerModalOpen ? "" : "hidden"
-        } fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          passengerModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
-        <div className="relative p-4 w-full lg:w-2/5 max-w-2xl max-h-full">
+        <div
+          className={`relative p-4 w-full lg:w-2/5 max-w-2xl max-h-full transform transition-transform duration-300 ease-in-out ${
+            passengerModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
               <h3 className="text-xl font-semibold text-gray-900">
@@ -1680,7 +1740,6 @@ export default function SearchResult() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 
@@ -1787,11 +1846,17 @@ export default function SearchResult() {
 
       {/* MODAL PILIH TANGGAL PENERBANGAN */}
       <div
-        className={`${
-          dateModalOpen ? "" : "hidden"
-        } fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50`}
+        className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+          dateModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
       >
-        <div className="relative p-4 w-full max-w-md max-h-full">
+        <div
+          className={`relative p-4 w-full ${
+            isChecked ? "max-w-3xl" : "max-w-md"
+          } max-h-full transform transition-transform duration-300 ease-in-out ${
+            dateModalOpen ? "translate-y-0" : "-translate-y-full"
+          }`}
+        >
           <div className="relative bg-white rounded-lg shadow">
             <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
               <h3 className="text-lg font-semibold text-gray-900 ">
@@ -1816,7 +1881,6 @@ export default function SearchResult() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 
@@ -1832,6 +1896,8 @@ export default function SearchResult() {
                     setDate([item.selection]);
                   }}
                   moveRangeOnFirstSelection={false}
+                  months={isMobile ? 1 : 2}
+                  direction="horizontal"
                   ranges={date}
                   minDate={new Date()}
                   rangeColors={["#2A629A", "#3472b0", "#003285"]}
@@ -1868,7 +1934,7 @@ export default function SearchResult() {
       )}
 
       <div
-        className={`fixed top-0 right-0 md:z-[999] z-40 h-screen overflow-y-auto transition-transform bg-white lg:w-2/5 md:w-3/6 w-4/5 ${
+        className={`fixed top-0 right-0 md:z-[999] z-40 h-screen overflow-y-auto transition-transform duration-300 bg-white lg:w-2/5 md:w-3/6 w-4/5 ${
           isDrawerOpen ? "translate-x-0" : "translate-x-full"
         }`}
         tabIndex="-1"

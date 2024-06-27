@@ -158,7 +158,6 @@ export default function TicketCheckout() {
     }
   };
 
-  
   const { ticket } = useSelector((state) => state.ticket);
   useEffect(() => {
     if (ticket) {
@@ -281,7 +280,13 @@ export default function TicketCheckout() {
           {/* Countdown Bar */}
           <div
             className={`bg-[#FF0000] text-center p-4  text-white font-bold fixed left-0 w-full z-10 ${
-              isMobile ? "top-0 mt-0 text-sm" : isTablet ? "top-18" : isLaptop ? "top-14 mt-2" : ""
+              isMobile
+                ? "top-0 mt-0 text-sm"
+                : isTablet
+                ? "top-18"
+                : isLaptop
+                ? "top-14 mt-2"
+                : ""
             }`}
           >
             Selesaikan dalam {minutes}:{seconds < 10 ? `0${seconds}` : seconds}{" "}
@@ -614,7 +619,9 @@ export default function TicketCheckout() {
                   <button
                     onClick={handleLanjutPembayaran}
                     className={`w-full bg-[#2A629A] font-medium text-white text-sm p-2 mt-4 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]" 
-                      ${isMobile ? "mt-4 ms-3" : isTablet ? "ms-44 mt-4 " : ""}`}
+                      ${
+                        isMobile ? "mt-4 ms-3" : isTablet ? "ms-44 mt-4 " : ""
+                      }`}
                   >
                     Lanjut Pembayaran
                   </button>

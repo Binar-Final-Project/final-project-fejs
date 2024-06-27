@@ -2,10 +2,10 @@ import React, { useEffect, useState, Fragment } from "react";
 import Navbar from "../../../assets/components/navigations/navbar/Navbar";
 import Footer from "../../../assets/components/navigations/Footer";
 import NavbarMobile from "../../../assets/components/navigations/navbar/Navbar-mobile";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { Listbox, Transition } from "@headlessui/react";
 import BtnScrollTop from "../../../assets/components/BtnScrollUp";
 import {
@@ -40,11 +40,6 @@ export default function Notification() {
   const { notifikasi } = useSelector((state) => state.notification);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(getNotification());
-  }, [dispatch, notifikasi]);
 
   const handleUpdateStatus = (id) => {
     dispatch(UpdateNotifications(id)).then(() => {

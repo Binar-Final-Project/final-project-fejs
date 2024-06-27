@@ -15,7 +15,7 @@ import { setTransactions } from "../../reducers/flight/transactionReducers";
 export const login = (email, password, navigate) => async (dispatch) => {
   try {
     const responseLogin = await axios.post(
-      "https://express-production-3572.up.railway.app/api/v1/users/login",
+      `${import.meta.env.VITE_REACT_APP_SERVER}/users/login`,
       {
         email: email,
         password: password,
@@ -119,7 +119,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
 export const loginWithGoogle = (accessToken, navigate) => async (dispatch) => {
   try {
     const responseLoginGoogle = await axios.post(
-      "https://express-production-3572.up.railway.app/api/v1/users/google",
+      `${import.meta.env.VITE_REACT_APP_SERVER}/users/google`,
       {
         access_token: accessToken,
       },
@@ -181,11 +181,11 @@ export const logout = (navigate) => async (dispatch) => {
   try {
     dispatch(setToken(null)); // MENGHAPUS TOKEN
     dispatch(setIsLoggedIn(false)); // MENGEMBALIKAN JADI FALSE
-    dispatch(setProfile([]));
-    dispatch(setNotifikasi([]));
-    dispatch(setTransactions([]));
+    dispatch(setProfile([])); // MENGHAPUS DATA PROFIL
+    dispatch(setNotifikasi([])); // MENGHAPUS DATA NOTIFIKASI
+    dispatch(setTransactions([])); // MENGHAPUS RIWAYAT PEMESANAN
     if (navigate) {
-      navigate("/"); // KE HOME PAGE DALAM WAKTU 0.5 DETIK
+      navigate("/"); // KE HOME
       toast("Terima kasih, sampai jumpa!", {
         // Menampilkan toast sukses
         icon: null,
@@ -229,5 +229,29 @@ export const checkToken = (navigate) => (dispatch, getState) => {
         duration: 3000, // Durasi toast
       });
     }, 10);
+  }
+};
+
+export const checkIsLoggedIn = (navigate) => (dispatch, getState) => {
+  const { token, isLoggedin } = getState().login;
+  if (token) {
+    navigate("/");
+    setTimeout(() => {
+      toast("Maaf, Anda sudah masuk!", {
+        icon: null,
+        style: {
+          background: "#FF0000", // Background merah
+          color: "#FFFFFF",
+          borderRadius: "12px",
+          fontSize: "14px", // Ukuran font
+          textAlign: "center", // Posisi teks di tengah
+          padding: "10px 20px", // Padding
+          width: "full",
+          maxWidth: "900px",
+        },
+        position: "top-center", // Posisi toast
+        duration: 3000, // Durasi toast
+      });
+    }, 1);
   }
 };

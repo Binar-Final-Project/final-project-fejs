@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  IoListOutline,
-  IoNotificationsOutline,
-  IoPersonOutline,
-} from "react-icons/io5";
+import { IoNotificationsOutline, IoPersonOutline } from "react-icons/io5";
 import { TbUser } from "react-icons/tb";
 import { FiLogIn } from "react-icons/fi";
 import Logobiflight from "../../../images/logobiflight.png";
@@ -14,6 +10,7 @@ import { logout } from "../../../../redux/actions/auth/loginActions";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../../../redux/actions/user/userActions";
 import { getNotification } from "../../../../redux/actions/flight/notificationActions";
+import { HiOutlineTicket } from "react-icons/hi2";
 
 export default function NavbarTransparent() {
   const dispatch = useDispatch();
@@ -91,8 +88,8 @@ export default function NavbarTransparent() {
           {isLoggedIn ? (
             <>
               <Link to="/riwayat-pemesanan">
-                <IoListOutline
-                  className={`text-2xl ${
+                <HiOutlineTicket
+                  className={`text-3xl ${
                     isScrolled
                       ? "text-black hover:text-[#2A629A]"
                       : "text-white hover:text-[#86B6F6]"
@@ -276,7 +273,6 @@ export default function NavbarTransparent() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
               <div className="p-4 md:p-5 text-center">
                 <h3 className="mb-7 text-lg font-normal text-gray-500">

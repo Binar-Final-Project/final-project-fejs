@@ -8,6 +8,7 @@ export default function Card({ flight }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // JIKA KARTU DI KLIK, AKAN DIRECT KE HALAMAN HASIL PENCARIAN
   const handleClick = (departure_code, arrival_code, date, seat_class) => {
     dispatch(
       getFlight(departure_code, arrival_code, date, seat_class, 1, "", 1)
