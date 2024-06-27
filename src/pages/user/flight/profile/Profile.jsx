@@ -20,10 +20,7 @@ export default function Profile() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const account = async () => {
-      dispatch(getUser(navigate));
-    };
-    account();
+    dispatch(getUser(navigate));
   }, []);
 
   return (
@@ -125,7 +122,7 @@ export default function Profile() {
                         <div className="h-2.5 bg-gray-300 rounded-full w-72"></div>
                       </div>
                     ) : (
-                      <div>
+                      <div className="flex flex-col md:flex-row">
                         <span className="font-medium text-[#003285] mr-1">
                           Nama Lengkap:
                         </span>
@@ -142,7 +139,14 @@ export default function Profile() {
                       <span className="font-medium text-[#003285] mr-1">
                         Nomor Ponsel:
                       </span>
-                      <span> +62{profile?.phone_number}</span>
+                      {profile?.phone_number ? (
+                        <span> +62{profile?.phone_number}</span>
+                      ) : (
+                        <span className="text-red-500">
+                          {" "}
+                          Anda belum memasukkan nomor ponsel{" "}
+                        </span>
+                      )}
                     </div>
                   )}
                   {isLoading ? (

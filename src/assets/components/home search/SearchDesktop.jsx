@@ -22,10 +22,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import AirportInput from "../AirportInput";
 import { setChoosenFlight } from "../../../redux/reducers/flight/flightReducers";
+import { useMediaQuery } from "react-responsive";
 
 export default function SearchDesktop() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const [isChecked, setIsChecked] = useState(false); // TOGGLE TANGGAL KEPULANGAN
   const [seatModalOpen, setSeatModalOpen] = useState(false); // MODAL KELAS PENERBANGAN
@@ -37,18 +39,24 @@ export default function SearchDesktop() {
   const [seat_class, setSeat_class] = useState("Economy");
   const [total_passenger, setTotal_passenger] = useState(1);
   const [departure_date, setDeparture_date] = useState(new Date());
-  const [date, setDate] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
   const [penumpang, setPenumpang] = useState({
     dewasa: 1,
     anak: 0,
     bayi: 0,
   });
+
+  const today = new Date();
+  // Membuat tanggal besok dengan menambahkan 1 hari ke tanggal hari ini
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
+  const [date, setDate] = useState([
+    {
+      startDate: today,
+      endDate: tomorrow,
+      key: "selection",
+    },
+  ]);
 
   // BUAT NUKER POSISI DARI DESTINASI AWAL-DESTINASI TUJUAN
   const handleRotateClick = () => {
@@ -244,7 +252,7 @@ export default function SearchDesktop() {
           },
         }}
       />
-      <div className="w-full h-[850px] md:h-[300px]">
+      <div className="w-full h-[300px]">
         <div
           style={{
             backgroundImage: `linear-gradient(rgba(33,33,33,0.522), rgba(33,33,33,0.522)), url(${background})`,
@@ -278,7 +286,7 @@ export default function SearchDesktop() {
                                 onChange={(airportCode) =>
                                   setDeparture_code(airportCode)
                                 }
-                                placeholder="Pilih bandara Awal"
+                                placeholder="Pilih kota Awal"
                                 className="block py-2.5 lg:pr-10 md:pr-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
                               />
                             </div>
@@ -302,7 +310,7 @@ export default function SearchDesktop() {
                                   onChange={(airportCode) =>
                                     setArrival_code(airportCode)
                                   }
-                                  placeholder="Pilih bandara tujuan"
+                                  placeholder="Pilih kota tujuan"
                                   className="block py-2.5 lg:pr-10 md:pr-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
                                 />
                               </div>
@@ -470,7 +478,6 @@ export default function SearchDesktop() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 
@@ -602,7 +609,6 @@ export default function SearchDesktop() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 
@@ -714,7 +720,9 @@ export default function SearchDesktop() {
         }`}
       >
         <div
-          className={`relative p-4 w-full max-w-md max-h-full transform transition-transform duration-300 ease-in-out ${
+          className={`relative p-4 w-full ${
+            isChecked ? "max-w-3xl" : "max-w-md"
+          } max-h-full transform transition-transform duration-300 ease-in-out ${
             dateModalOpen ? "translate-y-0" : "-translate-y-full"
           }`}
         >
@@ -742,7 +750,6 @@ export default function SearchDesktop() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 
@@ -758,6 +765,8 @@ export default function SearchDesktop() {
                     setDate([item.selection]);
                   }}
                   moveRangeOnFirstSelection={false}
+                  months={isMobile ? 1 : 2}
+                  direction={isMobile ? "vertical" : "horizontal'"}
                   ranges={date}
                   minDate={new Date()}
                   rangeColors={["#2A629A", "#3472b0", "#003285"]}

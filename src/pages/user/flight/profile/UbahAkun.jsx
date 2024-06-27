@@ -169,9 +169,9 @@ export default function UbahAkun() {
 
         <Toaster />
 
-        <div className="flex flex-col md:flex-row justify-start lg:mx-24 gap-12">
+        <div className="flex flex-col lg:flex-row justify-start lg:mx-24 gap-12">
           {/* SIDE MENU */}
-          <div className="lg:w-2/5 md:w-2/5">
+          <div className="lg:w-2/5">
             <SideMenu />
           </div>
 
@@ -325,7 +325,6 @@ export default function UbahAkun() {
                                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                               />
                             </svg>
-                            <span className="sr-only">Close modal</span>
                           </button>
                         </div>
 

@@ -69,7 +69,7 @@ export const printTransactions = (id) => async (dispatch, getState) => {
       }
     );
     console.log("response print", response);
-    if (response?.status === 202) {
+    if (response?.status === 200) {
       if (location.pathname === "/print-ticket/:booking_code") {
         dispatch(setShowConfirmationModal(false));
         dispatch(setShowSuccessModal(true)); // Tampilkan modal sukses setelah cetak tiket berhasil

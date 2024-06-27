@@ -41,6 +41,7 @@ export const store = configureStore({
   devTools: import.meta.env.NODE_ENV === "development",
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
+      immutableCheck: false,
       serializableCheck: false,
     }).concat(thunk),
 });

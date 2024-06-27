@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  IoListOutline,
   IoNotificationsOutline,
   IoPersonOutline,
   IoHomeOutline,
@@ -9,6 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { getNotification } from "../../../../redux/actions/flight/notificationActions";
 import toast from "react-hot-toast";
+import { HiOutlineTicket } from "react-icons/hi2";
 
 export default function NavbarMobile() {
   const navigate = useNavigate();
@@ -49,11 +49,11 @@ export default function NavbarMobile() {
                     : `text-slate-500`
                 }`}
             >
-              Home
+              Beranda
             </span>
           </div>
           <div
-            className="flex flex-col items-center justify-center gap-2"
+            className="flex flex-col items-center justify-center gap-2 mt-2.5"
             onClick={() => {
               if (isLoggedIn) {
                 navigate("/notifikasi");
@@ -102,7 +102,7 @@ export default function NavbarMobile() {
                 ).length === 0 ? (
                   ""
                 ) : (
-                  <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full top-1">
+                  <div className="absolute inline-flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full top-3">
                     {
                       notifikasi?.filter(
                         (notification) => notification.status === "unread"
@@ -146,7 +146,7 @@ export default function NavbarMobile() {
                   : `text-slate-500`
               }
             >
-              <IoListOutline size={25} />
+              <HiOutlineTicket size={25} />
             </div>
             <span
               className={`text-sm
@@ -156,7 +156,7 @@ export default function NavbarMobile() {
                     : `text-slate-500`
                 }`}
             >
-              Pesanan
+              Riwayat
             </span>
           </div>
           <div

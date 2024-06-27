@@ -22,8 +22,8 @@ export default function sideMenu() {
       <div>
         <div className="bg-white rounded-t-lg shadow p-4">
           {isLoading ? (
-            <div className="max-w-sm animate-pulse ms-2">
-              <div className="h-2.5 bg-gray-300 rounded-full w-72"></div>
+            <div className="max-w-sm animate-pulse w-full">
+              <div className="h-2.5 bg-gray-300 rounded-full w-full"></div>
             </div>
           ) : (
             <div className="text-center text-[#003285]">
@@ -55,11 +55,11 @@ export default function sideMenu() {
                 Akun Saya
               </div>
             </Link>
-            <Link to="/ubah-password">
+            <Link to="/pengaturan-akun">
               <div
                 className={`flex items-center px-4 py-3 
                  ${
-                   location.pathname === "/ubah-password"
+                   location.pathname === "/pengaturan-akun"
                      ? `bg-[#2A629A] text-white`
                      : `text-[#003285] hover:bg-[#EEF5FF]`
                  }
@@ -67,12 +67,14 @@ export default function sideMenu() {
               >
                 <TbEdit
                   className={`mr-2 text-2xl ${
-                    location.pathname === "/ubah-password"
+                    location.pathname === "/pengaturan-akun"
                       ? ``
                       : `text-[#003285]`
                   } `}
                 />{" "}
-                Ubah Kata Sandi
+                {profile?.isPasswordExist
+                  ? "    Ubah Kata Sandi"
+                  : "Buat Kata Sandi"}
               </div>
             </Link>
           </div>
@@ -118,7 +120,6 @@ export default function sideMenu() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
               <div className="p-4 md:p-5 text-center">
                 <h3 className="mb-7 text-lg font-normal text-gray-500">

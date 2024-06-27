@@ -27,7 +27,7 @@ export const processPayment =
     try {
       await delay(5000); // Menunggu selama 5 detik
       const response = await axios.post(
-        "https://express-production-3572.up.railway.app/api/v1/transactions/pay",
+        `${import.meta.env.VITE_REACT_APP_SERVER}/transactions/pay`,
         paymentData,
         {
           headers: {
