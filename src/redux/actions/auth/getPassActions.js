@@ -39,7 +39,10 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     }
   } catch (error) {
     console.log("error", error);
-    if (error.response.data.message === "Pengguna tidak ditemukan atau belum diverifikasi") {
+    if (
+      error.response.data.message ===
+      "Pengguna tidak ditemukan atau belum diverifikasi"
+    ) {
       toast.error("User tidak ditemukan", {
         icon: null,
         style: {
@@ -74,6 +77,44 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
 export const getUpdatePass =
   (password1, password2, token, navigate) => async (dispatch) => {
     try {
+      const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+      if (!passwordRegex.test(password1)) {
+        toast.error(
+          "Pastikan kata sandi terdiri dari minimal 8 karakter dan mengandung huruf besar serta angka",
+          {
+            icon: null,
+            style: {
+              background: "#FF0000",
+              color: "#FFFFFF",
+              borderRadius: "12px",
+              fontSize: "14px",
+              textAlign: "center",
+              padding: "10px 20px",
+            },
+            position: "top-center",
+            duration: 3000,
+          }
+        );
+        return;
+      }
+
+      if (password1 !== password2) {
+        toast.error("Kata sandi tidak cocok", {
+          icon: null,
+          style: {
+            background: "#FF0000",
+            color: "#FFFFFF",
+            borderRadius: "12px",
+            fontSize: "14px",
+            textAlign: "center",
+            padding: "10px 20px",
+          },
+          position: "top-center",
+          duration: 3000,
+        });
+        return;
+      }
+
       const response = await axios.post(
         `${import.meta.env.VITE_REACT_APP_SERVER}/users/reset-password`,
         {
@@ -88,7 +129,9 @@ export const getUpdatePass =
           },
         }
       );
+
       console.log(response);
+
       if (response.data.status === true) {
         toast.success("Kata sandi berhasil direset!", {
           icon: null,
@@ -109,34 +152,37 @@ export const getUpdatePass =
       }
     } catch (error) {
       console.log("error ", error);
-      if (error.response.data.message === "Password or token not sent") {
-        toast.error("Password tidak terkirim", {
-          icon: null,
-          style: {
-            background: "#FF0000",
-            color: "#FFFFFF",
-            borderRadius: "12px",
-            fontSize: "14px",
-            textAlign: "center",
-            padding: "10px 20px",
-          },
-          position: "top-center",
-          duration: 3000,
-        });
-      } else if (error.response.data.message === "Password do not match") {
-        toast.error("Password tidak sama", {
-          icon: null,
-          style: {
-            background: "#FF0000",
-            color: "#FFFFFF",
-            borderRadius: "12px",
-            fontSize: "14px",
-            textAlign: "center",
-            padding: "10px 20px",
-          },
-          position: "top-center",
-          duration: 3000,
-        });
+
+      if (error.response && error.response.data.message) {
+        if (error.response.data.message === "Password or token not sent") {
+          toast.error("Password tidak terkirim", {
+            icon: null,
+            style: {
+              background: "#FF0000",
+              color: "#FFFFFF",
+              borderRadius: "12px",
+              fontSize: "14px",
+              textAlign: "center",
+              padding: "10px 20px",
+            },
+            position: "top-center",
+            duration: 3000,
+          });
+        } else if (error.response.data.message === "Password do not match") {
+          toast.error("Password tidak sama", {
+            icon: null,
+            style: {
+              background: "#FF0000",
+              color: "#FFFFFF",
+              borderRadius: "12px",
+              fontSize: "14px",
+              textAlign: "center",
+              padding: "10px 20px",
+            },
+            position: "top-center",
+            duration: 3000,
+          });
+        }
       }
     }
   };
