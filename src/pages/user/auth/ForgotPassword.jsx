@@ -75,13 +75,6 @@ const ForgotPassword = () => {
 
   return (
     <div>
-      {/* <style>
-        {`
-          body, html {
-            overflow: hidden;
-          }
-        `}
-      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -103,7 +96,7 @@ const ForgotPassword = () => {
             />
             <Toaster />
             <div className="max-w-[550px] mx-auto flex flex-col items-center mt-10">
-            <img
+              <img
                 src={Logobiflight}
                 className="w-24 p-1.5"
                 alt="BiFlight Logo"
@@ -206,7 +199,7 @@ const ForgotPassword = () => {
                   <div className="flex space-x-4">
                     <button
                       type="submit"
-                      className="bg-[#2A629A] text-white font-medium text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                      className="bg-[#2A629A] text-white font-medium text-sm p-2 rounded-xl focus:outline-none w-full transition-colors duration:300 hover:bg-[#003285] active:bg-[#003285]"
                     >
                       Atur Ulang
                     </button>
