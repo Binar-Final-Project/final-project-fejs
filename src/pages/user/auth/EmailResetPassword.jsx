@@ -114,8 +114,8 @@ const EmailResetPassword = () => {
                 >
                   Lupa kata sandi
                 </a>
-                <span className="text-[#2A629A]">? </span>
-                <span className="text-[#2A629A]">
+                <span className="text-[#8A8A8A]">? </span>
+                <span className="text-[#8A8A8A]">
                   Masukkan Email Anda untuk mereset kata sandi!
                 </span>
               </h2>
@@ -136,7 +136,7 @@ const EmailResetPassword = () => {
                     } ${
                       !isEmailValid && email
                         ? "border-red-500"
-                        : "border-[#D0D0D0]"
+                        : "border-[#8A8A8A]"
                     }`}
                   >
                     <input
@@ -176,7 +176,7 @@ const EmailResetPassword = () => {
               </form>
 
               {/* Mengarahkan ke halaman masuk jika pengguna ingat kata sandi */}
-              <p className="text-[#2A629A] mt-7 text-sm font-medium">
+              <p className="text-[#8A8A8A] mt-7 text-sm font-medium">
                 Ingat kata sandi Anda?{" "}
                 <a
                   href="/login"

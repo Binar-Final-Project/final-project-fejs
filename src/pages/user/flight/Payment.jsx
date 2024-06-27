@@ -389,7 +389,7 @@ export default function Payment() {
                     } ${
                       !validateCardNumber(card_number) && card_number
                         ? "border-[#FF0000]"
-                        : "border-[#D0D0D0]"
+                        : "border-[#8A8A8A]"
                     }`}
                   >
                     <input
@@ -427,7 +427,7 @@ export default function Payment() {
                     ${
                       !isCardHolderNameTouched && card_holder_name
                         ? "border-[#FF0000]"
-                        : "border-[#D0D0D0]"
+                        : "border-[#8A8A8A]"
                     }
                     ${
                       card_holder_name
@@ -479,7 +479,7 @@ export default function Payment() {
                       } ${
                         !validateCvv(cvv) && cvv
                           ? "border-[#FF0000]"
-                          : "border-[#D0D0D0]"
+                          : "border-[#8A8A8A]"
                       }`}
                     >
                       <input
@@ -507,7 +507,7 @@ export default function Payment() {
                     </label>
                     <div className="flex items-center gap-2">
                       <select
-                        className="p-2 rounded-xl bg-white border border-[#D0D0D0] focus:shadow-lg focus:border-[#2A629A] text-sm text-[#2A629A] w-1/2"
+                        className="p-2 rounded-xl bg-white border border-[#8A8A8A] focus:shadow-lg focus:border-[#2A629A] text-sm text-[#2A629A] w-1/2"
                         value={selectedMonth}
                         onChange={(e) =>
                           dispatch(setSelectedMonth(e.target.value))
@@ -526,7 +526,7 @@ export default function Payment() {
                         ))}
                       </select>
                       <select
-                        className="p-2 rounded-xl bg-white border border-[#D0D0D0] focus:shadow-lg focus:border-[#2A629A] text-sm text-[#2A629A] w-1/2"
+                        className="p-2 rounded-xl bg-white border border-[#8A8A8A] focus:shadow-lg focus:border-[#2A629A] text-sm text-[#2A629A] w-1/2"
                         value={selectedYear}
                         onChange={(e) =>
                           dispatch(setSelectedYear(e.target.value))

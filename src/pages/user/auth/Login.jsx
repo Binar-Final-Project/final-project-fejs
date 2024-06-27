@@ -272,7 +272,7 @@ export default function Login() {
                   Masuk
                 </a>
                 <span className="text-[#2A629A]"> </span>
-                <span className="text-[#2A629A]">
+                <span className="text-[#8A8A8A]">
                   untuk akses cepat dan mudah ke tiket pesawat terbaik!
                 </span>
               </h2>
@@ -296,7 +296,7 @@ export default function Login() {
                               ${
                                 !isEmailValid && email
                                   ? "border-[#FF0000]"
-                                  : "border-[#D0D0D0]"
+                                  : "border-[#8A8A8A]"
                               }`}
                     >
                       <input
@@ -343,7 +343,7 @@ export default function Login() {
                               ${
                                 isPasswordTouched && !isPasswordValid
                                   ? "border-[#FF0000]"
-                                  : "border-[#D0D0D0]"
+                                  : "border-[#8A8A8A]"
                               }`}
                     >
                       <input
@@ -389,7 +389,7 @@ export default function Login() {
               </form>
 
               <div className="relative max-w-[400px] w-full rounded-lg m-4 sm:m-8 mt-8 mb-8">
-                <hr className="absolute left-0 right-0 border-t border-gray-400" />
+                <hr className="absolute left-0 right-0 border-t border-[#8A8A8A]" />
                 <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#FFF8ED] px-2 text-[#2A629A] text-sm font-medium">
                   atau
                 </p>
@@ -399,12 +399,12 @@ export default function Login() {
               <LoginGoogle buttonText={"Lanjutkan dengan Google"} />
 
               {/* Mengarahkan ke halaman daftar jika pengguna belum punya akun */}
-              <p className="text-[#2A629A] mt-7 text-sm font-medium">
+              <p className="text-[#8A8A8A] mt-7 text-sm font-medium">
                 Baru di{" "}
                 <a href="/" className="text-[#2A629A] mt-7 text-sm font-bold">
                   BiFlight
                 </a>
-                <span className="text-[#2A629A] mt-7 text-sm font-medium">
+                <span className="text-[#8A8A8A] mt-7 text-sm font-medium">
                   ?{" "}
                 </span>
                 <a

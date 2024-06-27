@@ -11,11 +11,13 @@ import {
 import Navbar from "../../../assets/components/navigations/navbar/Navbar";
 import NavbarMobile from "../../../assets/components/navigations/navbar/Navbar-mobile";
 import Footer from "../../../assets/components/navigations/Footer";
+import BtnScrollTop from "../../../assets/components/BtnScrollUp";
 
 export default function PrintTicket() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
   const { ticketSelected } = useSelector((state) => state.ticket); // Menggunakan useSelector untuk mengambil data ticketSelected dari state ticket
   const { showConfirmationModal, showSuccessModal } = useSelector(
     (state) => state.payment
@@ -63,12 +65,22 @@ export default function PrintTicket() {
       {isMobile ? <NavbarMobile /> : <Navbar />}
 
       {/* Komponen Transaksi Sukses */}
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#FFF0DC] p-5 pt-20">
+      <div
+        className={`flex flex-col items-center justify-center min-h-screen bg-[#FFF0DC] p-5 pt-20 ${
+          isTablet ? "p-10" : ""
+        }`}
+      >
         <iframe
           src="https://lottie.host/embed/33de7cc4-47b9-4e8e-8808-b106ba44ab4a/OE5t0VM3o7.json"
-          className="w-[300px] h-[300px] mb-5"
+          className={`w-[300px] h-[300px] mb-5 ${
+            isTablet ? "w-[400px] h-[400px]" : ""
+          }`}
         ></iframe>
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center w-full max-w-[400px]">
+        <div
+          className={`bg-white p-6 rounded-lg shadow-lg text-center w-full ${
+            isTablet ? "max-w-[650px] p-8" : "max-w-[400px]"
+          }`}
+        >
           <h1 className="text-2xl font-bold mb-1 text-[#003285]">Selamat!</h1>
           <p className="text-base font-normal mb-6">
             Transaksi Pembayaran Tiket Sukses!
@@ -89,19 +101,24 @@ export default function PrintTicket() {
           </div>
         </div>
       </div>
+      {isMobile ? "" : <BtnScrollTop />}
       <Footer />
 
       {/* Modal Konfirmasi Cetak Tiket */}
       {showConfirmationModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="relative w-full max-w-[90%] md:max-w-[60%] lg:max-w-[40%] max-h-full animate__animated animate__zoomIn mx-4">
+          <div
+            className={`relative w-full max-w-[90%] ${
+              isTablet ? "md:max-w-[50%]" : "md:max-w-[60%]"
+            } lg:max-w-[40%] max-h-full animate__animated animate__zoomIn mx-4`}
+          >
             <div className="relative bg-white rounded-lg shadow-lg">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 className="text-xl font-semibold text-gray-900">
                   Konfirmasi Cetak Tiket
                 </h3>
                 <button
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                   onClick={handleCloseModals}
                 >
                   <svg
@@ -123,7 +140,7 @@ export default function PrintTicket() {
                 </button>
               </div>
               <div className="p-4 md:p-5 space-y-4">
-                <p className="text-base leading-relaxed text-gray-500">
+                <p className="text-base leading-relaxed text-[#8A8A8A]">
                   Apakah Anda ingin mencetak tiket sekarang?
                 </p>
               </div>
@@ -149,12 +166,16 @@ export default function PrintTicket() {
       {/* Modal Sukses Cetak Tiket ke Email */}
       {showSuccessModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="relative w-full max-w-[90%] md:max-w-[50%] lg:max-w-[30%] max-h-full animate__animated animate__zoomIn mx-4">
+          <div
+            className={`relative w-full max-w-[90%] ${
+              isTablet ? "md:max-w-[50%]" : "md:max-w-[50%]"
+            } lg:max-w-[30%] max-h-full animate__animated animate__zoomIn mx-4`}
+          >
             <div className="relative bg-white rounded-lg shadow">
               <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                 <h3 className="text-xl font-semibold text-gray-900">Sukses!</h3>
                 <button
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-xl text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                   onClick={handleCloseModals}
                 >
                   <svg
@@ -176,7 +197,7 @@ export default function PrintTicket() {
                 </button>
               </div>
               <div className="p-4 md:p-5 space-y-4">
-                <p className="text-base leading-relaxed text-gray-500">
+                <p className="text-base leading-relaxed text-[#8A8A8A]">
                   Tiket berhasil dikirim ke Email Anda!
                 </p>
               </div>

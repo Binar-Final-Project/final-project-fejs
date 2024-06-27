@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Toaster, toast } from "react-hot-toast";
+import { useMediaQuery } from "react-responsive";
+import toast, { Toaster } from "react-hot-toast";
 import { BiArrowBack, BiSolidCheckCircle, BiErrorCircle } from "react-icons/bi";
 import { RxCrossCircled } from "react-icons/rx";
 import { FiEye, FiEyeOff } from "react-icons/fi";
@@ -23,7 +24,6 @@ import Footer from "../../../assets/components/navigations/Footer";
 import backgroundImage from "../../../assets/images/loginregister.png";
 import Logobiflight from "../../../assets/images/logobiflight.png";
 import BtnScrollTop from "../../../assets/components/BtnScrollUp";
-import { useMediaQuery } from "react-responsive";
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -418,7 +418,7 @@ export default function Register() {
                   Daftarkan
                 </a>
                 <span className="text-[#2A629A]"> </span>
-                <span className="text-[#2A629A]">
+                <span className="text-[#8A8A8A]">
                   akun Anda dan dapatkan akses ke promo tiket pesawat murah!
                 </span>
               </h2>
@@ -441,7 +441,7 @@ export default function Register() {
                     ${
                       !isNameTouched && name
                         ? "border-[#FF0000]"
-                        : "border-[#D0D0D0]"
+                        : "border-[#8A8A8A]"
                     }
                     ${
                       name
@@ -490,7 +490,7 @@ export default function Register() {
                     ${
                       !isEmailValid && email
                         ? "border-[#FF0000]"
-                        : "border-[#D0D0D0]"
+                        : "border-[#8A8A8A]"
                     }`}
                     >
                       <input
@@ -529,7 +529,7 @@ export default function Register() {
                     ${
                       !isPhoneNumberValid && phone_number
                         ? "border-[#FF0000]"
-                        : "border-[#D0D0D0]"
+                        : "border-[#8A8A8A]"
                     }`}
                     >
                       <div className="flex items-center bg-gray-300 p-2 px-3 rounded-l-xl border-r-0">
@@ -572,7 +572,15 @@ export default function Register() {
                     <label className="text-left text-[#2A629A] text-sm font-medium">
                       Kata Sandi
                     </label>
-                    <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
+                    <div
+                      className={`flex items-center p-2 rounded-xl border ${
+                        password &&
+                        (passwordStrength === "weak" ||
+                          passwordStrength === "medium")
+                          ? "border-[#FF0000]"
+                          : "border-[#8A8A8A]"
+                      } focus-within:border-[#2A629A] focus-within:shadow-lg`}
+                    >
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                         type={passwordInputType}
@@ -605,7 +613,7 @@ export default function Register() {
                             <BiSolidCheckCircle className="text-[#28A745] w-[20px] h-[20px]" />
                           )}
                         </div>
-                        <p className="text-xs">
+                        <p className="text-xs text-[#8A8A8A]">
                           {passwordStrength === "weak"
                             ? "Kata sandi lemah"
                             : passwordStrength === "medium"
@@ -619,7 +627,13 @@ export default function Register() {
                     <label className="text-left text-[#2A629A] text-sm font-medium">
                       Konfirmasi Kata Sandi
                     </label>
-                    <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
+                    <div
+                      className={`flex items-center p-2 rounded-xl border ${
+                        !passwordsMatch && confirmPassword
+                          ? "focus-within:border-[#FF0000]"
+                          : "focus-within:border-[#8A8A8A] border-[#8A8A8A]"
+                      } focus-within:border-[#2A629A] focus-within:shadow-lg`}
+                    >
                       <input
                         className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                         type={confirmPasswordInputType}
@@ -657,12 +671,12 @@ export default function Register() {
                 </div>
               </form>
 
-              <p className="text-[#2A629A] mt-7 text-sm font-medium">
+              <p className="text-[#8A8A8A] mt-7 text-sm font-medium">
                 Sudah punya akun{" "}
                 <a href="/" className="text-[#2A629A] mt-7 text-sm font-bold">
                   BiFlight
                 </a>
-                <span className="text-[#2A629A] mt-7 text-sm font-medium">
+                <span className="text-[#8A8A8A] mt-7 text-sm font-medium">
                   ?{" "}
                 </span>
                 <a
@@ -672,16 +686,6 @@ export default function Register() {
                   Masuk di sini
                 </a>
               </p>
-              {/* <p className="text-[#2A629A] mt-7 text-sm flex flex-col">
-                Dengan mendaftar, saya menyetujui{" "}
-              </p>
-              <span className="text-[#2A629A] text-sm font-semibold">
-                Syarat dan Ketentuan{" "}
-              </span>
-              <span className="text-[#2A629A] text-sm">serta </span>
-              <span className="text-[#2A629A] mb-3 text-sm font-semibold">
-                Kebijakan Privasi{" "}
-              </span> */}
             </div>
           </div>
         </div>
