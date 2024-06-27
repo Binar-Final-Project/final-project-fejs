@@ -1,9 +1,5 @@
 import toast from "react-hot-toast";
 import axios from "axios";
-import {
-  clearError,
-  setPasswordStrength,
-} from "../../reducers/auth/registerReducers";
 
 export const getForgetPassAction = (email, navigate) => async (dispatch) => {
   try {
