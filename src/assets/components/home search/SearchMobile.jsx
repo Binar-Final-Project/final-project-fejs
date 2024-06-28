@@ -261,7 +261,6 @@ export default function SearchMobile() {
                       Dari
                     </h5>
                     <div className="flex flex-row items-center">
-                      <MdFlightTakeoff className="text-xl text-gray-500 absolute" />
                       <div className="w-full">
                         <AirportInput
                           value={departure_code}
