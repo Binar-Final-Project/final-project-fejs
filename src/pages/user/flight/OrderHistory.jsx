@@ -242,12 +242,12 @@ export default function OrderHistory() {
 
   return (
     <div>
+      {/* <Loader /> */}
       {isLoading ? (
         <Loader />
       ) : (
         <div className="bg-[#FFF0DC] py-5 md:py-0">
           <div>
-            {/* <Loader /> */}
             {isMobile ? <NavbarMobile /> : <Navbar />}
             <div className="m-5 md:m-10 md:py-20">
               {/* BACK BUTTON AND TOASTER */}
