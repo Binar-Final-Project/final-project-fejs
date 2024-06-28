@@ -62,7 +62,7 @@ export const register =
           }
         );
       }
-      console.log("Response Register: ", responseRegister?.data);
+      // console.log("Response Register: ", responseRegister?.data);
     } catch (error) {
       if (
         error?.response?.data?.message === "Email atau nomor telepon sudah ada"

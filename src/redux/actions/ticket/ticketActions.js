@@ -25,7 +25,7 @@ export const getTicket =
           },
         }
       );
-      console.log("response ticket", response.data);
+      // console.log("response ticket", response.data);
       if (response?.data?.status === true) {
         dispatch(setTicket(response?.data?.data));
         toast.success(
@@ -49,7 +49,7 @@ export const getTicket =
       }
       return response.data;
     } catch (error) {
-      console.log("Error during ticket retrieval ", error);
+      // console.log("Error during ticket retrieval ", error);
     }
   };
 
@@ -65,10 +65,10 @@ export const getPassenger = (ticketId) => async (dispatch, getState) => {
         },
       }
     );
-    console.log("response passengers", response.data);
+    // console.log("response passengers", response.data);
     dispatch(setPassengers(response?.data?.data));
     return response.data;
   } catch (error) {
-    console.log("Error during passenger retrieval", error);
+    // console.log("Error during passenger retrieval", error);
   }
 };

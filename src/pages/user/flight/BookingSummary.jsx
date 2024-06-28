@@ -6,7 +6,7 @@ export default function BookingSummary() {
   const { ticketSelected } = useSelector((state) => state.ticket); // Mengambil data tiketSelected dari state ticket
   const isRoundTrip = ticketSelected?.return || ticketSelected?.return_flight; // Memeriksa apakah penerbangan pulang-pergi
 
-  console.log("ticketSelected: ", ticketSelected);
+  // console.log("ticketSelected: ", ticketSelected);
 
   // Mengembalikan null jika tidak ada tiket yang dipilih
   if (!ticketSelected) {

@@ -59,7 +59,7 @@ export const UpdateNotifications = (id) => async (dispatch, getState) => {
       }
     );
 
-    console.log("response update notif", response);
+    // console.log("response update notif", response);
     if (response.status === 200) {
       dispatch(setUpdateNotifikasi(response?.data));
       toast("Notifikasi telah dibaca!", {
@@ -78,7 +78,7 @@ export const UpdateNotifications = (id) => async (dispatch, getState) => {
       });
     }
   } catch (error) {
-    console.log("error update notif", error);
+    // console.log("error update notif", error);
     toast("Terjadi Kesalahan", {
       style: {
         background: "#FF0000", // Background Merah
@@ -126,6 +126,6 @@ export const readAllNotifications = () => async (dispatch, getState) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };

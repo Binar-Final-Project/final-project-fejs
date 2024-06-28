@@ -27,12 +27,12 @@ export const login = (email, password, navigate) => async (dispatch) => {
       }
     );
 
-    console.log("response login", responseLogin);
+    // console.log("response login", responseLogin);
     if (responseLogin?.status === 200) {
       dispatch(setUser(responseLogin?.data)); // Mengatur setUser ke Reducers
       dispatch(clearError()); // Menghapus error ke Reducers
       dispatch(setToken(responseLogin?.data?.data?.token));
-      console.log("Token: ", responseLogin?.data?.data?.token);
+      // console.log("Token: ", responseLogin?.data?.data?.token);
       dispatch(setIsLoggedIn(true)); // Mengatur setIsLoggedIn menjadi true ke Reducers
       dispatch(setShowPassword(false));
       toast.success("Berhasil masuk, selamat menikmati perjalananmu!", {
@@ -54,7 +54,7 @@ export const login = (email, password, navigate) => async (dispatch) => {
         navigate("/");
       }, 3000);
     }
-    console.log("Response Login: ", responseLogin?.data);
+    // console.log("Response Login: ", responseLogin?.data);
   } catch (error) {
     if (error?.response?.data?.message === "Pengguna tidak ditemukan") {
       toast.error("Maaf, alamat Email tidak terdaftar! Silakan daftar akun.", {
@@ -157,9 +157,9 @@ export const loginWithGoogle = (accessToken, navigate) => async (dispatch) => {
     setTimeout(() => {
       navigate("/", { state: { token: token } });
     }, 3000);
-    console.log("Response Login Google: ", responseLoginGoogle.data.tokenJWT);
+    // console.log("Response Login Google: ", responseLoginGoogle.data.tokenJWT);
   } catch (error) {
-    console.log(error); // Menampilkan error di konsol
+    // console.log(error); // Menampilkan error di konsol
     toast.error("Gagal masuk dengan akun Google. Silakan coba lagi.", {
       style: {
         background: "#FF0000", // Background merah
@@ -203,7 +203,7 @@ export const logout = (navigate) => async (dispatch) => {
       });
     }
   } catch (error) {
-    console.log("error logout", error);
+    // console.log("error logout", error);
   }
 };
 

@@ -24,7 +24,7 @@ export const getUser = () => async (dispatch, getState) => {
       dispatch(setIsLoading(false));
     }
   } catch (error) {
-    console.log("error", error);
+    // console.log("error", error);
     if (error?.response?.status === 403) {
       dispatch(setToken(null));
       dispatch(setIsLoggedIn(false));
@@ -61,7 +61,7 @@ export const updateUser =
           },
         }
       );
-      console.log("response update profile", response);
+      // console.log("response update profile", response);
       if (response.status === 200) {
         setTimeout(() => {
           navigate("/profil");
@@ -82,7 +82,7 @@ export const updateUser =
         });
       }
     } catch (error) {
-      console.log("error update profile", error);
+      // console.log("error update profile", error);
       toast("Terjadi kesalahan!", {
         style: {
           background: "#FF0000",
@@ -114,7 +114,7 @@ export const updatePassword =
           },
         }
       );
-      console.log("response update password", response);
+      // console.log("response update password", response);
       if (response.status === 200) {
         toast("Berhasil mengubah kata sandi Anda!", {
           style: {
@@ -133,7 +133,7 @@ export const updatePassword =
         return true;
       }
     } catch (error) {
-      console.log("error update password", error);
+      // console.log("error update password", error);
       if (error?.response?.status === 400) {
         toast("Kata sandi lama yang Anda masukkan salah!", {
           style: {
@@ -182,7 +182,7 @@ export const addPassword =
           },
         }
       );
-      console.log("response add password", response);
+      // console.log("response add password", response);
       if (response.status === 200) {
         toast(response?.data?.message, {
           style: {
@@ -201,7 +201,7 @@ export const addPassword =
         return true;
       }
     } catch (error) {
-      console.log("error update password", error);
+      // console.log("error update password", error);
       if (error?.response?.status === 400) {
         toast("Kata sandi lama yang Anda masukkan salah!", {
           style: {

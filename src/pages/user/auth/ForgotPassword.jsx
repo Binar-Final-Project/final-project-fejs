@@ -24,7 +24,6 @@ const ForgotPassword = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token").replace(/ /g, "+");
-  console.log("Token: ", token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

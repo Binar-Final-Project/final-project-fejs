@@ -302,7 +302,7 @@ export default function Payment() {
       cvv,
       expiry_date,
     };
-    console.log("Cek data pembayaran: ", paymentData);
+    // console.log("Cek data pembayaran: ", paymentData);
     dispatch(processPayment(paymentData, navigate)); // Mengirim data pembayaran ke proses pembayaran di actions
   };
 

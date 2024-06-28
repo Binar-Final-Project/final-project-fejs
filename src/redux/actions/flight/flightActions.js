@@ -47,7 +47,7 @@ export const getFlight =
       dispatch(setFlights(response?.data?.data?.flights));
       dispatch(setIsLoading(false));
     } catch (error) {
-      console.log("Error Search Ticket Home Page", error);
+      // console.log("Error Search Ticket Home Page", error);
       if (error?.response?.status === 400) {
         dispatch(setFlights([]));
         dispatch(setIsLoading(false));
@@ -91,7 +91,7 @@ export const getCheapestFlights = () => async (dispatch) => {
       dispatch(setIsLoading(false));
     }
   } catch (error) {
-    console.log("error", error);
+    // console.log("error", error);
     dispatch(setIsLoading(false));
   }
 };

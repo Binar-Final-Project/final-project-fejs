@@ -33,7 +33,7 @@ export const getTransactions = (lt, gte, q) => async (dispatch, getState) => {
       dispatch(setIsLoading(false));
     }
   } catch (error) {
-    console.log("error", error);
+    // console.log("error", error);
     if (error?.response?.status === 401) {
       dispatch(setToken(null));
       dispatch(setIsLoggedIn(false));
@@ -68,7 +68,7 @@ export const printTransactions = (id) => async (dispatch, getState) => {
         },
       }
     );
-    console.log("response print", response);
+    // console.log("response print", response);
     if (response?.status === 200) {
       if (location.pathname === "/print-ticket/:booking_code") {
         dispatch(setShowConfirmationModal(false));
@@ -91,10 +91,10 @@ export const printTransactions = (id) => async (dispatch, getState) => {
       }
     }
   } catch (error) {
-    console.log(
-      "Print ticket error response: ",
-      error.response?.data || error.message
-    );
+    // console.log(
+    //   "Print ticket error response: ",
+    //   error.response?.data || error.message
+    // );
     toast.error("Gagal mencetak tiket! Silakan coba lagi.", {
       icon: null,
       style: {
@@ -129,7 +129,7 @@ export const cancelTransactions =
           },
         }
       );
-      console.log("response cancel", response);
+      // console.log("response cancel", response);
       if (response?.status === 200) {
         toast(response?.data?.message, {
           style: {
@@ -147,7 +147,7 @@ export const cancelTransactions =
         });
       }
     } catch (error) {
-      console.log("error cancel", error);
+      // console.log("error cancel", error);
       toast(error?.response?.data?.message, {
         style: {
           background: "#FF0000",
