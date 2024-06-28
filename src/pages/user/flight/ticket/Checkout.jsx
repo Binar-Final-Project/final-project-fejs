@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { getTicket } from "../../../../redux/actions/ticket/ticketActions";
 import OrderSummary from "./OrderSummary";
-import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Modal from "react-modal";
 import "../../../../index.css";
@@ -257,13 +257,13 @@ export default function TicketCheckout() {
           overlayClassName="custom-overlay"
         >
           <div className="text-center">
-            <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="mb-5 text-lg font-normal text-[#2A629A]">
+            <HiOutlineExclamationCircle className="mx-auto mb-4 w-24 h-24 text-[#2A629A]" />
+            <h3 className="mb-5 text-lg font-normal text-[#8A8A8A]">
               Waktu telah berakhir!
             </h3>
             <div className="flex justify-center gap-4">
               <button
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+                className="bg-[#86B6F6] hover:bg-[#2A629A] text-white font-medium px-4 py-2 rounded-lg"
                 onClick={() => {
                   closeTimeUpModal(false);
                   window.location.href = "/";
@@ -279,7 +279,7 @@ export default function TicketCheckout() {
         <div className="p-3">
           {/* Countdown Bar */}
           <div
-            className={`bg-[#FF0000] text-center p-4  text-white font-bold fixed left-0 w-full z-10 ${
+            className={`bg-[#FF0000] text-center p-4  text-white font-semibold fixed left-0 w-full z-10 ${
               isMobile
                 ? "top-0 mt-0 text-sm"
                 : isTablet
@@ -293,7 +293,7 @@ export default function TicketCheckout() {
             sebelum tiket kamu hangus!
           </div>
 
-          {/* Menampilkan modal untuk kembali */}
+          {/* Menampilkan modal untuk kembali
           <div
             className={`lg:w-1/12 ${
               isMobile
@@ -312,7 +312,21 @@ export default function TicketCheckout() {
               <IoIosArrowBack className="text-3xl" />
               <h6 className="text-lg">Kembali</h6>
             </div>
-          </div>
+          </div> */}
+
+          {/* Tombol Kembali */}
+          {!isMobile && (
+            <div className="pt-20 left-10 z-10">
+              <div>
+                <Link to="/">
+                  <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
+                    <IoIosArrowBack className="text-2xl" />
+                    <span className="text-lg">Kembali</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          )}
           <Modal
             isOpen={openModal}
             onRequestClose={() => setOpenModal(false)}
@@ -349,19 +363,19 @@ export default function TicketCheckout() {
           {/* Form Data Akun */}
           <form onSubmit={handleSubmit}>
             <div
-              className={`container mx-auto mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${
+              className={`container mx-auto mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6${
                 isMobile ? "" : ""
               }`}
             >
               <div className="col-span-2 ">
                 {/* Data Akun */}
-                <div className="bg-white shadow-md rounded p-6">
-                  <h1 className="text-2xl text-center font-bold mb-4 text-[#003285]">
+                <div className="bg-white shadow-md rounded-xl p-6 max-w-[700px]">
+                  <h1 className="text-xl text-center font-bold mb-4 text-[#003285]">
                     Isi Data Pemesan
                   </h1>
-                  <div className="border border-gray-300 rounded-xl">
+                  <div className="border border-[#8A8A8A] rounded-xl">
                     <h2 className="text-lg font-medium mb-4 text-white bg-[#2A629A] rounded-t-lg p-2">
-                      Data Diri Pemesan
+                      <span className="ml-2">Data Diri Pemesan</span>
                     </h2>
                     <div className="ps-4 pe-4 mt-4">
                       <label className="block text-[#2A629A] mb-2 text-sm font-medium">
@@ -372,8 +386,8 @@ export default function TicketCheckout() {
                         name="name"
                         value={orderer.name}
                         onChange={handleOrdererChange}
-                        className="w-full p-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus-within:border-[#2A629A] text-[#2A629A]"
-                        placeholder="Nama sesuai KTP / identitas"
+                        className="w-full p-2 border border-[#8A8A8A] rounded-xl text-sm focus:outline-none focus-within:border-[#2A629A] text-[#2A629A]"
+                        placeholder="Nama lengkap sesuai KTP/identitas lainnya"
                         required
                       />
                     </div>
@@ -401,7 +415,7 @@ export default function TicketCheckout() {
                           name="family_name"
                           value={orderer.family_name}
                           onChange={handleOrdererChange}
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
                           placeholder="Nama keluarga (opsional)"
                         />
                       </div>
@@ -415,22 +429,22 @@ export default function TicketCheckout() {
                         name="email"
                         value={orderer.email}
                         onChange={handleOrdererChange}
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
-                        placeholder="contoh@gmail.com"
+                        className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none  text-[#2A629A]"
+                        placeholder="Alamat Email"
                         required
                       />
                     </div>
                     <div className="ps-4 pe-4 mt-4 mb-4">
                       <label className="block text-[#2A629A] mb-2 text-sm font-medium">
-                        No Telp
+                        Nomor Ponsel
                       </label>
                       <input
                         type="tel"
                         name="phone_number"
                         value={orderer.phone_number}
                         onChange={handleOrdererChange}
-                        className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                        placeholder="08XXXXXXXXXX"
+                        className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                        placeholder="08123456789"
                         required
                       />
                     </div>
@@ -438,42 +452,34 @@ export default function TicketCheckout() {
                 </div>
 
                 {/* Form Data Tiket */}
-                <div className="bg-white shadow-md rounded p-6 mt-6 space-y-6">
+                <div className="bg-white shadow-md rounded-xl p-6 mt-6 space-y-6 max-w-[700px]">
                   {passengers.map((passenger, index) => (
                     <div
                       key={index}
-                      className="border border-gray-300 rounded-xl"
+                      className="border border-[#8A8A8A] rounded-xl"
                     >
                       <h3 className="text-lg font-medium mb-4 text-white bg-[#2A629A] rounded-t-lg p-2">
-                        Isi Data Penumpang {index + 1}
+                        <span className="ml-2">
+                          Isi Data Penumpang {index + 1}
+                        </span>
                       </h3>
                       <div className="ps-4 pe-4">
                         <label className="block text-[#2A629A] mb-2 text-sm font-medium">
-                          Titel
+                          Gelar
                         </label>
                         <div className="relative mb-4">
                           <select
                             name="title"
                             value={passenger.title}
                             onChange={(e) => handlePassengerChange(index, e)}
-                            className="appearance-none w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A] py-2 pl-3 pr-10"
+                            className="appearance-none w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A] py-2 pl-3 pr-10"
                           >
                             <option className="text-[#2A629A]">Tuan</option>
                             <option className="text-[#2A629A]">Nyonya</option>
                             <option className="text-[#2A629A]">Nona</option>
                           </select>
-                          <span className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              className="h-6 w-6 text-[#2A629A]"
-                            >
-                              <path
-                                d="M10 12.586L4.707 7.293a1 1 0 011.414-1.414L10 10.758l4.879-4.879a1 1 0 111.414 1.414L10 12.586z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
+                          <span className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-[#2A629A]">
+                            <IoIosArrowDown />
                           </span>
                         </div>
                       </div>
@@ -486,8 +492,8 @@ export default function TicketCheckout() {
                           name="name"
                           value={passenger.name}
                           onChange={(e) => handlePassengerChange(index, e)}
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                          placeholder="Nama sesuai KTP / identitas"
+                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="Nama lengkap sesuai KTP/identitas lainnya"
                           required
                         />
                       </div>
@@ -498,24 +504,24 @@ export default function TicketCheckout() {
                         <input
                           type="text"
                           name="email"
-                          placeholder="contoh@gmail.com"
+                          placeholder="Alamat Email"
                           value={passenger.email}
                           onChange={(e) => handlePassengerChange(index, e)}
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
                           required
                         />
                       </div>
                       <div className="ps-4 pe-4 mt-4">
                         <label className="block text-[#2A629A] mb-2 text-sm font-medium">
-                          No Telp
+                          Nomor Ponsel
                         </label>
                         <input
                           type="tel"
                           name="phone_number"
                           value={passenger.phone_number}
                           onChange={(e) => handlePassengerChange(index, e)}
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                          placeholder="08XXXXXXXXXX"
+                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="08123456789"
                           required
                         />
                       </div>
@@ -528,8 +534,8 @@ export default function TicketCheckout() {
                           onChange={(date) =>
                             handleDateChange(index, "date_of_birth", date)
                           }
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                          placeholder="dd-mm-yyyy"
+                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="01-01-2001"
                           required
                           options={{
                             maxDate: new Date(),
@@ -546,14 +552,14 @@ export default function TicketCheckout() {
                           name="nationality"
                           value={passenger.nationality}
                           onChange={(e) => handlePassengerChange(index, e)}
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                          placeholder="Contoh: Indonesia, Malaysia, Singapura, dll."
+                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="Contoh: Indonesia"
                           required
                         />
                       </div>
                       <div className="ps-4 pe-4 mt-4">
                         <label className="block text-[#2A629A] mb-2 text-sm font-medium">
-                          KTP/Paspor
+                          Nomor Kartu Tanda Penduduk atau Paspor
                         </label>
                         <input
                           type="tel"
@@ -561,8 +567,8 @@ export default function TicketCheckout() {
                           value={passenger.identity_number}
                           onChange={(e) => handlePassengerChange(index, e)}
                           maxLength={16}
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                          placeholder="Masukkan nomor KTP atau Paspor"
+                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="357800030003000"
                           required
                         />
                       </div>
@@ -575,8 +581,8 @@ export default function TicketCheckout() {
                           name="issuing_country"
                           value={passenger.issuing_country}
                           onChange={(e) => handlePassengerChange(index, e)}
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                          placeholder="Contoh: Indonesia, Malaysia, Singapura, dll."
+                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="Contoh: Indonesia"
                           required
                         />
                       </div>
@@ -589,8 +595,8 @@ export default function TicketCheckout() {
                           onChange={(date) =>
                             handleDateChange(index, "valid_until", date)
                           }
-                          className="w-full p-2 border border-gray-300 rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                          placeholder="dd-mm-yyyy"
+                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          placeholder="01-01-2001"
                           required
                           options={{
                             minDate: new Date(),
@@ -605,7 +611,7 @@ export default function TicketCheckout() {
                 <div className="mt-5">
                   <button
                     type="submit"
-                    className="w-full bg-[#2A629A] font-medium text-white text-sm p-2 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]"
+                    className="w-full max-w-[700px] inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#2A629A] font-medium text-white hover:bg-[#003285] focus:outline-none focus:ring-0"
                   >
                     Simpan
                   </button>
@@ -618,12 +624,16 @@ export default function TicketCheckout() {
                 {isDataSaved && (
                   <button
                     onClick={handleLanjutPembayaran}
-                    className={`w-full bg-[#2A629A] font-medium text-white text-sm p-2 mt-4 rounded-xl focus:outline-none transition-colors duration-300 hover:bg-[#003285] active:bg-[#003285]" 
+                    className={`w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#28A745] font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-0" 
                       ${
-                        isMobile ? "mt-4 ms-3" : isTablet ? "ms-44 mt-4 " : ""
+                        isMobile
+                          ? "mt-4 ms-3"
+                          : isTablet
+                          ? "lg:w-2/3 max-w-[750px] ms-44 mt-4 "
+                          : ""
                       }`}
                   >
-                    Lanjut Pembayaran
+                    Lanjut Bayar
                   </button>
                 )}
               </div>

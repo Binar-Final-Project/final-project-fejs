@@ -24,6 +24,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
   const {
     email,
     isEmailValid,
@@ -42,6 +43,7 @@ export default function Login() {
     return () => {
       dispatch(setEmail(""));
       dispatch(setPassword(""));
+      dispatch(setShowPassword(false));
       dispatch(setPasswordTouched(false));
       dispatch(clearError());
     };
@@ -233,13 +235,6 @@ export default function Login() {
 
   return (
     <div>
-      {/* <style>
-        {`
-            body, html {
-              overflow: hidden;
-            }
-            `}
-      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -253,7 +248,11 @@ export default function Login() {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
+          <div
+            className={`max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg
+              ${isTablet ? "max-w-[650px] p-8" : ""}
+            `}
+          >
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
@@ -270,11 +269,9 @@ export default function Login() {
                 Masuk ke Akun Anda
               </h1>
               <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
-                <a href="/login" className="text-[#40A2E3] hover:underline">
-                  Masuk
-                </a>
+                <span className="text-[#40A2E3]">Masuk</span>
                 <span className="text-[#2A629A]"> </span>
-                <span className="text-[#2A629A]">
+                <span className="text-[#8A8A8A]">
                   untuk akses cepat dan mudah ke tiket pesawat terbaik!
                 </span>
               </h2>
@@ -298,21 +295,21 @@ export default function Login() {
                               ${
                                 !isEmailValid && email
                                   ? "border-[#FF0000]"
-                                  : "border-[#D0D0D0]"
+                                  : "border-[#8A8A8A]"
                               }`}
                     >
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                         type="text"
                         placeholder="Alamat Email"
                         value={email}
                         onChange={handleEmailChange}
                       />
                       {isEmailValid && (
-                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745]" />
+                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745] flex-shrink-0" />
                       )}
                       {!isEmailValid && email && (
-                        <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2" />
+                        <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2 flex-shrink-0" />
                       )}
                     </div>
                     {!isEmailValid && email && (
@@ -345,11 +342,11 @@ export default function Login() {
                               ${
                                 isPasswordTouched && !isPasswordValid
                                   ? "border-[#FF0000]"
-                                  : "border-[#D0D0D0]"
+                                  : "border-[#8A8A8A]"
                               }`}
                     >
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                         type={passwordInputType}
                         placeholder="••••••••••"
                         value={password}
@@ -359,19 +356,19 @@ export default function Login() {
                       />
                       {showPassword ? (
                         <FiEye
-                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={togglePasswordVisibility}
                         />
                       ) : (
                         <FiEyeOff
-                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={togglePasswordVisibility}
                         />
                       )}
                     </div>
                     {isPasswordTouched && !isPasswordValid && (
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
-                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                        <BiErrorCircle className="w-[20px] h-[20px] mr-1.5 flex-shrink-0" />
                         <p>
                           Kata sandi berisi minimal 8 karakter, termasuk huruf
                           besar dan angka
@@ -391,7 +388,7 @@ export default function Login() {
               </form>
 
               <div className="relative max-w-[400px] w-full rounded-lg m-4 sm:m-8 mt-8 mb-8">
-                <hr className="absolute left-0 right-0 border-t-2 border-[#2A629A]" />
+                <hr className="absolute left-0 right-0 border-t border-[#8A8A8A]" />
                 <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#FFF8ED] px-2 text-[#2A629A] text-sm font-medium">
                   atau
                 </p>
@@ -401,12 +398,12 @@ export default function Login() {
               <LoginGoogle buttonText={"Lanjutkan dengan Google"} />
 
               {/* Mengarahkan ke halaman daftar jika pengguna belum punya akun */}
-              <p className="text-[#2A629A] mt-7 text-sm font-medium">
+              <p className="text-[#8A8A8A] mt-7 text-sm font-medium">
                 Baru di{" "}
                 <a href="/" className="text-[#2A629A] mt-7 text-sm font-bold">
                   BiFlight
                 </a>
-                <span className="text-[#2A629A] mt-7 text-sm font-medium">
+                <span className="text-[#8A8A8A] mt-7 text-sm font-medium">
                   ?{" "}
                 </span>
                 <a

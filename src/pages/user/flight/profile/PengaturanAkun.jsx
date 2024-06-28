@@ -354,7 +354,7 @@ export default function PengaturanAkun() {
                         >
                           Masukkan Kata Sandi Lama
                         </label>
-                        <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
+                        <div className="flex items-center p-2 rounded-xl border border-[#8A8A8A] focus-within:border-[#2A629A] focus-within:shadow-lg">
                           <input
                             className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                             type={oldPasswordInputType}
@@ -391,7 +391,7 @@ export default function PengaturanAkun() {
                         >
                           Masukkan Kata Sandi Baru
                         </label>
-                        <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
+                        <div className="flex items-center p-2 rounded-xl border border-[#8A8A8A] focus-within:border-[#2A629A] focus-within:shadow-lg">
                           <input
                             className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                             type={newPasswordInputType}
@@ -429,7 +429,7 @@ export default function PengaturanAkun() {
                                 <BiSolidCheckCircle className="text-[#28A745] w-[20px] h-[20px]" />
                               )}
                             </div>
-                            <p className="text-xs">
+                            <p className="text-xs text-[#8A8A8A]">
                               {passwordStrength === "weak"
                                 ? "Password lemah"
                                 : passwordStrength === "medium"
@@ -448,7 +448,7 @@ export default function PengaturanAkun() {
                         >
                           Konfirmasi Kata Sandi Baru
                         </label>
-                        <div className="flex items-center p-2 rounded-xl border border-[#D0D0D0] focus-within:border-[#2A629A] focus-within:shadow-lg">
+                        <div className="flex items-center p-2 rounded-xl border border-[#8A8A8A] focus-within:border-[#2A629A] focus-within:shadow-lg">
                           <input
                             className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
                             type={confirmPasswordInputType}
@@ -487,7 +487,7 @@ export default function PengaturanAkun() {
                         {passwordsMatch && confirmPassword && (
                           <div className="flex items-center text-xs mt-1 text-left">
                             <BiSolidCheckCircle className="text-[#28A745] w-[20px] h-[20px] mr-1" />
-                            <p>
+                            <p className="text-[#8A8A8A]">
                               Konfirmasi kata sandi sudah cocok dengan kata
                               sandi baru
                             </p>
@@ -495,6 +495,7 @@ export default function PengaturanAkun() {
                         )}
                       </div>
                     </div>
+
                     <div className="flex justify-end mt-3">
                       <button
                         type="button"

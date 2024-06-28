@@ -12,11 +12,12 @@ import Logobiflight from "../../../assets/images/logobiflight.png";
 import { useMediaQuery } from "react-responsive";
 
 const EmailResetPassword = () => {
-  const [email, setEmail] = useState("");
-  const [isEmailValid, setIsEmailValid] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   const handleEmailChange = (e) => {
     const emailValue = e.target.value;
@@ -73,13 +74,6 @@ const EmailResetPassword = () => {
 
   return (
     <div>
-      {/* <style>
-        {`
-          body, html {
-            overflow: hidden;
-          }
-        `}
-      </style> */}
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -93,7 +87,11 @@ const EmailResetPassword = () => {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center shadow-lg relative">
+          <div
+            className={`max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg
+              ${isTablet ? "max-w-[650px] p-8" : ""}
+            `}
+          >
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
@@ -110,15 +108,10 @@ const EmailResetPassword = () => {
                 Lupa Kata Sandi
               </h1>
               <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
-                <a
-                  href="/forgot-password"
-                  className="text-[#40A2E3] hover:underline"
-                >
-                  Lupa kata sandi
-                </a>
-                <span className="text-[#2A629A]">? </span>
-                <span className="text-[#2A629A]">
-                  Masukkan email Anda untuk mereset kata sandi!
+                <span className="text-[#40A2E3]">Lupa kata sandi</span>
+                <span className="text-[#8A8A8A]">? </span>
+                <span className="text-[#8A8A8A]">
+                  Masukkan Email Anda untuk mereset kata sandi!
                 </span>
               </h2>
 
@@ -138,7 +131,7 @@ const EmailResetPassword = () => {
                     } ${
                       !isEmailValid && email
                         ? "border-red-500"
-                        : "border-[#D0D0D0]"
+                        : "border-[#8A8A8A]"
                     }`}
                   >
                     <input
@@ -146,14 +139,14 @@ const EmailResetPassword = () => {
                       value={email}
                       onChange={handleEmailChange}
                       placeholder="Alamat Email"
-                      className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                      className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                       required
                     />
                     {isEmailValid && email && (
-                      <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745]" />
+                      <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745] flex-shrink-0" />
                     )}
                     {!isEmailValid && email && (
-                      <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2" />
+                      <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2 flex-shrink-0" />
                     )}
                   </div>
 
@@ -178,7 +171,7 @@ const EmailResetPassword = () => {
               </form>
 
               {/* Mengarahkan ke halaman masuk jika pengguna ingat kata sandi */}
-              <p className="text-[#2A629A] mt-7 text-sm font-medium">
+              <p className="text-[#8A8A8A] mt-7 text-sm font-medium">
                 Ingat kata sandi Anda?{" "}
                 <a
                   href="/login"
