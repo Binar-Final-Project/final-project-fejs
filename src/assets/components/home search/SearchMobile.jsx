@@ -36,18 +36,24 @@ export default function SearchMobile() {
   const [seat_class, setSeat_class] = useState("Economy");
   const [total_passenger, setTotal_passenger] = useState(1);
   const [departure_date, setDeparture_date] = useState(new Date());
-  const [date, setDate] = useState([
-    {
-      startDate: new Date(),
-      endDate: new Date(),
-      key: "selection",
-    },
-  ]);
   const [penumpang, setPenumpang] = useState({
     dewasa: 1,
     anak: 0,
     bayi: 0,
   });
+
+  const today = new Date();
+  // Membuat tanggal besok dengan menambahkan 1 hari ke tanggal hari ini
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+
+  const [date, setDate] = useState([
+    {
+      startDate: today,
+      endDate: tomorrow,
+      key: "selection",
+    },
+  ]);
 
   // BUAT NUKER POSISI DARI DESTINASI AWAL-DESTINASI TUJUAN
   const handleRotateClick = () => {
@@ -230,7 +236,7 @@ export default function SearchMobile() {
   };
 
   return (
-    <div>
+    <div className={`${isChecked ? "mb-10" : ""}`}>
       <div className="bg-[#2A629A] rounded-b-3xl w-full h-[300px] py-3 px-4">
         <Toaster
           toastOptions={{
@@ -262,7 +268,7 @@ export default function SearchMobile() {
                           onChange={(airportCode) =>
                             setDeparture_code(airportCode)
                           }
-                          placeholder="Pilih bandara awal"
+                          placeholder="Pilih kota awal"
                           className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
                         />
                       </div>
@@ -289,7 +295,7 @@ export default function SearchMobile() {
                       <AirportInput
                         value={arrival_code}
                         onChange={(airportCode) => setArrival_code(airportCode)}
-                        placeholder="Pilih bandara tujuan"
+                        placeholder="Pilih kota tujuan"
                         className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
                       />
                     </div>
@@ -439,7 +445,6 @@ export default function SearchMobile() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 
@@ -572,7 +577,6 @@ export default function SearchMobile() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 
@@ -678,13 +682,16 @@ export default function SearchMobile() {
       </div>
 
       {/* MODAL PILIH TANGGAL PENERBANGAN */}
+
       <div
         className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
           dateModalOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
         <div
-          className={`relative p-4 w-full max-w-md max-h-full transform transition-transform duration-300 ease-in-out ${
+          className={`relative p-4 w-full ${
+            isChecked ? "max-w-3xl" : "max-w-md"
+          } max-h-full transform transition-transform duration-300 ease-in-out ${
             dateModalOpen ? "translate-y-0" : "-translate-y-full"
           }`}
         >
@@ -712,7 +719,6 @@ export default function SearchMobile() {
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
               </button>
             </div>
 

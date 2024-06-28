@@ -144,24 +144,6 @@ export default function OrderHistory() {
     setLt(lessThan);
     setGte(greaterThan);
 
-    // if (lessThan === greaterThan) {
-    //   toast("Harap pilih tanggal yang berbeda!", {
-    //     style: {
-    //       background: "#FF0000", // Background merah
-    //       color: "#FFFFFF", // Teks putih
-    //       borderRadius: "12px", // Rounded-xl
-    //       fontSize: "14px", // Ukuran font
-    //       textAlign: "center", // Posisi teks di tengah
-    //       padding: "10px 20px", // Padding
-    //       width: "full",
-    //       maxWidth: "900px",
-    //     },
-    //     position: "top-center", // Posisi toast
-    //     duration: 3000, // Durasi toast
-    //   });
-    //   return;
-    // }
-
     if (lessThan === greaterThan) {
       dispatch(getTransactions("", greaterThan, ""));
     } else {
@@ -171,6 +153,7 @@ export default function OrderHistory() {
     setIsSearchModalOpen(false);
     setSelectedTicket([]);
     setSearchButton(true);
+    setQuery("");
   };
 
   // FUNGSI UNTUK SUBMIT HASIL PENCARIAN BERDASARKAN KODE PENERBANGAN
@@ -201,6 +184,8 @@ export default function OrderHistory() {
     setIsSearchModalOpen(false);
     setSelectedTicket([]);
     setSearchButton(true);
+    setLt("");
+    setGte("");
   };
 
   // FUNGSI UNTUK MENGHAPUS SEMUA RIWAYAT PENCARIAN NOMOR PENERBANGAN
@@ -248,8 +233,6 @@ export default function OrderHistory() {
     setSelectedTicket([]);
   };
 
-  console.log("selectedTicket", selectedTicket);
-
   const handlePayment = () => {
     if (selectedTicket) {
       dispatch(setTicketSelected(selectedTicket));
@@ -293,7 +276,7 @@ export default function OrderHistory() {
                       >
                         {({ open }) => (
                           <>
-                            <div className="mt-1 relative w-36">
+                            <div className="mt-1 relative w-48">
                               <Listbox.Button className="flex items-center border-[#003285] border-2 py-2 px-3 w-full rounded-full">
                                 <span className="truncate flex items-center">
                                   <IoFilter className="mr-1 text-xl" />
@@ -380,10 +363,38 @@ export default function OrderHistory() {
                   </div>
                 </div>
                 {searchButton ? (
-                  <div className="flex justify-end mb-2">
+                  <div
+                    className={`flex mb-2 ${
+                      isMobile || isTablet
+                        ? "flex-col gap-2 items-end"
+                        : "flex-row justify-between items-center"
+                    }`}
+                  >
+                    <div>
+                      {query && !lt && !gte ? (
+                        <h5 className="font-medium text-[#003285] text-xl text-center">
+                          Hasil pencarian "{query}"
+                        </h5>
+                      ) : (
+                        <h5 className="font-medium text-[#003285] text-xl text-center">
+                          Hasil pencarian dari tanggal{" "}
+                          {new Date(gte).toLocaleString("id-ID", {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                          })}{" "}
+                          hingga{" "}
+                          {new Date(lt).toLocaleString("id-ID", {
+                            day: "2-digit",
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </h5>
+                      )}
+                    </div>
                     <button
                       type="button"
-                      className="py-2 px-10 rounded-lg bg-[#2A629A] text-white hover:bg-[#3472b0]"
+                      className="py-2 px-10 rounded-lg bg-[#2A629A] text-white hover:bg-[#3472b0] w-56 "
                       onClick={handleClearSearch}
                     >
                       <div className="flex items-center font-medium">
@@ -400,18 +411,28 @@ export default function OrderHistory() {
                 <div className="flex flex-col items-center my-10">
                   <div className="flex flex-col items-center">
                     <iframe src="https://lottie.host/embed/d3072280-f0c3-4850-9067-359d9d6b5744/V9wwvXaroH.json"></iframe>
-                    <h5 className="text-[#003285] text-xl font-medium text-center">
-                      Anda belum memiliki riwayat pesanan.
-                    </h5>
-                    <p className="text-[#003285] text-sm font-medium text-center">
-                      Silahkan lakukan pemesanan dan temukan perjalanan yang
-                      seru!
-                    </p>
-                    <Link to="/">
-                      <button className="bg-[#003285] text-white rounded-lg shadow-md px-4 py-2 mt-3 w-full">
-                        Cari Penerbangan
-                      </button>
-                    </Link>
+                    {query || lt || gte ? (
+                      <div>
+                        <h5 className="text-[#003285] text-2xl font-medium text-center">
+                          Hasil pencarian tidak ditemukan
+                        </h5>
+                      </div>
+                    ) : (
+                      <div>
+                        <h5 className="text-[#003285] text-xl font-medium text-center">
+                          Anda belum memiliki riwayat pesanan.
+                        </h5>
+                        <p className="text-[#003285] text-sm font-medium text-center">
+                          Silahkan lakukan pemesanan dan temukan perjalanan yang
+                          seru!
+                        </p>
+                        <Link to="/">
+                          <button className="bg-[#003285] text-white rounded-lg shadow-md px-4 py-2 mt-3 w-full">
+                            Cari Penerbangan
+                          </button>
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </div>
               ) : (
@@ -1106,7 +1127,6 @@ export default function OrderHistory() {
                           d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                         />
                       </svg>
-                      <span className="sr-only">Close modal</span>
                     </button>
                   </div>
                   <div className="flex flex-col md:flex-row p-6 gap-3 justify-center items-center">
@@ -1174,7 +1194,6 @@ export default function OrderHistory() {
                           d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                         />
                       </svg>
-                      <span className="sr-only">Close modal</span>
                     </button>
                   </div>
 
@@ -1260,7 +1279,6 @@ export default function OrderHistory() {
                                 d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                               />
                             </svg>
-                            <span className="sr-only">Close modal</span>
                           </button>
                         </div>
                       ))}
@@ -1313,7 +1331,6 @@ export default function OrderHistory() {
                           d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                         />
                       </svg>
-                      <span className="sr-only">Close modal</span>
                     </button>
                   </div>
 
@@ -1376,7 +1393,6 @@ export default function OrderHistory() {
                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                       />
                     </svg>
-                    <span className="sr-only">Close modal</span>
                   </button>
                   <div className="p-4 md:p-5 text-center">
                     <h3 className="mb-5 text-lg font-normal text-gray-500">
@@ -1434,7 +1450,6 @@ export default function OrderHistory() {
                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                       />
                     </svg>
-                    <span className="sr-only">Close modal</span>
                   </button>
                   <div className="p-4 md:p-5 text-center">
                     <h3 className="mb-5 text-lg font-normal text-gray-500">

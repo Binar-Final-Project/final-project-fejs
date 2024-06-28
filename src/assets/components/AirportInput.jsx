@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Combobox } from "@headlessui/react";
-import { HiOutlineSelector } from "react-icons/hi";
 import airports from "../airports/airportsList";
 
 function classNames(...classes) {
@@ -50,12 +49,6 @@ export default function AirportInput({
           value={query}
           placeholder={placeholder}
         />
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md focus:outline-none">
-          <HiOutlineSelector
-            className="h-5 w-5 text-gray-400"
-            aria-hidden="true"
-          />
-        </Combobox.Button>
 
         {filteredItems.length > 0 && (
           <Combobox.Options

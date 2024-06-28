@@ -18,17 +18,58 @@ import Notification from "./pages/user/flight/Notification.jsx";
 import OrderHistory from "./pages/user/flight/OrderHistory.jsx";
 import PrintTicket from "./pages/user/flight/PrintTicket.jsx";
 import AboutUs from "./assets/components/AboutUs.jsx";
+import CheckValidation from "./assets/components/CheckValidation.jsx";
 
 export default function App() {
   return (
     <Router>
       <Routes>
         {/* AUTH */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/verify-otp" element={<VerifyOTP />} />
-        <Route path="/forgot-password" element={<EmailResetPassword />} />
-        <Route path="/reset-password" element={<ForgotPassword />} />
+        <Route
+          path="/login"
+          element={
+            <div>
+              <CheckValidation />
+              <Login />
+            </div>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <div>
+              <CheckValidation />
+              <Register />
+            </div>
+          }
+        />
+        <Route
+          path="/verify-otp"
+          element={
+            <div>
+              <CheckValidation />
+              <VerifyOTP />
+            </div>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <div>
+              <CheckValidation />
+              <EmailResetPassword />
+            </div>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <div>
+              <CheckValidation />
+              <ForgotPassword />
+            </div>
+          }
+        />
         {/* USER */}
         <Route path="*" element={<NotFound />} />
 
@@ -83,7 +124,7 @@ export default function App() {
           }
         />
         <Route
-          path="/ubah-password"
+          path="/pengaturan-akun"
           element={
             <div>
               <Protected />

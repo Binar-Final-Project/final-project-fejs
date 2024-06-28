@@ -74,6 +74,7 @@ export const getFlight =
 
 export const getCheapestFlights = () => async (dispatch) => {
   dispatch(setIsLoading(true));
+  dispatch(setCheapestFlights([]));
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_REACT_APP_SERVER}/flights/cheapest`,
