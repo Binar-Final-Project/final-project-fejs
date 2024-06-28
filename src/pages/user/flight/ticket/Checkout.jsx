@@ -293,17 +293,9 @@ export default function TicketCheckout() {
             sebelum tiket kamu hangus!
           </div>
 
-          {/* Menampilkan modal untuk kembali
+          {/* Menampilkan modal untuk kembali */}
           <div
-            className={`lg:w-1/12 ${
-              isMobile
-                ? "mt-5"
-                : isTablet
-                ? "mt-16"
-                : isLaptop
-                ? "mt-20"
-                : "mt-20"
-            }`}
+            className={`lg:w-1/12 ${isMobile ? "pt-6" : isTablet ? "pt-20" : isLaptop ? "pt-20" : ""}`}
           >
             <div
               className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3] cursor-pointer"
@@ -312,21 +304,9 @@ export default function TicketCheckout() {
               <IoIosArrowBack className="text-3xl" />
               <h6 className="text-lg">Kembali</h6>
             </div>
-          </div> */}
+          </div>
 
           {/* Tombol Kembali */}
-          {!isMobile && (
-            <div className="pt-20 left-10 z-10">
-              <div>
-                <Link to="/">
-                  <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
-                    <IoIosArrowBack className="text-2xl" />
-                    <span className="text-lg">Kembali</span>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          )}
           <Modal
             isOpen={openModal}
             onRequestClose={() => setOpenModal(false)}
@@ -364,12 +344,12 @@ export default function TicketCheckout() {
           <form onSubmit={handleSubmit}>
             <div
               className={`container mx-auto mt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6${
-                isMobile ? "" : ""
+                isTablet ? "" : ""
               }`}
             >
               <div className="col-span-2 ">
                 {/* Data Akun */}
-                <div className="bg-white shadow-md rounded-xl p-6 max-w-[700px]">
+                <div className="bg-white shadow-md rounded-xl p-6 max-w-[800px]">
                   <h1 className="text-xl text-center font-bold mb-4 text-[#003285]">
                     Isi Data Pemesan
                   </h1>
@@ -452,7 +432,7 @@ export default function TicketCheckout() {
                 </div>
 
                 {/* Form Data Tiket */}
-                <div className="bg-white shadow-md rounded-xl p-6 mt-6 space-y-6 max-w-[700px]">
+                <div className="bg-white shadow-md rounded-xl p-6 mt-6 space-y-6 max-w-[800px]">
                   {passengers.map((passenger, index) => (
                     <div
                       key={index}
@@ -608,10 +588,10 @@ export default function TicketCheckout() {
                   ))}
                 </div>
 
-                <div className="mt-5">
+                <div>
                   <button
                     type="submit"
-                    className="w-full max-w-[700px] inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#2A629A] font-medium text-white hover:bg-[#003285] focus:outline-none focus:ring-0"
+                    className="w-full max-w-[800px] mt-6 inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#2A629A] font-medium text-white hover:bg-[#003285] focus:outline-none focus:ring-0"
                   >
                     Simpan
                   </button>
@@ -619,17 +599,15 @@ export default function TicketCheckout() {
               </div>
 
               {/* Order Summary */}
-              <div className={`col-span-1`}>
+              <div className={`col-span-1 ${isMobile ? "mx-auto w-full ms-3" : isTablet ? "col-span-2"  : ""}`}>
                 <OrderSummary />
                 {isDataSaved && (
                   <button
                     onClick={handleLanjutPembayaran}
                     className={`w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#28A745] font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-0" 
                       ${
-                        isMobile
-                          ? "mt-4 ms-3"
-                          : isTablet
-                          ? "lg:w-2/3 max-w-[750px] ms-44 mt-4 "
+                        isTablet
+                          ? ""
                           : ""
                       }`}
                   >
