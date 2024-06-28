@@ -43,6 +43,7 @@ export default function Login() {
     return () => {
       dispatch(setEmail(""));
       dispatch(setPassword(""));
+      dispatch(setShowPassword(false));
       dispatch(setPasswordTouched(false));
       dispatch(clearError());
     };
@@ -268,9 +269,7 @@ export default function Login() {
                 Masuk ke Akun Anda
               </h1>
               <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
-                <a href="/login" className="text-[#40A2E3] hover:underline">
-                  Masuk
-                </a>
+                <span className="text-[#40A2E3]">Masuk</span>
                 <span className="text-[#2A629A]"> </span>
                 <span className="text-[#8A8A8A]">
                   untuk akses cepat dan mudah ke tiket pesawat terbaik!
@@ -300,17 +299,17 @@ export default function Login() {
                               }`}
                     >
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                         type="text"
                         placeholder="Alamat Email"
                         value={email}
                         onChange={handleEmailChange}
                       />
                       {isEmailValid && (
-                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745]" />
+                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745] flex-shrink-0" />
                       )}
                       {!isEmailValid && email && (
-                        <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2" />
+                        <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2 flex-shrink-0" />
                       )}
                     </div>
                     {!isEmailValid && email && (
@@ -347,7 +346,7 @@ export default function Login() {
                               }`}
                     >
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                         type={passwordInputType}
                         placeholder="••••••••••"
                         value={password}
@@ -357,19 +356,19 @@ export default function Login() {
                       />
                       {showPassword ? (
                         <FiEye
-                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={togglePasswordVisibility}
                         />
                       ) : (
                         <FiEyeOff
-                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={togglePasswordVisibility}
                         />
                       )}
                     </div>
                     {isPasswordTouched && !isPasswordValid && (
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
-                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                        <BiErrorCircle className="w-[20px] h-[20px] mr-1.5 flex-shrink-0" />
                         <p>
                           Kata sandi berisi minimal 8 karakter, termasuk huruf
                           besar dan angka

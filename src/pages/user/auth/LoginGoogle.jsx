@@ -26,9 +26,9 @@ export default function LoginGoogle({ buttonText }) {
   return (
     <button
       onClick={googleLoginHandler}
-      className="bg-white text-[#2A629A] text-sm font-medium border border-[#8A8A8A] focus-within:border-[#8A8A8A] p-2 rounded-xl w-full transition-colors duration-300 hover:bg-[#8A8A8A] active:bg-[#8A8A8A] hover:text-white flex items-center justify-center"
+      className="bg-white text-[#2A629A] text-sm font-medium border border-[#8A8A8A] focus-within:border-[#8A8A8A] p-2 rounded-xl w-full transition-colors duration-300 hover:bg-[#8A8A8A] active:bg-[#8A8A8A] hover:text-white flex items-center justify-center min-w-0"
     >
-      <FcGoogle className="w-5 h-5 mr-3" />
+      <FcGoogle className="w-5 h-5 mr-3 flex-shrink-0" />
       {buttonText}
     </button>
   );

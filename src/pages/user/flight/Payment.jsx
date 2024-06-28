@@ -345,7 +345,7 @@ export default function Payment() {
         <div
           className={`w-full ${
             isTablet ? "lg:w-2/3 max-w-[750px]" : "lg:w-1/3"
-          } max-w-[500px] rounded-xl p-6 mt-20 bg-white text-center shadow-lg`}
+          } max-w-[500px] rounded-xl p-6 mt-24 bg-white text-center shadow-lg`}
         >
           <h1 className="text-[#003285] text-xl font-bold p-2 mb-7">
             Isi Data Pembayaran
@@ -393,7 +393,7 @@ export default function Payment() {
                     }`}
                   >
                     <input
-                      className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                      className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                       type="text"
                       value={card_number}
                       onChange={(e) => handleInputChange(e, setCardNumber)}
@@ -402,7 +402,7 @@ export default function Payment() {
                       maxLength={19} // Menyesuaikan panjang input agar sesuai dengan format kartu kredit yang mengandung spasi
                     />
                     {!validateCardNumber(card_number) && card_number && (
-                      <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px]" />
+                      <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] flex-shrink-0" />
                     )}
                   </div>
                   {!validateCardNumber(card_number) && card_number && (
@@ -440,7 +440,7 @@ export default function Payment() {
                     }`}
                   >
                     <input
-                      className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                      className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                       type="text"
                       placeholder="Nama Lengkap"
                       value={card_holder_name}
@@ -451,7 +451,7 @@ export default function Payment() {
                   </div>
                   {isCardHolderNameTouched && !card_holder_name && (
                     <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
-                      <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                      <BiErrorCircle className="w-[20px] h-[20px] mr-1 flex-shrink-0" />
                       <p>Nama pemegang kartu tidak boleh kosong</p>
                     </div>
                   )}
@@ -459,7 +459,7 @@ export default function Payment() {
                     card_holder_name &&
                     card_holder_name.length < 3 && (
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
-                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                        <BiErrorCircle className="w-[20px] h-[20px] mr-1 flex-shrink-0" />
                         <p>Nama terlalu pendek, minimum 3 huruf</p>
                       </div>
                     )}
@@ -483,7 +483,7 @@ export default function Payment() {
                       }`}
                     >
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                         type="text"
                         value={cvv}
                         onChange={(e) => handleInputChange(e, setCvv)}
@@ -492,7 +492,7 @@ export default function Payment() {
                         maxLength={4}
                       />
                       {!validateCvv(cvv) && cvv && (
-                        <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2" />
+                        <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2 flex-shrink-0" />
                       )}
                     </div>
                     {!validateCvv(cvv) && cvv && (
@@ -507,7 +507,7 @@ export default function Payment() {
                     </label>
                     <div className="flex items-center gap-2">
                       <select
-                        className="p-2 rounded-xl bg-white border border-[#8A8A8A] focus:shadow-lg focus:border-[#2A629A] text-sm text-[#2A629A] w-1/2"
+                        className="p-2 rounded-xl bg-white border border-[#8A8A8A] focus:shadow-lg focus:border-[#2A629A] text-sm text-[#2A629A] w-1/2 min-w-0"
                         value={selectedMonth}
                         onChange={(e) =>
                           dispatch(setSelectedMonth(e.target.value))
@@ -526,7 +526,7 @@ export default function Payment() {
                         ))}
                       </select>
                       <select
-                        className="p-2 rounded-xl bg-white border border-[#8A8A8A] focus:shadow-lg focus:border-[#2A629A] text-sm text-[#2A629A] w-1/2"
+                        className="p-2 rounded-xl bg-white border border-[#8A8A8A] focus:shadow-lg focus:border-[#2A629A] text-sm text-[#2A629A] w-1/2 min-w-0"
                         value={selectedYear}
                         onChange={(e) =>
                           dispatch(setSelectedYear(e.target.value))
@@ -547,7 +547,7 @@ export default function Payment() {
                     ) &&
                       (selectedMonth || selectedYear) && (
                         <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
-                          <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                          <BiErrorCircle className="w-[20px] h-[20px] mr-1.5 flex-shrink-0" />
                           <p>Mohon isi kedua kolom di atas</p>
                         </div>
                       )}
@@ -568,7 +568,7 @@ export default function Payment() {
         {/* Format Pemesanan Tiket */}
         <div
           className={`w-full ${
-            isTablet ? "lg:w-2/3 max-w-[750px]" : "lg:w-1/3"
+            isTablet ? "lg:w-2/3 max-w-[750px]" : "lg:w-3/3"
           } max-w-[500px] lg:ml-10 lg:mt-0`}
         >
           <BookingSummary />

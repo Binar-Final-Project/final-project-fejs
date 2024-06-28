@@ -108,12 +108,7 @@ const EmailResetPassword = () => {
                 Lupa Kata Sandi
               </h1>
               <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
-                <a
-                  href="/forgot-password"
-                  className="text-[#40A2E3] hover:underline"
-                >
-                  Lupa kata sandi
-                </a>
+                <span className="text-[#40A2E3]">Lupa kata sandi</span>
                 <span className="text-[#8A8A8A]">? </span>
                 <span className="text-[#8A8A8A]">
                   Masukkan Email Anda untuk mereset kata sandi!
@@ -144,14 +139,14 @@ const EmailResetPassword = () => {
                       value={email}
                       onChange={handleEmailChange}
                       placeholder="Alamat Email"
-                      className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                      className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                       required
                     />
                     {isEmailValid && email && (
-                      <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745]" />
+                      <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745] flex-shrink-0" />
                     )}
                     {!isEmailValid && email && (
-                      <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2" />
+                      <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2 flex-shrink-0" />
                     )}
                   </div>
 

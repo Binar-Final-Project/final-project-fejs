@@ -57,7 +57,9 @@ export default function Register() {
       dispatch(setEmail(""));
       dispatch(setPhoneNumber(""));
       dispatch(setPassword(""));
+      dispatch(setShowPassword(false));
       dispatch(setConfirmPassword(""));
+      dispatch(setShowConfirmPassword(false));
       dispatch(clearError());
     };
   }, [dispatch]);
@@ -414,9 +416,7 @@ export default function Register() {
                 Buat Akun Baru Anda
               </h1>
               <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
-                <a href="/register" className="text-[#40A2E3] hover:underline">
-                  Daftarkan
-                </a>
+                <span className="text-[#40A2E3]">Daftarkan</span>
                 <span className="text-[#2A629A]"> </span>
                 <span className="text-[#8A8A8A]">
                   akun Anda dan dapatkan akses ke promo tiket pesawat murah!
@@ -446,13 +446,13 @@ export default function Register() {
                     ${
                       name
                         ? !isNameValid && name && name.length < 3
-                          ? "focus-within:border-[#FF0000]"
+                          ? "focus-within:border-[#FF0000] border-[#8A8A8A]"
                           : "focus-within:border-[#2A629A]"
-                        : "focus-within:border-[#FF0000]"
+                        : "focus-within:border-[#FF0000] border-[#8A8A8A]"
                     }`}
                     >
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                         type="text"
                         placeholder="Nama Lengkap"
                         value={name}
@@ -463,13 +463,13 @@ export default function Register() {
                     </div>
                     {isNameTouched && !name && (
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
-                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                        <BiErrorCircle className="w-[20px] h-[20px] mr-1.5 flex-shrink-0" />
                         <p>Nama tidak boleh kosong</p>
                       </div>
                     )}
                     {!isNameValid && name && name.length < 3 && (
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
-                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                        <BiErrorCircle className="w-[20px] h-[20px] mr-1.5 flex-shrink-0" />
                         <p>Nama terlalu pendek, minimum 3 huruf</p>
                       </div>
                     )}
@@ -494,17 +494,17 @@ export default function Register() {
                     }`}
                     >
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                         type="text"
                         placeholder="Alamat Email"
                         value={email}
                         onChange={handleEmailChange}
                       />
                       {isEmailValid && (
-                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745]" />
+                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745] flex-shrink-0" />
                       )}
                       {!isEmailValid && email && (
-                        <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2" />
+                        <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] ml-2 flex-shrink-0" />
                       )}
                     </div>
                     {!isEmailValid && email && (
@@ -538,19 +538,19 @@ export default function Register() {
                         </span>
                       </div>
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] pl-2"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] pl-2 min-w-0"
                         type="text"
                         placeholder="8123456789"
                         value={phone_number}
                         onChange={handlePhoneNumberChange}
                       />
                       {isPhoneNumberValid && (
-                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745] mr-2" />
+                        <BiSolidCheckCircle className="w-[21px] h-[21px] text-[#28A745] mr-2 flex-shrink-0" />
                       )}
                       {!isPhoneNumberValid &&
                         phone_number &&
                         phone_number.length > 0 && (
-                          <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] mr-2.5" />
+                          <RxCrossCircled className="text-[#FF0000] w-[20px] h-[20px] mr-2.5 flex-shrink-0" />
                         )}
                     </div>
                     {!isPhoneNumberValid &&
@@ -579,10 +579,10 @@ export default function Register() {
                           passwordStrength === "medium")
                           ? "border-[#FF0000]"
                           : "border-[#8A8A8A]"
-                      } focus-within:border-[#2A629A] focus-within:shadow-lg`}
+                      } border-[#2A629A] focus-within:shadow-lg`}
                     >
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                         type={passwordInputType}
                         placeholder="••••••••••"
                         value={password}
@@ -590,27 +590,27 @@ export default function Register() {
                       />
                       {showPassword ? (
                         <FiEye
-                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={togglePasswordVisibility}
                         />
                       ) : (
                         <FiEyeOff
-                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={togglePasswordVisibility}
                         />
                       )}
                     </div>
                     {password && (
                       <div className="flex items-center mt-1">
-                        <div className="flex-shrink-0 w-[20px] h-[20px] mr-1">
+                        <div className="flex-shrink-0 w-[20px] h-[20px] mr-1.5">
                           {passwordStrength === "weak" && (
-                            <BiErrorCircle className="text-[#FF0000] w-[20px] h-[20px]" />
+                            <BiErrorCircle className="text-[#FF0000] w-[20px] h-[20px] flex-shrink-0" />
                           )}
                           {passwordStrength === "medium" && (
-                            <BiErrorCircle className="text-yellow-500 w-[20px] h-[20px]" />
+                            <BiErrorCircle className="text-yellow-500 w-[20px] h-[20px] flex-shrink-0" />
                           )}
                           {passwordStrength === "strong" && (
-                            <BiSolidCheckCircle className="text-[#28A745] w-[20px] h-[20px]" />
+                            <BiSolidCheckCircle className="text-[#28A745] w-[20px] h-[20px] flex-shrink-0" />
                           )}
                         </div>
                         <p className="text-xs text-[#8A8A8A]">
@@ -630,12 +630,12 @@ export default function Register() {
                     <div
                       className={`flex items-center p-2 rounded-xl border ${
                         !passwordsMatch && confirmPassword
-                          ? "focus-within:border-[#FF0000]"
-                          : "focus-within:border-[#8A8A8A] border-[#8A8A8A]"
-                      } focus-within:border-[#2A629A] focus-within:shadow-lg`}
+                          ? "border-[#FF0000]"
+                          : "border-[#8A8A8A]"
+                      } border-[#2A629A] focus-within:shadow-lg`}
                     >
                       <input
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                         type={confirmPasswordInputType}
                         placeholder="••••••••••"
                         value={confirmPassword}
@@ -643,19 +643,19 @@ export default function Register() {
                       />
                       {showConfirmPassword ? (
                         <FiEye
-                          className="w-[17px] h-[17px] text-[#6B7280] cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#6B7280] cursor-pointer flex-shrink-0"
                           onClick={toggleConfirmPasswordVisibility}
                         />
                       ) : (
                         <FiEyeOff
-                          className="w-[17px] h-[17px] text-[#6B7280] cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#6B7280] cursor-pointer flex-shrink-0"
                           onClick={toggleConfirmPasswordVisibility}
                         />
                       )}
                     </div>
                     {!passwordsMatch && confirmPassword && (
                       <div className="flex items-center text-[#FF0000] text-xs mt-1 text-left">
-                        <RxCrossCircled className="w-[20px] h-[20px] mr-1" />
+                        <RxCrossCircled className="w-[20px] h-[20px] mr-1.5 flex-shrink-0" />
                         <p>
                           Konfirmasi kata sandi tidak cocok dengan kata sandi
                         </p>
