@@ -84,8 +84,8 @@ export default function OrderSummary() {
   };
 
   return (
-    <div className={`${isTablet ? "flex-col" : ""}`}>
-      <div className="max-w-[750px] w-full mx-auto bg-white rounded-xl shadow-lg mb-5 relative">
+    <div className={`${isTablet ? "col-span-2 " : isMobile ? "mx-auto" : ""}`}>
+      <div className="max-w-[800px] w-full bg-white rounded-xl shadow-lg mb-5 relative">
         <h1 className="text-lg font-semibold mb-3 bg-[#2A629A] text-white rounded-t-xl shadow-md px-4 py-3 flex items-center z-10">
           <IoAirplaneSharp className="w-7 h-7 mr-2" />
           Rincian Pemesanan
