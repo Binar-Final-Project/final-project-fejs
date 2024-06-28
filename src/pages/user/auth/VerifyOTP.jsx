@@ -18,8 +18,9 @@ export default function VerifyOTP() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMobile = useMediaQuery({ maxWidth: 767 });
-  const { otpInput, timer } = useSelector((state) => state.otp); // Mengambil otpInput dan timer dari state otp
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
   const registerEmail = useSelector((state) => state.register.email); // Mengambil email dari state register
+  const { otpInput, timer } = useSelector((state) => state.otp); // Mengambil otpInput dan timer dari state otp
   const [isToastShown, setIsToastShown] = useState(false); // State untuk memastikan toast hanya muncul sekali
   const [isResendVisible, setIsResendVisible] = useState(false); // State untuk tombol Resend OTP
 
@@ -156,7 +157,11 @@ export default function VerifyOTP() {
       >
         <div className="flex justify-center items-center min-h-screen w-full">
           <Toaster />
-          <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg">
+          <div
+            className={`max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg
+              ${isTablet ? "max-w-[650px] p-8" : ""}
+            `}
+          >
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
@@ -168,7 +173,9 @@ export default function VerifyOTP() {
               </h1>
               <h2 className="text-[#2A629A] text-l mb-5 text-center text-sm font-medium">
                 Masukkan 6 Digit Kode OTP yang Dikirim ke{" "}
-                <span className="font-bold">{email && censorEmail(email)}</span>
+                <span className="font-bold mt-2 text-[#40A2E3]">
+                  {email && censorEmail(email)}
+                </span>
               </h2>
 
               <form onSubmit={handleVerify} className="w-full">
@@ -182,7 +189,7 @@ export default function VerifyOTP() {
                       value={otpInput[index] || ""}
                       onChange={(e) => handleChange(e.target, index)}
                       onKeyDown={(e) => handleKeyDown(e, index)}
-                      className="w-10 h-10 sm:w-12 sm:h-12 text-center border border-[#2A629A] rounded-lg focus:border-[#2A629A]"
+                      className="w-12 h-12 sm:w-12 sm:h-12 text-center border border-[#2A629A] rounded-xl focus:border-[#2A629A]"
                     />
                   ))}
                 </div>

@@ -201,8 +201,8 @@ export default function UbahAkun() {
                         className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg
                     ${
                       name && isNameValid
-                        ? "focus-within:border-[#2A629A]"
-                        : "focus-within:border-[#FF0000]"
+                        ? "focus-within:border-[#2A629A] border-[#8A8A8A]"
+                        : "focus-within:border-[#FF0000] border-[#8A8A8A]"
                     }`}
                       >
                         <input
@@ -236,8 +236,8 @@ export default function UbahAkun() {
                         className={`flex items-center rounded-xl border focus-within:shadow-lg
                     ${
                       phone_number && phone_number.length >= 8
-                        ? "focus-within:border-[#2A629A]"
-                        : "focus-within:border-[#FF0000]"
+                        ? "focus-within:border-[#2A629A] border-[#8A8A8A]"
+                        : "focus-within:border-[#FF0000] border-[#8A8A8A]"
                     } 
                    `}
                       >

@@ -18,7 +18,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
     console.log(response);
     if (response.data.status === true) {
       toast.success(
-        "Email berhasil dikirim! Silahkan buka email anda untuk mengatur ulang kata sandi",
+        "Tautan berhasil dikirim! Cek Email untuk mengatur ulang kata sandi Anda.",
         {
           icon: null,
           style: {
@@ -28,6 +28,8 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
             fontSize: "14px",
             textAlign: "center",
             padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
           },
           position: "top-center",
           duration: 3000,
@@ -43,7 +45,7 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
       error.response.data.message ===
       "Pengguna tidak ditemukan atau belum diverifikasi"
     ) {
-      toast.error("User tidak ditemukan", {
+      toast.error("Maaf, alamat Email tidak terdaftar! Silakan coba lagi.", {
         icon: null,
         style: {
           background: "#FF0000",
@@ -52,12 +54,14 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
           fontSize: "14px",
           textAlign: "center",
           padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center",
         duration: 3000,
       });
     } else if (error.response.data.message === "Email is invalid") {
-      toast.error("Email tidak valid", {
+      toast.error("Maaf, alamat Email salah! Silakan coba lagi.", {
         icon: null,
         style: {
           background: "#FF0000",
@@ -66,6 +70,8 @@ export const getForgetPassAction = (email, navigate) => async (dispatch) => {
           fontSize: "14px",
           textAlign: "center",
           padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center",
         duration: 3000,
@@ -80,7 +86,7 @@ export const getUpdatePass =
       const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
       if (!passwordRegex.test(password1)) {
         toast.error(
-          "Pastikan kata sandi terdiri dari minimal 8 karakter dan mengandung huruf besar serta angka",
+          "Pastikan kata sandi terdiri dari minimal 8 karakter, mengandung huruf besar, dan angka!",
           {
             icon: null,
             style: {
@@ -90,6 +96,8 @@ export const getUpdatePass =
               fontSize: "14px",
               textAlign: "center",
               padding: "10px 20px",
+              width: "full",
+              maxWidth: "900px",
             },
             position: "top-center",
             duration: 3000,
@@ -99,7 +107,7 @@ export const getUpdatePass =
       }
 
       if (password1 !== password2) {
-        toast.error("Kata sandi tidak cocok", {
+        toast.error("Kata sandi tidak cocok!", {
           icon: null,
           style: {
             background: "#FF0000",
@@ -108,6 +116,8 @@ export const getUpdatePass =
             fontSize: "14px",
             textAlign: "center",
             padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
           },
           position: "top-center",
           duration: 3000,
@@ -133,7 +143,7 @@ export const getUpdatePass =
       console.log(response);
 
       if (response.data.status === true) {
-        toast.success("Kata sandi berhasil direset!", {
+        toast.success("Kata sandi Anda berhasil direset.", {
           icon: null,
           style: {
             background: "#28A745",
@@ -142,6 +152,8 @@ export const getUpdatePass =
             fontSize: "14px",
             textAlign: "center",
             padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
           },
           position: "top-center",
           duration: 3000,
@@ -152,37 +164,38 @@ export const getUpdatePass =
       }
     } catch (error) {
       console.log("error ", error);
-
-      if (error.response && error.response.data.message) {
-        if (error.response.data.message === "Password or token not sent") {
-          toast.error("Password tidak terkirim", {
-            icon: null,
-            style: {
-              background: "#FF0000",
-              color: "#FFFFFF",
-              borderRadius: "12px",
-              fontSize: "14px",
-              textAlign: "center",
-              padding: "10px 20px",
-            },
-            position: "top-center",
-            duration: 3000,
-          });
-        } else if (error.response.data.message === "Password do not match") {
-          toast.error("Password tidak sama", {
-            icon: null,
-            style: {
-              background: "#FF0000",
-              color: "#FFFFFF",
-              borderRadius: "12px",
-              fontSize: "14px",
-              textAlign: "center",
-              padding: "10px 20px",
-            },
-            position: "top-center",
-            duration: 3000,
-          });
-        }
+      if (error.response.data.message === "Password or token not sent") {
+        toast.error("Kata sandi Anda tidak terkirim!", {
+          icon: null,
+          style: {
+            background: "#FF0000",
+            color: "#FFFFFF",
+            borderRadius: "12px",
+            fontSize: "14px",
+            textAlign: "center",
+            padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center",
+          duration: 3000,
+        });
+      } else if (error.response.data.message === "Password do not match") {
+        toast.error("Maaf, kata sandi yang Anda masukkan tidak cocok!", {
+          icon: null,
+          style: {
+            background: "#FF0000",
+            color: "#FFFFFF",
+            borderRadius: "12px",
+            fontSize: "14px",
+            textAlign: "center",
+            padding: "10px 20px",
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center",
+          duration: 3000,
+        });
       }
     }
   };

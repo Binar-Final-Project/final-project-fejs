@@ -11,7 +11,7 @@ export const verifyOtp = (navigate) => async (dispatch, getState) => {
   try {
     // Membuat permintaan ke API untuk verifikasi OTP
     const response = await axios.post(
-      "https://express-production-3572.up.railway.app/api/v1/users/verification-otp",
+      `${import.meta.env.VITE_REACT_APP_SERVER}/users/verification-otp`,
       { otp_number: otpInput, email: email },
       {
         headers: {

@@ -12,14 +12,15 @@ import Footer from "../../../assets/components/navigations/Footer";
 import Logobiflight from "../../../assets/images/logobiflight.png";
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isPasswordTouched, setIsPasswordTouched] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get("token").replace(/ /g, "+");
@@ -28,7 +29,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.error("Kata sandi tidak cocok!", {
+      toast.error("Kata sandi yang Anda masukkan tidak cocok!", {
         icon: null,
         style: {
           background: "#FF0000 ",
@@ -37,6 +38,65 @@ const ForgotPassword = () => {
           fontSize: "14px",
           textAlign: "center",
           padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
+        },
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!password) {
+      toast.error("Mohon masukkan kata sandi baru Anda!", {
+        icon: null,
+        style: {
+          background: "#FF0000 ",
+          color: "#FFFFFF",
+          borderRadius: "12px",
+          fontSize: "14px",
+          textAlign: "center",
+          padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
+        },
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!confirmPassword) {
+      toast.error("Mohon ulangi kata sandi baru Anda!", {
+        icon: null,
+        style: {
+          background: "#FF0000 ",
+          color: "#FFFFFF",
+          borderRadius: "12px",
+          fontSize: "14px",
+          textAlign: "center",
+          padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
+        },
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (!isPasswordValid) {
+      toast.error("Mohon masukkan kata sandi sesuai ketentuan!", {
+        icon: null,
+        style: {
+          background: "#FF0000 ",
+          color: "#FFFFFF",
+          borderRadius: "12px",
+          fontSize: "14px",
+          textAlign: "center",
+          padding: "10px 20px",
+          width: "full",
+          maxWidth: "900px",
         },
         position: "top-center",
         duration: 3000,
@@ -88,14 +148,18 @@ const ForgotPassword = () => {
         }}
       >
         <div className="flex justify-center items-center min-h-screen w-full">
-          <div className="max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center shadow-lg relative">
+          <div
+            className={`max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg
+              ${isTablet ? "max-w-[650px] p-8" : ""}
+            `}
+          >
             <BiArrowBack
               className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
               size={20}
               onClick={() => navigate("/forgot-password")}
             />
             <Toaster />
-            <div className="max-w-[550px] mx-auto flex flex-col items-center mt-10">
+            <div className="max-w-[550px] mx-auto flex flex-col items-center mt-5">
               <img
                 src={Logobiflight}
                 className="w-24 p-1.5"
@@ -105,15 +169,21 @@ const ForgotPassword = () => {
                 Atur Ulang Kata Sandi
               </h1>
               <h2 className="text-[#40A2E3] text-sm font-medium mb-10 text-center w-full">
-                <span className="text-[#2A629A]">
-                  Masukkan kata sandi baru Anda di bawah ini!
+                <span className="text-[#40A2E3]">
+                  Atur ulang
+                  <span> </span>
+                </span>
+                <span className="text-[#8A8A8A]">
+                  kata sandi Anda untuk mengamankan akun.
                 </span>
               </h2>
+
+              {/* Form mengatur ulang kata sandi baru */}
               <form onSubmit={handleSubmit} className="w-full">
                 <div className="flex flex-col space-y-3">
                   <div className="flex flex-col space-y-1">
-                    <label className="text-left text-[#2A629A] font-medium text-sm">
-                      Masukkan Kata Sandi Baru
+                    <label className="text-left text-[#2A629A] font-medium text-sm min-w-0">
+                      Buat Kata Sandi Baru
                     </label>
                     <div
                       className={`flex items-center p-2 rounded-xl border focus-within:shadow-lg ${
@@ -121,7 +191,7 @@ const ForgotPassword = () => {
                           ? isPasswordValid
                             ? "border-[#2A629A]"
                             : "border-red-500"
-                          : "border-gray-300"
+                          : "border-[#8A8A8A]"
                       }`}
                     >
                       <input
@@ -130,24 +200,23 @@ const ForgotPassword = () => {
                         onChange={handleInput}
                         id="newPassword"
                         placeholder="••••••••••"
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
-                        required
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                       />
                       {showNewPassword ? (
                         <FiEye
-                          className="text-gray-600 cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={toggleNewPasswordVisibility}
                         />
                       ) : (
                         <FiEyeOff
-                          className="text-gray-600 cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={toggleNewPasswordVisibility}
                         />
                       )}
                     </div>
                     {isPasswordTouched && !isPasswordValid && (
                       <div className="flex items-center text-red-500 text-xs mt-1 text-left">
-                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
+                        <BiErrorCircle className="w-[20px] h-[20px] mr-1.5 flex-shrink-0" />
                         <p>
                           Kata sandi berisi minimal 8 karakter, termasuk huruf
                           besar dan angka
@@ -165,7 +234,7 @@ const ForgotPassword = () => {
                           ? confirmPassword === password
                             ? "border-[#2A629A]"
                             : "border-red-500"
-                          : "border-gray-300"
+                          : "border-[#8A8A8A]"
                       }`}
                     >
                       <input
@@ -174,25 +243,24 @@ const ForgotPassword = () => {
                         onChange={handleInput}
                         id="confirmPassword"
                         placeholder="••••••••••"
-                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A]"
-                        required
+                        className="flex-grow bg-transparent border-none focus:outline-none text-sm text-[#2A629A] min-w-0"
                       />
                       {showConfirmPassword ? (
                         <FiEye
-                          className="text-gray-600 cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={toggleConfirmPasswordVisibility}
                         />
                       ) : (
                         <FiEyeOff
-                          className="text-gray-600 cursor-pointer"
+                          className="w-[17px] h-[17px] text-[#8A8A8A] cursor-pointer flex-shrink-0"
                           onClick={toggleConfirmPasswordVisibility}
                         />
                       )}
                     </div>
                     {confirmPassword && confirmPassword !== password && (
                       <div className="flex items-center text-red-500 text-xs mt-1 text-left">
-                        <BiErrorCircle className="w-[20px] h-[20px] mr-1" />
-                        <p>Kata Sandi tidak cocok.</p>
+                        <BiErrorCircle className="w-[20px] h-[20px] mr-1.5 flex-shrink-0" />
+                        <p>Kata sandi tidak cocok</p>
                       </div>
                     )}
                   </div>
