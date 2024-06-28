@@ -19,7 +19,7 @@ export const register =
       }
 
       const responseRegister = await axios.post(
-        "https://express-production-3572.up.railway.app/api/v1/users/register",
+        `${import.meta.env.VITE_REACT_APP_SERVER}/users/register`,
         {
           name: name,
           email: email,
