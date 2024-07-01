@@ -20,7 +20,7 @@ export default function Card({ flight }) {
     );
   };
   return (
-    <div className="p-3">
+    <div className="p-3 flex items-center justify-center">
       <div
         className="w-11/12 rounded-xl bg-white shadow-lg"
         onClick={() =>
@@ -32,13 +32,12 @@ export default function Card({ flight }) {
           )
         }
       >
-        <div className="flex justify-between">
-          <div></div>
-          <div className="bg-red-500 rounded-t-full rounded-l-full px-2">
+        <div className="flex justify-end">
+          <div className="bg-[#2A629A] rounded-tr-xl rounded-bl-xl px-2 py-1">
             <p className="text-white font-medium">Sekali Jalan</p>
           </div>
         </div>
-        <div className="p-6 pt-3">
+        <div className="p-6 pt-2">
           <h5 className="mb-1 block text-xl font-semibold leading-snug tracking-normal antialiased">
             {flight?.departure?.airport_city} → {flight?.arrival?.airport_city}
           </h5>
