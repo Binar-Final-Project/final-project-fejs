@@ -665,8 +665,8 @@ export default function OrderHistory() {
                       </div>
                       {selectedTicket?.return_flight && (
                         <div className="flex mb-4">
-                          <h5 className="font-medium py-1 px-3 rounded-lg bg-[#86B6F6] text-white">
-                            Pergi:
+                          <h5 className="font-medium py-0.5 px-5 rounded-lg bg-[#86B6F6] text-white">
+                            Pergi
                           </h5>
                         </div>
                       )}
@@ -773,8 +773,8 @@ export default function OrderHistory() {
                       {selectedTicket?.return_flight && (
                         <div>
                           <div className="flex my-4">
-                            <h5 className="font-medium py-1 px-3 rounded-lg bg-[#86B6F6] text-white">
-                              Pulang:
+                            <h5 className="font-medium py-0.5 px-3 rounded-lg bg-[#86B6F6] text-white">
+                              Pulang
                             </h5>
                           </div>
                           <div className="flex flex-row gap-3">
