@@ -598,6 +598,12 @@ export default function TicketCheckout() {
                             maxDate={new Date()}
                             placeholderText="mm/dd/yyyy"
                             className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                            peekNextMonth
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode="select"
+                            withPortal
+                            portalId="root-portal"
                           />
                         </div>
                       </div>
@@ -654,6 +660,12 @@ export default function TicketCheckout() {
                           minDate={new Date()}
                           placeholderText="mm/dd/yyyy"
                           className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          peekNextMonth
+                          showMonthDropdown
+                          showYearDropdown
+                          dropdownMode="select"
+                          withPortal
+                          portalId="root-portal"
                         />
                       </div>
                     </div>
