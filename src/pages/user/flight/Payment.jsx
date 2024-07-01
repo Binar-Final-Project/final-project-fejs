@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import Modal from "react-modal";
 import { IoIosArrowBack, IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { BiErrorCircle } from "react-icons/bi";
 import { RxCrossCircled } from "react-icons/rx";
@@ -47,8 +49,46 @@ export default function Payment() {
   } = useSelector((state) => state.payment); // Menggunakan useSelector untuk mengambil state payment dari reducers
   const { ticketSelected } = useSelector((state) => state.ticket); // Menggunakan useSelector untuk mengambil state ticket dari reducers
   const paymentSuccess = useSelector((state) => state.payment.paymentSuccess); // Mengambil status pembayaran sukses dari state payment
+  const [timeLeft, setTimeLeft] = useState(20000);
+  const [timeUpModal, setTimeUpModal] = useState(false); // Tambahkan state untuk status waktu habis
 
-  // Fungsi untuk membersihkan state ketika komponen di-refresh
+  // Fungsi untuk mengubah milidetik menjadi format MM:SS
+  const formatTime = (milliseconds) => {
+    const seconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  useEffect(() => {
+    let interval;
+    if (timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime <= 1000) {
+            setTimeUpModal(true); // Set status waktu habis jika waktu kurang dari atau sama dengan 1000 ms
+            clearInterval(interval); // Hentikan interval jika waktu sudah habis
+            return 0;
+          }
+          return prevTime - 1000; // Kurangi waktu hanya jika belum habis
+        });
+      }, 1000);
+    } else {
+      setTimeUpModal(true); // Set status waktu habis jika waktu sudah 0 atau kurang
+    }
+
+    return () => clearInterval(interval);
+  }, [timeLeft]);
+
+  // Fungsi untuk menutup modal waktu habis
+  const closeTimeUpModal = () => {
+    setTimeUpModal(false);
+    setTimeLeft(0);
+  };
+
+  // Fungsi untuk membersihkan state ketika komponen dimuat
   useEffect(() => {
     return () => {
       dispatch(resetPaymentState());
@@ -317,10 +357,56 @@ export default function Payment() {
 
   return (
     <div className="bg-[#FFF0DC]">
-      <div className="py-5 md:pt-20">
+      <div className="py-5 md:pt-12">
         {isMobile ? <NavbarMobile /> : <Navbar />}
-        <div className="m-5 md:m-10 md:mt-5">
+        <div className="md:m-10 md:mt-5">
           <Toaster reverseOrder={false} />
+
+          {/* Waktu Sisa */}
+          <div className="flex justify-center">
+            <div
+              className={`fixed bg-[#FF0000] text-white text-base font-medium py-2.5 px-4 rounded-md text-center w-full z-10 ${
+                isMobile ? "top-0" : ""
+              }`}
+            >
+              Waktu Tersisa untuk Pembayaran: {formatTime(timeLeft)}
+            </div>
+          </div>
+
+          {/* Menampilkan Modal Jika Waktu Telah Habis */}
+          <Modal
+            isOpen={timeUpModal}
+            onRequestClose={closeTimeUpModal}
+            contentLabel="Waktu Habis"
+            className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50"
+            overlayClassName="custom-overlay"
+          >
+            <div
+              className={`relative w-full max-w-[90%] ${
+                isTablet ? "md:max-w-[50%]" : "md:max-w-[50%] lg:max-w-[30%]"
+              } max-h-full animate__animated animate__zoomIn mx-4`}
+            >
+              <div className="relative bg-white rounded-lg shadow">
+                <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                  <HiOutlineExclamationCircle className="mx-auto w-24 h-24 text-[#FF0000]" />
+                </div>
+                <div className="p-4 md:p-5 space-y-4">
+                  <h3 className="text-base text-center font-normal text-[#8A8A8A]">
+                    Sesi Anda telah habis! <br /> Silakan melakukan proses
+                    kembali.
+                  </h3>
+                </div>
+                <div className="flex justify-center p-4 md:p-5 border-t border-gray-200 rounded-b">
+                  <button
+                    className="text-white bg-[#2A629A] hover:bg-[#003285] font-medium rounded-lg text-sm px-5 py-2 text-center"
+                    onClick={closeTimeUpModal}
+                  >
+                    Kembali Isi Data Diri
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Modal>
 
           {/* Tombol Kembali */}
           <div className="flex md:justify-between justify-center items-center">
@@ -334,7 +420,7 @@ export default function Payment() {
                         : "/riwayat-pemesanan"
                     }`}
                   >
-                    <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
+                    <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3] pt-16">
                       <IoIosArrowBack className="text-2xl" />
                       <span className="text-lg">Kembali</span>
                     </div>
@@ -342,9 +428,11 @@ export default function Payment() {
                 </div>
               )}
             </div>
+
+            {/* Breadcrumbs Step */}
             {ticketSelected?.departure?.departure_time ? (
               <nav>
-                <ol className="inline-flex items-center space-x-1 md:space-x-2">
+                <ol className="inline-flex items-center space-x-1 md:space-x-2 pt-16">
                   <li className="inline-flex items-center">
                     <span class="flex items-center">
                       <svg
