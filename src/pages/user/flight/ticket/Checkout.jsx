@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import Flatpickr from "react-flatpickr";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "flatpickr/dist/themes/material_blue.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -98,10 +99,17 @@ export default function TicketCheckout() {
     setPassengers(newPassengers);
   };
 
-  //Handler untuk tanggal lahir dan berlaku sampai
-  const handleDateChange = (index, name, date) => {
+  // Handler untuk date of birth
+  const handleDateBirth = (index, date) => {
     const newPassengers = [...passengers];
-    newPassengers[index][name] = date[0];
+    newPassengers[index].date_of_birth = date;
+    setPassengers(newPassengers);
+  };
+
+  // Handler untuk valid until
+  const handleDateValidUntil = (index, date) => {
+    const newPassengers = [...passengers];
+    newPassengers[index].valid_until = date;
     setPassengers(newPassengers);
   };
 
@@ -319,7 +327,7 @@ export default function TicketCheckout() {
             <nav className={`${isMobile ? "mx-5 mt-1" : ""}`}>
               <ol className="inline-flex items-center space-x-1 md:space-x-2">
                 <li className="inline-flex items-center">
-                  <span class="flex items-center justify-center w-5 h-5 me-1 text-xs border bg-[#003285] text-white rounded-full shrink-0">
+                  <span className="flex items-center justify-center w-5 h-5 me-1 text-xs border bg-[#003285] text-white rounded-full shrink-0">
                     1
                   </span>
                   <span className="inline-flex items-center text-sm font-semibold text-[#003285]">
@@ -343,7 +351,7 @@ export default function TicketCheckout() {
                         d="m1 9 4-4-4-4"
                       />
                     </svg>
-                    <span class="flex items-center justify-center w-5 h-5 me-1 md:ms-2 text-xs border border-gray-500 text-gray-500 rounded-full shrink-0">
+                    <span className="flex items-center justify-center w-5 h-5 me-1 md:ms-2 text-xs border border-gray-500 text-gray-500 rounded-full shrink-0">
                       2
                     </span>
                     <span className="ms-1 text-sm text-gray-500 font-medium">
@@ -368,7 +376,7 @@ export default function TicketCheckout() {
                         d="m1 9 4-4-4-4"
                       />
                     </svg>
-                    <span class="flex items-center justify-center w-5 h-5 me-1 md:ms-2 text-xs border border-gray-500 text-gray-500 rounded-full shrink-0">
+                    <span className="flex items-center justify-center w-5 h-5 me-1 md:ms-2 text-xs border border-gray-500 text-gray-500 rounded-full shrink-0">
                       3
                     </span>
                     <span className="ms-1 text-sm text-gray-500 font-medium">
@@ -580,22 +588,18 @@ export default function TicketCheckout() {
                         />
                       </div>
                       <div className="ps-4 pe-4 mt-4">
-                        <label className="block text-[#2A629A] mb-2 text-sm font-medium">
-                          Tanggal Lahir
-                        </label>
-                        <Flatpickr
-                          value={passenger.date_of_birth}
-                          onChange={(date) =>
-                            handleDateChange(index, "date_of_birth", date)
-                          }
-                          className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                          placeholder="01-01-2001"
-                          required
-                          options={{
-                            maxDate: new Date(),
-                            dateFormat: "d-m-Y",
-                          }}
-                        />
+                        <div>
+                          <label className="block text-[#2A629A] mb-2 text-sm font-medium">
+                            Tanggal Lahir
+                          </label>
+                          <DatePicker
+                            selected={passengers[0].date_of_birth}
+                            onChange={(date) => handleDateBirth(0, date)}
+                            maxDate={new Date()}
+                            placeholderText="mm/dd/yyyy"
+                            className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
+                          />
+                        </div>
                       </div>
                       <div className="ps-4 pe-4 mt-4">
                         <label className="block text-[#2A629A] mb-2 text-sm font-medium">
@@ -644,18 +648,12 @@ export default function TicketCheckout() {
                         <label className="block text-[#2A629A] mb-2 text-sm font-medium">
                           Berlaku Sampai
                         </label>
-                        <Flatpickr
-                          value={passenger.valid_until}
-                          onChange={(date) =>
-                            handleDateChange(index, "valid_until", date)
-                          }
+                        <DatePicker
+                          selected={passengers[0].valid_until}
+                          onChange={(date) => handleDateValidUntil(0, date)}
+                          minDate={new Date()}
+                          placeholderText="mm/dd/yyyy"
                           className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
-                          placeholder="01-01-2045"
-                          required
-                          options={{
-                            minDate: new Date(),
-                            dateFormat: "d-m-Y",
-                          }}
                         />
                       </div>
                     </div>
