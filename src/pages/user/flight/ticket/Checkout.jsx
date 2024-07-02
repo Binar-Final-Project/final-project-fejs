@@ -536,6 +536,7 @@ export default function TicketCheckout() {
                             onChange={(e) => handlePassengerChange(index, e)}
                             className="appearance-none w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A] py-2 pl-3 pr-10"
                           >
+                            <option value="">Pilih Gelar</option>
                             <option className="text-[#2A629A]">Tuan</option>
                             <option className="text-[#2A629A]">Nyonya</option>
                             <option className="text-[#2A629A]">Nona</option>
@@ -593,8 +594,8 @@ export default function TicketCheckout() {
                             Tanggal Lahir
                           </label>
                           <DatePicker
-                            selected={passengers[0].date_of_birth}
-                            onChange={(date) => handleDateBirth(0, date)}
+                            selected={passenger.date_of_birth}
+                            onChange={(date) => handleDateBirth(index, date)}
                             maxDate={new Date()}
                             placeholderText="mm/dd/yyyy"
                             className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
@@ -655,8 +656,8 @@ export default function TicketCheckout() {
                           Berlaku Sampai
                         </label>
                         <DatePicker
-                          selected={passengers[0].valid_until}
-                          onChange={(date) => handleDateValidUntil(0, date)}
+                          selected={passenger.valid_until}
+                          onChange={(date) => handleDateValidUntil(index, date)}
                           minDate={new Date()}
                           placeholderText="mm/dd/yyyy"
                           className="w-full p-2 border border-[#8A8A8A] rounded-xl focus-within:border-[#2A629A] text-sm focus:outline-none text-[#2A629A]"
