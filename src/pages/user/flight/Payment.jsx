@@ -88,7 +88,11 @@ export default function Payment() {
   // Fungsi untuk menangani perubahan input nama pemegang kartu
   const handleCardHolderNameChange = (event) => {
     dispatch(clearError());
-    dispatch(setCardHolderName(event.target.value));
+    const inputValue = event.target.value;
+    // Memeriksa apakah nilai yang dimasukkan hanya huruf
+    if (/^[a-zA-Z\s]*$/.test(inputValue)) {
+      dispatch(setCardHolderName(inputValue));
+    }
     if (!isCardHolderNameTouched) {
       dispatch(setCardHolderNameTouched(true));
     }

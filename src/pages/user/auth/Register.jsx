@@ -67,7 +67,11 @@ export default function Register() {
   // Fungsi untuk menangani perubahan input nama
   const handleNameChange = (event) => {
     dispatch(clearError());
-    dispatch(setName(event.target.value));
+    const inputValue = event.target.value;
+    // Memeriksa apakah nilai yang dimasukkan hanya huruf
+    if (/^[a-zA-Z\s]*$/.test(inputValue)) {
+      dispatch(setName(inputValue));
+    }
     if (!isNameTouched) {
       dispatch(setNameTouched(true));
     }
@@ -401,7 +405,7 @@ export default function Register() {
           <BiArrowBack
             className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
             size={20}
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/login")}
           />
           <Toaster />
           <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
