@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "flatpickr/dist/themes/material_blue.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { getTicket } from "../../../../redux/actions/ticket/ticketActions";
 import OrderSummary from "./OrderSummary";
@@ -18,6 +18,7 @@ import { useMediaQuery } from "react-responsive";
 import BtnScrollTop from "../../../../assets/components/BtnScrollUp";
 import { setChoosenFlight } from "../../../../redux/reducers/flight/flightReducers";
 import { setTicketSelected } from "../../../../redux/reducers/ticket/ticketReducers";
+import { setPassengerDetails } from "../../../../redux/reducers/flight/bookingReducers";
 
 export default function TicketCheckout() {
   const dispatch = useDispatch();
@@ -167,11 +168,15 @@ export default function TicketCheckout() {
   };
 
   const { ticket } = useSelector((state) => state.ticket);
+
   useEffect(() => {
     if (ticket) {
       dispatch(setTicketSelected(ticket));
+      dispatch(setPassengerDetails(passengers));
     }
   }, [ticket]);
+
+  // }, [passengers]);
 
   const handleLanjutPembayaran = () => {
     navigate(`/payment/${ticket?.booking_code}`);
@@ -396,14 +401,15 @@ export default function TicketCheckout() {
             className="custom-modal"
             overlayClassName="custom-overlay"
           >
-            <div className="text-center">
-              <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <div className="text-center flex flex-col items-center">
+              {/* <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" /> */}
+              <iframe src="https://lottie.host/embed/43cf72cb-f4cc-4491-a218-05d127d73ce1/RhKDgbsfaS.json"></iframe>
               <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
                 Apakah kamu yakin ingin keluar?
               </h3>
               <div className="flex justify-center gap-4">
                 <button
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+                  className="bg-[#FF0000] hover:bg-red-700 text-white px-4 py-2 rounded"
                   onClick={() => {
                     setOpenModal(false);
                     window.location.href = "/";
@@ -675,10 +681,11 @@ export default function TicketCheckout() {
 
                 <div>
                   <button
+                    disabled={isDataSaved}
                     type="submit"
                     className="w-full max-w-[800px] mt-6 inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#2A629A] font-medium text-white hover:bg-[#003285] focus:outline-none focus:ring-0"
                   >
-                    Simpan
+                    {isDataSaved ? "Data Tersimpan" : " Simpan"}
                   </button>
                 </div>
               </div>
@@ -695,13 +702,20 @@ export default function TicketCheckout() {
               >
                 <OrderSummary />
                 {isDataSaved && (
-                  <button
-                    onClick={handleLanjutPembayaran}
-                    className={`w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#28A745] font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-0" 
-                      ${isTablet ? "" : ""}`}
-                  >
-                    Lanjut Bayar
-                  </button>
+                  <>
+                    <button
+                      onClick={handleLanjutPembayaran}
+                      className="w-full inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#28A745] font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-0"
+                    >
+                      Lanjut Bayar
+                    </button>
+                    <button
+                      onClick={() => navigate("/riwayat-pemesanan")}
+                      className="w-full inline-flex justify-center rounded-xl border-0 shadow-sm mt-3 py-3 bg-[#2A629A] font-medium text-white hover:bg-[#003285] focus:outline-none focus:ring-0"
+                    >
+                      Bayar Nanti
+                    </button>
+                  </>
                 )}
               </div>
             </div>

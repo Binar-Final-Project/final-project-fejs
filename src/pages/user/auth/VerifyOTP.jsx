@@ -151,16 +151,22 @@ export default function VerifyOTP() {
         <div className="flex justify-center items-center min-h-screen w-full">
           <Toaster />
           <div
-            className={`max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative shadow-lg
+            className={`max-w-[400px] w-full rounded-lg p-5 sm:m-8 bg-[#FFF8ED] text-center relative
               ${isTablet ? "max-w-[650px] p-8" : ""}
             `}
           >
             <BiArrowBack
-              className="absolute top-4 left-4 cursor-pointer text-[#2A629A]"
+              className="absolute left-4 cursor-pointer text-[#2A629A]"
               size={20}
               onClick={() => navigate("/register")}
             />
-            <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
+            <div className="flex items-center justify-center mt-6">
+              <iframe
+                src="https://lottie.host/embed/ae805970-6227-486e-813d-6f75e2a6f92f/vKXrur3x5Y.json"
+                className=""
+              ></iframe>
+            </div>
+            <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-2">
               <h1 className="text-[#003285] text-2xl font-bold text-center w-full mt-3 mb-8">
                 Verifikasi Email Anda
               </h1>
@@ -194,7 +200,7 @@ export default function VerifyOTP() {
                   Konfirmasi Kode OTP
                 </button>
 
-                <h1 className="text-[#40A2E3] text-l mb-3 text-center text-sm font-medium">
+                <h1 className="text-[#40A2E3] text-l mb-1 text-center text-sm font-medium">
                   {timer > 0 ? (
                     `Waktu tersisa: ${formatTime(Math.max(timer, 0))}`
                   ) : (

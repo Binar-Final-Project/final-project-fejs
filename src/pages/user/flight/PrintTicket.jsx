@@ -12,6 +12,8 @@ import Navbar from "../../../assets/components/navigations/navbar/Navbar";
 import NavbarMobile from "../../../assets/components/navigations/navbar/Navbar-mobile";
 import Footer from "../../../assets/components/navigations/Footer";
 import BtnScrollTop from "../../../assets/components/BtnScrollUp";
+import Loader from "../../../assets/components/Loader";
+import { setIsLoading } from "../../../redux/reducers/flight/transactionReducers";
 
 export default function PrintTicket() {
   const dispatch = useDispatch();
@@ -22,6 +24,7 @@ export default function PrintTicket() {
   const { showConfirmationModal, showSuccessModal } = useSelector(
     (state) => state.payment
   ); // Menggunakan useSelector untuk mengambil data dari state payment
+  const { isLoading } = useSelector((state) => state.transaction); // Menggunakan useSelector untuk mengambil data isLoading dari state transaction
 
   // Fungsi untuk menampilkan modal konfirmasi cetak tiket
   const handlePrintTicket = async () => {
@@ -32,9 +35,11 @@ export default function PrintTicket() {
   const handleConfirmPrint = async () => {
     // console.log(`Konfirmasi tiket kode: ${ticketSelected?.booking_code}`);
     dispatch(setShowConfirmationModal(false));
+    dispatch(setIsLoading(true));
     try {
       await dispatch(printTransactions(ticketSelected?.booking_code));
       dispatch(setShowSuccessModal(true));
+      dispatch(setIsLoading(false));
     } catch (error) {
       toast.error("Gagal mencetak tiket Anda! Silakan coba lagi.", {
         icon: null,
@@ -72,9 +77,9 @@ export default function PrintTicket() {
           >
             <ol className="inline-flex items-center space-x-1 md:space-x-2">
               <li className="inline-flex items-center">
-                <span class="flex items-center">
+                <span className="flex items-center">
                   <svg
-                    class="w-5 h-5 me-1 text-[#003285]"
+                    className="w-5 h-5 me-1 text-[#003285]"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
@@ -104,9 +109,9 @@ export default function PrintTicket() {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span class="flex items-center ml-1">
+                  <span className="flex items-center ml-1">
                     <svg
-                      class="w-5 h-5 me-1 text-[#003285]"
+                      className="w-5 h-5 me-1 text-[#003285]"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
@@ -137,9 +142,9 @@ export default function PrintTicket() {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span class="flex items-center ml-1">
+                  <span className="flex items-center ml-1">
                     <svg
-                      class="w-5 h-5 me-1 text-[#003285]"
+                      className="w-5 h-5 me-1 text-[#003285]"
                       aria-hidden="true"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="currentColor"
@@ -163,8 +168,8 @@ export default function PrintTicket() {
           >
             <ol className="inline-flex items-center space-x-1 md:space-x-2">
               <li className="inline-flex items-center">
-                <span class="flex items-center">
-                  <span class="flex items-center justify-center w-5 h-5 me-1 ms-1 md:ms-2 text-xs border bg-[#003285] text-white rounded-full shrink-0">
+                <span className="flex items-center">
+                  <span className="flex items-center justify-center w-5 h-5 me-1 ms-1 md:ms-2 text-xs border bg-[#003285] text-white rounded-full shrink-0">
                     1
                   </span>
                   <span className="inline-flex items-center text-sm font-semibold text-[#003285]">
@@ -189,7 +194,7 @@ export default function PrintTicket() {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span class="flex items-center justify-center w-5 h-5 me-1 ms-1 md:ms-2 text-xs border bg-[#003285] text-white rounded-full shrink-0">
+                  <span className="flex items-center justify-center w-5 h-5 me-1 ms-1 md:ms-2 text-xs border bg-[#003285] text-white rounded-full shrink-0">
                     2
                   </span>
                   <span className="inline-flex items-center text-sm font-semibold text-[#003285]">
@@ -214,7 +219,7 @@ export default function PrintTicket() {
                       d="m1 9 4-4-4-4"
                     />
                   </svg>
-                  <span class="flex items-center justify-center w-5 h-5 me-1 ms-1 md:ms-2 text-xs border bg-[#003285] text-white rounded-full shrink-0">
+                  <span className="flex items-center justify-center w-5 h-5 me-1 ms-1 md:ms-2 text-xs border bg-[#003285] text-white rounded-full shrink-0">
                     3
                   </span>
                   <span className="inline-flex items-center text-sm font-semibold text-[#003285]">
@@ -366,6 +371,23 @@ export default function PrintTicket() {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+      </div>
+      <div>
+        {isLoading && (
+          <div
+            className={`fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 overflow-y-scroll transition-opacity duration-300  ${
+              isLoading ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`}
+          >
+            <div
+              className={`relative p-4 w-full max-w-3xl max-h-full transform transition-transform duration-300 ease-in-out ${
+                isLoading ? "translate-y-0" : "-translate-y-full"
+              }`}
+            >
+              <Loader />
             </div>
           </div>
         )}
