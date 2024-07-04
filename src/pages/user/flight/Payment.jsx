@@ -328,7 +328,7 @@ export default function Payment() {
       <div className="py-5 md:pt-12">
         {isMobile ? <NavbarMobile /> : <Navbar />}
         <div className="md:m-10 md:mt-5">
-          <Toaster reverseOrder={false} />
+          {/* <Toaster reverseOrder={false} /> */}
 
           {/* TENGGAT PEMABAYARAN */}
           <div className="flex justify-center">
@@ -348,25 +348,7 @@ export default function Payment() {
           </div>
 
           {/* Tombol Kembali */}
-          <div className="flex md:justify-between justify-center items-center pt-16">
-            <div>
-              {!isMobile && (
-                <div>
-                  <Link
-                    to={`${
-                      ticketSelected?.departure?.departure_time
-                        ? "/checkout"
-                        : "/riwayat-pemesanan"
-                    }`}
-                  >
-                    <div className="flex font-medium items-center text-[#003285] hover:text-[#40A2E3]">
-                      <IoIosArrowBack className="text-2xl" />
-                      <span className="text-lg">Kembali</span>
-                    </div>
-                  </Link>
-                </div>
-              )}
-            </div>
+          <div className="flex md:justify-end justify-center items-center pt-16">
             {ticketSelected?.departure?.departure_time ? (
               <nav>
                 <ol className="inline-flex items-center space-x-1 md:space-x-2">
@@ -441,7 +423,10 @@ export default function Payment() {
             ) : (
               <nav>
                 <ol className="inline-flex items-center space-x-1 md:space-x-2">
-                  <li className="inline-flex items-center">
+                  <li
+                    className="inline-flex items-center cursor-pointer"
+                    onClick={() => navigate("/riwayat-pemesanan")}
+                  >
                     <span className="flex items-center">
                       <span className="flex items-center justify-center w-5 h-5 me-1 ms-1 md:ms-2 text-xs border bg-[#003285] text-white rounded-full shrink-0">
                         1
