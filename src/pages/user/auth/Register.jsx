@@ -392,7 +392,7 @@ export default function Register() {
             <img
               src={Plane}
               className="object-cover w-full h-full"
-              style={{ height: "75vw" }}
+              style={{ height: "60vw", width: "100vw" }}
               alt="Plane Image"
             />
           </div>
@@ -407,7 +407,7 @@ export default function Register() {
             size={20}
             onClick={() => navigate("/login")}
           />
-          <Toaster />
+          {/* <Toaster /> */}
           <div className="max-w-[550px] w-full mx-auto flex flex-col items-center mt-5">
             <img
               src={Logobiflight}

@@ -31,9 +31,9 @@ export default function SearchMobile() {
   const [dateModalOpen, setDateModalOpen] = useState(false); // MODAL TANGGAL PENERBANGAN
   const [isChecked, setIsChecked] = useState(false); // TOGGLE TANGGAL KEPULANGAN
   const [filter, setFilter] = useState("");
-  const [departure_code, setDeparture_code] = useState("CGK");
-  const [arrival_code, setArrival_code] = useState("DPS");
-  const [seat_class, setSeat_class] = useState("Economy");
+  const [departure_code, setDeparture_code] = useState("");
+  const [arrival_code, setArrival_code] = useState("");
+  const [seat_class, setSeat_class] = useState("");
   const [total_passenger, setTotal_passenger] = useState(1);
   const [departure_date, setDeparture_date] = useState(new Date());
   const [penumpang, setPenumpang] = useState({
@@ -156,6 +156,25 @@ export default function SearchMobile() {
       return;
     }
 
+    if (!seat_class) {
+      toast("Harap pilih kelas penerbangan Anda!"),
+        {
+          style: {
+            background: "#FF0000", // Background merah
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px", // Rounded-xl
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
+        };
+      return;
+    }
+
     const departureDate = format(new Date(date[0].startDate), "yyyy-MM-dd");
     const returnDate = format(new Date(date[0].endDate), "yyyy-MM-dd");
     const singleDate = format(new Date(departure_date), "yyyy-MM-dd");
@@ -220,7 +239,7 @@ export default function SearchMobile() {
   return (
     <div className={`${isChecked ? "mb-10" : ""}`}>
       <div className="bg-[#2A629A] rounded-b-3xl w-full h-[300px] py-3 px-4">
-        <Toaster
+        {/* <Toaster
           toastOptions={{
             className: "w-full",
             duration: 3000,
@@ -229,7 +248,7 @@ export default function SearchMobile() {
               color: "#fff",
             },
           }}
-        />
+        /> */}
         <h4 className="text-2xl text-white font-medium my-3">
           Ke mana pun Anda pergi, kami akan mengantar Anda!
         </h4>
@@ -376,7 +395,7 @@ export default function SearchMobile() {
                             className="block py-2.5 px-6 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
                             onClick={handleSeatModal}
                           >
-                            {seat_class}
+                            {seat_class ? seat_class : "Pilih kelas"}
                           </div>
                         </div>
                       </div>

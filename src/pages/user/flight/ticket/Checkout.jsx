@@ -484,10 +484,21 @@ export default function TicketCheckout() {
     setPassengers(newPassengers);
   }, [adult, child, infant]);
 
+  useEffect(() => {
+    if (isLaptop) {
+      if (isDataSaved) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [isDataSaved]);
+
   return (
     <div className="bg-[#FFF0DC]">
       {isMobile ? <NavbarMobile /> : <Navbar />}
-      <Toaster />
+      {/* <Toaster /> */}
       <div className="p-3 my-10 pt-3">
         {/* Menampilkan modal waktu habis */}
         <Modal
@@ -951,7 +962,11 @@ export default function TicketCheckout() {
                   <button
                     disabled={isDataSaved}
                     type="submit"
-                    className="w-full max-w-[800px] mt-6 inline-flex justify-center rounded-xl border-0 shadow-sm py-3 bg-[#2A629A] font-medium text-white hover:bg-[#003285] focus:outline-none focus:ring-0"
+                    className={`w-full max-w-[800px] mt-6 inline-flex justify-center rounded-xl border-0 shadow-sm py-3 ${
+                      isDataSaved
+                        ? "bg-[#2A629A]/75"
+                        : "bg-[#2A629A] hover:bg-[#003285]"
+                    } font-medium text-white  focus:outline-none focus:ring-0`}
                   >
                     {isDataSaved ? "Data Tersimpan" : " Simpan"}
                   </button>

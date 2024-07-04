@@ -32,9 +32,9 @@ export default function SearchDesktop() {
   const [passengerModalOpen, setPassengerModalOpen] = useState(false); // MODAL JUMLAH PENUMPANG
   const [dateModalOpen, setDateModalOpen] = useState(false); // MODAL TANGGAL PENERBANGAN
   const [filter, setFilter] = useState("price.asc");
-  const [departure_code, setDeparture_code] = useState("CGK");
-  const [arrival_code, setArrival_code] = useState("DPS");
-  const [seat_class, setSeat_class] = useState("Economy");
+  const [departure_code, setDeparture_code] = useState("");
+  const [arrival_code, setArrival_code] = useState("");
+  const [seat_class, setSeat_class] = useState("");
   const [total_passenger, setTotal_passenger] = useState(1);
   const [departure_date, setDeparture_date] = useState(new Date());
   const [penumpang, setPenumpang] = useState({
@@ -157,6 +157,25 @@ export default function SearchDesktop() {
       return;
     }
 
+    if (!seat_class) {
+      toast("Harap pilih kelas penerbangan Anda!"),
+        {
+          style: {
+            background: "#FF0000", // Background merah
+            color: "#FFFFFF", // Teks putih
+            borderRadius: "12px", // Rounded-xl
+            fontSize: "14px", // Ukuran font
+            textAlign: "center", // Posisi teks di tengah
+            padding: "10px 20px", // Padding
+            width: "full",
+            maxWidth: "900px",
+          },
+          position: "top-center", // Posisi toast
+          duration: 3000, // Durasi toast
+        };
+      return;
+    }
+
     const departureDate = format(new Date(date[0].startDate), "yyyy-MM-dd");
     const returnDate = format(new Date(date[0].endDate), "yyyy-MM-dd");
     const singleDate = format(new Date(departure_date), "yyyy-MM-dd");
@@ -224,7 +243,7 @@ export default function SearchDesktop() {
 
   return (
     <div className="bg-[#FFF0DC]">
-      <Toaster
+      {/* <Toaster
         toastOptions={{
           className: "w-full",
           duration: 3000,
@@ -233,7 +252,7 @@ export default function SearchDesktop() {
             color: "#fff",
           },
         }}
-      />
+      /> */}
       <div className="w-full h-[300px]">
         <div
           style={{
@@ -268,7 +287,7 @@ export default function SearchDesktop() {
                                 onChange={(airportCode) =>
                                   setDeparture_code(airportCode)
                                 }
-                                placeholder="Pilih kota Awal"
+                                placeholder="Pilih kota awal"
                                 className="block py-2.5 lg:pr-10 md:pr-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-[#2A629A] peer"
                               />
                             </div>
@@ -308,7 +327,7 @@ export default function SearchDesktop() {
                               className="block py-2.5 px-0 w-full text-sm text-gray-900 border-0 border-b-2 border-gray-300"
                               onClick={handleSeatModal}
                             >
-                              {seat_class}
+                              {seat_class ? seat_class : "Pilih Kelas"}
                             </div>
                           </div>
                         </div>
